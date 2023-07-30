@@ -1,0 +1,185 @@
+﻿@model EShop.Core.ViewModels.EditMenuViewModel
+
+@{
+    ViewData["Title"] = "ویرایش منو";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+     Model.SubMenuList = Model.SubMenuList.Where(s => s.IsHidden == false).ToList();
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش منو </h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="EditMenu" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="ParentMenuId" type="hidden" />
+
+                            <div class="row">
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ParentMenuTitle" class="control-label"></label>
+                                        <input asp-for="ParentMenuTitle" class="form-control" />
+                                        <span asp-validation-for="ParentMenuTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ParentMenuLink" class="control-label"></label>
+                                        <input asp-for="ParentMenuLink" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="ParentMenuLink" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ParentSort" class="control-label"></label>
+                                        <input asp-for="ParentSort" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="ParentSort" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+
+                                <div class=" col-md-12 mb-1">
+                                    <div class="form-group col-md-3">
+                                        <a class="btn btn-info btn-add" style="margin-top:24px">افزودن زیر منو</a>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <ul class=" submenulist row p-0">
+                                            @for (int i = 0; i < Model.SubMenuList.Count; i++)
+                                            {
+                                                <li class='submenu col-md-4 list-group-item'>
+                                                    <div class="form-group col-md-12">
+                                                        <label asp-for="@Model.SubMenuList[i].SubMenuTitle" class="control-label"></label>
+                                                        <input asp-for="@Model.SubMenuList[i].SubMenuTitle" class="form-control" />
+                                                        <span asp-validation-for="@Model.SubMenuList[i].SubMenuTitle" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label asp-for="@Model.SubMenuList[i].SubMenuLink" class="control-label"></label>
+                                                        <input asp-for="@Model.SubMenuList[i].SubMenuLink" dir="ltr" class="form-control" />
+                                                        <span asp-validation-for="@Model.SubMenuList[i].SubMenuLink" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label asp-for="@Model.SubMenuList[i].SubMenuSort" class="control-label"></label>
+                                                        <input asp-for="@Model.SubMenuList[i].SubMenuSort" dir="ltr" class="form-control" />
+                                                        <span asp-validation-for="@Model.SubMenuList[i].SubMenuSort" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label asp-for="@Model.SubMenuList[i].Image" class="control-label"></label>
+                                                        <input asp-for="@Model.SubMenuList[i].Image" type="file" accept="image/*" dir="ltr" class="form-control" />
+                                                        <span asp-validation-for="@Model.SubMenuList[i].Image" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-12">
+                                                        <label asp-for="@Model.SubMenuList[i].Type" class="control-label"></label>
+                                                        <select class='form-control' asp-for="@Model.SubMenuList[i].Type">
+                                                            <option value='1'>زیر منو</option>
+                                                          
+                                                        </select>
+                                                        <span asp-validation-for="@Model.SubMenuList[i].Type" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group col-md-1">
+
+                                                        @Html.Raw((String.IsNullOrEmpty(Model.SubMenuList[i].CurrentImage) ? "" : "<img src='https://media.farnaa.com/media/" + Model.SubMenuList[i].CurrentImage + "?" + DateTime.Now + "' class='thumbnail' width='150' />"))
+
+                                                    </div>
+                                                    <input type='hidden' value='false' asp-for='@Model.SubMenuList[i].IsHidden' />
+                                                    <div class='tools form-group text-center col-md-12'>
+                                                        <i class='fa fa-trash-o btn  btn-danger btn-remove'></i>
+                                                    </div>
+                                                </li>
+                                            }
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="MenuList" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+    <script>
+        var counter = @Model.SubMenuList.Count;
+        $(".btn-add").click(function () {
+            var title = "<li class='submenu col-md-4 list-group-item'><input type='hidden' value='false' name='SubMenuList[" + counter + "].IsHidden'/>" +
+                "<div class='form-group col-md-12'> <label class='control-label' for='SubMenuList[" + counter + "].SubMenuList[" + counter + "].SubMenuTitle'>عنوان</label>" +
+                "<input class='form-control' type='text'  maxlength='50' name='SubMenuList[" + counter + "].SubMenuTitle'>" +
+                "<span class='text-danger field-validation-valid' data-valmsg-for='SubMenuList[" + counter + "].SubMenuTitle' data-valmsg-replace='true'></span></div>";
+
+            var link = "<div class='form-group col-md-12'><label class='control-label' for='SubMenuList[" + counter + "].SubMenuLink'>لینک</label>" +
+                "<input class='form-control' type='text'    maxlength='250' name='SubMenuList[" + counter + "].SubMenuLink' value=''>" +
+                " <span class='text-danger field-validation-valid' data-valmsg-for='SubMenuList[" + counter + "].SubMenuLink' data-valmsg-replace='true'></span></div>";
+
+            var sort = "<div class='form-group col-md-12'><label class='control-label' for='SubMenuList[" + counter + "].SubMenuSort'>ترتیب </label>" +
+                "<input class='form-control' type='number'  name='SubMenuList[" + counter + "].SubMenuSort' />" +
+                "<span class='text-danger '></span></div>";
+
+            var img = " <div class='form-group col-md-12'><label asp-for='SubMenuList[" + counter + "].Image' class='control-label'>انتخاب عکس</label>" +
+                " <input name='SubMenuList[" + counter + "].Image' type='file' accept='image/*' class='form-control' />" +
+                "<span class='text-danger'></span> </div>";
+
+            var type = " <div class='form-group col-md-12'><label class='control-label' for='SubMenuList[" + counter + "].Type'>نوع منو</label>" +
+                "<select class='form-control' name='SubMenuList[" + counter + "].Type'>" +
+                "<option value='1'>زیر منو</option>" +
+      
+                "<div class='tools form-group text-center col-md-12'><i class='fa fa-trash-o btn  btn-danger btn-remove'></i></div></li>";
+
+            $('.submenulist').append(title + link + sort + img + type);
+
+            $("input[name='SubMenuList[" + counter + "].SubMenuTitle']").rules('add', {
+                maxlength: 50,
+                required: true,
+                messages: {
+                    required: "لطفا عنوان را وارد کنید",
+                    maxlength: "عنوان نباید بیشتر از 50 باشد"
+                }
+            });
+
+            $("input[name='SubMenuList[" + counter + "].SubMenuLink']").rules('add', {
+                maxlength: 250,
+                required: true,
+                messages: {
+                    required: "لطفا عنوان را وارد کنید",
+                    maxlength: "عنوان نباید بیشتر از 250 باشد"
+                }
+            });
+            counter++;
+        });
+
+        $('.submenulist').delegate('.btn-remove', 'click', function () {
+            $(this).parents('.submenu').hide();
+            $(this).parents('.submenu').find('input[type=hidden]').val('true');
+            $(this).parents('.submenu').find('input[type=text]').val(1);
+            $(this).parents('.submenu').find('input[type=number]').val(1);
+
+            
+        });
+    </script>
+}
+

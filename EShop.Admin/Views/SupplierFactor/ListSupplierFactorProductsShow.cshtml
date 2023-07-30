@@ -1,0 +1,103 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<EShop.DataLayer.Entities.SupplierFactorProduct>
+
+@{
+    ViewData["Title"] = "محصولات سفارشات تامین کننده";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var supplierFactorId = ViewBag.SupplierFactorId;
+ }
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">محصولات سفارشات تامین کننده</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                    @*    <div class="box-header with-border">
+                            <a asp-action="CreateSupplierFactorProduct" asp-route-id="@supplierFactorId" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                افزودن
+                            </a>
+                        </div>*@
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+
+                            <th>
+                                    @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.Variant.ProductId)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.Count)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.Variant.productOption.Name)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.Variant.Guarantee.Title)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.Code)
+                            </th>
+                            <th>
+                            </th>
+
+
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Variant.Product.FaTitle)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Price)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Count)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Variant.productOption.Name)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Variant.Guarantee.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Code)
+                                        </td>
+
+
+                                    @*    <td>
+                                        
+                                            <a class="btn btn-danger" asp-action="DeleteSupplierFactorProduct" asp-route-id="@item.Id">حذف</a>
+
+                                        </td>*@
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

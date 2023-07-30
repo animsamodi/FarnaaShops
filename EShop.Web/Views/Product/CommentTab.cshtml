@@ -1,0 +1,51 @@
+﻿
+@using EShop.Core.ExtensionMethods
+@model Tuple<List<EShop.Core.ViewModels.Product.CommentForUserViewModel>, List<EShop.Core.ViewModels.Product.ReviewRatingViewModel>, int>
+@{
+    Layout = null;
+    var productId = (long) ViewBag.productid;
+}
+
+
+
+
+<div class="comments">
+    <h2 class="params-headline">
+        نظرات کاربران به
+        <span>@Html.Raw(ViewBag.faTitle) | (@Model.Item3 نفر)</span>
+    </h2>
+    <div class="comments-summary">
+        <div class="col-lg-6 col-md-6 col-xs-12 pr">
+            <div class="comments-summary-box">
+                <ul class="comments-item-rating">
+ 
+                    @foreach (var item in Model.Item2)
+                    {
+                        <li>
+                            <span class="cell-title">@item.Title</span>
+                            <span class="cell-value">@item.Value.GetRatingRange()</span>
+                            <div class="rating-general">
+                                <div class="rating-value" style="width: @item.Value%"></div>
+                            </div>
+                        </li>
+
+                    }
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-xs-12 pr">
+            <div class="comments-summary-note">
+                <h6>شما هم می‌توانید در مورد این کالا نظر بدهید.</h6>
+                <p>
+                    برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید. اگر این محصول را قبلا از فرنا خریده باشید، نظر شما به عنوان مالک محصول ثبت خواهد شد.
+                </p>
+                <a asp-controller="Product" asp-action="AddComment" asp-route-id="@productId" class="btn-add-comment btn btn-secondary">افزودن نظر جدید</a>
+            </div>
+        </div>
+        <div class="product-comment-list" id="CommentList">
+            @Html.Partial("CommentList", Model.Item1)
+
+
+        </div>
+    </div>
+</div>

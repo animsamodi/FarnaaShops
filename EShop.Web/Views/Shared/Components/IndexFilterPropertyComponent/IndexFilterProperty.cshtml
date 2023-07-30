@@ -1,0 +1,30 @@
+﻿@model List<EShop.DataLayer.Entities.FilterProperty>
+
+@{
+    Layout = null;
+ }
+
+<div class="filter">
+    <div class="color">
+        <div class="title">
+            <span>
+                بر اساس ویژگی
+            </span>
+        </div>
+
+        <div class="weaz-brand">
+            @foreach(var item in Model.OrderBy(c=>c.Sort)){
+                <div class="item">
+                    <a href="@item.Link" class="ads-pic">
+                        <img class="lazy b-lazy" width="56" height="82" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.Image" alt="محصولات فرنا-@item.Title">
+                    </a>
+                    <span>@item.Title</span>
+
+                </div>
+            }
+           
+         
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,28 @@
+﻿@model List<EShop.Core.ViewModels.Components.CircleComponentViewModel>
+
+
+
+<div class="row price-range-row">
+    <div class="col-lg-12 col-md-12 col-xs-12 col-sm-12 pl">
+
+        <div class="swiper rangeSwiper  p-0 pt-2">
+            <div class="swiper-wrapper lazy-container">
+                @if (Model != null && Model.Count > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <a  class="clickable-circle-item swiper-slide" target="_self" href="@item.Url">
+                            <div class="circle-item">
+                                <span>
+                                    @item.Title
+                                </span>
+                            </div>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+
+</div>
+

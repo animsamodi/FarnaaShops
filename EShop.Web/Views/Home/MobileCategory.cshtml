@@ -1,0 +1,35 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.CategotyMain>
+@await Component.InvokeAsync("MainMenuMobileComponent")
+@{
+}
+@section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+
+<div class="category-mobile-container">
+    <div class="Category-mobile-title">
+        
+        <h6>
+            دسته بندی محصولات
+        </h6> 
+        
+    </div>
+    <ul class="category-mobile-ul">
+        @foreach (var item in Model)
+        {
+            <li>
+
+         
+                <a asp-controller="category" asp-action="MainCategory" asp-route-title="@item.EnTitle.Replace(" ","-")">
+                    @item.Title
+                    <i class="fa fa-angle-left"></i>
+
+                </a>
+
+            </li>
+
+        }
+    </ul>
+</div>

@@ -1,0 +1,239 @@
+﻿@model Tuple<List<EShop.Core.ViewModels.MainMenuShowViewModel>,List<EShop.DataLayer.Entities.CategotyMain>,int,
+List<EShop.Core.ViewModels.Category.SearchCategoryViewModel>,Dictionary<long, List<EShop.DataLayer.Entities.Brand.Brand>>>
+
+
+
+@{
+    Layout = null;
+    string controller = ViewContext.RouteData.Values["Controller"]?.ToString() ?? "";
+    string action = ViewContext.RouteData.Values["Action"]?.ToString() ?? "";
+}
+<nav class="sidebar">
+    <div class="nav-header">
+        <div class="header-cover"></div>
+        <div class="logo-wrap">
+            <a class="logo-icon" href="#"><img alt="logo-icon" src="/images/logo.png" width="40"></a>
+        </div>
+    </div>
+    <ul class="nav-categories ul-base">
+        @foreach (var item in Model.Item1.Where(c => c.ParentId == null).OrderBy(c => c.Sort))
+        {
+            var havSub = Model.Item1.Any(c => c.ParentId == item.MenuId);
+
+            if (!havSub)
+            {
+                <li id="nav-menu-item" class="menu-item @(havSub?"nav-overlay":"") ">
+                    @if (item.MenuTitle == "محصولات فرنا")
+                    {
+                        <a data-toggle="collapse" href="#proucts-dropdown" 
+                        role="button" aria-expanded="false" aria-controls="proucts-dropdown" 
+                        class="current-link-menu">@item.MenuTitle <i class="fa fa-angle-down"></i></a>
+
+                        <div class="collapse multi-collapse" style="padding:8px;background:#f7f7f7;border-radius:8px;width:95%;margin:0 auto;" id="proucts-dropdown">
+                            <div class="sidebar-dropdown-content">
+                                @foreach (var category in Model.Item2)
+                                {
+
+                                    <a class="head-line" data-toggle="collapse" href=@($"#category-{category.Id}")
+                                        role="button" aria-expanded="false" aria-controls=@($"category-{category.Id}")>@category.Title 
+                                       <i class="fa fa-angle-down"></i>
+                                        </a>
+                                    @if (Model.Item4.Where(c => c.ParentId == category.CategoryId).Any())
+                                    {
+                                        <div style="background:#f7f7f7;padding:8px;" class="collapse multi-collapse" id=@($"category-{category.Id}")>
+                                            @foreach (var sub in Model.Item4.Where(c => c.ParentId == category.CategoryId).ToList())
+                                            {
+                                                <a href="/category/@category.EnTitle.ToUrlFormat()/@sub.CategoryEnTitle.ToUrlFormat()">@sub.Title</a>
+                                            }
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                         <div  style="background:#f7f7f7;padding:8px;" class="collapse multi-collapse" id=@($"category-{category.Id}")>
+                                            @foreach (var sub in Model.Item5.Where(c => c.Key == category.CategoryId).Select(s => s.Value).ToList())
+                                        {
+                                            foreach (var brand in sub)
+                                            {
+                                                <a href="/category/@category.EnTitle.ToUrlFormat()/@brand.EnTitle.ToUrlFormat()">@brand.FaTitle</a>
+                                            }
+                                        }
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+
+                    }
+                    else
+                    {
+                        <a href="@item.Link" class="current-link-menu">
+                            @item.MenuTitle
+                        </a>
+                        @if (havSub)
+                        {
+                            <ul class="sub-menu is-mega-menu mega-menu-level-two">
+
+                                @foreach (var item3 in Model.Item1.Where(c => c.ParentId == item.MenuId).OrderBy(c => c.Sort).ToList())
+                                {
+                                    var havSub2 = Model.Item1.Any(c => c.ParentId == item3.MenuId);
+
+                                    <li class="menu-mega-item menu-item-type-mega-menu">
+                                        <a href="@item3.Link" class="mega-menu-link">
+                                            @item3.MenuTitle
+                                        </a>
+                                        @if (havSub2)
+                                        {
+                                            <ul class="sub-menu mega-menu-level-three">
+                                                @foreach (var item4 in Model.Item1.Where(c => c.ParentId == item3.MenuId).OrderBy(c => c.Sort).ToList())
+                                                {
+                                                    <li class="menu-mega-item-three">
+                                                        <a href="@item4.Link">
+                                                            @item4.MenuTitle
+                                                        </a>
+                                                    </li>
+                                                }
+
+
+                                            </ul>
+                                        }
+
+                                    </li>
+                                }
+
+                            </ul>
+                        }
+                    }
+
+                </li>
+            }
+
+        }
+            @*
+            @foreach (var item in Model.Item2.Where(c => c.IsActive == true))
+            {
+            var havSub = Model.Item1.Any(c => c.ParentId == item.MenuId);
+            var menuId = "collapse" + item.MenuId;
+            <li>
+            @if (havSub)
+            {
+            <a href="@item.Link" class="collapsed" type="button" data-toggle="collapse" data-target="#@menuId" aria-expanded="false" aria-controls="@menuId"><i class="mdi mdi-chevron-down"></i>@item.MenuTitle</a>
+            <div id="@menuId" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample" style="">
+            <ul>
+            @foreach (var item2 in Model.Item1.Where(c => c.ParentId == item.MenuId).ToList())
+            {
+            var havSub2 = Model.Item1.Any(c => c.ParentId == item2.MenuId);
+
+            <li class="@(havSub2?"has-sub":"")">
+            <a href="@item2.Link" class="category-level-2">@item2.MenuTitle</a>
+            @if (havSub2)
+            {
+            <ul>
+            @foreach (var item3 in Model.Item1.Where(c => c.ParentId == item2.MenuId).ToList())
+            {
+            <li><a href="@item3.Link" class="category-level-3">@item3.MenuTitle</a></li>
+
+            }
+
+            </ul>
+            }
+
+            </li>
+
+            }
+
+
+            </ul>
+            </div>
+            }
+            else
+            {
+            <li><a href="@item.Link">@item.MenuTitle</a></li>
+            }
+
+            </li>
+
+            }
+        *@
+
+    </ul>
+</nav>
+<div class="nav-btn nav-slider">
+    <span class="linee1"></span>
+    <span class="linee2"></span>
+    <span class="linee3"></span>
+</div>
+<div class="overlay"></div>
+
+<div class="bottom-navigation-menu-container">
+    <a asp-controller="Home" asp-action="Index" asp-area="">
+
+        <div class="bottom-navigation-menu-item @(controller.Contains("home") && action.Equals("Index") ? "active" : "")">
+            <span>
+                <i class="mdi mdi-account"></i>
+            </span>
+            خانه
+        </div>
+    </a>
+    <a asp-controller="Home" asp-action="MobileCategory" asp-area="">
+
+        <div class="bottom-navigation-menu-item @(controller.Contains("Home") && action.Equals("MobileCategory") ? "active" : "")">
+            <span>
+                <i class="mdi mdi-view-grid"></i>
+            </span>
+            دسته بندی
+        </div>
+    </a>
+
+    <div class="bottom-navigation-menu-item" data-toggle="modal" data-target="#SearchModal">
+        <span>
+            <i class="mdi mdi-magnify"></i>
+        </span>
+        جستجو
+    </div>
+    <a asp-controller="Cart" asp-action="Index" asp-area="">
+        <div class="bottom-navigation-menu-item @(controller.Contains("Cart") && action.Equals("Index") ? "active" : "")">
+            <span>
+                <i class="mdi mdi-cart"></i>
+            </span>
+            سبد خرید
+            @if (Model.Item3 > 0)
+            {
+                <span class="count-cart-fotter-menu">@Model.Item3</span>
+            }
+        </div>
+
+    </a>
+
+</div>
+
+<!-- SearchModal -->
+<div class="modal fade right" id="SearchModal" tabindex="-1" role="dialog" aria-labelledby="SearchModalLabel" aria-hidden="true">
+    <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+        <div class="modal-content-full-width modal-content ">
+            <div class=" modal-header-full-width   modal-header text-center">
+                <h5 class="modal-title w-100 search-modal-title" id="SearchModalLabel">جستجو</h5>
+                <button type="button" class="close bg-transparent text-secondary" data-dismiss="modal" aria-label="Close">
+                    <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="header-search   text-right">
+                    <div class="header-search-box">
+                        <div class="form-search">
+                            <input type="search" id="header-search-input-mobile" class="header-search-input" name="q" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+
+                            <div class="action-btns">
+                                <button class="btn btn-search" id="btn-search-header-mobile">
+                                    <i class="fa fa-search"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

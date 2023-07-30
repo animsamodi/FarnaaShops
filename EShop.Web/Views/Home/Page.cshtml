@@ -1,0 +1,144 @@
+﻿@using EShop.DataLayer.Enum
+@using Microsoft.AspNetCore.Http.Extensions
+@model EShop.DataLayer.Entities.Site.StaticPage
+@{
+    ViewData["Title"] = Model.MetaTitle ?? Model.Title;
+
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section Meta
+{
+ 
+   @* <meta name="title" content="@(Model.MetaTitle ?? Model.Title)">*@
+    @if (Model.MetaDescription != null)
+    {
+        <meta name="description" content="@(Model.MetaDescription)">
+    }
+    @if (Model.MetaKeywords != null)
+    {
+        <meta name="keywords" content="@Model.MetaKeywords">
+
+    }
+    @if (Model.Canonical != null)
+    {
+        <link rel="canonical" href="@Model.Canonical">
+
+    }
+    @if (Model.IsNoIndex)
+    {
+        @await Html.PartialAsync("_noIndex")
+    }
+
+    <meta property="og:title" content="@(Model.MetaTitle ?? Model.Title)">
+    <meta property="og:description" content="@Model.MetaDescription">
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farnaa.com/images/logo.png">
+    <meta property="og:image:alt" content="@(Model.MetaTitle ?? Model.Title)">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+   @Html.Raw(Model.BaseSchema)
+
+    @Html.Raw(Model.HeaderTag)
+    @Html.Raw(Model.Schema)
+}
+
+
+<!-- ---------- Static Page ---------- -->
+<div class="banner-ads  ">
+    <div class="holder-ads ">
+        <div class="container ">
+            <div class="row ">
+                @if (!string.IsNullOrEmpty(Model.Banner))
+                {
+                    <div class="col-12 d-none d-lg-block ">
+                        <div class="ads ">
+                            <a href="@Model.BannerUrl" class="ads-pic ">
+                                <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-page-banner.webp"  data-src="https://media.farnaa.com/media/@Model.Banner"  width="2880" height="600"  fetchpriority="high" alt="@Model.MetaTitle">
+                            </a>
+                        </div>
+                    </div>
+                }@if (!string.IsNullOrEmpty(Model.BannerMobile))
+                 {
+                     <div class="col-12 d-lg-none ">
+                         <div class="ads ">
+                             <a href="@Model.BannerUrl" class="ads-pic ">
+                                 <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-page-banner-mobile.webp"    data-src="https://media.farnaa.com/media/@Model.BannerMobile" width="2083" height="833" fetchpriority="high"  alt="@Model.MetaTitle">
+                             </a>
+                         </div>
+                     </div>
+                 }
+                @*   
+                   *@   
+
+                      
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="about-us">
+     <div class="container">
+        <div class="address-bar">
+            <div class="box-overlay"></div>
+            <ul class="box-address">
+                <li class="item">
+                    <a class="trs-3" asp-controller="Home" asp-action="Index">
+                        خانه
+                        <i class="fal fa-chevron-left"></i>
+                    </a>
+                </li>
+
+                <li class="item active">
+                    <span class="trs-3">
+                        @Model.Title
+                    </span>
+                </li>
+            </ul>
+        </div>
+
+        <div class="about-content">
+            <div class="box-overlay"></div>
+            <div class="row">
+                <div class="`col-12 text-container">
+
+                    <div style="border-radius: 10px; border: 1px #dcdcdc solid; padding: 20px 10px 20px 10px; margin-bottom: 20px;">
+                        <div class="title">
+                            <h1>
+                                @Model.Title
+                            </h1>
+                            @*    <p>
+                                    تجربه، تکنولوژی، فردا
+                                </p>*@
+                        </div>
+                        @if (!string.IsNullOrEmpty(Model.ShortText))
+                        {
+                            <div class="text">
+                                @Html.Raw(Model.ShortText)
+                            </div>
+                        }
+
+                        <div class="text">
+                            @Html.Raw(Model.Text)
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+    
+
+<!-- ---------- Banner Ads ---------- -->
+@await Component.InvokeAsync("OtherPageBannerComponent")
+
+
+<!-- ---------- Popular Products ---------- -->
+@await Component.InvokeAsync("OtherPageProductDiscountComponent")
+
+

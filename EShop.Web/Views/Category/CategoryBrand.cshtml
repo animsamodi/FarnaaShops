@@ -1,0 +1,65 @@
+﻿@model EShop.DataLayer.Entities.Product.CategoryBrandPage
+
+@{
+	ViewData["Title"] = Model.MetaTitle ?? Model.FaTitle ;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Meta
+{
+	@*<title>@(Model.MetaTitle ?? ViewData["Title"])</title>*@
+
+	@*<meta name="title" content="@(Model.MetaTitle ?? Model.FaTitle)">*@
+	@if (Model.MetaDescription != null)
+	{
+		<meta name="description" content="@(Model.MetaDescription)">
+	}
+	@if (Model.MetaKeywords != null)
+	{
+		<meta name="keywords" content="@Model.MetaKeywords">
+
+	}
+	@if (Model.Canonical != null)
+	{
+		<link rel="canonical" href="@Model.Canonical">
+
+	}
+	@Html.Raw(Model.BaseSchema)
+
+	@Html.Raw(Model.HeaderTag)
+	@Html.Raw(Model.Schema)
+}
+
+<div class="d-block">
+<div class="page-content page-row" id="searchupdate">
+    <div id="breadcrumb">
+        <breadcrumb></breadcrumb>
+
+       
+    </div>
+<h1 class="page-title">@Model.MetaTitle</h1>
+<!-- start sidebar--------------------->
+<div class="d-block" id="ProductList">
+
+</div>
+
+	
+<div class="col-lg-12 col-md-12 col-xs-12 pr order-1 d-block block p-0 main-cat-text">
+	@Html.Raw(Model.Text)
+</div>	
+</div>
+</div>
+@section scripts{
+	<script src="~/Admin/js/jquery.unobtrusive-ajax.min.js"></script>
+	<script>
+		$.ajax({
+			type: 'GET',
+			url: '@Url.Action("ListCategoryBrandProduct","Home")',
+			data: { brnad:@Model.BrandId, category:@Model.CategoryId, pagenumber: 1 },
+			success: function (res) {
+				$("#ProductList").html(res);
+			}
+		})
+
+	</script>
+}

@@ -1,0 +1,29 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.CategotyMain>
+
+@{
+    Layout = null;
+}
+
+
+
+<div class="mt-4  desktop-show">
+    <div class="category-main-desktop-container row m-0 col-12 mt-2 p-3">
+        @foreach (var item in Model)
+        {
+
+            <div class="col-2 p-1 category-main-img-desktop-item">
+                <a  asp-controller="category" asp-action="MainCategory" asp-route-title="@(item.EnTitle != null?item.EnTitle.Replace(" ","-"): "")">
+
+                    <div class="category-main-img-desktop a-hover-1 ">
+                        <img src="https://media.farnaa.com/media/@item.Image" alt="@item.Title" height="35" style="height: 35px !important;" />
+                        <div class="category-main-title-desktop">@item.Title</div>
+                    </div>
+
+                </a>
+            </div>
+        }
+    </div>
+
+
+
+</div>

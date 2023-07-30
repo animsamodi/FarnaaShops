@@ -1,0 +1,168 @@
+﻿@using EShop.DataLayer.Entities
+@using EShop.DataLayer.Enum
+@{
+	ViewData["Title"] = "بلاگ";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+
+}
+
+
+@section Meta
+{
+	@await Component.InvokeAsync("BlogMainMetaComponent")
+
+}
+<div class="d-block" style="transform: none;">
+	@{
+		if (ViewBag.Special != null)
+		{
+			var specBlog = (List<Blog>)ViewBag.Special;
+
+			<section class="content-widget">
+				<div class="col-12 col-md-4 col-lg-4 col-xl-4 items-1 pr">
+					@foreach (var item in specBlog.Where(c => c.TypeBlog == EnumTypeBlog.spec1))
+					{
+						<article class="blog-item">
+							<figure class="figure">
+								<div class="post-thumbnail">
+
+									<img src="https://media.farnaa.com/media/@item.Image" alt="@item.Title">
+								</div>
+
+								<div class="post-title">
+									<a asp-action="BlogDetail" asp-route-id="@item.Id" class="d-block">
+										<h4>@item.Title</h4>
+									</a>
+									<span class="post-date">
+										<i class="fa fa-calendar"></i>
+										@item.PrDate
+									</span>
+								</div>
+							</figure>
+						</article>
+					}
+
+
+				</div>
+				<div class="col-12 col-md-4 col-lg-4 col-xl-4 items-2 pr">
+					@foreach (var item in specBlog.Where(c => c.TypeBlog == EnumTypeBlog.spec2))
+					{
+						<article class="blog-item">
+							<figure class="figure">
+								<div class="post-thumbnail">
+
+									<img src="https://media.farnaa.com/media/@item.Image" alt="@item.Title">
+								</div>
+
+								<div class="post-title">
+									<a asp-action="BlogDetail" asp-route-id="@item.Id" class="d-block">
+										<h4>@item.Title</h4>
+									</a>
+									<span class="post-date">
+										<i class="fa fa-calendar"></i>
+										@item.PrDate
+									</span>
+								</div>
+							</figure>
+						</article>
+					}
+				</div>
+				<div class="col-12 col-md-4 col-lg-4 col-xl-4 items-3 pr">
+					@foreach (var item in specBlog.Where(c => c.TypeBlog == EnumTypeBlog.spec3))
+					{
+						<article class="blog-item">
+							<figure class="figure">
+								<div class="post-thumbnail">
+
+									<img src="https://media.farnaa.com/media/@item.Image" alt="@item.Title">
+								</div>
+
+								<div class="post-title">
+									<a asp-action="BlogDetail" asp-route-id="@item.Id" class="d-block">
+										<h4>@item.Title</h4>
+									</a>
+									<span class="post-date">
+										<i class="fa fa-calendar"></i>
+										@item.PrDate
+									</span>
+								</div>
+							</figure>
+						</article>
+					}
+				</div>
+			</section>
+		}
+	}
+
+	<div class="col-lg-9 col-md-8 col-xs-12 pr mt-3" id="listBlog">
+
+
+	</div>
+	<div class="col-lg-3 col-md-4 col-xs-12 pr mt-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+		<div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 15px;">
+			<div class="shortcode-widget-area-sidebar">
+				<section class="widget-posts">
+					<div class="header-sidebar mb-3">
+						<h3>جدیدترین  ها</h3>
+					</div>
+					<div class="content-sidebar">
+						@{
+							if (ViewBag.NewBlog != null)
+							{
+								var newBlog = (List<Blog>)ViewBag.NewBlog;
+								@foreach (var item in newBlog)
+								{
+
+
+									<div class="item">
+										<div class="item-inner">
+											<div class="item-thumb">
+												<a asp-action="BlogDetail" asp-route-id="@item.Id" class="img-holder d-block">
+													<img src="https://media.farnaa.com/media/@item.Image" alt="@item.Title">
+												</a>
+											</div>
+											<div class="title">
+												<a asp-action="BlogDetail" asp-route-id="@item.Id">
+													<h2 class="title-tag">@item.Title</h2>
+												</a>
+												<span class="post-date">
+													@item.PrDate
+												</span>
+											</div>
+										</div>
+									</div>
+
+								}
+							}
+						}
+
+
+					</div>
+				</section>
+			</div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 351px; height: 610px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+		</div>
+	</div>
+
+</div>
+
+@section Scripts
+{
+
+	<script>
+		$(document).ready(function() {
+			$.ajax({
+				type: 'GET',
+                url: '@Url.Action("BlogList","Blogs")',
+                				data: { pagenumber: 1 },
+				success: function(res) {
+					$("#listBlog").html(res);
+				}
+			});
+		});
+
+
+	</script>
+}

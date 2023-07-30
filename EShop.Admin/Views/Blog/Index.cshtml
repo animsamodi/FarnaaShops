@@ -1,0 +1,85 @@
+﻿@using EShop.DataLayer.Enum
+@using EShop.Core.Helpers
+@model IEnumerable<EShop.DataLayer.Entities.Blog>
+
+@{
+	ViewData["Title"] = "لیست بلاگ ها";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title-wrap bar-success">
+						<h4 class="card-title">لیست بلاگ ها</h4>
+					</div>
+				</div>
+				<div class="card-body">
+
+					<div class="card-block">
+						<div class="box-header with-border">
+							<a asp-action="CreateBlog" class="btn btn-primary mb-2">
+								<i class="ft-plus"></i>
+								ایجاد بلاگ
+							</a>
+						</div>
+						<table class="table table-striped table-bordered table-responsive-sm table-configuration">
+							<thead>
+							 
+							<th>
+								@Html.DisplayNameFor(model => model.Image)
+							</th>
+							<th>
+								@Html.DisplayNameFor(model => model.Title)
+							</th>
+							 
+							<th>
+								@Html.DisplayNameFor(model => model.TypeBlog)
+							</th>
+							 
+
+							<th></th>
+							</thead>
+							<tbody>
+
+								@foreach (var item in Model)
+								{
+									<tr>
+										<td>
+											@Html.Raw((String.IsNullOrEmpty(item.Image) ? "" : "<img src='https://media.farnaa.com/media/" + item.Image + "' class='thumbnail' width='60' />"))
+										</td>
+										<td>
+											@Html.DisplayFor(modelItem => item.Title)
+										</td>
+
+										<td>
+											@{
+												var type = "";
+												if (item.TypeBlog > 0)
+												{
+													type = EnumHelper<EnumTypeBlog>.GetDisplayValue(item.TypeBlog);
+												}
+											}
+											@type
+
+										</td>
+									 
+										<td>
+											<a class="btn btn-primary" asp-action="EditBlog" asp-route-id="@item.Id">ویرایش</a>
+											<a class="btn btn-danger" asp-action="DeleteBlog" asp-route-id="@item.Id">حذف</a>
+
+										</td>
+									</tr>
+								}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+

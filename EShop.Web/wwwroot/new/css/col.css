@@ -1,0 +1,62 @@
+.col-mob {
+    margin: 10px 0 10px 0;
+}
+
+.col-mob .col-content .col-grid {
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.col-mob .col-content .col-item {
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.col-mob .col-content .col-item:last-child {
+    border-bottom: none;
+}
+
+.col-mob .col-content .col-title {
+    display: block;
+    position: relative;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+}
+
+.col-mob .col-content .active {
+    color: #d90268;
+}
+
+.col-mob .col-content .col-title:hover {
+    color: #d90268;
+}
+
+.col-mob .col-content .col-title i {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.col-mob .col-content .col-content {
+    padding: 0;
+    padding-right: 15px;
+    max-height: 0;
+    overflow: hidden;
+    border-radius: 0 0 10px 10px;
+    transition: max-height 0.3s ease-out;
+    -webkit-transition: max-height 0.3s ease-out;
+    -moz-transition: max-height 0.3s ease-out;
+    -o-transition: max-height 0.3s ease-out;
+}
+
+.col-mob .col-content .col-content-inside {
+    padding: 10px 20px 20px 20px;
+}
+
+.col-mob .col-content .col-content-inside p {
+    font-size: 14px;
+}

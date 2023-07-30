@@ -1,0 +1,84 @@
+﻿@model List<EShop.DataLayer.Entities.User.Permisson>
+@{
+    ViewData["Title"] = "نقش جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title-wrap bar-success">
+					<h4 class="card-title mb-0">ایجاد نقش جدید</h4>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="px-3">
+					<form class="form" asp-action="CreateRole" enctype="multipart/form-data">
+						<div class="form-body">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+							<div class="row">
+
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label class="control-label">نام نقش</label>
+										<input name="Name" class="form-control" required />
+ 									</fieldset>
+								</div>
+								<div class="col-xl-12 mb-1">
+									<fieldset class="form-group">
+										
+										<div class="permissons-container">
+											@foreach (var item in Model.Where(c => c.ParentId == null))
+											{
+												<div class="permissons-item">
+													<input type="checkbox" name="permissons" value="@item.Id">
+													<label>@item.PermissonName</label>
+												</div>
+													foreach (var item2 in Model.Where(c => c.ParentId == item.Id))
+													{
+														 
+														<div class="permissons-item">
+															<input type="checkbox" name="permissons" value="@item2.Id">
+															<label>@item2.PermissonName</label>
+														</div>
+													}
+												}
+										</div>
+
+</fieldset>
+								</div>
+								 
+							</div>
+						</div>
+						<div class="form-actions">
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary mr-1">
+									ثبت
+									<i class="ft-thumbs-up position-right"></i>
+								</button>
+								<a asp-action="RoleList" class="btn btn-warning">بازگشت به لیست</a>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+ 
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    $('input[type=checkbox]').iCheck({
+        checkboxClass:'icheckbox_flat-blue'
+    })
+</script>
+}
+
+

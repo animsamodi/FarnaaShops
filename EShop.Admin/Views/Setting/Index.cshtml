@@ -1,0 +1,75 @@
+﻿
+@{
+	ViewData["Title"] = "تنظیمات";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">تغییر بک گراند محصولات جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="ChangeBgNewProduct" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label class="control-label" for="DesktopImg">تصویر</label>
+                                        <input type="file" class="form-control" data-val="true" data-val-required="تصویر" id="image" name="image">
+                                        <span class="text-danger field-validation-valid" data-valmsg-for="image" data-valmsg-replace="true"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <img width="150" src="https://media.farnaa.com/media/bg-new.jpg" />
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">به روز رسانی دسته بندی های محصولات</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                   <a class="btn btn-danger"  asp-controller="Catalog" asp-action="ChangeProductCategory">انجام عملیات</a>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</div>
+
+
+
+
+@section Scripts{
+	<script src="~/js/jquery.validate.min.js"></script>
+	<script src="~/js/jquery.validate.unobtrusive.js"></script>
+}

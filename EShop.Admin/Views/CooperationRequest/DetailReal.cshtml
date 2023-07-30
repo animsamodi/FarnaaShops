@@ -1,0 +1,203 @@
+﻿@using EShop.DataLayer.Enum
+@using EShop.DataLayer.Entities.Credit
+@model EShop.Core.ViewModels.CooperationRequestRealViewModel
+
+@{
+    ViewBag.Title = "جزئیات درخواست حقیقی";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">جزئیات درخواست</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="EditStatus" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id"/>
+                        <div class="form-body">
+
+                            <div class="row">
+
+                                <div class="form-checkout-row row m-0 py-3">
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="TypeSystem"> </label>
+                                        <select asp-for="TypeSystem" asp-items="Html.GetEnumSelectList<EnumTypeSystem>()" disabled="disabled" class="  form-control">
+                                         </select>
+                                        <span asp-validation-for="NoeForush" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Name"> </label>
+                                        <input type="text" asp-for="Name" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Name" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Family"> </label>
+                                        <input type="text" asp-for="Family" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Family" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="CodeMeli"> </label>
+                                        <input type="text" asp-for="CodeMeli" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="CodeMeli" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="CodeNaghsh"> </label>
+                                        <input type="text" asp-for="CodeNaghsh" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="CodeNaghsh" class="text-danger  "></span>
+                                    </div>
+                                    
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="ShenaseSenfi"> </label>
+                                        <input type="text" asp-for="ShenaseSenfi" class="input-name-checkout form-control" disabled="disabled">
+                                        <span asp-validation-for="ShenaseSenfi" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Email"> </label>
+                                        <input type="text" asp-for="Email" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Email" class="text-danger  "></span>
+                                    </div>
+                                    
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="NoeForush"> </label>
+                                        <select asp-for="NoeForush" asp-items="Html.GetEnumSelectList<EnumNoeForush>()" disabled="disabled" class="  form-control">
+                                            <option value="">- انتخاب کنید -</option>
+                                        </select>
+                                        <span asp-validation-for="NoeForush" class="text-danger  "></span>
+                                    </div>
+                                <div class="col-lg-4 col-md-6 col-sm-12">
+                                    <label asp-for="ProvinceId"> </label>
+                                    <select   asp-for="@Model.ProvinceId" asp-items="@(new SelectList(ViewBag.provincelist, "ProvinceId", "ProvinceName"))" class="form-control"  disabled="disabled">
+                                     </select> <span asp-validation-for="ProvinceId" class="text-danger  "></span>
+                                </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="CityId"> </label>
+                                        <select   asp-for="@Model.CityId" asp-items="@(new SelectList(ViewBag.Citylist, "CityId", "CityName"))" class="form-control"  disabled="disabled">
+                                        </select> <span asp-validation-for="CityId" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label asp-for="Address"> </label>
+                                        <textarea type="text" asp-for="Address" class="input-name-checkout form-control" disabled="disabled"></textarea>
+                                        <span asp-validation-for="Address" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label asp-for="CodePosti"> </label>
+                                        <input type="text" asp-for="CodePosti" class="input-name-checkout form-control" disabled="disabled">
+                                        <span asp-validation-for="CodePosti" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label asp-for="ShomareTamas"> </label>
+                                        <input type="text" asp-for="ShomareTamas" class="input-name-checkout form-control" disabled="disabled">
+                                        <span asp-validation-for="ShomareTamas" class="text-danger  "></span>
+                                    </div>
+
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label asp-for="Tozihat"> </label>
+                                        <textarea type="text" asp-for="Tozihat" class="input-name-checkout form-control" disabled="disabled"></textarea>
+                                        <span asp-validation-for="Tozihat" class="text-danger  "></span>
+                                    </div>
+
+                                    
+
+
+
+                                    <h6 class="user-form-title col-12">  مدارک </h6>
+                               
+                                        <div class="col-lg-3 col-md-4 col-sm-12">
+                                            <label asp-for="FileKartMeli"> </label>
+                                            <a target="_blank" href="https://media.farnaa.com/media/@Model.FileKartMeli">
+                                                <img class="img-fluid" src="https://media.farnaa.com/media/@Model.FileKartMeli" />
+                                            </a>
+
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-12">
+                                            <label asp-for="FileParvaneKasb"> </label>
+                                            <a target="_blank" href="https://media.farnaa.com/media/@Model.FileParvaneKasb">
+                                                <img class="img-fluid" src="https://media.farnaa.com/media/@Model.FileParvaneKasb" />
+                                            </a>
+
+                                        </div>
+                                        <div class="col-lg-3 col-md-4 col-sm-12">
+                                            <label asp-for="FileSanad"> </label>
+                                            <a target="_blank" href="https://media.farnaa.com/media/@Model.FileSanad">
+                                                <img class="img-fluid" src="https://media.farnaa.com/media/@Model.FileSanad" />
+                                            </a>
+
+                                        </div>
+                                 
+
+
+
+                                </div>
+                                <div class="col-lg-12 user-form-divider">
+                                    <hr />
+
+                                </div>
+                                @if (Model.Status == EnumCooperationRequestStatus.Wating)
+                                {
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label asp-for="Status"> </label>
+                                        <select asp-for="Status" asp-items="Html.GetEnumSelectList<EnumCooperationRequestStatus>()" class=" form-control">
+                                            <option value="">- انتخاب کنید -</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label asp-for="Description"> </label>
+                                        <textarea rows="2" cols="30" asp-for="Description" class="textarea-name-checkout form-control"></textarea>
+                                        <span asp-validation-for="Description" class="text-danger  "></span>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label asp-for="Status"> </label>
+                                        <select asp-for="Status" asp-items="Html.GetEnumSelectList<EnumCooperationRequestStatus>()" disabled="disabled" class=" form-control">
+                                            <option value="">- انتخاب کنید -</option>
+                                        </select>
+                                        <span asp-validation-for="Status" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label asp-for="Description"> </label>
+                                        <textarea rows="2" cols="30" asp-for="Description" class="textarea-name-checkout form-control" disabled="disabled"></textarea>
+                                        <span asp-validation-for="Description" class="text-danger  "></span>
+                                    </div>
+                                }
+                              
+                                
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                            @if (Model.Status == EnumCooperationRequestStatus.Wating)
+                            {
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                            }
+                            
+                            @if (Model.Status == EnumCooperationRequestStatus.Confairm)
+                            {
+                                <a asp-action="ResetPassword" asp-route-id="@Model.Id" class="btn btn-danger mr-1">
+                                    ریست کردن کلمه عبور
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </a>
+                            }
+
+                                <a asp-action="Index" asp-route-Status="@TempData["Status"]"  class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>  
+            </div>
+        </div>
+    </div>
+</div>
+

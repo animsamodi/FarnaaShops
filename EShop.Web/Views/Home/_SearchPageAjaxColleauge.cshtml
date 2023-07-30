@@ -1,0 +1,465 @@
+﻿@model ProductSearchWithFilterViewModel
+@using EShop.Core.ViewModels.Product
+@using EShop.DataLayer.Entities.Brand
+
+@{
+    Layout = null;
+}
+<style>
+    .modal-backdrop.show {
+        display: none !important;
+    }</style>
+<div class="shop-product" id="searchupdate">
+    <div class="container">  <div class="shop">
+
+            @*<h1 class="page-title">محصولات همکار</h1>*@
+
+            <!-- start sidebar--------------------->
+            @*   <div class="col-lg-3 col-md-4 col-xs-12 pr sticky-position desktop-show">
+
+        @Html.Partial("ProductViewPartials/_SearchSidebarProductsFilter", Model)
+    </div>*@
+
+
+
+            <div class="col-lg-12 col-md-12 col-xs-12 pl desktop-show">
+                <div class="shop-archive-content mt-3 d-block">
+                    <div class="shop-content">
+                        <div class="tabs">
+                    @if (Model.Products.Any())
+                    {
+                @*@Html.Partial("ProductViewPartials/_ProductFilterSectionDesktop")*@
+                        <div class="tabs-stage">
+                            <div id="tab-1" class="item-tab">
+                        @Html.Partial("ProductViewPartials/_ProductsListDesktop", Model.Products)
+                        @Html.Partial("ProductViewPartials/_ProductsPagging", Model.PaggingData)
+                            </div> </div> }
+                    else
+                    {
+                        <div class="no-result-container">
+                            <h6>
+                                <i class="fa fa-warning"></i>نتیجه‌ای یافت نشد!
+                            </h6>
+                            @*  <p>
+                        از عبارت‌های متداول‌تر استفاده کنید و یا املای عبارت وارد‌شده را بررسی کنید.
+                    </p>*@
+                        </div>
+                    }
+
+                </div>
+                </div>
+                </div>
+            </div>
+            <div class="col-lg-12  mobile-show clear">
+                <div class="shop-archive-content mt-3 d-block">
+                    @if (Model.Products.Any())
+                    {
+               @* <div class="archive-header">
+                    <div class="main-row p-1">
+                        <div id="breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">خانه</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">محصولات</li>
+                                </ol>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-6 text-center">
+                            <button class="btn-filter-mobile-wiew" data-toggle="modal" data-target="#FilterModal"> <i class="fa fa-filter"></i>فیلتر کردن</button>
+                        </div>
+                        <div class="col-6 text-center">
+                            <button class="btn-filter-mobile-wiew" data-toggle="modal" data-target="#SortModal"> <i class="fa fa-sort-amount-desc"></i>مرتب سازی</button>
+                        </div>
+
+                    </div>
+                </div>*@
+                        <div class="product-items">
+                            <div class="tab-content" id="myTabContent">
+                                <div class="tab-pane fade show active" id="Most-visited" role="tabpanel" aria-labelledby="Most-visited-tab">
+                                    <div class="row js-search_page-left m-0">
+                                        @if (Model.Products.Count > 0)
+                                        {
+
+                                            @foreach (var item in Model.Products)
+                                            {
+
+
+                                                <div class="col-lg-12 order-1 d-block m-0 p-0">
+                                                    <meta name="product_id" content="@item.ProductId">
+                                                    <meta name="product_name" content="@item.FaTitle">
+                                                    <meta name="guarantee" content="@item.GuranateeTitle">
+                                                    <meta property="og:image" content="https://media.farnaa.com/media/@item.Img">
+                                                    @if (item.MainPrice > 0)
+                                                    {
+                                                        <meta name="product_price" content="@item.PromotionPrice">
+                                                        <meta name="product_old_price" content="@item.MainPrice">
+                                                        <meta name="availability" content="instock">
+                                                    }
+                                                    else
+                                                    {
+                                                        <meta name="availability" content="outofstock">
+
+                                                    }
+                                                    <section class="product-box product product-type-simple d-flex mb-3 product-mobile-view">
+                                                        @if (item.MainPrice > 0)
+                                                        {
+                                                            if (item.PromotionPrice != item.MainPrice)
+                                                            {
+                                                                <div class="  item-descount-filter">
+
+                                                                    @{
+                                                                        decimal disPrice = (decimal)(item.MainPrice - item.PromotionPrice);
+                                                                        var disPercent = Math.Ceiling((decimal)(disPrice * 100 / item.MainPrice));
+
+                                                                    }
+
+                                                                    <span class="  font-weight-bold"> </span>
+                                                                    @if (disPrice != null)
+                                                                    {
+                                                                        @disPercent
+                                                                        <span>%</span>
+                                                                    }
+                                                                </div>
+                                                            }
+
+
+                                                        }
+
+                                                        <div class="thumb p-3">
+                                                            <a asp-action="Index" asp-controller="product" asp-route-id="@item.ProductId" asp-route-category="@item.CategoryProduct.ToUrlFormat()" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="d-block">
+
+                                                                <img width="600" height="600" src="https://media.farnaa.com/media/@item.Img">
+                                                            </a>
+                                                        </div>
+                                                        <div class="d-flex flex-column justify-content-around">
+                                                            <div class="title">
+                                                                <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryProduct.ToUrlFormat()" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")">@item.FaTitle</a>
+                                                            </div>
+                                                            <div class="price">
+                                                                @if (item.MainPrice > 0)
+                                                                {
+                                                                    if (item.PromotionPrice != item.MainPrice)
+                                                                    {
+                                                                        var disPrice = item.MainPrice - item.PromotionPrice;
+                                                                        <div class="col-6 pl p-1">
+                                                                            <del><span>@item.MainPrice.Value.ToString("N0")<span> تومان </span></span></del>
+                                                                        </div>
+                                                                        <div class="col-6 pr p-1">
+                                                                            <ins>
+                                                                                <span>
+                                                                                    @if (item.PromotionPrice != null)
+                                                                                    {
+                                                                                        @item.PromotionPrice.Value.ToString("N0")
+                                                                                    }
+                                                                                    <span> تومان </span>
+                                                                                </span>
+                                                                            </ins>
+
+                                                                        </div>
+
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <div class="col-12  p-1">
+                                                                            <ins><span>@item.MainPrice.Value.ToString("N0")<span> تومان </span></span></ins>
+                                                                        </div>
+
+                                                                    }
+
+                                                                }
+                                                                else
+                                                                {
+                                                                    <div class="  col-12 p-1">
+                                                                        <ins>-- ناموجود --</ins>
+                                                                    </div>
+                                                                }
+                                                            </div>
+                                                        </div>
+
+
+                                                    </section>
+
+                                                </div>
+
+
+
+                                            }
+
+
+
+
+                                        }
+
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        @Html.Partial("ProductViewPartials/_ProductsPagging", Model.PaggingData)
+                    }
+                    else
+                    {
+                        <div class="no-result-container">
+                            <h6>
+                                <i class="fa fa-warning"></i>نتیجه‌ای یافت نشد!
+                            </h6>
+                            <p>
+                                از عبارت‌های متداول‌تر استفاده کنید و یا املای عبارت وارد‌شده را بررسی کنید.
+                            </p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+      
+        </div>
+</div>
+</div>
+
+
+
+<!-- FilterModal -->
+<div class="modal fade right" id="FilterModal" tabindex="-1" role="dialog" aria-labelledby="FilterModalLabel" aria-hidden="true">
+    <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+        <div class="modal-content-full-width modal-content ">
+            <div class=" modal-header-full-width   modal-header text-center">
+                <h5 class="modal-title w-100 search-modal-title" id="FilterModalLabel">فیلتر کردن</h5>
+                <button type="button" class="close bg-transparent text-secondary" data-dismiss="modal" aria-label="Close">
+                    <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" style="background-color: #f3f3f3;">
+                <div class="shop-archive-sidebar filter-panel mt-0 bg-transparent">
+                    <div class="sidebar-archive mb-3">
+
+
+                        <section class="widget-product-categories  js-filter_box d-none">
+                            <header class="cat-header">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne1" role="button" aria-expanded="false" aria-controls="headingOne1">
+                                        فیلتر ها :
+                                        <i class="mdi mdi-chevron-down"></i>
+                                    </button>
+                                </h2>
+                            </header>
+                            <div class="product-filter">
+                                <div class="card">
+                                    <div class="collapse show" id="headingOne1">
+                                        <div class="card-main mb-0 c-box_item">
+                                            <ul class="c-box_cat-list js-filters">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="widget-product-categories ">
+                            <div class="available-stock-switch">
+                                <label>نمایش کالا های موجود</label>
+                                <label class="available-switch">
+                                    <input class="available-stock-only" type="checkbox" />
+                                    <span class="available-switch-slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="widget-product-categories ">
+                            <div class="available-discounted-switch">
+                                <label>نمایش کالا های تخفیف دار</label>
+                                <label class="discounted-switch">
+                                    <input class="available-discounted-only" type="checkbox" />
+                                    <span class="available-switch-slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        @if (Model.SideBarData.Categories != null && Model.SideBarData.Categories.Count > 0)
+                        {
+                            <section class="widget-product-categories">
+                                <header class="cat-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-block text-right" data-toggle="collapse" href="#headingCategory2" role="button" aria-expanded="false" aria-controls="headingCategory2">
+                                            دسته بندی محصولات
+                                            <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                    </h2>
+                                </header>
+                                <div class="product-filter">
+                                    <div class="card">
+                                        <div class="collapse  " id="headingCategory2">
+                                            <div class="card-main mb-0">
+                                                @foreach (var item in Model.SideBarData.Categories as List<MainCategoryFilterItem>)
+                                                {
+
+                                                    <span class='c-box_cat-span '>
+                                                        <a class='c-box_cat-link c-box-parent'>
+                                                            <div class='form-auth-row'>
+                                                                <label for="#" class="ui-checkbox js-filter_label" data-en='@item.EnglishTitle.ToUrlFormat()'
+                                                               data-type="catId" data-id="@item.Id" data-fa="@item.PersianTitle" for="catId @item.Id">
+                                                                    <input class="js-filter_checkbox" type="checkbox" data-fa="@item.PersianTitle"
+                                                                   data-type="catId" data-id="@item.Id" id="catId @item.Id">
+                                                                    <span class="ui-checkbox-check"></span>
+                                                                </label>
+                                                                <label style="font-weight: bold;" for="remember" class="remember-me">
+                                                                    @item.PersianTitle
+                                                                </label>
+                                                            </div>
+
+                                                            <i class="mdi mdi-chevron-down"></i>
+                                                        </a>
+                                                    </span>
+                                                    @if (item.SubCategory is not null && item.SubCategory.Count > 0)
+                                                    {
+                                                        @foreach (var subcategory in item.SubCategory)
+                                                        {
+                                                            <div class='form-auth-row'>
+                                                                <label for="#" class="ui-checkbox js-filter_label" data-en='@subcategory.EnglishTitle.ToUrlFormat()'
+                                                       data-type="catId" data-id="@subcategory.Id" data-fa="@subcategory.PersianTitle" for="catId @subcategory.Id">
+                                                                    <input class="js-filter_checkbox" type="checkbox" data-fa="@subcategory.PersianTitle"
+                                                           data-type="catId" data-id="@subcategory.Id" id="catId @subcategory.Id">
+                                                                    <span class="ui-checkbox-check"></span>
+                                                                </label>
+                                                                <label for="remember" class="remember-me">
+                                                                    @subcategory.PersianTitle
+                                                                </label>
+                                                            </div>
+                                                        }
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        }
+
+
+
+                        @if (Model.SideBarData.Brands != null && Model.SideBarData.Brands.Count > 0)
+                        {
+                            <section class="widget-product-categories">
+                                <header class="cat-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-block text-right" data-toggle="collapse" href="#headingTwo3" role="button" aria-expanded="false" aria-controls="headingTwo3">
+                                            برند ها
+                                            <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                    </h2>
+                                </header>
+                                <div class="product-filter">
+                                    <div class="card">
+                                        <div class="collapse  " id="headingTwo3">
+                                            <div class="card-main mb-0">
+
+                                                @foreach (var item in Model.SideBarData.Brands)
+                                                {
+
+                                                    <div class="form-auth-row">
+                                                        <label for="#" class="ui-checkbox js-filter_label" data-en='@item.EnglishTitle'
+                                                       data-type="brand" data-id="@item.Id" data-fa="@item.PersianTitle" for="brand @item.Id">
+                                                            <input class="js-filter_checkbox" type="checkbox" data-type="brand"
+                                                           data-id="@item.Id" id="brand @item.Id">
+                                                            <span class="ui-checkbox-check"></span>
+                                                        </label>
+                                                        <label for="remember" class="remember-me">
+                                                            @item.PersianTitle - @item.EnglishTitle
+                                                        </label>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                        }
+
+
+
+                        @if (Model.SideBarData.MaxPrice > 0)
+                        {
+
+                            <section class="widget-product-categories">
+                                <header class="cat-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-block text-right" data-toggle="collapse" href="#headingThree4" role="button" aria-expanded="false" aria-controls="headingThree4">
+                                            محدوده قیمت
+                                            <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                    </h2>
+                                </header>
+                                <div class="product-filter">
+                                    <div class="card">
+                                        <div class="collapse  " id="headingThree4">
+                                            <div class="card-main mb-0">
+                                                <div class="c-box">
+                                                    <div class="c-filter">
+                                                        <div class="c-box_filter-slider">
+                                                            <div class="rangeSlider-mobile"></div>
+                                                        </div>
+
+                                                        <ul class="c-filter_range">
+                                                            <li data-label="از" data-currency="تومان">
+                                                                <input type="text" class="js-slider_range-from" data-range="0" value="0" data-value="0" disabled="disabled">
+                                                            </li>
+
+                                                            <li data-label="تا" data-currency="تومان">
+                                                                <input type="text" class="js-slider_range-to" data-range="@Model.SideBarData.MaxPrice" data-value="@Model.SideBarData.MaxPrice" value="@Model.SideBarData.MaxPrice" disabled="disabled">
+                                                            </li>
+                                                        </ul>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- SortModal -->
+<div class="modal fade right" id="SortModal" tabindex="-1" role="dialog" aria-labelledby="SortModalLabel" aria-hidden="true">
+    <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+        <div class="modal-content-full-width modal-content ">
+            <div class=" modal-header-full-width   modal-header text-center">
+                <h5 class="modal-title w-100 search-modal-title" id="SortModalLabel">مرتب‌سازی بر اساس</h5>
+                <button type="button" class="close bg-transparent text-secondary" data-dismiss="modal" aria-label="Close">
+                    <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <div class="nav-sort-tabs-res">
+                    <ul class="ul-sort-product-mobile-view sort-tabs-options" id="myTab" role="tablist">
+                        <li class="nav-item  nav-item-sort  sort-active " data-id="1" data-type="sort">
+                            گران‌ترین
+                        </li>
+                        <li class="nav-item nav-item-sort   " data-id="2" data-type="sort">
+                            ارزان‌ترین
+                        </li>
+                        <li class="nav-item nav-item-sort   " data-id="3" data-type="sort">
+                            جدیدترین
+                        </li>
+                        <li class="nav-item nav-item-sort   " data-id="4" data-type="sort">
+                            پرفروش‌ترین
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

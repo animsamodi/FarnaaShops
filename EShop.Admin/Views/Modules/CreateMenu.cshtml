@@ -1,0 +1,138 @@
+﻿@model EShop.Core.ViewModels.CreateMenuViewModel
+
+@{
+    ViewData["Title"] = "منو جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ایجاد منو جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="CreateMenu" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ParentMenuTitle" class="control-label"></label>
+                                        <input asp-for="ParentMenuTitle" class="form-control" />
+                                        <span asp-validation-for="ParentMenuTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ParentMenuLink" class="control-label"></label>
+                                        <input asp-for="ParentMenuLink" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="ParentMenuLink" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ParentSort" class="control-label"></label>
+                                        <input asp-for="ParentSort" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="ParentSort" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+
+                                <div class=" col-md-12 mb-1">
+                                    <div class="form-group col-md-3">
+                                        <a class="btn btn-info btn-add" style="margin-top:24px">افزودن زیر منو</a>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <ul class=" submenulist row p-0">
+                               
+                             
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="MenuList" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+<script>
+    var counter = 0;
+    $(".btn-add").click(function () {
+        var title = "<li class='submenu col-md-4 list-group-item'><input type='hidden' value='false' name='SubMenuList[" + counter + "].IsHidden'/>" +
+            "<div class='form-group col-md-12'> <label class='control-label' for='SubMenuList[" + counter + "].SubMenuList[" + counter + "].SubMenuTitle'>عنوان</label>" +
+            "<input class='form-control' type='text'  maxlength='50' name='SubMenuList[" + counter + "].SubMenuTitle'>" +
+            "<span class='text-danger field-validation-valid' data-valmsg-for='SubMenuList[" + counter + "].SubMenuTitle' data-valmsg-replace='true'></span></div>";
+
+        var link = "<div class='form-group col-md-12'><label class='control-label' for='SubMenuList[" + counter + "].SubMenuLink'>لینک</label>" +
+            "<input class='form-control' type='text'    maxlength='250' name='SubMenuList[" + counter + "].SubMenuLink' value=''>" +
+            " <span class='text-danger field-validation-valid' data-valmsg-for='SubMenuList[" + counter + "].SubMenuLink' data-valmsg-replace='true'></span></div>";
+
+        var sort = "<div class='form-group col-md-12'><label class='control-label' for='SubMenuList[" + counter + "].SubMenuSort'>ترتیب </label>" +
+            "<input class='form-control' type='number'  name='SubMenuList[" + counter + "].SubMenuSort' />" +
+            "<span class='text-danger '></span></div>";
+
+        var img = " <div class='form-group col-md-12'><label asp-for='SubMenuList[" + counter + "].Image' class='control-label'>انتخاب عکس</label>" +
+            " <input name='SubMenuList[" + counter + "].Image' type='file' accept='image/*' class='form-control' />" +
+            "<span class='text-danger'></span> </div>";
+
+        var type = " <div class='form-group col-md-12'><label class='control-label' for='SubMenuList[" + counter + "].Type'>نوع منو</label>" +
+            "<select class='form-control' name='SubMenuList[" + counter + "].Type'>" +
+            "<option value='1'>زیر منو</option>" +
+            "<div class='tools form-group text-center col-md-12'><i class='fa fa-trash-o btn  btn-danger btn-remove'></i></div></li>";
+
+        $('.submenulist').append(title + link + sort + img + type);
+
+        $("input[name='SubMenuList[" + counter + "].SubMenuTitle']").rules('add', {
+            maxlength: 50,
+            required: true,
+            messages: {
+                required: "لطفا عنوان را وارد کنید",
+                maxlength:"عنوان نباید بیشتر از 50 باشد"
+            }
+        });
+
+           $("input[name='SubMenuList[" + counter + "].SubMenuLink']").rules('add', {
+            maxlength: 250,
+            required: true,
+            messages: {
+                required: "لطفا عنوان را وارد کنید",
+                maxlength:"عنوان نباید بیشتر از 250 باشد"
+            }
+        });
+        counter++;                  
+    });
+
+    $('.submenulist').delegate('.btn-remove', 'click', function () {
+        $(this).parents('.submenu').hide();
+        $(this).parents('.submenu').find('input[type=text]').val(1);
+        $(this).parents('.submenu').find('input[type=number]').val(1);
+
+        $(this).parents('.submenu').find('input[type=hidden]').val('true');
+    });
+</script>
+}
+

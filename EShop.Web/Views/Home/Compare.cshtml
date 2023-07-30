@@ -1,0 +1,288 @@
+﻿@model Tuple<List<EShop.Core.ViewModels.CompareViewModel>, List<EShop.Core.ViewModels.ComparePropertyGroupVieWModel>, string>
+@{
+    ViewData["Title"] = "مقایسه محصولات";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+
+    <link href="~/css/temp/style.css" rel="stylesheet" />
+    <link href="~/css/temp/style_1366.css" rel="stylesheet" />
+    <link href="~/css/temp/style_max_1365.css" rel="stylesheet" />
+    <link href="~/css/temp/mobile_style.css" rel="stylesheet" />
+    <link href="~/css/temp/remodal.css" rel="stylesheet" />
+    <link href="~/css/temp/remodal-default-theme.css" rel="stylesheet" />
+    <link href="~/css/selectric.css" rel="stylesheet" />
+    <link href="~/css/temp/swiper.min.css" rel="stylesheet" />
+    <script src="~/js/vendor/jquery-3.6.0.min.js"></script>
+}
+@section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+<main class="main-row mb-4">
+    <div class="container-main">
+        <div class="col-12">
+            <div id="breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")">خانه</a></li>
+                        <li class="breadcrumb-item"><a href="@Url.Action("Search","Home",new{catid =Model.Item1.FirstOrDefault().CategoryId })">@Model.Item3</a></li>
+                        <li class="breadcrumb-item active open" aria-current="page">لیست مقایسه @Model.Item3</li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="comparison compaire-container">
+                <div class="c-compare_container js-compare_container">
+                    <ul class="c-compare_list-header">
+                        <li>
+                            @foreach (var item in Model.Item1)
+                            {
+                                <div class="c-compare_header" data-id="@item.ProductId">
+                                    <div class="c-compare_header-img">
+                                        <div>
+                                          @*  <a class="c-compare_header-images js-main_slider">
+                                                <div class="c-swiper_box swiper-wrapper">
+                                                    @foreach (var g in item.Gallery)
+                                                    {
+                                                        <div class="c-swiper_slide swiper-slide" style="width:279px">
+                                                            <img src="https://media.farnaa.com/media/@g">
+                                                        </div>
+                                                    }
+                                                </div>
+                                                <div class="c-compare_images-button c-compare_images-next js-compare_images-next"></div>
+                                                <div class="c-compare_images-button c-compare_images-prev js-compare_images-prev"></div>
+                                            </a>*@
+                                          <img src="https://media.farnaa.com/media/@item.Gallery.FirstOrDefault()">
+
+                                            <span class="c-compare_title">@item.FaTitle</span>
+                                            <div class="c-compare_price">
+                                                <div class="c-compare_price-value">@(item.Price != null && item.Price > 0? Html.Raw("<span class='js-price'>"+ item.Price.Value.ToString("N0") + "</span>تومان") : Html.Raw("ناموجود")) </div>
+                                            </div>
+                                        </div>
+                                     
+                                        <a class="c-compare_btn" asp-action="Index" asp-controller="Product" asp-route-id="@item.ProductId" asp-route-category="@item.CategoryTitle.ToUrlFormat()" asp-route-name="@item.EnTitle.Replace(" ","-")">مشاهده و خرید محصول</a>
+
+                                    </div>
+
+                                    <span class="c-compare_btn-remove mdi mdi-close" data-id="@item.ProductId"></span>
+                                </div>
+                            }
+
+
+
+                            @if (Model.Item1.Count < 4)
+                            {
+                                <div class="c-compare_header js-compare_add">
+                                    <div class="c-compare_add">
+                                        <button class="c-compare_add-btn">
+                                            برای افزودن کالا به لیست مقایسه کلیک کنید
+                                        </button>
+                                        <button class="c-compare_btn c-compare_btn-gray">افزودن کالا به مقایسه</button>
+                                    </div>
+                                </div>
+                            }
+                        </li>
+                    </ul>
+
+                    @foreach (var item in Model.Item2.GroupBy(c => c.GroupTitle))
+                    {
+                        <h4 class="c-compare_prop-title">@item.Key</h4>
+                        <ul class="c-compare_list">
+                            @foreach (var item2 in item.ToList())
+                            {
+                                var temp = Model.Item1.Select(c => c.Properties.Where(b => b.NameId == item2.NameId)).ToList();
+                                if (temp.FirstOrDefault().ToList().Any())
+                                {
+                                    <li>
+                                        <div class="c-compare_list-title">
+                                            @item2.NameTitle
+                                        </div>
+                                    </li>
+
+                                    <li>
+
+
+                                        @foreach (var item3 in temp)
+                                        {
+                                            <div class="c-compare_list-value">
+                                                @foreach (var item4 in item3.GroupBy(c => c.NameId))
+                                                {
+                                                    <span class="c-compare_list-span">
+                                                        @foreach (var item5 in item4.ToList())
+                                                        {
+                                                            @Html.Raw(item5.Value)
+                                                            <br />
+                                                        }
+                                                    </span>
+                                                }
+                                            </div>
+                                        }
+
+                                    </li>
+                                }
+
+                            }
+                        </ul>
+
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+
+<div class="remodal c-remodal_compare" data-remodal-id="add-compare-product">
+    <button data-remodal-action="close" class="remodal-close c-compare_btn-remove mdi mdi-close"></button>
+
+    <div class="c-remodal_compare-header">
+        <form class="c-remodal_compare-search">
+            <div class="c-remodal_compare-search_row">
+               
+                <div class="c-remodal_compare-search_col c-remodal_compare-search_field">
+                    <label class="c-remodal_compare-search_label">
+                        <input type="text" class="c-remodal_compare-search_input" placeholder="کالای مورد نظر خود را جستجو کنید...">
+                    </label>
+
+                    <select class="c-remodal_compare-select_brand">
+                        <option value="0">تمام برندها</option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="c-remodal_compare-content">
+
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/remodal.js"></script>
+    <script src="~/js/swiper.min.js"></script>
+    <script src="~/js/jquery.selectric.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/user-main.js"></script>
+    <script>
+        $(document).ready(function() {
+                var  slider = document.querySelector('.compaire-container');
+            var mouseDown = false;
+            var startX, scrollLeft;
+
+            var startDragging = function (e) {
+                    mouseDown = true;
+                    startX = e.pageX - slider.offsetLeft;
+                    scrollLeft = slider.scrollLeft;
+                };
+            var stopDragging = function (event) {
+                    mouseDown = false;
+                };
+
+                slider.addEventListener('mousemove', (e) => {
+                    e.preventDefault();
+                    if(!mouseDown) { return; }
+                    var x = e.pageX - slider.offsetLeft;
+                    var scroll = x - startX;
+                    slider.scrollLeft = scrollLeft - scroll;
+                });
+            slider.addEventListener('mousedown', startDragging, false);
+            slider.addEventListener('mouseup', stopDragging, false);
+            slider.addEventListener('mouseleave', stopDragging, false);
+            }
+
+        );
+
+
+
+        compare_page()
+
+        $(function() {
+            var catid = @Model.Item1[0].CategoryId;
+            var idlist = [];
+            $('.c-compare_header').each(function() {
+                idlist.push($(this).data('id'))
+            })
+            $.ajax({
+                type: 'POST',
+                url: '/Home/GetBrandForCompare',
+                data: { id: catid },
+                success: function(res) {
+                    $.each(res,
+                        function(i, item) {
+                            $('select').append($('<option value=' + item.brandId + '></option>').html(item.faTitle));
+                        });
+                    $('select').selectric();
+                }
+            });
+            $.ajax({
+                type: 'POST',
+                url: '/Home/GetProductForCompare',
+                data: { catid: catid },
+                success: function(res) {
+                    $('.c-remodal_compare-content').html(res)
+                    for (var i = 0; i < idlist.length; i++)
+                        $('.js-remodal_compare-li[data-id=' + idlist[i] + ']').remove();
+                    if ($('.js-remodal_compare-li').length % 3 == 2)
+                        $('.c-remodal_compare-content_items').append('<li><li>')
+                }
+            });
+            $('.c-remodal_compare-search_input').keydown(function(e) {
+                if (e.keyCode == 13)
+                    Search()
+            })
+            $('select').change(function() {
+                Search()
+            });
+
+            function Search() {
+                var inputext = $('.c-remodal_compare-search_input').val();
+                var brandid = $('select').children('option:selected').val()
+                $.ajax({
+                    type: 'POST',
+                    url: '/Home/GetProductForCompareSearch',
+                    data: { brandid: brandid, name: inputext, catid: catid },
+                    success: function(res) {
+                        $('.c-remodal_compare-content').html(res)
+                        for (var i = 0; i < idlist.length; i++)
+                            $('.js-remodal_compare-li[data-id=' + idlist[i] + ']').remove();
+                        if ($('.js-remodal_compare-li').length % 3 == 2)
+                            $('.c-remodal_compare-content_items').append('<li><li>')
+                    }
+                });
+            }
+            $('.c-compare_btn-remove').click(function() {
+                var id = $(this).data('id');
+                idlist = $.grep(idlist,
+                    function(value) {
+                        return value != id
+                    });
+
+                window.location.href = '/compare/' + idlist.join('/');
+            });
+
+            $('.c-remodal_compare-content').delegate('.js-remodal_compare-li',
+                'click',
+                function() {
+                    var id = $(this).data('id');
+                    window.location.href = '/compare/' + idlist.join('/') + id;
+                });
+        })
+
+
+        new Swiper('.js-main_slider',
+            {
+                loop: true,
+
+                navigation: {
+                    nextEl: '.js-compare_images-next',
+                    prevEl: '.js-compare_images-prev',
+                },
+
+
+            })
+    </script>
+}
+

@@ -1,0 +1,78 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.Variety.ProductOption>
+
+@{
+    ViewData["Title"] = "لیست رنگ ها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست رنگ ها</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="CreateColor" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                افزودن رنگ جدید
+                            </a>
+                        </div>
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Name)
+                            </th>
+                            <th>
+                             </th>رنگ<th>
+                                @Html.DisplayNameFor(model => model.Value)
+                            </th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Name)
+                                        </td>
+                                        <td>
+                                             <div class="variant-color" style="@(string.IsNullOrEmpty(item.SecondValue) ?
+                                                 String.Format($"background-color: {item.Value}") : 
+                                          String.Format($"background-image:linear-gradient(to bottom right,{item.Value}, {item.SecondValue});"))"></div>
+
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Value) @(string.IsNullOrEmpty(item.SecondValue) ? "" : $" | {item.SecondValue}")
+                                        </td>
+      
+                                        
+                                        <td>
+                                            <a class="btn btn-primary" asp-action="EditColor" asp-route-id="@item.Id" >ویرایش</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+ 

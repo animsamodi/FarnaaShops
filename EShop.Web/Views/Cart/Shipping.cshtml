@@ -1,0 +1,974 @@
+﻿@using EShop.Core.ExtensionMethods
+@using EShop.Core.ViewModels
+@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.Cart.ShippingPageViewModel
+@{
+    ViewData["Title"] = "سبد خرید";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int specialprice = 0;
+    int mainprice = 0;
+    bool isColleague = ViewBag.IsColleague;
+    int isColleagueVal = isColleague ? 1 : 0;
+}
+@section Meta
+    {
+    @await Html.PartialAsync("_noIndex")
+
+}
+
+@section Style{
+    <link rel="stylesheet" href="~/new/css/payment.css" />
+
+    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/sweetalert.min.css">
+
+
+}
+<!-- ---------- Info Pyment Page ---------- -->
+<div class="shop-cart">
+    <div class="container">
+        @if (TempData["OrderLimit"] != null)
+        {
+            <div class="alert alert-danger clear d-flex justify-content-between">
+                محدودیت در خرید.
+                <a class="btn btn-dark btn-sm" asp-action="Page" asp-controller="Home" asp-route-id="6">مشاهدهٔ محدودیت</a>
+            </div>
+        }  @if (TempData["CompleteProfile"] != null)
+        {
+            <div class="alert alert-warning clear d-flex justify-content-between">
+                لطفا اطلاعات پروفایل خود را تکمیل کنید
+                <a class="btn btn-dark btn-sm" asp-area="User" asp-controller="Profile" asp-action="EditProfile">تکمیل پروفایل</a>
+            </div>
+        }
+        <div class="address-bar"><div class="box-overlay"></div>
+            <ul class="box-address">
+                <li class="item">
+                    <a class="trs-3" asp-controller="Home" asp-action="Index">
+                        خانه
+                        <i class="fal fa-chevron-left"></i>
+                    </a>
+                </li>
+
+                <li class="item active">
+                    <h1 class="trs-3" href="#">
+                        اطلاعات پرداخت
+                    </h1>
+                </li>
+            </ul>
+        </div>
+
+        <div class="cart">
+
+            <div class="col-12">
+                <div class="checkout-steps">
+                    <ul class="steps f-parent">
+                        <li class="item active">
+                            <span class="text">
+                                سبد خرید
+                            </span>
+                            <span class="circle"></span>
+                        </li>
+
+                        <li class="item active">
+                            ارسال اطلاعات
+                            <span class="circle"></span>
+                        </li>
+
+
+
+                        <li class="item">
+                            اتمام خرید
+                            <span class="circle"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="col-lg-8 col-12">
+                    <div class="product-box">
+                        @foreach (var item in Model.Products)
+                        {
+                            specialprice += item.SpecialPrice * item.CartCount;
+                            mainprice += item.MainPrice * item.CartCount;
+                            <div class="product-cart">
+                                <a class="col-thumb"> <img src="https://media.farnaa.com/media/@item.ImagName" alt="@item.ProductName"></a>
+                                <div class="checkout-col-desc">
+                                    <a class="name trs-3">
+                                        @item.ProductName
+                                    </a>
+                                    <div class="category">
+                                        <div class="info-product" style="min-height: 10px !important;">
+                                            <ul class="box-middle">
+                                                @*  <li class="comment">
+                                            <a class="trs-3" href="#">
+                                            شناسه محصول
+                                            <strong>
+                                            SDA-2453651253
+                                            </strong>
+                                            </a>
+                                            </li>*@
+                                                <li class="comment">
+                                                    <a class="trs-3">
+                                                        تعداد
+                                                        <strong>
+                                                            @item.CartCount
+                                                        </strong>
+                                                    </a>
+                                                </li>
+                                                <li class="comment">
+                                                    <a class="trs-3">
+                                                        رنگ:
+                                                        <strong>
+                                                            @item.ProductOption
+                                                        </strong>
+                                                    </a>
+                                                </li>
+                                                <li class="comment">
+                                                    <a class="trs-3">
+                                                        قیمت:
+                                                        <strong>
+                                                            @item.SpecialPrice.ToString("N0") تومان
+                                                        </strong>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
+
+                    </div>
+                    <div class="shipment-page-container">
+                        <div class="headline-checkout-shopping">
+                            <span>آدرس تحویل گیرنده</span>
+                        </div>
+                        <div class="payment" id="mainform">
+                            @if (TempData["AddAddress"] != null)
+                            {
+                                <div class="alert alert-danger clear">
+                                    لطفا یک آدرس انتخاب کنید
+                                </div>
+                            }
+                            <ul class="checkout-payment-methods checkout-paymethod">
+                            </ul>
+                        </div>
+                        <div class="modal fade" tabindex="-1" role="dialog" id="modal-address" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <form style="padding: 60px;" class="form-checkout" id="addaddressform">
+
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel"> اضافه کردن آدرس</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="address">
+                                                <div class="info-box">
+
+                                                    <div class="item">
+                                                        <label for="FullName">نام و نام خانوادگی  <abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                                                        <input name="fullName" type="text" class="form-control" />
+                                                        <span class="text-danger field-validation-error-text"></span>
+                                                    </div>
+                                                    <div class="item">
+                                                        <label for="Phone">شماره موبایل <abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                                                        <input name="phone" type="text" class=" form-control">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+                                                    <div class="item f-parent">
+                                                        <div class="state">
+                                                            <label for="city">
+                                                                شهر
+                                                                <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                                                            </label>
+                                                            <select name="cityId" id="cityid">
+                                                                <option value="" selected="selected">شهر مورد نظر خود را انتخاب کنید</option>
+
+                                                            </select>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+                                                        <div class="state">
+                                                            <label for="province">
+                                                                استان
+                                                                <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                                                            </label>
+                                                            <select name="provinceId" class="province">
+                                                                <option value="" selected="selected">استان مورد نظر خود را انتخاب کنید </option>
+                                                                @foreach (var item in ViewBag.provincelist)
+                                                                {
+                                                                    <option value=@item.ProvinceId selected="selected">@item.ProvinceName</option>
+                                                                }
+                                                            </select>
+                                                            <span class="text-danger"></span>
+                                                        </div>
+
+
+
+                                                    </div>
+                                                    <div class="item">
+                                                        <label for="post-code">کد پستی<abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                                                        <input name="postalCode" type="text" class=" form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+                                                        <span class="text-danger"></span>
+                                                    </div>
+
+                                                    <div class="item">
+                                                        <label class="form-label" for="name">
+                                                            آدرس                                                    <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+
+                                                        </label>
+                                                        <textarea name="postalAddress" rows="5" cols="30" class="form-control" placeholder="آدرس را وارد نمایید"></textarea>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <div type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</div>
+                                            <div type="button" class="btn btn-submit btn-registrar">ثبت آدرس</div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <div class="shipment-page-container">
+                        <div class="headline-checkout-shopping">
+                            <span>روش ارسال</span>
+                        </div>
+                        <div class="payment">
+                            @if (TempData["SelectShipment"] != null)
+                            {
+                                <div class="alert alert-danger clear">
+                                    لطفا روش ارسال را انتخاب کنید
+                                </div>
+                            }
+                            @if (TempData["ShipmentAlert"] != null)
+                            {
+                                <div class="alert alert-warning clear">
+                                    @Html.Raw(TempData["ShipmentAlert"])
+                                </div>
+                            }
+                            <ul class="checkout-paymethod" id="mainform-shipment">
+                                @if (ViewBag.Shipmets != null && ((List<ShipmentForSubmitOrder>)ViewBag.Shipmets).Any())
+                                {
+                                    bool firstIsSelected = false;
+
+                                    foreach (var shipment in (List<ShipmentForSubmitOrder>)ViewBag.Shipmets)
+                                    {
+                                        var shipmentId = "shipmentId_" + shipment.ShipmentId;
+
+                                        <li class="wallet-container">
+                                            <div class="checkout-paymethod-item">
+                                                <label for="@shipmentId" class="radio-primary">
+                                                    <input type="radio" name="shippingId" class="cart-shipment" value="@shipment.ShipmentId" id="@shipmentId"
+                                                           oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش حمل و نقل را انتخاب کنید')" required="required">
+                                                    <span class="ui-radio-check"></span>
+                                                </label>
+                                                <label for="@shipmentId" class="checkout-paymethod-title">
+                                                    <div class="paymethod-wallet-amount">
+                                                        <p class="checkout-paymethod-title-label">
+                                                            @shipment.Title @(shipment.Price > 0 ? ":" + shipment.Price.ToString("N0") + "تومان" : "") @(shipment.PricePerAddProduct > 0 ? "(هزینه برای هر کالای اضافه :" + shipment.PricePerAddProduct.ToString("N0") + "تومان)" : "")
+                                                        </p>
+                                                    </div>
+                                                </label>
+
+                                            </div>
+                                            @{
+                                                firstIsSelected = true;
+                                            }
+                                        </li>
+
+
+                                    }
+
+                                }
+                                else
+                                {
+                                    <span class="shipping-destination text-danger">متاسفانه سرویس حمل و نقل برای آدرس شما در نظر گرفته نشده است! لطفا آدرس جدید انتخاب کنید</span>
+
+                                }
+
+
+                            </ul>
+                        </div>
+                    </div>
+
+                    @*<div class="shipment-page-container">
+                    <div class="headline-checkout-shopping">
+                    <span>روش پرداخت </span>
+                    </div>
+                    <div class="payment">
+                    <ul class="checkout-paymethod">
+                    <li class="wallet-container">
+                    <div class="checkout-paymethod-item">
+                    <label class="radio-primary">
+                    <input type="radio" name="bank-radio" value="wallet">
+                    <span class="ui-radio-check"></span>
+                    </label>
+                    <div class="checkout-paymethod-title">
+                    <div class="paymethod-wallet-amount">
+                    <img src="img/bank/Irankish-logo.png" alt="">
+                    </div>
+                    </div>
+                    </div>
+                    </li>
+                    <li class="wallet-container">
+                    <div class="checkout-paymethod-item">
+                    <label class="radio-primary" style="display: block">
+                    <input type="radio" name="bank-radio" value="wallet" checked="checked">
+                    <span class="ui-radio-check"></span>
+                    </label>
+                    <div class="checkout-paymethod-title">
+                    <div class="paymethod-wallet-amount">
+                    <img src="img/bank/aplogo.png" alt="">
+                    </div>
+                    </div>
+                    </div>
+                    </li>
+                    </ul>
+                    </div>
+                    </div>*@
+                </div>
+
+                <div class="col-lg-4 col-12 sticky-sidebar">
+                    <div class="price-cart">
+                        <div class="title">
+                            <h6>
+                                هزینه سفارشات
+                            </h6>
+                        </div>
+
+                        <div class="info">
+                            <div class="price">
+                                <div class="subtotal f-parent">
+                                    <span class="label">
+                                        قیمت
+                                    </span>
+                                    <span class="value">
+                                        @mainprice.ToString("N0") تومان
+                                    </span>
+                                </div>
+                                @if (mainprice > specialprice)
+                                {
+
+                                    var tempsumprice = mainprice - specialprice;
+
+
+                                    <div class="subtotal f-parent">
+                                        <span class="label">
+                                            تخفیف ها
+                                        </span>
+                                        <span class="value">
+                                            @tempsumprice.ToString("N0") تومان
+                                        </span>
+                                    </div>
+                                }
+
+
+                                <div class="shipping f-parent">
+                                    <span class="label">
+                                        هزینه ارسال
+                                    </span>
+                                    <span class="value" id="shipping-amount">
+                                        --
+                                    </span>
+                                </div>
+
+                                <div class="total f-parent">
+                                    <span class="label">
+                                        قیمت کل
+                                    </span>
+                                    @{
+                                        int price = 0;
+                                    }
+                                    <span class="value" id="total-amount">
+                                        @price.ToString("N0") تومان
+                                    </span>
+                                    <span class="value d-none" id="main-total-amount">
+                                        @specialprice
+                                    </span>
+                                </div>
+                                @*    <li class=" bg-danger ">
+                                <span class="amount  text-white"> مبلغ پرداختی اعتباری </span>
+
+                                <span id="total-amount-credit" class="text-white"> 0</span>
+                                </li>*@
+                                <div class="total f-parent">
+                                    <span class="label">
+                                        مبلغ قابل پرداخت
+                                    </span>
+
+
+                                    <span class="value" id="total-amount-final">
+                                        @price.ToString("N0") تومان
+                                    </span>
+
+                                </div>
+                            </div>
+                            <form asp-action="SubmitOrder" method="post">
+                                @if (isColleague)
+                                {
+                                    <hr class="mt-4 mb-4">
+                                    @if (TempData["ColleagueInsuranceAlert"] != null)
+                                    {
+                                        <div class="alert alert-warning clear">
+                                            @Html.Raw(TempData["ColleagueInsuranceAlert"])
+                                        </div>
+                                    }
+                                    <div class="select-bime">
+                                        <h6 class="order-review-heading mr-0 mb-2">در صد بیمه پرداخت</h6>                                        <p>لطفا درصدی که میخواهید مشمول بیمه شود را انتخاب کنید</p>
+                                        <select class="form-control" name="insurance">
+                                            <option> -- انتخاب کنید -- </option>
+                                            <option value="0"> -- بدون بیمه -- </option>
+                                            <option value="10">10 درصد</option>
+                                            <option value="20">20 درصد</option>
+                                            <option value="30">30 درصد</option>
+                                            <option value="40">40 درصد</option>
+                                            <option value="50">50 درصد</option>
+                                            <option value="60">60 درصد</option>
+                                            <option value="70">70 درصد</option>
+                                            <option value="80">80 درصد</option>
+                                            <option value="90">90 درصد</option>
+                                            <option value="100">100 درصد</option>
+                                        </select>
+                                    </div>
+                                }
+
+
+                                <hr class="mt-4 mb-4">
+                                <div class="row">
+                                    <div class="title">
+                                        <h6>
+                                            روش پرداخت
+                                        </h6>
+                                    </div>
+                                    @if (isColleague)
+                                    {
+                                        <div class="alert alert-warning clear">
+                                            <strong> توجه ! </strong>
+                                            <br />
+                                            همکار گرامی, لطفا توجه کنید شماره حساب پرداخت کننده یا صاحب پروفایل باید یکسان باشد
+                                        </div>
+                                    }
+                                    @* @if (isColleague)
+                                    {
+                                    <hr class="mt-4 mb-4">
+                                    @if (TempData["ColleagueCreditPriceAlert"] != null)
+                                    {
+                                    <div class="alert alert-danger clear">
+                                    @Html.Raw(TempData["ColleagueCreditPriceAlert"])
+                                    </div>
+                                    }
+                                    <div class="row p-3 bg-dark text-white radius-15 m-0 ">
+                                    <h3 class="order-review-heading mr-0">مبلغ استفاده از اعتبار</h3>
+                                    <p>لطفا مبلغی را که میخواهید به صورت اعتباری خرید کنید را انتخاب کنید</p>
+                                    @{
+                                    var maxPrice = specialprice > Model.UserCreditPrice ? Model.UserCreditPrice : specialprice;
+                                    }
+                                    <select class="form-control" name="credit" id="CreditPrice">
+                                    <option value="0"> -- نقدی -- </option>
+                                    @for (int i = 10000000; i < maxPrice; i += 10000000)
+                                    {
+                                    <option value="@i"> @i.ToString("N0") تومان</option>
+
+                                    }
+                                    <option value="@maxPrice"> @maxPrice.ToString("N0") تومان</option>
+
+                                    </select>
+                                    </div>
+                                    }*@
+                                    @{
+                                        if (TempData["PaymentSetting"] != null)
+                                        {
+                                            var paymentSetting = (SitePaymentSettingViewModel)TempData["PaymentSetting"];
+                                            <div class="payment">
+                                                <ul class="checkout-paymethod">
+                                                    <li class="wallet-container">
+                                                        @if (paymentSetting.ShowMelatIpg)
+                                                        {
+                                                            if (paymentSetting.DefaultIpg == EnumDefaultIpg.Melat)
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay1" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="1" id="typePay1" checked="checked"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay1" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/mellatLogo.png" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay1" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="1" id="typePay1"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay1" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/mellatLogo.png" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                        }
+
+                                                    </li>
+                                                    <li class="wallet-container">
+                                                        @if (paymentSetting.ShowApIpg)
+                                                        {
+                                                            @if (paymentSetting.DefaultIpg == EnumDefaultIpg.Ap)
+                                                            {
+                                                                <div class="checkout-paymethod-item pay-type">
+                                                                    <label for="typePay2" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="2" id="typePay2" checked="checked"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay2" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/aplogo.png" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="checkout-paymethod-item pay-type">
+                                                                    <label for="typePay2" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="2" id="typePay2"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay2" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/aplogo.png" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                        }
+
+                                                    </li>
+                                                    <li class="wallet-container">
+                                                        @if (paymentSetting.ShowZarinPalIpg)
+                                                        {
+                                                            if (paymentSetting.DefaultIpg == EnumDefaultIpg.ZarinPal)
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay3" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="3" id="typePay3" checked="checked"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay3" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/zplogo.png" width="100" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay3" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="3" id="typePay3"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay3" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/zplogo.png" width="100" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </li>
+                                                    <li class="wallet-container">
+                                                        @if (paymentSetting.ShowKishIpg)
+                                                        {
+                                                            if (paymentSetting.DefaultIpg == EnumDefaultIpg.Kish)
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay4" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="4" id="typePay4" checked="checked"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay4" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/Irankish-logo.png" width="100" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay4" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="4" id="typePay4"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay4" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/Irankish-logo.png" width="100" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </li>
+                                                    <li class="wallet-container">
+                                                        @if (paymentSetting.ShowMeliIpg )
+                                                        {
+                                                            if (paymentSetting.DefaultIpg == EnumDefaultIpg.Meli)
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay5" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="5" id="typePay5" checked="checked"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay5" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/meli.png" width="100" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                            else
+                                                            {
+                                                                <div class="checkout-paymethod-item  pay-type">
+                                                                    <label for="typePay5" class="radio-primary">
+                                                                        <input type="radio" name="typePay" value="5" id="typePay5"
+                                                                               oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا روش پرداخت را انتخاب کنید')" required="required">
+                                                                        <span class="ui-radio-check"></span>
+                                                                    </label>
+                                                                    <label for="typePay5" class="shipping-totals-title-row">
+                                                                        <div class="checkout-paymethod-title">
+                                                                            <img src="/images/meli.png" width="100" />
+
+                                                                        </div>
+                                                                    </label>
+
+                                                                </div>
+                                                            }
+                                                        }
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        }
+                                    }
+
+
+
+                                </div>
+
+
+
+                                <div class="payment-btn">
+
+                                    <button class="trs-3" type="submit">ثبت نهایی و پرداخت</button>
+
+                                </div>
+                                <span class="back">
+                                    <a class="trs-3" asp-action="Index" asp-controller="Home" asp-area="">
+                                        برگشت به فروشگاه
+                                    </a>
+                                </span>
+                            </form>
+
+                        </div>
+                        @* <div class="copon">
+                        <h6 class="title mb-3">
+                        </h6>
+                        <form>
+                        <input type="text" placeholder="کد تخفیف">
+                        <button type="submit">
+                        تایید
+                        </button>
+                        </form>
+                        </div>*@
+
+                        @*   <div class="services">
+                        <ul class="services-box">
+                        <li class="item">
+                        <i class="fal fa-undo"></i> هفت روز ضمانت بازگشت کالا
+                        </li>
+                        <li class="item">
+                        <i class="fal fa-shield-check"></i> ﺿﻤﺎﻧﺖ اﺻﻞ ﺑﻮدن ﮐﺎﻟﺎ
+                        </li>
+                        <li class="item">
+                        <i class="fal fa-phone"></i> شماره پشتیبانی 021-0000000
+                        </li>
+                        </ul>
+                        </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<input type="hidden" value="@isColleagueVal" id="isColleague" />
+
+
+@section Scripts
+{
+    <script src="~/new/js/bootstrap.js" defer></script>
+    <script  src="/js/sweetAlert.min.js"></script>
+
+    <script>
+        function loading() {
+            Swal.fire({
+                title: "منتظر بمانید",
+                imageUrl: "../gif/alert_loading.gif",
+                text: "در حال ارسال اطلاعات...",
+                showConfirmButton: false,
+                width: 400,
+            });
+        }
+        function getShipmentList() {
+            $.ajax({
+                url: "/getShipmentByAddress/" + $('input[name="addressId"]:checked').val(), success: function (result) {
+                    $("#mainform-shipment").empty();
+                    var firstIsSelected = false;
+                    var data = JSON.parse(result);
+                    content = "";
+                    if (data.length > 0) {
+                        for (let i = 0; i < data.length; i++) {
+                            var shipmentId = "shipmentId_" + data[i].ShipmentId;
+                            content +=
+                                '<li class="wallet-container">' +
+                                '<div class="checkout-paymethod-item">' +
+                                '<label for="' + shipmentId + '" class="radio-primary"><input ' + (firstIsSelected == false ? "checked" : "") + ' type="radio" name="shippingId" class="cart-shipment"' +
+                                ' value="' + data[i].ShipmentId + '" id="' + shipmentId + '" ' +
+                                'required="required">' +
+                                '<span class="ui-radio-check"></span>' +
+                                '</label>' +
+                                '<label for="' + shipmentId + '" class="checkout-paymethod-title">' +
+                                '<div class="paymethod-wallet-amount">' +
+                                '<p class="checkout-paymethod-title-label">' +
+                                data[i].Title
+                                + (data[i].Price > 0 ? ':' + data[i].Price + " تومان" : "")
+                                + (data[i].PricePerAddProduct > 0 ? "(هزینه برای هر کالای اضافه :" + data[i].PricePerAddProduct + "تومان)" : "") +
+                                '</p>' +
+                                '</div>' +
+                                '</label>' +
+                                '</div>' +
+                                '</li>';
+                            firstIsSelected = true;
+                        }
+                    }
+                    else
+                        content = '<li class="wallet-container">' +
+                            '<span class="shipping-destination text-danger">متاسفانه سرویس حمل و نقل برای آدرس شما در نظر گرفته نشده است! لطفا آدرس جدید انتخاب کنید</span>'
+                    '</li>';
+
+                    $("#mainform-shipment").html(content);
+
+                    $('input[name="shippingId"]').change(function () {
+                        GetShippingDetail(this.value);
+                    });
+                    $('input[name="shippingId"]').first().prop('checked', true);
+
+
+                }
+            });
+        }
+        function getAddressList() {
+            $.ajax({
+                url: "/Profile/AjaxAddresses", success: function (result) {
+                    $(".checkout-payment-method-item").empty();
+                    text = "";
+                    var firstIsSelected = false;
+                    var data = JSON.parse(result);
+                    if (data && data.AddressList.length != 0) {
+                        for (let i = 0; i < data.AddressList.length; i++) {
+                            var addressId = "address_" + data.AddressList[i].UserAddressId;
+
+                            text += '<li class="checkout-payment-method-item wallet-container">' +
+                                '<div class="checkout-paymethod-item">' +
+                                '<label for="' + addressId + '" class="radio-primary">' +
+                                '<input type="radio" name="addressId" class="cart_address"' +
+                                ' value="' + data.AddressList[i].UserAddressId + '" id="' + addressId + '" ' + "checked" + '/>' +
+                                '<span class="ui-radio-check"></span></label>' +
+                                '<label for="' + addressId + '" class="shipping-totals-title-row">' +
+                                '<div class="checkout-paymethod-title">' +
+                                '<div class="paymethod-wallet-amount">' +
+                                '<p class="checkout-paymethod-title-label">' +
+                                'استان ' + data.AddressList[i].ProvinceName + ', شهر ' + data.AddressList[i].CityName + ' , آدرس ' + data.AddressList[i].PostalAddress + ' ' +
+                                ', کد پستی ' + data.AddressList[i].PostalCode + ' , تحویل گیرنده ' + data.AddressList[i].FullName + ' , تلفن ' + data.AddressList[i].Phone + '</div></label>' +
+                                '</p>' +
+                                '</div>' +
+                                '</div>' +
+                                '</li>';
+                            firstIsSelected = true;
+                        }
+                    }
+                    else {
+                        text = '<li class="checkout-payment-method-item wallet-container cart-alert-no-address-exist"><h6>شما تا کنون آدرسی برای دریافت ثبت نکرده اید</h6></li>';
+                    }
+
+                    var isColleague = $("#isColleague").val();
+                    if (isColleague == "0") {
+                        text += '<li class="checkout-payment-method-item d-flex align-items-center text-left pull-left"><a style="color: #d90268;"  data-bs-toggle="modal" data-bs-target="#modal-address"' +
+                            'class="btn btn-add-address-card"><i style="margin-left: 10px;" class="fa fa-plus"></i> اضافه کردن آدرس جدید</a></li>';
+                    } else {
+                        text += '<li class="checkout-payment-method-item d-flex align-items-center text-left pull-left"><a style="color: #d90268;" href="/user/profile/createaddress"' +
+                            'class="btn btn-add-address-card"><i style="margin-left: 10px;" class="fa fa-plus"></i> اضافه کردن آدرس جدید</a></li>';
+
+                    }
+
+                    $(".checkout-payment-methods").html(text);
+                    getShipmentList();
+                    $('input[name="addressId"]').change(function () {
+                        debugger;
+                        loading();
+                        $.ajax({
+                            url: '/cart/SubmitAddress/' + $(this).val(),
+                            type: 'POST',
+                            data: { 'addressId': $(this).val() },
+                            dataType: 'json',
+                            'success': function (response) {
+                                getShipmentList();
+                                Swal.close();
+                            },
+                        });
+                    });
+                }
+            });
+
+        }
+        function GetShippingDetail(value) {
+            loading();
+            $.ajax({
+                url: '/cart/submitShipping/' + value,
+                type: 'POST',
+                data: { 'shippingId': value },
+                dataType: 'json', 'success': function (response) {
+                    document.getElementById('shipping-amount').innerText = JSON.parse(response).price + ' تومان';
+                    document.getElementById('total-amount').innerText =
+                        (parseInt(document.getElementById('main-total-amount').innerText) + parseInt(JSON.parse(response).price)) + ' تومان';
+                    document.getElementById('total-amount-final').innerText =
+                        (parseInt(document.getElementById('main-total-amount').innerText) + parseInt(JSON.parse(response).price)) + ' تومان';
+                    Swal.close();
+                },
+            });
+        }
+        $(document).ready(function () {
+            getAddressList();
+            GetShippingDetail(2);
+            $('.cart_address').change(function () {
+                $('#mainform').submit();
+            })
+
+            $('.cart-shipment').change(function () {
+                $('#mainform-shipment').submit();
+            })
+
+
+            $(".province").change(function () {
+                var id = $(this).children("option:selected").val();
+                var cityselect = $("#cityid");
+                $.ajax({
+                    type: "POST",
+                    url: "/Profile/GetCity",
+                    data: { id: id },
+                    success: function (data) {
+                        debugger;
+                        cityselect.children('.js-item').remove();
+                        data.forEach(function (item) {
+                            cityselect.append($("<option value='" + item.CityId + "' class='js-item'>" + item.CityName + "</option>"));
+                        });
+                    }
+                });
+
+            });
+            $("#CreditPrice").change(function () {
+                var price = parseInt($(this).val());
+                document.getElementById('total-amount-credit').innerText = price.toLocaleString() + ' تومان';
+                var finalPrice = (parseInt(document.getElementById('main-total-amount').innerText)) - price;
+                if (finalPrice < 0) {
+                    finalPrice = 0;
+                }
+                if (finalPrice == 0) {
+                    $(".pay-type").slideUp();
+                } else {
+                    $(".pay-type").slideDown();
+                }
+                document.getElementById('total-amount-final').innerText = finalPrice.toLocaleString() + ' تومان';
+
+            });
+
+            $(".btn-registrar").click(function (e) {
+
+                $.fn.serializeObject = function () {
+                    var o = {};
+                    var a = this.serializeArray();
+                    $.each(a, function () {
+                        if (o[this.name] !== undefined) {
+                            if (!o[this.name].push) {
+                                o[this.name] = [o[this.name]];
+                            }
+                            o[this.name].push(this.value || '');
+                        } else {
+                            o[this.name] = this.value || '';
+                        }
+                    });
+                    return o;
+                };
+
+                e.preventDefault();
+                loading();
+                $.ajax({
+                    url: "/Profile/AjaxCreateAddress",
+                    type: "POST",
+                    dataType: "json",
+                    contentType: "application/json; charset=utf-8",
+                    data: (JSON.stringify($("#addaddressform").serializeObject())),
+                    success: function (response) {
+                        getAddressList();
+                        Swal.close();
+                        $('.modal').modal('hide');
+                    },
+                });
+            })
+        })
+
+    </script>
+}
+
+

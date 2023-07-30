@@ -1,0 +1,72 @@
+﻿@model EShop.DataLayer.Entities.User.User;
+@{
+    ViewData["Title"] = "پروفایل کاربر";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+@if (string.IsNullOrEmpty(Model.FullName))
+{
+    <div class="row p-2">
+        <div class="col-12 alert alert-success d-flex justify-content-between">
+            <p class="mb-0">
+                <strong>کاربر گرامی! </strong>
+                به فرنا خوش آمدید
+                <br />
+                برای استفاده از همه ی امکانات فرنا لطفا اطلاعات حساب کاربری خود را کامل کنید
+            </p>
+ 
+
+            <a asp-action="EditProfile" class="btn btn-sm btn-secondary align-self-center">تکمیل حساب کاربری</a>
+        </div>
+    </div>
+}
+
+<div class="profile-stats">
+    
+    <table class="table table-profile">
+        <tbody>
+        <tr>
+            <td class="w-50">
+                <div class="title">نام و نام خانوادگی:</div>
+                <div class="value">@(Model.FullName ?? "-")</div>
+            </td>
+            <td>
+                <div class="title"> کد ملی :</div>
+                <div class="value">@(Model.NatioalCode ?? "-")</div>
+
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="title"> تلفن همراه:</div>
+                <div class="value">@(Model.Phone ?? "-")</div>
+            </td>
+
+        </tr>
+
+        </tbody>
+    </table>
+    <div class="profile">
+        <ul class="mb-0">
+            <li class="profile-item">
+                <div class="title">نام و نام خانوادگی:</div>
+                <div class="value">@(Model.FullName ?? "-")</div>
+            </li>
+            <li class="profile-item">
+                <div class="title">کد ملی :</div>
+                <div class="value">@(Model.NatioalCode ?? "-")</div>
+
+            </li>
+            <li class="profile-item">
+                <div class="title"> تلفن همراه :</div>
+
+                <div class="value">@(Model.Phone ?? "-")</div>
+
+            </li>
+
+        </ul>
+    </div>
+    <div class="profile-edit-action">
+        <a asp-area="User" asp-action="EditProfile" asp-controller="Profile" class="link-spoiler-edit btn btn-secondary">ویرایش پروفایل</a>
+    </div>
+</div>

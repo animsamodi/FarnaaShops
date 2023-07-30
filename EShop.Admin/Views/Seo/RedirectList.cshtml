@@ -1,0 +1,114 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.Seo.Redirect>
+
+@{
+    ViewData["Title"] = "لیست ریدایرکت ها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+
+<div class="modal fade in" id="modal-delete" style="padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"> حذف</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>آیا میخواهید این ریدایرکت را حذف کنید؟</p>
+            </div>
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خیر</button>
+                <form asp-action="DeleteRedirect">
+                    <input type="hidden" name="id" class="deleteid" />
+
+                    <button type="submit" class="btn btn-primary">بله</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست ریدایرکت ها</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                         <div class="box-header with-border">
+                            <a asp-action="CreateRedirect" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                ایجاد ریدایرکت
+                            </a>
+                        </div>
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TypeSystem)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.OldUrl)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NewUrl)
+                            </th>
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TypeSystem)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OldUrl)
+                                        </td>
+      
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NewUrl)
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" asp-action="EditRedirect" asp-route-id="@item.Id">ویرایش</a>
+                                            
+                                            <button type="button" class="danger border-0 bg-transparent  p-0 btn-delete" delete data-id="@item.Id" data-toggle="modal" data-target="#modal-delete">
+                                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+ @section Scripts{
+    <script src="/Admin/js/components-modal.min.js"></script>
+
+    <script>
+        $(".btn-delete").click(function () {
+            var id = $(this).data("id");
+            $(".deleteid").val(id);
+        })
+    </script>
+}

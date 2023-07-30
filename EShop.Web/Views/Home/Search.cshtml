@@ -1,0 +1,57 @@
+﻿@using EShop.Core.ViewModels.Category
+@using EShop.DataLayer.Entities.Brand
+@using EShop.Core.ExtensionMethods
+@model EShop.Core.ViewModels.Product.ProductSearchWithFilterViewModel
+@{
+    if (ViewBag.SearchText != null)
+    {
+        ViewData["Title"] = "نتایج جستجو برای "+ViewBag.SearchText+" | فروشگاه اینترنتی فرنا";
+
+    }
+    else
+    {
+        ViewData["Title"] = "لیست محصولات | فروشگاه اینترنتی فرنا";
+
+    }
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+@section Style{
+
+<link rel="stylesheet" href="/css/vendor/noUISlider.min.css">
+
+}
+ 
+    @await Html.PartialAsync("SearchPageAjax", Model)
+
+ 
+<!-- ---------- Banner Ads ---------- -->
+@await Component.InvokeAsync("OtherPageBannerComponent")
+
+
+<!-- ---------- Popular Products ---------- -->
+@await Component.InvokeAsync("OtherPageProductDiscountComponent")
+@section Scripts{
+
+<script src="/js/vendor/ResizeSensor.min.js"></script>
+<script src="/js/vendor/theia-sticky-sidebar.min.js"></script>
+<script src="/js/vendor/wNumb.js"></script>
+<script src="/js/vendor/nouislider.min.js"></script>
+
+<script src="/js/user-main.js"></script>
+<script src="~/js/filter-on-products.js"></script>
+
+
+<script>
+    $('html,body').animate({ scrollTop: 0 }, 500);
+
+    search_page();
+    searchajaxload()
+
+</script>
+}

@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "صفحه ای یافت نشد !";
+}
+@section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+
+<!-- ---------- Error 404 Page ---------- -->
+<div class="error">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="content">
+                    <span class="pic">
+                        <img src="~/new/images/error-404.jpg" alt="">
+                    </span>
+                    <span class="button">
+                        <p>
+                            متاسفانه صفحه مورد نظر شما در سایت وجود ندارد
+                        </p>
+                        <a class="trs-3"  href="@Url.Action("Index","Home")" >
+                            بازگشت به فروشگاه
+                        </a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ---------- Banner Ads ---------- -->
+@await Component.InvokeAsync("OtherPageBannerComponent")
+
+
+<!-- ---------- Popular Products ---------- -->
+@await Component.InvokeAsync("OtherPageProductDiscountComponent")

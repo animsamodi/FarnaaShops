@@ -1,0 +1,104 @@
+﻿<header class="header-main mb-2 ">
+    <div class="container-main">
+        <div class="d-block">
+            @await Component.InvokeAsync("TopHeaderBannerComponent",true)
+
+           
+            <section class="h-main-row">
+                <div class="col-lg-1 col-md-2 col-sm-3 col-xs-12  d-flex justify-content-around align-items-center ">
+                    @await Component.InvokeAsync("MainMenuMobileComponent")
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12 ">
+                    <div class="col-lg-3 pr d-flex justify-content-around">
+                        <div class="header-logo row text-right">
+                            <a asp-controller="Home" asp-action="Index" asp-area="" hreflang="fa">
+                                <img src="/images/logo.png" width="80" alt="فرنا">
+                            </a>
+                        </div>
+                    </div> </div>
+                <div class="col-lg-5 col-md-9 col-sm-10 col-xs-12 header-search-container ">
+
+
+                    <div class="col-lg-12 pl pt-1 ">
+
+                        <div class="header-search row text-right">
+                            <div class="header-search-box">
+                                <div class="form-search">
+                                    <input type="search" id="header-search-input" class="header-search-input" name="q" placeholder="نام کالا، برند و یا دسته مورد نظر خود را جستجو کنید…">
+
+                                    <div class="action-btns">
+                                        <button class="btn btn-search" id="btn-search-header">
+                                            <i class="fa fa-search"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-3 col-xs-12 d-flex align-items-center justify-content-end">
+                    <div class="header-left">
+                        <div class="header-account text-left">
+                            <div class="d-block">
+                                <div class="account-box">
+
+                                    <div class="nav-account d-block pl">
+                                        @if (!User.Identity.IsAuthenticated)
+                                        {
+                                            <div class="account-login a-hover-1 ">
+                                                <a asp-controller="Account" asp-action="Register" class="title-account">ورود</a>
+
+                                                <span class="header-user-profile-icon ml-1">
+                                                    <i class="mdi mdi-login"></i>
+                                                </span>
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div class="account-login a-hover-1 ">
+                                                <a asp-area="User" asp-controller="Profile" asp-action="Index" class="title-account   ">پروفایل</a>
+
+                                               @* <span class="header-user-profile-icon ml-1">
+                                                    <i class="mdi mdi-account"></i>
+                                                </span>*@
+                                            </div>
+                                     
+                                        }
+
+
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="divider-space-card d-block header-search-container">
+                        @await Component.InvokeAsync("Slider1Component")
+
+                    </div>
+                </div>
+            </section>
+
+            <nav class="header-main-nav desktop-show">
+                <div class="d-block">
+                    <div class="align-items-center">
+                        <ul class="menu-ul mega-menu-level-one">
+
+                            @await Component.InvokeAsync("MainMenuComponent")
+
+
+                        </ul>
+                    </div>
+
+
+                </div>
+
+            </nav>
+
+           
+        </div>
+    </div>
+</header>

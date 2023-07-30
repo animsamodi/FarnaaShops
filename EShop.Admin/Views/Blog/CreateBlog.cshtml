@@ -1,0 +1,152 @@
+﻿
+@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.CreateBlogViewModel
+
+@{
+	ViewData["Title"] = "بلاگ جدید";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles
+{
+	<link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title-wrap bar-success">
+					<h4 class="card-title mb-0">ایجاد بلاگ جدید</h4>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="px-3">
+					<form class="form" asp-action="CreateBlog" enctype="multipart/form-data">
+						<div class="form-body">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+							<div class="row">
+
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="Title" class="control-label"></label>
+										<input asp-for="Title" class="form-control" />
+										<span asp-validation-for="Title" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="TypeBlog" class="control-label"></label>
+										<select asp-for="TypeBlog"
+												asp-items="Html.GetEnumSelectList<EnumTypeBlog>()"
+												class="form-control">
+										</select>
+										<span asp-validation-for="TypeBlog" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-6 col-lg-4 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="ImgName" class="control-label"></label>
+
+										<input asp-for="ImgName" type="file" accept="image/*" class="form-control" />
+										<span asp-validation-for="ImgName" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="ShortText" class="control-label"></label>
+										<textarea rows="2" asp-for="ShortText" class="form-control"></textarea>
+										<span asp-validation-for="ShortText" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="Text" class="control-label"></label>
+										<textarea asp-for="@Model.Text" class="form-control"></textarea>
+
+										<span asp-validation-for="Text" class="text-danger"></span>
+									</fieldset>
+								</div>
+
+
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="MetaTitle" class="control-label"></label>
+										<textarea class="form-control" asp-for="MetaTitle" rows="3"></textarea>
+										<span asp-validation-for="MetaTitle" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="MetaDescription" class="control-label"></label>
+										<textarea class="form-control" asp-for="MetaDescription" rows="3"></textarea>
+										<span asp-validation-for="MetaDescription" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="MetaKeywords" class="control-label"></label>
+										<textarea class="form-control" asp-for="MetaKeywords" rows="3"></textarea>
+										<span asp-validation-for="MetaKeywords" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="Canonical" class="control-label"></label>
+										<textarea class="form-control" asp-for="Canonical" rows="3"></textarea>
+										<span asp-validation-for="Canonical" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="HeaderTag" class="control-label"></label>
+										<textarea class="form-control" asp-for="HeaderTag" rows="3"></textarea>
+										<span asp-validation-for="HeaderTag" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="Schema" class="control-label"></label>
+										<textarea class="form-control" asp-for="Schema" rows="3"></textarea>
+										<span asp-validation-for="Schema" class="text-danger"></span>
+									</fieldset>
+								</div>
+
+						
+
+
+							</div>
+						</div>
+						<div class="form-actions">
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary mr-1">
+									ثبت
+									<i class="ft-thumbs-up position-right"></i>
+								</button>
+								<a asp-action="Index" class="btn btn-warning">بازگشت به لیست</a>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+@section Scripts
+{
+	@*<script src="~/Admin/ckeditor/ckeditor.js"></script>*@     <script src="~/lib/ckeditor/ckeditor.js"></script>
+
+	<script>
+		//CKEDITOR.replace('Text', {
+		//	language: 'fa',
+		//	filebrowserImageUploadUrl: "../../FileManager/ImageUpload",
+		//	filebrowserBrowseUrl: "../../FileManager/CKEditorFileManager",
+		//	filebrowserWindowWidth: 1050,
+		//	filebrowserWindowHeight: 1050,
+		//});
+		CKEDITOR.replace('Text');
+	</script>
+
+}
+

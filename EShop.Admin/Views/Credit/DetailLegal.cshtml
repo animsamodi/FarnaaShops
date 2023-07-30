@@ -1,0 +1,323 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.Credit.CreditHoghughiViewModel
+
+@{
+    ViewBag.Title = "جزئیات درخواست حقوقی";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">جزئیات درخواست</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="EditStatus" enctype="multipart/form-data">
+                        <input type="hidden" asp-for="Id" />
+                        <div class="form-body">
+
+                            <div class="row">
+
+                                <div class="form-checkout-row row m-0 py-3">
+                                    <h6 class="user-form-title col-12 col-12">مشخصات فردی (مدیرعامل)</h6>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Name"> </label>
+                                        <input type="text" asp-for="Name" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Name" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Family"> </label>
+                                        <input type="text" asp-for="Family" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Family" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="NationalNumber"> </label>
+                                        <input type="text" asp-for="NationalNumber" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="NationalNumber" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="ShomareShenasname"> </label>
+                                        <input type="text" asp-for="ShomareShenasname" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="ShomareShenasname" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Email"> </label>
+                                        <input type="text" asp-for="Email" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Email" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="BDate"> </label>
+                                        <input type="text" asp-for="BDate" class=" form-control date-piker" disabled="disabled">
+                                        <span asp-validation-for="BDate" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Father"> </label>
+                                        <input type="text" asp-for="Father" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Father" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="PlaceIssue"> </label>
+                                        <input type="text" asp-for="PlaceIssue" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="PlaceIssue" class="text-danger  "></span>
+                                    </div>
+                                    <h6 class="user-form-title col-12">مشخصات شرکت </h6>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="CompanyName"> </label>
+                                        <input type="text" asp-for="CompanyName" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="CompanyName" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="CodeEghtesadi"> </label>
+                                        <input type="text" asp-for="CodeEghtesadi" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="CodeEghtesadi" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="ShomareSabt"> </label>
+                                        <input type="text" asp-for="ShomareSabt" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="ShomareSabt" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="CodeNaghshTajer"> </label>
+                                        <input type="text" asp-for="CodeNaghshTajer" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="CodeNaghshTajer" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="TarikhTasis"> </label>
+                                        <input type="text" asp-for="TarikhTasis" class=" form-control date-piker" disabled="disabled">
+                                        <span asp-validation-for="TarikhTasis" class="text-danger  "></span>
+                                    </div>
+
+                                    <div class="col-lg-12 user-form-divider">
+                                        <hr />
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="ShenaseMeli"> </label>
+                                        <input type="text" asp-for="ShenaseMeli" class="  form-control "  disabled="disabled">
+                                        <span asp-validation-for="ShenaseMeli" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="NoeSherkat"> </label>
+                                        <select asp-for="NoeSherkat" asp-items="Html.GetEnumSelectList<EnumNoeSherkat>()" disabled="disabled" class="  form-control">
+                                            <option value="">- انتخاب کنید -</option>
+                                        </select>
+                                        <span asp-validation-for="NoeSherkat" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="NoeMalekiyat"> </label>
+                                        <select asp-for="NoeMalekiyat" asp-items="Html.GetEnumSelectList<EnumNoeMalekiyat>()" disabled="disabled" class="  form-control">
+                                            <option value="">- انتخاب کنید -</option>
+                                        </select>
+                                        <span asp-validation-for="NoeMalekiyat" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="NoeTamalok"> </label>
+                                        <select asp-for="NoeTamalok" asp-items="Html.GetEnumSelectList<EnumNoeTamalok>()" disabled="disabled" class="  form-control">
+                                            <option value="">- انتخاب کنید -</option>
+                                        </select>
+                                        <span asp-validation-for="NoeTamalok" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-12 col-md-12 col-sm-12">
+                                        <label asp-for="TozihatSherkat"> </label>
+                                        <textarea rows="2" cols="30" asp-for="TozihatSherkat" class="textarea-name-checkout form-control" disabled="disabled"></textarea>
+                                        <span asp-validation-for="TozihatSherkat" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-12">
+                                        <label asp-for="NeshaniMahaleKar"> </label>
+                                        <textarea rows="1" cols="30" asp-for="NeshaniMahaleKar" class="textarea-name-checkout form-control" disabled="disabled"></textarea>
+                                        <span asp-validation-for="NeshaniMahaleKar" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <label asp-for="CodePostiNeshaniMahaleKar"> </label>
+                                        <input type="text" asp-for="CodePostiNeshaniMahaleKar" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="CodePostiNeshaniMahaleKar" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="TelephoneSabet"> </label>
+                                        <input type="text" asp-for="TelephoneSabet" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="TelephoneSabet" class="text-danger  "></span>
+                                    </div>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="Mobile"> </label>
+                                        <input type="text" asp-for="Mobile" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="Mobile" class="text-danger  "></span>
+                                    </div>
+
+                                    <h6 class="user-form-title col-12">
+                                        مشخصات سهام‌داران شرکت
+                                    </h6>
+                                    <div class="row p-0 m-0 " id="PartnerContainer">
+                                        @for (int i = 0; i < Model.Partners?.Count; i++)
+                                        {
+                                            <div class="row p-0 m-0 partner-item">
+                                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                                    <label> نام و نام خانوادگی</label>
+                                                    <input type="text" asp-for="Partners[i].FullName" class=" form-control" disabled="disabled">
+                                                    <span asp-validation-for="Partners[i].FullName" data-valmsg-replace="true" class="text-danger  "></span>
+                                                </div>
+
+                                                <div class="col-lg-5 col-md-5 col-sm-12">
+                                                    <label>درصد مالکیت( سهم ) </label>
+                                                    <input type="text" asp-for="Partners[i].Darsad" class=" form-control" disabled="disabled">
+                                                    <span asp-validation-for="Partners[i].Darsad" data-valmsg-replace="true" class="text-danger  "></span>
+                                                </div>
+                                            </div>
+                                            i++;
+                                        }
+
+                                    </div>
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="SahamdarHagheEmza"> </label>
+                                        <input type="text" asp-for="SahamdarHagheEmza" class=" form-control" disabled="disabled">
+                                        <span asp-validation-for="SahamdarHagheEmza" class="text-danger  "></span>
+                                    </div>
+                                    <div class="col-lg-12 user-form-divider">
+                                        <hr />
+
+                                    </div>
+                                    <h6 class="user-form-title col-12">
+                                        مشخصات حساب‌های بانکی جاری فعال شرکت / صاحب جواز کسب
+
+                                    </h6>
+                                    <div class="row p-0 m-0 " id="AccountContainer">
+                                        @for (int i = 0; i < Model.Accounts?.Count; i++)
+                                        {<div class="row p-0 m-0 account-item">
+                                                <div class="col-lg-2 col-md-3 col-sm-12">
+                                                    <label asp-for="Accounts[i].Bank"> </label>
+                                                    <input type="text" asp-for="Accounts[i].Bank" class=" form-control" disabled="disabled">
+                                                    <span asp-validation-for="Accounts[i].Bank" class="text-danger  "></span>
+                                                </div>
+                                                <div class="col-lg-2 col-md-3 col-sm-12">
+                                                    <label asp-for="Accounts[i].Shobe"> </label>
+                                                    <input type="text" asp-for="Accounts[i].Shobe" class=" form-control" disabled="disabled">
+                                                    <span asp-validation-for="Accounts[i].Shobe" class="text-danger  "></span>
+                                                </div>
+                                                <div class="col-lg-2 col-md-3 col-sm-12">
+                                                    <label asp-for="Accounts[i].Jari"> </label>
+                                                    <input type="text" asp-for="Accounts[i].Jari" class=" form-control" disabled="disabled">
+                                                    <span asp-validation-for="Accounts[i].Jari" class="text-danger  "></span>
+                                                </div>
+                                                <div class="col-lg-3 col-md-4 col-sm-12">
+                                                    <label asp-for="Accounts[i].ShomareKart"> </label>
+                                                    <input type="text" asp-for="Accounts[i].ShomareKart" class=" form-control" disabled="disabled">
+                                                    <span asp-validation-for="Accounts[i].ShomareKart" class="text-danger  "></span>
+                                                </div>
+                                                <div class="col-lg-2 col-md-3 col-sm-12">
+                                                    <label asp-for="Accounts[i].Shahrestan"> </label>
+                                                    <input type="text" asp-for="Accounts[i].Shahrestan" class=" form-control" disabled="disabled">
+                                                    <span asp-validation-for="Accounts[i].Shahrestan" class="text-danger  "></span>
+                                                </div>
+
+                                            </div>
+                                            i++;
+
+                                        }
+
+                                    </div>
+
+                                    <h6 class="user-form-title col-12"> اطلاعات جهت ایجاد اعتبار </h6>
+
+                                    <div class="col-lg-4 col-md-6 col-sm-12">
+                                        <label asp-for="NoeKharid"> </label>
+                                        <select asp-for="NoeKharid" asp-items="Html.GetEnumSelectList<EnumNoeKharid>()" class=" form-control" disabled="disabled">
+                                            <option value="">- انتخاب کنید -</option>
+                                        </select>
+                                        <span asp-validation-for="NoeKharid" class="text-danger  "></span>
+                                    </div>
+                                    <h6 class="user-form-title col-12">
+                                        برای ایجاد اعتبار چه تضمینی در اختیار شرکت قرار می‌دهید؟
+                                    </h6>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label asp-for="ZemanatBankiMablagh"> </label>
+                                        <input type="text" asp-for="ZemanatBankiMablagh" class=" form-control format-number-ziro" disabled="disabled">
+                                        <span asp-validation-for="ZemanatBankiMablagh" class="text-danger  "></span>
+                                    </div>
+
+                                    <div class="col-lg-6 col-md-6 col-sm-12">
+                                        <label asp-for="VasigheMelkiMablagh"> </label>
+                                        <input type="text" asp-for="VasigheMelkiMablagh" class=" form-control format-number-ziro" disabled="disabled">
+                                        <span asp-validation-for="VasigheMelkiMablagh" class="text-danger  "></span>
+                                    </div>
+
+
+                                    <div class="col-lg-12 user-form-divider">
+                                        <hr />
+
+                                    </div>
+
+
+
+                                    <h6 class="user-form-title col-12">  مدارک </h6>
+                                    @for (int i = 0; i < Model.Documents?.Count; i++)
+                                    {
+                                        <div class="col-lg-3 col-md-4 col-sm-12">
+                                            <label>@Model.Documents[i].CreditDocumentTypeId </label>
+                                            <a target="_blank" href="https://media.farnaa.com/media/@Model.Documents[i].File">
+                                                <img class="img-fluid" src="https://media.farnaa.com/media/@Model.Documents[i].File" />
+
+                                            </a>
+
+                                        </div>
+                                    }
+
+
+
+                                </div>
+                                <div class="col-lg-12 user-form-divider">
+                                    <hr />
+
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label asp-for="CreditStatus"> </label>
+                                    <select asp-for="CreditStatus" asp-items="Html.GetEnumSelectList<EnumCreditStatus>()" class=" form-control">
+                                        <option value="">- انتخاب کنید -</option>
+                                    </select>
+                                    <span asp-validation-for="NoeKharid" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label asp-for="AdminMessage"> </label>
+                                    <textarea rows="2" cols="30" asp-for="AdminMessage" class="textarea-name-checkout form-control"></textarea>
+                                    <span asp-validation-for="AdminMessage" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-12 user-form-divider">
+                                    <hr />
+
+                                </div>          <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="CreditExpDate"> </label>
+                                    <input type="text" asp-for="CreditExpDate" class=" form-control date-piker ">
+                                    <span asp-validation-for="CreditExpDate" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="AcceptPrice"> </label>
+                                    <input type="text" asp-for="AcceptPrice" class=" form-control format-number-ziro">
+                                    <span asp-validation-for="AcceptPrice" class="text-danger  "></span>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="Index" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

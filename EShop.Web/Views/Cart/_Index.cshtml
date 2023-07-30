@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "سبد خرید";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Style{
+    <link href="~/css/selectric.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+    <link href="~/css/quantity.css" rel="stylesheet" />
+
+}
+@section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+<div class="container">
+<div class="d-block" id="content">
+  
+    @await Component.InvokeAsync("CartPageComponent")
+</div>
+ 
+</div>
+
+
+
+
+@section Scripts{   
+    <script src="/js/vendor/jquery.countdown.min.js"></script>
+
+    <script src="~/js/main.js"></script>
+
+    <script src="~/js/jquery.selectric.min.js"></script>
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/persianumber.js"></script>  
+
+    <script>
+
+        UpdateList();
+        ToFa();
+        $(function () {
+            $('#content').delegate(".js-select_count", "change", function () {
+                var id = $(this).data('id');
+                var count = $(this).val();
+
+                $.ajax({
+                    type: 'POST',
+                    url: '/Cart/ChangeCartCount',
+                    data: { variantid: id, count: count },
+                    success: function (data) {
+                        $("#content").html(data);
+                        UpdateList();
+                        ToFa();
+                    }
+                });
+            })
+        });
+
+        function ToFa() {
+            $('.c-checkout_guarantee').persiaNumber();
+            $('.c-checkout_col-price').persiaNumber();
+
+            $('.c-checkout_summary-ul').persiaNumber();
+            $('.c-checkout_summary-price_value-amount').persiaNumber();
+        }
+    
+    </script>
+}

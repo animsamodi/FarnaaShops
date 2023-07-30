@@ -1,0 +1,72 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.Property.PropertyValue>
+
+@{
+    ViewData["Title"] = "لیست مقادیر خصوصیات";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="content">
+    @if (TempData["res"] != null)
+    {
+        if (TempData["res"].ToString() == "success")
+        {
+            <div class="alert alert-success alert-dismissible">
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">×</button>
+
+                عملیات با موفقیت انجام شد
+            </div>
+        }
+        @if (TempData["res"].ToString() == "faild")
+        {
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">×</button>
+
+                خطا در انجام عملیات
+            </div>
+        }
+    }
+
+    <div class="box">
+        <div class="box-header with-border">
+            <a asp-action="CreatePropertyValue" class="btn btn-success">ایجاد مقدار</a>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Id)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Value)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PropertyNameId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.WikiText)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Value)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PropertyNameId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WikiText)
+                        </td>
+                        
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div></div>

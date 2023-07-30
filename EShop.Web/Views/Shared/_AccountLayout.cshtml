@@ -1,0 +1,100 @@
+﻿<html>
+
+<head lang="fa">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 , maximum-scale=1">
+
+    @if (ViewData["Title"] != null)
+    {
+        <title>@ViewData["Title"]</title>
+    }
+    else
+    {
+        <title>فروشگاه آنلاین فرنا</title>
+
+    }    <link rel="shortcut icon" href="~/new/images/favicon.png">
+
+    <!-- Font Icon -->
+    <link rel="stylesheet" href="~/new/css/font-awesome.min.css">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="~/new/css/bootstrap.css" />
+
+    <!-- Plugins -->
+    <link rel="stylesheet" href="~/new/css/owl.carousel.min.css">
+
+    <!-- Main CSS File -->
+    <link rel="stylesheet" href="~/new/css/style.css" />
+    <link rel="stylesheet" href="~/new/css/colors/color-1.css" id="colorswitch" />
+    <link rel="stylesheet" href="~/new/css/LoginColleague.css"/>
+    <link rel="stylesheet" href="~/new/css/custom.css" />
+
+
+</head>
+
+<body>
+
+    <!-- ---------- Loding ---------- -->
+@*    <div id="loading-wrapper">
+        <div class="content-loaging">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>*@
+
+
+
+ <div class="container">
+    @RenderBody()
+ 
+</div>
+
+
+
+    <!-- JS Files -->
+    <script src="~/new/js/jquery-3.6.1.min.js"></script>
+    <script src="~/new/js/bootstrap.js"></script>
+
+    <!-- Plugins -->
+    <script src="~/new/js/owl.carousel.min.js"></script>
+    <script src="~/new/js/jquery.countdown.js"></script>
+
+    <!-- Main JS File -->
+<script src="~/new/js/main.js"></script>
+<script src="/js/jquery.lazy.min.js" defer></script>
+
+@RenderSection("Scripts", false)
+<script type="text/javascript">
+
+
+$(document).ready(function() { 
+             $('.lazy-auto').lazy({
+                effect: "fadeIn",
+                effectTime: 2000,
+                threshold: 0,
+                delay: 3000
+
+
+            });
+              $('.lazy').lazy({
+                effect: "fadeIn",
+                effectTime: 500,
+                threshold: 0//,
+               // delay: 1000
+
+
+            });
+               $('.lazy').lazy({
+                effect: "fadeIn",
+                effectTime: 500,
+                threshold: 0,
+                delay: 4000
+
+
+            });
+});
+</script>
+</body>
+
+</html>

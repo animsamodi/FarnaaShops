@@ -1,0 +1,508 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.ColleagueOrderCart
+
+@{
+    ViewData["Title"] = "ثبت سفارش جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var counter = 0;
+}
+@section Styles
+    {
+    <link href="~/plugin/chosen/chosen.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        @Html.Partial("_alert")
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ثبت سفارش جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="RegisterCart" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+
+                                <div class=" col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="UserId" class="control-label"></label>
+                                        <select asp-for="UserId" class="form-control  selectpicker" data_live_search="true">
+                                            <option>--انتخاب کنید--</option>
+                                            @if (Model != null && Model.UserId != 0)
+                                            {
+                                                <option  value="@Model.UserId" selected="selected">تست</option>
+
+                                            }
+                                        </select>
+                                        <span asp-validation-for="UserId" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class=" col-lg-12 col-md-12 mb-1">
+                                    <!-- Large modal -->
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target=".modal-add-products">افزودن محصول</button>
+
+                                    <div class="register-cart-product-container">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>محصول</th>
+                                                    <th>گارانتی</th>
+                                                    <th>رنگ</th>
+                                                    <th>قیمت واحد</th>
+                                                    <th>تعداد</th>
+                                                    <th>جمع کل</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="TbodyProductContainer">
+                                                @{
+
+                                                    if (Model != null && Model.Details != null && Model.Details.Where(c => c.Count > 0).Count() > 0)
+                                                    {
+                                                        foreach (var item in Model.Details.Where(c => c.Count > 0).ToList())
+                                                        {
+                                                            var rowPrice = item.Count * item.Price;
+                                                            <tr class="product-row">
+                                                                <td>
+                                                                    <input type="hidden" name="Details[@counter].VariantId" value="@item.VariantId" />
+                                                                    <input type="hidden" class="row-count" name="Details[@counter].Count" value="@item.Count" />
+                                                                    <input type="hidden" class="row-price" name="Details[@counter].SumPrice" value="@rowPrice" />
+                                                                    <input type="hidden" class="row-single-price" name="Details[@counter].Price" value="@item.Price" />
+                                                                    <input type="hidden" class="row-text" name="Details[@counter].Guarantee" value="@item.Guarantee" />
+                                                                    <input type="hidden" class="row-text" name="Details[@counter].ProductOption" value="@item.ProductOption" />
+                                                                    <input type="hidden" class="row-text" name="Details[@counter].ProductFaTitle" value="@item.ProductFaTitle" />
+                                                                    @item.VariantId
+                                                                </td>
+                                                                <td> @item.ProductFaTitle </td>
+                                                                <td> @item.Guarantee </td>
+                                                                <td> @item.ProductOption </td>
+                                                                <td> @item.Price </td>
+                                                                <td> @item.Count </td>
+                                                                <td>  @rowPrice </td>
+                                                                <td> <button type="button" class="close pull-left btn-remove">×</button></td>
+                                                            </tr>
+                                                            counter++;
+                                                        }
+                                                    }
+                                                }
+                                            </tbody>
+                                        </table>
+                                        <input type="hidden" id="BaseRowCounter" value="@counter" />
+                                    </div>
+
+                                </div>
+
+
+
+
+                                <div class=" col-lg-12 col-md-12 mb-1">
+                                    <div class="headline-checkout-shopping">
+                                        <span>آدرس تحویل گیرنده</span>
+                                    </div>
+                                    <div class="payment" id="mainform">
+                                        @if (TempData["AddAddress"] != null)
+                                        {
+                                            <div class="alert alert-danger clear">
+                                                لطفا یک آدرس انتخاب کنید
+                                            </div>
+                                        }
+                                        <ul class="checkout-payment-methods checkout-paymethod">
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class=" col-lg-12 col-md-12 mb-1">
+                                    <div class="headline-checkout-shopping">
+                                        <span>روش های ارسال</span>
+                                    </div>
+                                    <ul class="checkout-paymethod" id="mainform-shipment">
+                                    </ul>
+                                </div>
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="insurance" class="control-label"></label>
+                                        <select class="form-control" asp-for="insurance">
+                                            <option> -- انتخاب کنید -- </option>
+                                            <option value="0"> -- بدون بیمه -- </option>
+                                            <option value="10">10 درصد</option>
+                                            <option value="20">20 درصد</option>
+                                            <option value="30">30 درصد</option>
+                                            <option value="40">40 درصد</option>
+                                            <option value="50">50 درصد</option>
+                                            <option value="60">60 درصد</option>
+                                            <option value="70">70 درصد</option>
+                                            <option value="80">80 درصد</option>
+                                            <option value="90">90 درصد</option>
+                                            <option value="100">100 درصد</option>
+                                        </select>
+                                        <span asp-validation-for="insurance" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Type" class="control-label"></label>
+                                        <select asp-for="Type"
+                                                asp-items="Html.GetEnumSelectList<EnumPaymentTypeColleaugeCart>()"
+                                                class="form-control">
+                                        </select> 
+                                        <span asp-validation-for="Type" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-lg-12">
+                                    <hr />
+                                </div>
+                                <div class=" col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label class="control-label">هزینه ارسال</label>
+                                        <input type="text" id="SippmentPrice" name="ProductFaTitle" class="form-control" readonly="readonly" />
+                                    </fieldset>
+                                </div>   <div class=" col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label class="control-label">جمع مبلغ</label>
+                                        <input type="text" id="SumPrice" name="ProductFaTitle" class="form-control" readonly="readonly" />
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade modal-add-products" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content p-2">
+            <div class="modal-header">
+                <h6 class="modal-title ml-auto" id="exampleModalLabel">
+                    افزودن محصول
+                </h6>
+
+            </div>
+            <div class="modal-body">
+                <form class="row m-0" style="direction: rtl;" id="FrmAddProduct">
+
+                    <div class=" col-lg-12 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                            <label class="control-label">محصول</label>
+                            <select id="ProductId" name="ProductId" class="form-control  selectpicker" data_live_search="true">
+                                <option>--انتخاب کنید--</option>
+
+                            </select>
+                        </fieldset>
+                    </div>
+                    <div class=" col-lg-12 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                            <label class="control-label">نام محصول</label>
+                            <input type="text" id="ProductFaTitle" name="ProductFaTitle" class="form-control" readonly="readonly" />
+                        </fieldset>
+                    </div>
+                    <div class=" col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                            <label class="control-label">قیمت</label>
+                            <input type="text" id="MainPrice" name="MainPrice" class="form-control" readonly="readonly" />
+                        </fieldset>
+                    </div>
+                    <div class=" col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                            <label class="control-label">گارانتی</label>
+                            <input type="text" id="Guarantee" name="MainPrice" class="form-control" readonly="readonly" />
+                        </fieldset>
+                    </div>
+                    <div class=" col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                            <label class="control-label">رنگ</label>
+                            <input type="text" id="ProductOption" name="MainPrice" class="form-control" readonly="readonly" />
+                        </fieldset>
+                    </div>
+
+                    <div class=" col-lg-6 col-md-12 mb-1">
+                        <fieldset class="form-group">
+                            <label class="control-label">تعداد</label>
+                            <select class="form-control" id="Count">
+                            </select>
+                        </fieldset>
+                    </div>
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="BtnAddProducts" class="btn btn-sm btn-primary">افزودن</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+    {
+
+    <script src="~/plugin/chosen/chosen.jquery.js"></script>
+    <script src="~/plugin/chosen/chosen.ajaxaddition.jquery.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            // var GetPartFromCartTamirUrl = '/AidRequest/GetPartFromCartTamir?carType=' + $("#CarTypeId").val();
+            $("#UserId").ajaxChosen({
+                dataType: 'json',
+                type: 'POST',
+
+                //url: GetPartFromCartTamirUrl,
+                url: '@Url.Action("GetListColleaugeUser", "ColleagueOrder")',
+                data: {}
+            },
+                {
+                    processItems: function (data) {
+                        return data.results;
+                    },
+                    minLength: 1
+                });
+            $("#ProductId").ajaxChosen({
+                dataType: 'json',
+                type: 'POST',
+
+                //url: GetPartFromCartTamirUrl,
+                url: '@Url.Action("GetListProductVariants", "ColleagueOrder")',
+                data: {}
+            },
+                {
+                    processItems: function (data) {
+                        return data.results;
+                    },
+                    minLength: 1
+                });
+        @*  $("#ShipmentId, #CreateStoragePartCalculateType, #CreateStoragePartStorage, #CreateStoragePartRequester, #CreateStoragePartWorker").chosen();*@
+                $("#insurance").chosen();
+
+            $("#UserId").change(function () {
+
+                getAddressList();
+            });
+            $("#ProductId").change(function () {
+
+                getProductDetail($("#ProductId").val());
+            });
+            function getProductDetail(id) {
+                $.ajax({
+                    url: "GetProductDetail/" + id, success: function (result) {
+                        debugger;
+                        $("#Count").empty();
+                        $("#MainPrice").val(result.PriceColleague);
+                        $("#Guarantee").val(result.Guarantee);
+                        $("#ProductOption").val(result.ProductOption);
+                        $("#ProductFaTitle").val(result.ProductFaTitle);
+                        var count = result.Count;
+                        var maxCount = result.MaxOrderCountColleague;
+
+                        if (count < maxCount) {
+                            maxCount = count;
+                        }
+                        for (i = 1; i <= maxCount; i++) {
+                            $('#Count').append($('<option>',
+                                {
+                                    value: i,
+                                    text: i
+                                }));
+                        }
+                    }
+                });
+
+            }
+            function getAddressList() {
+                $.ajax({
+                    url: "GetUserAddresses/" + $("#UserId").val(), success: function (result) {
+                        $(".checkout-payment-method-item").empty();
+                        text = "";
+                        var firstIsSelected = false;
+                        var data = JSON.parse(result);
+                        if (data && data.AddressList.length != 0) {
+                            for (let i = 0; i < data.AddressList.length; i++) {
+                                var addressId = "address_" + data.AddressList[i].UserAddressId;
+
+                                text += '<li class="checkout-payment-method-item wallet-container">' +
+                                    '<div class="checkout-paymethod-item">' +
+                                    '<label for="' + addressId + '" class="radio-primary">' +
+                                    '<input type="radio" name="addressId" class="cart_address"' +
+                                    ' value="' + data.AddressList[i].UserAddressId + '" id="' + addressId + '" ' + "checked" + '/>' +
+                                    '<span class="ui-radio-check"></span></label>' +
+                                    '<label for="' + addressId + '" class="shipping-totals-title-row">' +
+                                    '<div class="checkout-paymethod-title">' +
+                                    '<div class="paymethod-wallet-amount">' +
+                                    '<p class="checkout-paymethod-title-label">' +
+                                    'استان ' + data.AddressList[i].ProvinceName + ', شهر ' + data.AddressList[i].CityName + ' , آدرس ' + data.AddressList[i].PostalAddress + ' ' +
+                                    ', کد پستی ' + data.AddressList[i].PostalCode + ' , تحویل گیرنده ' + data.AddressList[i].FullName + ' , تلفن ' + data.AddressList[i].Phone + '</div></label>' +
+                                    '</p>' +
+                                    '</div>' +
+                                    '</div>' +
+                                    '</li>';
+                                firstIsSelected = true;
+                            }
+                        }
+                        else {
+                            text = '<li class="checkout-payment-method-item wallet-container cart-alert-no-address-exist"><h6>شما تا کنون آدرسی برای دریافت ثبت نکرده اید</h6></li>';
+                        }
+
+                        //var isColleague = $("#isColleague").val();
+                        //if (isColleague == "0") {
+                        //    text += '<li class="checkout-payment-method-item d-flex align-items-center text-left pull-left"><a style="color: #d90268;"  data-bs-toggle="modal" data-bs-target="#modal-address"' +
+                        //        'class="btn btn-add-address-card"><i style="margin-left: 10px;" class="fa fa-plus"></i> اضافه کردن آدرس جدید</a></li>';
+                        //} else {
+                        //    text += '<li class="checkout-payment-method-item d-flex align-items-center text-left pull-left"><a style="color: #d90268;" href="/user/profile/createaddress"' +
+                        //        'class="btn btn-add-address-card"><i style="margin-left: 10px;" class="fa fa-plus"></i> اضافه کردن آدرس جدید</a></li>';
+
+                        //}
+
+                        $(".checkout-payment-methods").html(text);
+                        getShipmentList();
+                        $('input[name="addressId"]').change(function () {
+                            getShipmentList();
+
+                        });
+                    }
+                });
+
+            }
+            function getShipmentList() {
+                $.ajax({
+                    url: "getShipmentByAddress/" + $('input[name="addressId"]:checked').val(), success: function (result) {
+                        $("#mainform-shipment").empty();
+                        var firstIsSelected = false;
+                        var data = JSON.parse(result);
+                        content = "";
+                        if (data.length > 0) {
+                            for (let i = 0; i < data.length; i++) {
+                                var shipmentId = "shipmentId_" + data[i].ShipmentId;
+                                content +=
+                                    '<li class="wallet-container">' +
+                                    '<div class="checkout-paymethod-item">' +
+                                    '<label for="' + shipmentId + '" class="radio-primary"><input ' + (firstIsSelected == false ? "checked" : "") + ' type="radio" name="shippingId" class="cart-shipment"' +
+                                    ' value="' + data[i].ShipmentId + '" id="' + shipmentId + '" ' +
+                                    'required="required">' +
+                                    '<span class="ui-radio-check"></span>' +
+                                    '</label>' +
+                                    '<label for="' + shipmentId + '" class="checkout-paymethod-title">' +
+                                    '<div class="paymethod-wallet-amount">' +
+                                    '<p class="checkout-paymethod-title-label">' +
+                                    data[i].Title
+                                    + (data[i].Price > 0 ? ':' + data[i].Price + " تومان" : "")
+                                    + (data[i].PricePerAddProduct > 0 ? "(هزینه برای هر کالای اضافه :" + data[i].PricePerAddProduct + "تومان)" : "") +
+                                    '</p>' +
+                                    '</div>' +
+                                    '</label>' +
+                                    '</div>' +
+                                    '</li>';
+                                firstIsSelected = true;
+                            }
+                        }
+                        else
+                            content = '<li class="wallet-container">' +
+                                '<span class="shipping-destination text-danger">متاسفانه سرویس حمل و نقل برای آدرس شما در نظر گرفته نشده است! لطفا آدرس جدید انتخاب کنید</span>'
+                        '</li>';
+
+                        $("#mainform-shipment").html(content);
+
+                        $('input[name="shippingId"]').change(function () {
+                            sumPrice();
+
+                        });
+                        $('input[name="shippingId"]').first().prop('checked', true);
+
+
+                    }
+                });
+            }
+            var counter = parseInt($("#BaseRowCounter").val());
+            $("#BtnAddProducts").click(function () {
+                $('.modal-add-products').modal('hide');
+                var ProductFaTitle = $("#ProductFaTitle").val();
+                var MainPrice = $("#MainPrice").val();
+                var VariantId = $("#ProductId").val();
+                var Guarantee = $("#Guarantee").val();
+                var ProductOption = $("#ProductOption").val();
+                var Count = $("#Count option:selected").text();
+
+
+                var tr = ' <tr class="product-row">' +
+                    ' <td>' +
+                    '<input type="hidden" name="Details[' + counter + '].VariantId" value="' + VariantId + '" />' +
+                    '<input type="hidden" class="row-count"  name="Details[' + counter + '].Count" value="' + Count + '" />' +
+                    '<input type="hidden" class="row-price" name="Details[' + counter + '].SumPrice" value="' + MainPrice * Count + '" />' +
+                    '<input type="hidden" class="row-single-price" name="Details[' + counter + '].Price" value="' + MainPrice + '" />' +
+                    '<input type="hidden" class="row-text" name="Details[' + counter + '].Guarantee" value="' + Guarantee + '" />' +
+                    '<input type="hidden" class="row-text" name="Details[' + counter + '].ProductOption" value="' + ProductOption + '" />' +
+                    '<input type="hidden" class="row-text" name="Details[' + counter + '].ProductFaTitle" value="' + ProductFaTitle + '" />' +
+                    VariantId + '</td>' +
+                    ' <td>' + ProductFaTitle + '</td>' +
+                    ' <td>' + Guarantee + '</td>' +
+                    ' <td>' + ProductOption + '</td>' +
+                    ' <td>' + MainPrice + '</td>' +
+                    ' <td>' + Count + '</td>' +
+                    ' <td> ' + MainPrice * Count + '</td>' +
+                    ' <td> <button  type="button" class="close pull-left btn-remove">×</button></td>' +
+                    ' </tr>';
+
+                $("#TbodyProductContainer").append(tr);
+                $("#FrmAddProduct")[0].reset();
+                counter++;
+                sumPrice();
+            });
+            $('#TbodyProductContainer').delegate(".btn-remove", 'click', function () {
+                debugger;
+                $(this).parent().parents('.product-row').find('.row-count').val("0");
+
+                $(this).parent().parent().hide();
+                sumPrice();
+            });
+            function sumPrice() {
+                debugger;
+                calcShipmentPrice($('input[name="shippingId"]:checked').val());
+                var shipmentPrice = parseInt($("#SippmentPrice").val());
+                debugger;
+                var totalPoints = 0;
+                $("#TbodyProductContainer").find('.row-price').each(function (i, n) {
+                    totalPoints += parseInt($(n).val(), 10);
+                });
+                totalPoints += shipmentPrice;
+                $("#SumPrice").val(totalPoints);
+            }
+            function getCartCount() {
+                debugger;
+                var count = 0;
+                $("#TbodyProductContainer").find('.row-count').each(function (i, n) {
+                    count += parseInt($(n).val(), 10);
+                });
+                return count;
+            }
+            function calcShipmentPrice(value) {
+                var count = getCartCount();
+                $.ajax({
+                    url: 'GetShipmentDetail/' + value,
+                    type: 'POST',
+                    data: { 'count': count },
+                    async: false,
+                    dataType: 'json', 'success': function (response) {
+                        $("#SippmentPrice").val(JSON.parse(response).price);
+
+                    },
+                });
+            }
+        });
+    </script>
+    }
+

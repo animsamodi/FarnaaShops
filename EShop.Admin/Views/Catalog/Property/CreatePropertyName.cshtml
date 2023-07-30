@@ -1,0 +1,131 @@
+﻿@model EShop.DataLayer.Entities.Property.PropertyName
+
+@{
+    ViewData["Title"] = "خصوصیت جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+<div class="col-md-12">
+    <div class="card">
+        <div class="card-header">
+            <div class="card-title-wrap bar-success">
+                <h4 class="card-title mb-0">ایجاد خصوصیت جدید</h4>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="px-3">
+                    <form asp-action="CreatePropertyName" enctype="multipart/form-data">
+                    <div class="box-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group">
+                            <label  class="control-label">نوع</label>
+                            <select asp-for="Type" class="form-control">
+                                <option value="5" >متن تک خطی</option>
+                                <option value="4">متن چند خطی</option>
+                            </select>
+                            <span asp-validation-for="Type" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Title" class="control-label"></label>
+                            <input asp-for="Title" class="form-control" />
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="Priority" class="control-label"></label>
+                            <input asp-for="Priority" class="form-control" />
+                            <span asp-validation-for="Priority" class="text-danger"></span>
+                        </div>
+                        
+                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                                <label asp-for="Icon" class="control-label"></label>
+                                <input asp-for="IconImg" type="file" class="form-control" />
+                                <span asp-validation-for="Icon" class="text-danger"></span>
+                            </fieldset>
+                        </div>
+                        <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                                <label asp-for="FontIcon" class="control-label"></label>
+                                <input asp-for="FontIcon" class="form-control" />
+                                <span asp-validation-for="FontIcon" class="text-danger"></span>
+                            </fieldset>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="UseSearch" /> @Html.DisplayNameFor(model => model.UseSearch)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="UseSummary" /> @Html.DisplayNameFor(model => model.UseSummary)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="checkbox">
+                                <label>
+                                    <input asp-for="ShowInProductCard" /> @Html.DisplayNameFor(model => model.ShowInProductCard)
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PropertyGroupId" class="control-label"></label>
+                            <select asp-for="PropertyGroupId" asp-items="@(new SelectList(ViewBag.Groups,"Id","Title"))" class="form-control "></select>
+
+                            <span asp-validation-for="PropertyGroupId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="WikiText" class="control-label"></label>
+                            <input asp-for="WikiText" class="form-control" />
+                            <span asp-validation-for="WikiText" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <select id="categorylist" asp-items="@(new SelectList(ViewBag.CategoryList,"Id","Title"))" class="form-control col-md-5"></select>
+                            <div class="col-md-2"><a class="btn btn-success btn-add">افزودن</a></div>
+                            <div class="parentlist col-md-5"></div>
+                        </div>
+                     
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script>
+    $(".btn-add").click(function () {
+        if ($("#categorylist").val()) {
+            var value = $("#categorylist").children("option:selected").val();
+            var text = $("#categorylist").children("option:selected").text();
+            $(".parentlist").append("<div class=' btn-block btn-info' style='padding:7px'><button style='margin-left:0' type='button' class='close pull-left btn-remove'>×</button>" +
+                "<input type='hidden' value='" + value + "' name='category' /><span style='margin-left:10px' class='parenttext'>" + text + "</span> </div>");
+            $("#categorylist").children("option:selected").remove();
+        }
+    });
+
+    $('.parentlist').delegate(".btn-remove", 'click', function () {
+        var text = $(this).nextAll($(".parenttext")).text();
+        var value = $(this).nextAll($("input [type=hidden]")).val();
+        $("#categorylist").append($('<option>', {
+            value:value,
+            text:text
+        }));
+        $(this).parent().remove();
+    });
+    </script>
+}
+
+

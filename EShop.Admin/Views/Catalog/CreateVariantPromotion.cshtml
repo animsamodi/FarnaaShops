@@ -1,0 +1,136 @@
+﻿@model EShop.Core.ViewModels.VariantPromotionsViewModel
+
+@{
+    ViewData["Title"] = "CreateVariantPromotion";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var variantId = ViewBag.VariantId;
+}
+@section Styles
+{
+    <link href="~/persianDateTimePiker/src/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
+    <link href="~/persianDateTimePiker/src/jquery.md.bootstrap.datetimepicker.style.custom.css" rel="stylesheet" />
+}
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0 text-right">ایجاد تخفیف شگفت انگیز جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form asp-action="CreateVariantPromotion" class="form" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="VariantId" type="hidden" value="@variantId" />
+
+                            <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                    <label asp-for="Price" class="control-label"></label>
+                                    <input asp-for="Price" class="form-control" />
+                                    <span asp-validation-for="Price" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                    <label asp-for="Percent" class="control-label"></label>
+                                    <input asp-for="Percent" class="form-control" />
+                                    <span asp-validation-for="Percent" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                    <label asp-for="Count" class="control-label"></label>
+                                    <input asp-for="Count" class="form-control" />
+                                    <span asp-validation-for="Count" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                            <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                <fieldset class="form-group">
+                                    <label asp-for="MaxOrderCount" class="control-label"></label>
+                                    <input asp-for="MaxOrderCount" class="form-control" />
+                                    <span asp-validation-for="MaxOrderCount" class="text-danger"></span>
+                                </fieldset>
+                            </div>
+                           
+                            <div class="col-lg-12 form-group">
+                                <label for="enter_date_1"> تاریخ شروع </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text cursor-pointer" id="enter_date">انتخاب تاریخ</span>
+                                    </div>
+                                    <input type="text" name="enter_date_1" id="enter_date_1" class="form-control form-group"
+                                           aria-label="enter_date" aria-describedby="enter_date" />
+                                    <input type="hidden" name="StartDate" id="enter_date_2" class="form-control form-group"
+                                           aria-label="enter_date" aria-describedby="enter_date" />
+                                </div>
+                                <span asp-validation-for="StartDate" class="text-danger"></span>
+
+                            </div>
+                            <div class="col-lg-12 form-group">
+                                <label for="exit_date_1"> تاریخ پایان </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text cursor-pointer" id="exit_date">انتخاب تاریخ</span>
+                                    </div>
+                                    <input type="text" name="exit_date_1" id="exit_date_1" class="form-control form-group" aria-label="exit_date"
+                                           aria-describedby="exit_date" />
+                                    <input type="hidden" name="EndDate" id="exit_date_2" class="form-control form-group"
+                                           aria-label="exit_date" aria-describedby="exit_date" />
+                                </div>
+                                <span asp-validation-for="EndDate" class="text-danger"></span>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="VariantPromotions" asp-route-id="@variantId" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+     <script src="~/persianDateTimePiker/src/jquery.md.bootstrap.datetimepicker.js"></script>
+
+    <script type="text/javascript">
+        $('#enter_date').MdPersianDateTimePicker({
+            targetTextSelector: '#enter_date_1',
+            targetDateSelector: '#enter_date_2',
+            enableTimePicker: true,
+
+            fromDate: true,
+            groupId: 'enter_date',
+            modalMode: true
+        });
+
+        $('#exit_date').MdPersianDateTimePicker({
+            targetTextSelector: '#exit_date_1',
+            targetDateSelector: '#exit_date_2',
+            enableTimePicker: true,
+
+            toDate: true,
+            groupId: 'enter_date',
+            modalMode: true
+        });
+    </script>
+}
+
+

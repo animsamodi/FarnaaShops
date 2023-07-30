@@ -1,0 +1,178 @@
+.c-dicount_right
+{
+    display: block;
+    flex-basis: 22.5%;
+}
+
+.c-discount_right-singleimg
+{
+    height: 335.7px;
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.c-discount_right-singleimg img
+{
+    width: 100%;
+    height: 100%;
+    object-fit: cover
+}
+
+
+
+.c-discount_right-show_more::before
+{
+    height: 90px;
+    width: 90px;
+    opacity: .21;
+    border-radius: 100%;
+    right: -40px;
+    top: 50%;
+    background-color: #fff;
+    transition: all .3s ease-in-out;
+    position: absolute;
+    transform: translateY(-50%);
+    content: "";
+}
+
+.c-discount_right-show_more:hover::before
+{
+    right: -200px;
+    height: 900px;
+    width: 900px;
+    top: -500px;
+    transform:unset
+}
+
+
+.c-discount_right-show_more
+{
+    height: 60px;
+    line-height: 60px;
+    background-color: #00bfd6;
+    color: #fff;
+    border-radius: 5px;
+    letter-spacing: -.5px;
+    position: relative;
+    padding-right: 40px;
+    justify-content: center;
+    overflow: hidden;
+    margin-top: 16.2px;
+    display: flex;
+    box-shadow: 0 8px 14px 0 rgba(0, 0, 0, .03)
+}
+
+.c-discount_right-show_more::after
+{
+    font-family: digikala;
+    content: "\e010";
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    font-size: 20px;
+    font-weight: 700;
+    transform: translateY(-50%) rotateY(180deg);
+}
+
+.c-discount_aside
+{
+    height: 60px;
+}
+
+.c-discount_aside-container{
+    position: relative;
+}
+.c-discount_aside-ul
+{
+    display: flex;
+    position: absolute;
+    transition: right .3s ease-in-out
+}
+
+.c-discount_aside-li
+{
+    padding: 10px;
+    white-space: nowrap
+}
+
+.c-discount_aside-a
+{
+    padding: 10px 25px;
+    line-height: 22px;
+    display: block;
+    border-radius: 5px
+}
+
+.c-discount_aside-a.is-active
+{
+    background-color: #ef5661;
+    color: #fff
+}
+
+.c-discount_aside-button
+{
+    display: none;
+}
+
+.c-discount_btn-next,.c-discount_btn-prev
+{
+    position: absolute;
+    top: 0;
+    cursor: pointer;
+    width: 43px;
+    height: 100%;
+    z-index: 3;
+
+}
+.c-discount_btn-next::before,.c-discount_btn-prev::before
+{
+    font-family: digikala;
+    position: absolute;
+    font-size: 18px;
+    margin-top: 20px;
+    left: 13px;
+    line-height: 1;
+    z-index: 2
+}
+
+.c-discount_btn-next::before
+{
+    content: "\e011"
+}
+.c-discount_btn-next
+{
+    left: 0;
+}
+
+.c-discount_btn-prev::before
+{
+    content: "\e014"
+}
+.c-discount_btn-prev{
+    right: 0;
+}
+.c-discount_btn-prev::after
+{
+    right: -57px
+}
+
+.c-discount_btn-next::after,.c-discount_btn-prev::after
+{
+    content: "";
+    position: absolute;
+    background-color: rgba(255, 255, 255, .7);
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+    transform: translateY(-50%);
+    top: 50%
+}
+
+.c-feature_main-page{
+    background-color: #fff;
+    width: 100%;
+    padding: 16px 40px;
+    margin-top: 17px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .03)
+}
+

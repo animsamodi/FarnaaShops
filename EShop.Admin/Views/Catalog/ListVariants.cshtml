@@ -1,0 +1,101 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.VariantsProductDetailViewModel>
+
+
+@{
+    ViewData["Title"] = "لیست موجودی ها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست موجودی ها</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VariantId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MainPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SellerPrice)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.SellCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Count)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Guarantee)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductOption)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductFaTitle)
+                            </th>
+                           
+
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.VariantId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MainPrice)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SellerPrice)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SellCount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Count)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Guarantee)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductOption)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductFaTitle)
+                                        </td>
+                                         
+
+                                        <td>
+                                            <a class="btn btn-primary" asp-action="VariantPromotions" asp-route-id="@item.VariantId">تخفیفات شگفت انگیر</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+

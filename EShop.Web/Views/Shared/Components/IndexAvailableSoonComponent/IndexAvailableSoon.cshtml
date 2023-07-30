@@ -1,0 +1,33 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductViewModel>
+@if (Model.Any())
+{
+<div class="available-soon" style="background: #0d1b42">
+    <div class="hoder-brand">
+        <div class="brand-box">
+            <div class="container">
+                <div class="row">
+                    <div class="owl-carousel nav-arrow">
+                        <div class="brand-item-1 trs-3">
+                            <a >
+                                <img src="~/new/images/bg/coming.png" alt="">
+                            </a>
+                        </div>
+                        @foreach (var item in Model)
+                        {
+                            <div class="brand-item trs-3">
+                                    <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.ImgName" width="600" height="600" alt="@item.FaTitle">
+                                <a   class="trs-3 available-soon-product-title">
+                                    @item.FaTitle
+                                </a>
+                            </div>
+                        
+                        }
+                 
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+}

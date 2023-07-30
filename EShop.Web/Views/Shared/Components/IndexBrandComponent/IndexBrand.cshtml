@@ -1,0 +1,23 @@
+﻿@model List<EShop.DataLayer.Entities.Brand.Brand>
+
+@{
+    Layout = null;
+ }
+<div class="namad">
+    <div class="title">
+        <span>
+            بر اساس برند
+        </span>
+    </div>
+    <ul class="namad-box">
+        @foreach(var item in Model.OrderByDescending(c=>c.Id)){
+            <li class="namad-item trs-3">
+                <a href="/category/mobile/@item.EnTitle.ToUrlFormat()">
+                    <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-square.webp" width="250" height="250" data-src="https://media.farnaa.com/media/@item.ImgName" alt="@item.EnTitle">
+                </a>
+            </li>
+        }
+       
+   
+    </ul>
+</div>

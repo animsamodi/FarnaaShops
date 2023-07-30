@@ -1,0 +1,265 @@
+﻿@model EShop.Core.ViewModels.Product.ReviewAdminViewModel
+
+@{
+    ViewData["Title"] = "نقد و بررسی";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var productId = ViewBag.productid;
+    var reviewId = ViewBag.reviewid;
+    var ratingList = Newtonsoft.Json.JsonConvert.SerializeObject(Model.RatingAttribute);
+    var ratingValue = Newtonsoft.Json.JsonConvert.SerializeObject(Model.RatingValue);
+    <style>
+                    body {
+                        font-size: .8rem !important;
+                    }
+
+                    .cke_reset_all, .cke_reset_all *, .cke_reset_all a, .cke_reset_all textarea {
+                        font: inherit !important;
+                    }
+
+                    .card {
+                        font-size: .8rem !important;
+                    }
+    </style>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">نقد و بررسی</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <div class="col-12 p-0">
+                        <div class="alert alert-dark row">
+                            <div class="col-2">
+                                <img src="https://media.farnaa.com/media/@ViewBag.ProductImage" width="100" />
+                            </div>
+                            <div class="col-10 align-self-center">
+                                <h6>@ViewBag.ProductName</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <form asp-action="ProductReview" id="frmProductReview">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" name="productId" value="@productId" />
+                        <input type="hidden" name="reviewId" value="@reviewId" id="reviewId" />
+                        <input type="hidden" name="ratingList" value="@ratingList" />
+                        <input type="hidden" name="ratingValue" value="@ratingValue" />
+                        <input type="hidden" asp-for="TypeSystem" value="@Model.TypeSystem" />
+
+
+
+                        <div class="col-md-12">
+                            <div class="box box-primary">
+                                <div class="box-body">
+                                    <div class="form-group ">
+                                        <label class="control-label" asp-for="@Model.ReviewContent.Summary"></label>
+                                        <textarea id="editor2" asp-for="@Model.ReviewContent.Summary" class="form-control"></textarea>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label class="control-label" asp-for="@Model.ReviewContent.ShortReview"></label>
+                                        <textarea id="editor1" asp-for="@Model.ReviewContent.ShortReview" class="form-control"></textarea>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <label class="control-label" asp-for="@Model.ReviewContent.Review"></label>
+                                        <textarea id="editor3" asp-for="@Model.ReviewContent.Review" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row bg-white border ">
+
+                            <div class="col-md-12 border">
+                                <div class="row">
+                                    <div class="col-sm-6 border">
+                                        <div class="form-group col-md-12 evaluation" data-reviewtype="positive" data-type="info">
+                                            <label class="control-label col-md-12"> نقاط قوت</label>
+                                            <div class="row">
+                                                <input class="form-control col-11" type="text" />
+                                                <div class="col-1 p-0 "><a class="btn btn-success btn-add"><i class="fa fa-plus"></i></a></div>
+
+                                            </div>
+                                            <div class="parentlist col-12 p-0">
+                                                @if (Model.ReviewContent != null && !String.IsNullOrEmpty(Model.ReviewContent.Positive.Trim()))
+                                                {
+                                                    string[] str = Model.ReviewContent.Positive.Split("=");
+                                                    @foreach (var item in str)
+                                                    {
+                                                        <div class='btn-block btn-info' style='padding: 7px'>
+                                                            <button style='margin-left: 0' type='button' class='close pull-left btn-remove'>×</button>
+                                                            <input type='hidden' value='@item' name='positive' />
+                                                            <span style='margin-left: 10px' class='parenttext'>@item</span>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6 border">
+                                        <div class="form-group col-md-12 evaluation" data-reviewtype="negative" data-type="danger">
+                                            <label class="control-label col-md-12"> نقاط ضعف</label>
+                                            <div class="row">
+
+                                                <input class="form-control col-11" type="text" />
+                                                <div class="col-1 p-0 "><a class="btn btn-success btn-add"><i class="fa fa-plus"></i></a></div>
+                                            </div>
+                                            <div class="parentlist col-12 p-0">
+                                                @if (Model.ReviewContent != null && !String.IsNullOrEmpty(Model.ReviewContent.Negative.Trim()))
+                                                {
+                                                    string[] str = Model.ReviewContent.Negative.Split("=");
+                                                    @foreach (var item in str)
+                                                    {
+                                                        <div class='btn-block btn-danger' style='padding: 7px'>
+                                                            <button style='margin-left: 0' type='button' class='close pull-left btn-remove'>×</button>
+                                                            <input type='hidden' value='@item' name='negative' />
+                                                            <span style='margin-left: 10px' class='parenttext'>@item</span>
+                                                        </div>
+                                                    }
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <input type="submit" value="ذخیره" class="btn btn-success" />
+                            <a asp-action="ProductListContainer" class="btn btn-danger">انصراف</a>
+                        </div>
+                    </form>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Styles
+    {
+
+}
+
+    @section Scripts{
+
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+
+
+
+    @*<script src="~/Admin/ckeditor/ckeditor.js"></script>*@
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+
+    <script>
+        CKEDITOR.replace("editor1");
+        CKEDITOR.replace("editor2");
+        CKEDITOR.replace("editor3");
+
+        //CKEDITOR.replace('editor1', {
+        //    language: 'fa',
+        //    filebrowserImageUploadUrl: "../../FileManager/ImageUpload",
+        //    filebrowserBrowseUrl: "../../FileManager/CKEditorFileManager",
+        //     filebrowserWindowWidth: 1050,
+        //    filebrowserWindowHeight: 1050,
+        //});
+        //CKEDITOR.replace('editor2', {
+        //    language: 'fa',
+        //    filebrowserImageUploadUrl: "../../FileManager/ImageUpload",
+        //    filebrowserBrowseUrl: "../../FileManager/CKEditorFileManager",
+        //    filebrowserWindowWidth: 1050,
+        //    filebrowserWindowHeight: 1050
+        //});
+        //CKEDITOR.replace('editor3', {
+        //    language: 'fa',
+        //    filebrowserImageUploadUrl: "../../FileManager/ImageUpload",
+        //    filebrowserBrowseUrl: "../../FileManager/CKEditorFileManager",
+        //    filebrowserWindowWidth: 1050,
+        //    filebrowserWindowHeight: 1050
+        //});
+
+
+        $(".btn-add").click(function () {
+            var content = $(this).parents(".evaluation");
+            if (content.find($("input")).val()) {
+                var text = content.find($("input")).val();
+                content.find($(".parentlist")).append("<div class=' btn-block btn-" + content.data("type") + "' style='padding:7px'><button style='margin-left:0' type='button' class='close pull-left btn-remove'>×</button>" +
+                    "<input type='hidden' value='" + text + "' name='" + content.data("reviewtype") + "' /><span style='margin-left:10px' class='parenttext'>" + text + "</span> </div>");
+                content.find($("input[type=text]")).val("");
+            }
+        });
+
+        $('.parentlist').delegate(".btn-remove", 'click', function () {
+            $(this).parent().remove();
+        });
+
+
+        $(".btn-add-rating").click(function () {
+            if ($("#rating-select").val()) {
+                var value = $("#rating-select").children("option:selected").val();
+                var text = $("#rating-select").children("option:selected").text();
+                $(".ratinglist").append("<div class='form-group col-sm-6'> <label class='control-label col-md-12'>" + text + "</label>" +
+                    "<input type='hidden' name='RatingAttributeId' value='" + value + "' />" +
+                    "<div class='row'>" +
+                    "<input name='RatingAttributevalue' class='form-control col-10' type='number' max='100' min='0' value='0' /> " +
+                    "<div class='col-2 p-0'><a class='btn btn-danger btn-remove-rating'>X</a></div></div>");
+                $("#rating-select").children("option:selected").remove();
+            }
+        });
+
+        $('.ratinglist').delegate(".btn-remove-rating", 'click', function () {
+            var content = $(this).parent().parent();
+            var text = content.find($("label")).text();
+            var value = content.find($("input[type=hidden]")).val();
+            $("#rating-select").append($('<option>', {
+                value: value,
+                text: text
+            }));
+            content.remove();
+        });
+
+
+        //Ajax Save Interval
+        setInterval(function () {
+            var data = {
+                ProductReviewId: $("#reviewId").val(),
+                Summary: CKEDITOR.instances['editor2'].getData(),
+                ShortReview: CKEDITOR.instances['editor1'].getData(),
+                Review: CKEDITOR.instances['editor3'].getData()
+
+
+            };
+            $.ajax({
+                url: '@Url.Action("ProductReviewAjax")',
+                type: "POST",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: (JSON.stringify(data)),
+                success: function (response) {
+                    debugger ;
+                   if($(".check-container").hasClass("check-container-hide")){
+                       $(".check-container").removeClass("check-container-hide");
+                       $(".check-container").addClass("check-container-show");
+                        setInterval(function () {
+                            if ($(".check-container").hasClass("check-container-show")) {
+                                $(".check-container").removeClass("check-container-show");
+                                $(".check-container").addClass("check-container-hide");
+                               
+                            }
+                        }, 3000);
+                   }
+                 
+                },
+            });
+        }, 15000);
+
+    </script>
+}

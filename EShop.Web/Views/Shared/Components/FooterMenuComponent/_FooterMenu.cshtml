@@ -1,0 +1,346 @@
+﻿@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.DataLayer.Entities.Site.StaticPage>
+@{
+    bool isColleague = (bool)TempData["IsColleague"];
+}
+<div class="footer-middlebar">
+    <div class="row m-0 pr-5 pl-5">
+        <div class="col-md-6">
+            <div class="footer-top-text text-right">
+               <i class="mdi mdi-phone"></i>
+                @if (isColleague)
+                {
+                 
+                <span>
+					پشتیبانی همکار <a href="tel:09960796016 ">09960796016 </a>
+
+                    
+                </span>
+                }
+                else
+                {
+                        <span>
+                    <a href="tel:02158209">021-58209</a>
+                </span> 
+                <span>|</span>
+                <span>
+                    <a href="tel:02166342825">021-66342825</a>
+
+
+                </span>
+                }
+            
+           
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div style="margin: 0 auto 0 0;" class=" footer-top-text text-left">
+                شنبه تا چهارشنبه از 9 تا 17:30 و پنجشنبه ها 9 تا 13 پاسخگوی شما هستیم
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12 d-block mt-4">
+        <div class="footer-links desktop-show">
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links">
+                            <h6 style="color:#ffda7f !important;" >
+                                لینک های مفید
+                            </h6>
+                        </div>
+                        <ul class="footer-menu-ul">
+                            <li class="menu-item-type-custom">
+                                <a asp-action="MainCategory" asp-route-title="mobile" asp asp-controller="Category">
+                                    قیمت روز گوشی
+                                </a>
+                            </li>
+                            <li class="menu-item-type-custom">
+                                <a asp-route-title="samsung" asp-route-categoryName="mobile" asp-action="SubCategory" asp-controller="category">
+                                    قیمت گوشی سامسونگ
+                                </a>
+                            </li>
+                            <li class="menu-item-type-custom">
+                                <a asp-route-title="xiaomi" asp-route-categoryName="mobile" asp-action="SubCategory" asp-controller="category">
+                                    گوشی موبایل شیائومی
+                                </a>
+                            </li>
+                            <li class="menu-item-type-custom">
+                                <a   asp-action="LoginColleague" asp-controller="Account">
+                                    فروش به همکار
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links">
+                            <h6 style="color:#ffda7f !important;" >
+                                خدمات مشتریان
+                            </h6>
+                        </div>
+                        <ul class="footer-menu-ul">
+                            @foreach (var item in Model.Where(c => c.TypeStaticPage == EnumTypeStaticPage.Khadamat).ToList())
+                            {
+                                <li class="menu-item-type-custom">
+                                    <a asp-action="Page" asp-controller="Home" asp-route-title="@item.EnTitle?.Replace(" ","-")">
+                                        @item.Title
+                                    </a>
+                                </li>
+                            }
+
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links">
+                            <h6 style="color:#ffda7f !important;"  >
+                                راهنمای خرید
+                            </h6>
+                        </div>
+                        <ul class="footer-menu-ul">
+                            @foreach (var item in Model.Where(c => c.TypeStaticPage == EnumTypeStaticPage.Rahnama).ToList())
+                            {
+                                <li class="menu-item-type-custom">
+                                    <a asp-action="Page" asp-controller="Home" asp-route-title="@item.EnTitle">
+                                        @item.Title
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </section>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links">
+                            <a  style="color:#ffda7f !important;" href="#">
+                                با فرنا
+                            </h6>
+                        </div>
+                        <ul class="footer-menu-ul">
+                            @foreach (var item in Model.Where(c => c.TypeStaticPage == EnumTypeStaticPage.BaFarna).ToList())
+                            {
+                                <li class="menu-item-type-custom">
+                                    <a asp-action="Page" asp-controller="Home" asp-route-title="@item.EnTitle">
+                                        @item.Title
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="footer-links mobile-show">
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links headline-links-mobile">
+                            <div data-toggle="collapse" href="#usefullLinks"
+                                   role="button" aria-expanded="false" aria-controls="usefullLinks" class="headline-head">
+                                <a 
+                                   style="color:#ffd364 !important;">
+                                    لینک های مفید
+                                </a>
+                                <i class="fa fa-angle-down"></i>
+
+                            </div>
+
+                            
+                            <div class="collapse multi-collapse" id="usefullLinks">
+                                <ul class="footer-menu-ul">
+                                    <li class="menu-item-type-custom">
+                                        <a asp-action="MainCategory" asp-route-title="mobile" asp asp-controller="Category">
+                                            قیمت روز گوشی
+                                        </a>
+                                    </li>
+                                    <li class="menu-item-type-custom">
+                                        <a asp-route-title="samsung" asp-route-categoryName="mobile" asp-action="SubCategory" asp-controller="category">
+                                            قیمت گوشی سامسونگ
+                                        </a>
+                                    </li>
+                                    <li class="menu-item-type-custom">
+                                        <a asp-route-title="xiaomi" asp-route-categoryName="mobile" asp-action="SubCategory" asp-controller="category">
+                                            گوشی موبایل شیائومی
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div></div>
+                    </section>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links headline-links-mobile">
+                            <div data-toggle="collapse" href="#services"
+                                   role="button" aria-expanded="false" aria-controls="services" class="headline-head">
+                                <a style="color:#ffd364 !important;" >
+                                    خدمات مشتریان
+                                </a>
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+                     
+                        <div class="collapse multi-collapse" id="services">
+                            <ul class="footer-menu-ul">
+                                @foreach (var item in Model.Where(c => c.TypeStaticPage == EnumTypeStaticPage.Khadamat).ToList())
+                                {
+                                    <li class="menu-item-type-custom">
+                                        <a asp-action="Page" asp-controller="Home" asp-route-title="@item.EnTitle?.Replace(" ","-")">
+                                            @item.Title
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+   </div>
+                    </section>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links headline-links-mobile">
+                            <div data-toggle="collapse" href="#shopHelp"
+                                   role="button" aria-expanded="false" aria-controls="shopHelp" class="headline-head">
+                                <a style="color:#ffd364 !important;" >
+                                    راهنمای خرید
+                                </a>
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+
+                       
+                        <div class="collapse multi-collapse" id="shopHelp">
+                            <ul class="footer-menu-ul">
+                                @foreach (var item in Model.Where(c => c.TypeStaticPage == EnumTypeStaticPage.Rahnama).ToList())
+                                {
+                                    <li class="menu-item-type-custom">
+                                        <a asp-action="Page" asp-controller="Home" asp-route-title="@item.EnTitle">
+                                            @item.Title
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+ </div>
+
+                    </section>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                <div class="row">
+                    <section class="footer-links-col">
+                        <div class="headline-links headline-links-mobile">
+                            <div data-toggle="collapse" href="#withFarnaa"
+                                   role="button" aria-expanded="false" aria-controls="withFarnaa" class="headline-head">
+                                <a style="color:#ffd364 !important;" >
+                                    با فرنا
+                                </a>
+                                <i class="fa fa-angle-down"></i>
+                            </div>
+
+
+                       
+                        <div class="collapse multi-collapse" id="withFarnaa">
+                            <ul class="footer-menu-ul">
+                                @foreach (var item in Model.Where(c => c.TypeStaticPage == EnumTypeStaticPage.BaFarna).ToList())
+                                {
+                                    <li class="menu-item-type-custom">
+                                        <a asp-action="Page" asp-controller="Home" asp-route-title="@item.EnTitle">
+                                            @item.Title
+                                        </a>
+                                    </li>
+                                }
+                            </ul>
+                        </div>
+ </div>
+
+                    </section>
+                </div>
+            </div>
+        </div>
+        <div class="row col-12  m-0">
+            <div class="col-md-12 ">
+                <div class="footer-content d-block text-right">
+                    <div class="text pr-1">
+                        <h3 class="title">فروشگاه اینترنتی فرنا</h3>
+                        <p class="desc">
+                            به پشتوانه سال‌ها خدمت تخصصی در زمینه فروش تجهیزات تکنولوژیک (اعم از گوشی موبایل، لوازم جانبی، لوازم خانگی، کنسول های بازی و سایر تجهیزات)، امروزه در بستر اینترنت نیز در تلاش برای خدمتگذاری با تمام توان به خریداران این محصولات هستیم. اطمینان از اصالت کالا را سرلوحه تمامی اقدامات خود قرار داده‌ایم تا اعتماد شما به فرنا را ارج نهیم.
+                            همچنین با اتکا به کارشناسان با انگیزه و با تجربه، آماده پاسخگویی به سوالات و ابهامات شما هم بعد و هم قبل از خرید محصولات هستیم.
+                        </p>
+                        <div class="d-flex link-fotter-container">
+                            <div>
+                                <a href="https://www.instagram.com/farnaacom/" target="_blank">
+                                    <img src="~/images/icon/Instagram-Icon.png" alt="Farnaa-Instagram" class="img-fluid" />
+                                </a>
+                            </div>
+                            <div>
+                                <a href="https://t.me/farnaa_shop" target="_blank">
+                                    <img src="~/images/icon/Telegram_logo.png"  alt="Farnaa-Telegram" class="img-fluid" />
+                                </a>
+                            </div>
+                            <div>
+                                <a href="https://www.aparat.com/farnaa.com" target="_blank">
+                                    <img src="~/images/icon/Aparat_Icon.png" alt="Farnaa-Aparat"  class="img-fluid" />
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="flex-wrap:wrap;align-items:center;border-radius: 15px;" class="m-auto col-md-12 d-flex justify-content-center bg-white">
+
+                <div class="col-md-2 col-4 d-flex justify-content-center enamad p-3">
+                    <img style="width:100px;" src='~/images/certificate/e-namad-farnaa.png' alt="Farnaa-enamad"   onclick='window.open("https://trustseal.enamad.ir/?id=218563&Code=57hW1rHc1R584hKV0yzS", "Popup", "toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' />
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <img  alt="Farnaa-مجوز کشوری کسب و کار مجازی"  style="width:80px;height:80px;" src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQwIiBoZWlnaHQ9IjM2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KCTxwYXRoIGQ9Im0xMjAgMjQzbDk0LTU0IDAtMTA5IC05NCA1NCAwIDEwOSAwIDB6IiBmaWxsPSIjODA4Mjg1Ii8+Cgk8cGF0aCBkPSJtMTIwIDI1NGwtMTAzLTYwIDAtMTE5IDEwMy02MCAxMDMgNjAgMCAxMTkgLTEwMyA2MHoiIHN0eWxlPSJmaWxsOm5vbmU7c3Ryb2tlLWxpbmVqb2luOnJvdW5kO3N0cm9rZS13aWR0aDo1O3N0cm9rZTojMDBhZWVmIi8+Cgk8cGF0aCBkPSJtMjE0IDgwbC05NC01NCAtOTQgNTQgOTQgNTQgOTQtNTR6IiBmaWxsPSIjMDBhZWVmIi8+Cgk8cGF0aCBkPSJtMjYgODBsMCAxMDkgOTQgNTQgMC0xMDkgLTk0LTU0IDAgMHoiIGZpbGw9IiM1ODU5NWIiLz4KCTxwYXRoIGQ9Im0xMjAgMTU3bDQ3LTI3IDAtMjMgLTQ3LTI3IC00NyAyNyAwIDU0IDQ3IDI3IDQ3LTI3IiBzdHlsZT0iZmlsbDpub25lO3N0cm9rZS1saW5lY2FwOnJvdW5kO3N0cm9rZS1saW5lam9pbjpyb3VuZDtzdHJva2Utd2lkdGg6MTU7c3Ryb2tlOiNmZmYiLz4KCTx0ZXh0IHg9IjE1IiB5PSIzMDAiIGZvbnQtc2l6ZT0iMjVweCIgZm9udC1mYW1pbHk9IidCIFlla2FuJyIgc3R5bGU9ImZpbGw6IzI5Mjk1Mjtmb250LXdlaWdodDpib2xkIj7Yudi22Ygg2KfYqtit2KfYr9uM2Ycg2qnYtNmI2LHbjDwvdGV4dD4KCTx0ZXh0IHg9IjgiIHk9IjM0MyIgZm9udC1zaXplPSIyNXB4IiBmb250LWZhbWlseT0iJ0IgWWVrYW4nIiBzdHlsZT0iZmlsbDojMjkyOTUyO2ZvbnQtd2VpZ2h0OmJvbGQiPtqp2LPYqCDZiCDaqdin2LHZh9in24wg2YXYrNin2LLbjDwvdGV4dD4KPC9zdmc+ " alt="" onclick="window.open('https://ecunion.ir/verify/farnaa.com?token=767663661640c3d2deea', 'Popup', 'toolbar=no, location=no, statusbar=no, menubar=no, scrollbars=1, resizable=0, width=580, height=600, top=30')" class="img-certificate-footer">
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <img style="width:80px;height:80px;" referrerpolicy='origin' id='nbqejzpeapfurgvjsizpnbqe' class="img-certificate-footer" onclick='window.open("https://logo.samandehi.ir/Verify.aspx?id=275392&p=uiwkjyoedshwxlaopfvluiwk", "Popup", "toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")'
+                         alt='Farnaa-samandehi' src='~/images/certificate/rez-farnaa.webp' />
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <img alt='Farnaa-انجمن کامپیوتر ایران'  style="width:80px;height:80px;" src='~/images/certificate/لوگو انجمن کامپیوتر ایران.png' onclick='window.open("https://csi.org.ir/fa/legal_users", "Popup", "toolbar=no, scrollbars=no, location=no, statusbar=no, menubar=no, resizable=0, width=450, height=630, top=30")' />
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <a href="~/images/certificate/مجوز.jpg" target="_blank"> <img  alt='Farnaa-انجمن کسب و کارهای اینترنتی شهر تهران'  style="padding:7px;width:140px;height:100px;" src="~/images/certificate/لوگوی انجمن کسب و کارهای اینترنتی شهر تهران.png" /></a>
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <a href="~/images/certificate/ANJOMAN.png" target="_blank"> <img style="padding:7px;width:140px;height:100px;"  alt='Farnaa-انجمن وارد کنندگان موبایل'  src="~/images/certificate/ANJOMAN.png" /></a>
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <a href="https://media.farnaa.com/media/81720f41a8c2402ea29d7bc1db3a0578.webp" target="_blank"> <img style="padding:7px;width:100px;height:100px;" alt='Farnaa-استاندارد ایزو رضایتمندی مشتریان'  src="~/images/certificate/استاندارد ایزو رضایتمندی مشتریان.webp" /></a>
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <a href="https://media.farnaa.com/media/a32adbb3eab1447a83ebc7ce9ba4df97.webp" target="_blank"> <img style="padding:7px;width:100px;height:100px;" alt='Farnaa-استاندارد ایزو مدیریت کیفیت'  src="~/images/certificate/استاندارد ایزو مدیریت کیفیت.webp" /></a>
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <a href="https://media.farnaa.com/media/70d692abf3d649c6ae2d5a1fbec635fe.webp" target="_blank"> <img style="padding:7px;width:100px;height:100px;"  alt='Farnaa-استاندارد ایزو سیستم مدیریت شکایت مشتریان' src="~/images/certificate/استاندارد ایزو سیستم مدیریت شکایت مشتریان.webp" /></a>
+                </div>
+                <div class="col-md-2 col-4 d-flex justify-content-center  p-3">
+                    <a href="https://media.farnaa.com/media/d22550ce6ff845ba9578ad684604769c.webp" target="_blank"> <img style="padding:7px;width:100px;height:100px;" alt='Farnaa-عضو برنامه توسعه زیست بوم شرکت های خلاق معاونت علمی فناوری ریاست جمهوری'  src="~/images/certificate/عضو برنامه توسعه زیست بوم شرکت های خلاق معاونت علمی فناوری ریاست جمهوری.webp" /></a>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="footer-copyright-text mt-4 pt-3  ">
+            <div class="col-lg-12 text-center ">
+                <p>تمامی حقوق متعلق به فروشگاه آنلاین فرنا می باشد</p>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

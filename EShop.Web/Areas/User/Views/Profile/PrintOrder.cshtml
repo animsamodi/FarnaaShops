@@ -1,0 +1,279 @@
+﻿@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@using EShop.DataLayer.Migrations
+@model UserOrder
+
+<html lang="en" class=" -webkit-">
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="apple-mobile-web-app-title" content="CodePen">
+
+
+
+    <title> فاکتور @Model.OrderId </title>
+
+
+
+
+    <script>
+        if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+        }
+    </script>
+	    <link rel="preload" as="font" href="/css/vendor/font-awesome.min.css">
+    <link rel="preload" as="font" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="preload" as="font" href="/css/font.min.css">
+
+    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/vendor/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/vendor/nice-select.min.css">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.min.css">
+ 
+    <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/css/font.min.css">
+    <link href="/css/print.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #ffffff !important;
+            color: #000000 !important;
+            direction: rtl;
+        }
+		.table .thead-light th {
+  
+    text-align: right !important;
+    font-weight: bold !important;
+}
+        .table-profile-orders {
+            background-color: white;
+            box-shadow: none !important;
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 12px !important;
+            border: solid 1px #7c7c7c;
+            width: 94% !important;
+            margin-right: 3% !important;
+            margin-top: 20px !important;
+        }
+        .table .thead-light th {
+            text-align: right !important;
+            font-weight: bold !important;
+            border: solid 1px !important;
+        }
+        .table th, .table td {
+            
+            border: solid 1px !important;
+        }
+        .pront-container {
+            position: relative;
+        }
+        .print-bg {
+            position: absolute;
+            width: 86%;
+            margin-right: 8%;
+            opacity: .6;
+             
+        }
+    </style>
+
+</head>
+
+<body translate="no">
+
+    <page size="A4" layout="portrait">
+		@{
+			   var orderStatus = "";
+				if (Model.OrderStatus != null && Model.OrderStatus > 0)
+				{
+					orderStatus = EnumHelper<EnumOrderStatus>.GetDisplayValue(Model.OrderStatus.Value);
+				}
+		}
+      
+        <div class="pront-container">
+ <img src="/images/bg-product.png"   class="print-bg">
+
+				<table class="table table-profile-orders p-3">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col" colspan="4"  style="text-align: center !important;">
+                                <h6>
+                                    <strong>((فاکتور فروش))</strong>
+                                </h6>	 
+ 							</th>
+				 
+
+						</tr>
+						<tr>
+							<th scope="col" colspan="4"  style="text-align: center !important;">
+                                <h5>
+                                    <strong>فرنا</strong>
+                                </h5>	 
+								شکوه توانمندی های تکنولوژی
+							</th>
+				 
+
+						</tr>
+						<tr>
+                            <th scope="col" colspan="1">
+                                <img src="/images/logo.png" width="70" class="p-0">
+                                </th>
+							<th scope="col" colspan="2">تهران، میدان فردوسی، مجتمع مرکز تجارت جهانی فردوسی، طبقه 3/1
+							 
+
+کدپستی: 1145684102</th>
+							 							<th scope="col" colspan="1">
+تاریخ : @DateTime.Now.ConvertMiladiToShamsi()															 </th>
+
+						</tr>
+												<tr class="order-line"></tr>
+<tr>
+							<th scope="col">شماره سفارش</th>
+							<th scope="col">تاریخ ثبت سفارش</th>
+@*							<th scope="col">وضعیت</th>
+*@							<th scope="col">تعداد کل محصولات</th>
+							<th scope="col">مبلغ پرداخت شده</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="order-code">
+								@Model.OrderId</td>
+							<td>@Model.PrDatePay</td>
+@*							<td class="Waiting @(Model.OrderStatus == EnumOrderStatus.NotPay?"text-danger":"text-success") font-weight-bold">@orderStatus</td>
+*@							<td class="totla">
+								<span class="amount">
+                                    @*	@{ var sumAmount = Model.SumAmount / 10;}
+									@sumAmount.ToString("N0")
+									<span>  تومان  </span>*@
+                                    @{
+                                        var totalCount = Model.OrderDetails.Sum(c => c.Count);
+
+                                    }
+                                    @totalCount
+                                </span>
+							</td>
+							<td class="totla">
+								<span class="amount">
+									@{ var tomanPrice = Model.AmountPayable / 10;}
+									@tomanPrice.ToString("N0")
+									<span>  تومان  </span>
+								</span>
+							</td>
+						</tr>
+													<td colspan="3">خریدار :  @Model.ClientName - @Model.ClientNatioalCode, شماره تماس :  @Model.ClientTel</td>
+						<tr class="order-line"></tr>
+
+						<tr>
+							<td colspan="5">آدرس تحویل گیرنده :  @Model.RecipientAddress , کد پستی : @Model.RecipientPostalCode </td>
+
+						</tr>
+						<tr class="order-line"></tr>
+						<tr>
+							<td colspan="3">تحویل گیرنده :  @Model.RecipientName , شماره تماس :  @Model.RecipientTel</td>
+							<td colspan="2">@if (!string.IsNullOrEmpty(Model.TrackingCodePost))
+							                {
+<span>کد پیگیری پست  :  @Model.TrackingCodePost</span>
+							                } </td>
+
+						</tr>
+						<tr>
+							<td colspan="5">
+								روش ارسال :  @Model.ShipmentTitle 
+
+
+
+								@if (Model.ShipmentPrice == null || Model.ShipmentPrice == 0)
+								{
+									@*<span>رایگان</span>*@
+
+								}
+								else
+								{
+									<span>هزینه ارسال :</span>
+
+									var ShipmentPrice = Model.ShipmentPrice / 10;
+
+									<span> @ShipmentPrice.Value.ToString("N0") </span>
+									<span>  تومان  </span>
+								}
+							</td>
+
+						</tr>
+					 
+					</tbody>
+				</table>
+        <table class="table table-profile-orders">
+            <thead class="thead-light">
+            <tr>
+                <th scope="col">نام محصول - مدل</th>
+                <th scope="col">رنگ</th>
+                @*<th scope="col">گارانتی</th>*@
+                <th scope="col">قیمت واحد</th>
+                @*<th scope="col">تخفیف</th>*@
+                <th scope="col">تعداد</th>
+                <th scope="col">مجموع</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var product in Model.OrderDetails)
+            {
+                <tr>
+                    <td>@product.FaTitle</td>
+                    <td>@product.Color</td>
+                    @*<td>@product.Guarantee</td>*@
+                    <td>
+                        @{ var price = product.Price.Value / 10;}
+                        @price.ToString("N0") تومان
+                    </td>
+                    @*<td>
+										@{ var discount = product.Discount.Value / 10;}
+														@discount.ToString("N0") تومان
+							</td>*@
+                    <td>@product.Count</td>
+                    <td>
+                        @{ var SumPriceAfterDiscount = product.SumPriceAfterDiscount.Value / 10;}
+                        @SumPriceAfterDiscount.ToString("N0") تومان
+                    </td>
+                </tr>
+            }
+					 
+					 
+            </tbody>
+            <tfoot class="thead-light">
+            <tr>
+                <th scope="col" colspan="2">مجموع</th>
+                
+                <th scope="col"  colspan="3">
+                    @{ var amountPayable = Model.AmountPayable / 10;}
+                    <strong>
+@amountPayable.ToString("N0") تومان
+                    </strong>  
+                </th>
+            </tr>
+            @*<tr>
+                <th scope="col" colspan="5"><strong class="text-muted">تمامی مدل ها دارای ۱۸ ماه گارانتی شرکتی میباشند و گارانتی برعهده شرکت گارانتی است.</strong></th>
+               
+            </tr>*@
+            </tfoot>
+        </table>
+        </div>
+       
+     </page>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script>
+        window.print();
+    </script>
+
+
+
+
+
+</body>
+</html>

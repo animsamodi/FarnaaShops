@@ -1,0 +1,127 @@
+﻿@using EShop.DataLayer.Enum
+@using EShop.Core.Helpers
+@model IEnumerable<EShop.DataLayer.Entities.Order.PaymentDetail>
+
+@{
+    ViewData["Title"] = "لیست پرداختی ها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست پرداختی ها</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+                                <th>
+                                    کد پرداخت
+                                </th>
+                            <th>
+                                کد سفارش
+                            </th>
+                            <th>
+                               (تومان) مبلغ
+                            </th>
+                            <th>
+                                تاریخ
+                            </th>
+                            <th>
+                                زمان
+                            </th>
+                            <th>
+                                refId
+                            </th>
+                            <th>
+                                کد تراکنش
+                            </th>
+                            <th>
+                                پیغام بانک
+                            </th>
+                            <th>
+                                شماره کارت
+                            </th>
+                            <th>
+                                وضعیت
+                            </th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    var paymentStatus = "";
+                                    if (item.PaymentStatus > 0)
+                                    {
+                                        paymentStatus = EnumHelper<EnumPaymentStatus>.GetDisplayValue(item.PaymentStatus);
+                                    }
+                                    var paymentStatusStyle = "";
+                                    if (item.PaymentStatus == EnumPaymentStatus.Pay)
+                                    {
+                                        paymentStatusStyle = "text-success";
+                                    }else if(item.PaymentStatus == EnumPaymentStatus.Wait)
+                                    {
+                                        paymentStatusStyle = "text-primary";
+
+                                    }
+                                    else
+                                    {
+                                        paymentStatusStyle = "text-danger";
+
+                                    }
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OrderId)
+                                        </td>
+                                        <td>
+                                            @{ var price = item.Price / 10;}
+                                            @price.ToString("N0") 
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PrDatePay)
+                                        </td>
+                                        <td>
+                                            @if (item.DatePay != null)
+                                            {
+                                                @item.DatePay.Value.ToLongTimeString()
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RefId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SaleReferenceId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BankCodeMessage)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CardHolderPAN)
+                                        </td>
+                                        <td class="font-weight-bold @paymentStatusStyle">
+                                            @paymentStatus
+                                        </td>
+
+                                         
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

@@ -1,0 +1,207 @@
+﻿@model Tuple<List<EShop.Core.ViewModels.Product.ProductPropertyAddAdminViewModel>, List<EShop.Core.ViewModels.Product.PropertyValueForAddViewModel>>
+
+@{
+    ViewData["Title"] = "مشخصات محصول";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var productId = ViewBag.productid;
+    var categoryId = ViewBag.categoryid;
+    var oldValue = Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item2);
+}
+
+<div class="content">
+    <div class="box box-primary">
+        <div class="box-header with-border">
+            <h3 class="box-title">ویرایش خصوصیات  </h3>
+        </div>
+        <div class="col-12 p-0">
+            <div class="alert alert-dark row">
+                <div class="col-2">
+                    <img src="https://media.farnaa.com/media/@ViewBag.ProductImage" width="100" />
+                </div>
+                <div class="col-10 align-self-center" >
+                    <h6>@ViewBag.ProductName</h6>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4">
+                <form asp-action="ProductProperty">
+                    <div class="box-body">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <input type="hidden" name="oldValue" value="@oldValue" />
+                        <input type="hidden" name="productId" value="@productId" />
+                        <input type="hidden" name="categoryId" value="@categoryId" />
+
+
+                        @for (int i = 0; i < Model.Item1.Count; i++)
+                        {
+                            <div class="form-group">
+                                <label class="control-label">@Model.Item1[i].NameTitle</label>
+                                @if (Model.Item1[i].Type == 1)
+                                {
+                                    
+                                    <input type="hidden" name="nameid" value="@Model.Item1[i].NameId" />
+                                    <div class="row">
+ 
+                                        <select name="value"  class="form-control select-value col-5">
+                                            <option value="0">لطفا یکی را انتخاب کنید</option>
+                                            @foreach (var item in Model.Item1[i].Values)
+                                            {
+
+                                                if (Model.Item2.Any(m => m.ValueId == item.ValueId))
+                                                {
+                                                    <option selected value="@item.ValueId">@item.Value</option>
+                                                }
+                                                else
+                                                {
+                                                    <option value="@item.ValueId">@item.Value</option>
+                                                }
+                                            }
+                                        </select>
+                                    </div>
+                                  
+                                }
+                                else if (Model.Item1[i].Type == 2)
+                                {
+                                    <div class="row select-content" data-val="@Model.Item1[i].NameId">
+                                        <select class="form-control col-md-4 select-list">
+                                            @foreach (var item in Model.Item1[i].Values)
+                                            {
+                                                if (!Model.Item2.Any(m => m.ValueId == item.ValueId))
+                                                {
+                                                    <option value="@item.ValueId">@item.Value</option>
+                                                }
+                                            }
+
+                                        </select>
+                                        <div class="col-md-2"><a class="btn btn-success btn-add">افزودن</a></div>
+                                        <div class="parentlist col-md-5">
+                                            @foreach (var item in Model.Item2.Where(m => m.NameId == Model.Item1[i].NameId))
+                                            {
+                                                <div class='btn-block btn-info' style='padding:7px'>
+                                                    <button style='margin-left:0' type='button' class='close pull-left btn-remove'>×</button>
+                                                    <input type='hidden' value='@item.ValueId' name='value' />
+                                                    <input type='hidden' value='@item.NameId' name='nameid' />
+                                                    <span style='margin-left:10px' class='parenttext'>@item.Value</span>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                }
+                                else if (Model.Item1[i].Type == 3)
+                                {
+                                    <input type="hidden" name="nameid" value="@Model.Item1[i].NameId" />
+                                    <input name="value" class="form-control" value="@(Model.Item2.Find(m=>m.NameId==Model.Item1[i].NameId) ==null?"" : Model.Item2.Find(m=>m.NameId==Model.Item1[i].NameId).Value)" />
+                                }
+                                else if (Model.Item1[i].Type == 4)
+                                {
+                                    var editorId = "editor_" + i;
+                                    <input type="hidden" name="nameid" value="@Model.Item1[i].NameId" />
+                                    <textarea name="value" id="@editorId" class="form-control editorChk" >@(Model.Item2.Find(m=>m.NameId==Model.Item1[i].NameId) ==null?"" : Model.Item2.Find(m=>m.NameId==Model.Item1[i].NameId).Value)</textarea>
+                                }
+                                else  if (Model.Item1[i].Type == 5)
+                            {
+                                var customValueInputId = "CustomValueInput_" + Model.Item1[i].NameId;
+                                var valueSelectId = "ValueSelect_" + Model.Item1[i].NameId;
+                                <input type="hidden" name="nameid" value="@Model.Item1[i].NameId" />
+                                <div class="row">
+                                    <input type="text" id="@customValueInputId" name="value" class="form-control col-7 customValue"  value="@(Model.Item2.Find(m=>m.NameId==Model.Item1[i].NameId &&  Model.Item1[i].Values.Any(c=>c.ValueId == m.ValueId)) ==null?"" : Model.Item2.Find(m=>m.NameId==Model.Item1[i].NameId &&  Model.Item1[i].Values.Any(c=>c.ValueId == m.ValueId)).Value)" placeholder="مقدار مورد نظر را وارد کنید" />
+
+                                    <select id="@valueSelectId" class="form-control custom-select-value col-5">
+                                        <option value="0">لطفا یکی را انتخاب کنید</option>
+                                        @foreach (var item in Model.Item1[i].Values)
+                                        {
+
+                                            if (Model.Item2.Any(m => m.ValueId == item.ValueId))
+                                            {
+                                                <option selected value="@item.ValueId">@item.Value</option>
+                                            }
+                                            else
+                                            {
+                                                <option value="@item.ValueId">@item.Value</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                                  
+                            }
+                               
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <input type="submit" value="ثبت" class="btn btn-success" />
+                            <a asp-action="ProductListContainer" class="btn btn-danger">بازگشت به لیست</a>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    @*<script src="~/Admin/ckeditor/ckeditor.js"></script>*@
+         <script src="~/lib/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        $("textarea").each(function (index, element) {
+ 
+            var id = $(element).attr("id");
+            // CKEDITOR.replace(id, {
+            //    language: 'fa',
+         
+            //});
+            CKEDITOR.replace(id);
+        });
+
+        $(".custom-select-value").change(function() {
+            var id = $(this).attr("id");
+           
+            var value = $(this).children("option:selected").text();
+            var inputId = "#CustomValueInput_" + id.replace("ValueSelect_", "");
+            $(inputId).val(value); 
+
+          
+
+        });
+        CKEDITOR.replace('editor1', {
+            language: 'fa',  
+        });
+
+        $(".btn-add").click(function() {
+            var content = $(this).parents(".select-content");
+            if (content.find($(".select-list")).val()) {
+                var value = content.find($(".select-list")).children("option:selected").val();
+                var text = content.find($(".select-list")).children("option:selected").text();
+                content.find($(".parentlist")).append("<div class=' btn-block btn-info' style='padding:7px'><button style='margin-left:0' type='button' class='close pull-left btn-remove'>×</button>" +
+                    "<input type='hidden' value='" +
+                    value +
+                    "' name='value' /><input type='hidden' value='" +
+                    content.data('val') +
+                    "' name='nameid' /><span style='margin-left:10px' class='parenttext'>" +
+                    text +
+                    "</span> </div>");
+                content.find($(".select-list")).children("option:selected").remove();
+            }
+        });
+
+        $('.parentlist').delegate(".btn-remove",
+            'click',
+            function() {
+                var content = $(this).parents(".select-content");
+                var text = $(this).nextAll($(".parenttext")).text();
+                var value = $(this).nextAll($("input [name=value]")).val();
+                content.find($(".select-list")).append($('<option>',
+                    {
+                        value: value,
+                        text: text
+                    }));
+                $(this).parent().remove();
+            });
+    </script>
+}
+
+

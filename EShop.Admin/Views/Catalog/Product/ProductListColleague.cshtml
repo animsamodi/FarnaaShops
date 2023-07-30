@@ -1,0 +1,104 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductListViewModel>
+
+@{
+    ViewData["Title"] = "لیست محصولات";
+    Layout = null;
+        int pagecount = (int)Math.Ceiling((double)ViewBag.count / 15);
+    int pagenumber = ViewBag.PageNumber;
+}
+ 
+    <table class="table table-responsive-md table-bordered table-striped text-center">
+        <thead>
+            <tr class="font-size-10">
+                <th>
+                    @Html.DisplayNameFor(model => model.Image)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FaTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BrnadTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryTitle)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SpecCode)
+                </th>
+             
+
+
+
+                <th>
+                    @Html.DisplayNameFor(model => model.DefaultPrice)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TolatCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsExist)
+                </th>
+             </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+            <tr class="font-size-10">
+                <td>
+                    @Html.Raw((String.IsNullOrEmpty(item.Image) ? "" : "<img src='https://media.farnaa.com/media/" + item.Image + "' class='thumbnail' width='60' />"))
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FaTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BrnadTitle)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryTitle)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpecCode)
+                </td>
+            
+
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.DefaultPrice)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TolatCount)
+
+                </td>
+                <td>
+                    <span class="badge  text-white @(item.IsExist?"badge-success":"badge-danger") ">@(item.IsExist?" موجود ":"نا موجود") </span>
+
+                </td>
+        
+            </tr>
+            }
+        </tbody>
+    </table>
+    <div class="col-12 text-center" id="productlist">
+        @(pagecount > 1 ? Html.Raw(pagecount.GetPaging(pagenumber, "js-pager-item")) : Html.Raw(""))
+
+    </div>
+ 
+
+<script>
+    $('#productlist').delegate(".js-pager-item", "click", function () {
+        var pagenum = parseInt($(this).data("pagenumber"))
+             $.ajax({
+        type: 'GET',
+        url: '/catalog/ProductListColleague',
+                 data: { searchtext: '@Html.Raw(ViewBag.searchtext)', brnad: @ViewBag.brnad, category: @ViewBag.category, state: @ViewBag.state, pagenumber: pagenum},
+        success: function (res) {
+            $("#list").html(res);
+        }
+    })
+    });
+   
+</script>

@@ -1,0 +1,21 @@
+﻿body, body * {
+     direction: ltr !important;
+}
+.mds-bootstrap-persian-datetime-picker-container table th, .mds-bootstrap-persian-datetime-picker-container table td {
+    padding: 5px !important;
+    padding-right: 0 !important;
+    padding-left: 0 !important;
+}
+.mds-bootstrap-persian-datetime-picker-modal * {
+    font-size: 15px !important;
+    font-weight: 800 !important;
+}
+.mds-bootstrap-persian-datetime-picker-container .btn {
+    width: 100%;
+     padding: 10px !important;
+    font-size: 17px !important;
+}
+.mds-bootstrap-persian-datetime-picker-container .dropdown-menu {
+    min-width: 120px !important;
+    width: 120px !important;
+}

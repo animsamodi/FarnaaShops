@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewData["Title"] = "آپلود فایل افق";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.ChangeOrderStateViewModel
+@section Styles
+{
+    <link href="~/persianDateTimePiker/src/jquery.md.bootstrap.datetimepicker.style.css" rel="stylesheet" />
+    <link href="~/persianDateTimePiker/src/jquery.md.bootstrap.datetimepicker.style.custom.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">آپلود فایل طرح افق</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    @Html.Partial("_alert")
+
+                    <form class="form" method="post" asp-action="UploadHamkar" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                 
+                                <div class="  col-lg-12   mb-1">
+                                    <fieldset class="form-group">
+                                        <label for="file" class="control-label">فایل اکسل</label>
+                                        <input type="file" asp-for="File" class="form-control" />
+                                        <span asp-validation-for="File" class="text-danger"></span>
+
+                                    </fieldset>
+                                </div>
+                                 
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+
+ 
+}

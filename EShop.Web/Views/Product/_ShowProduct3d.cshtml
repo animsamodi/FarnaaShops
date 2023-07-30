@@ -1,0 +1,115 @@
+﻿
+
+@model string;
+@{
+    //Layout = null;
+    string id = ViewBag.Id;
+    string cssFile = id + ".css";
+    string jsFile = id+".js";
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/file3d/base/media/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/file3d/base/media/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/file3d/base/media/favicon-16x16.png">
+    <link rel="manifest" href="/file3d/base/media/manifest.json">
+    <link rel="mask-icon" href="/file3d/base/media/safari-pinned-tab.svg" color="#000000">
+    <meta name="theme-color" content="#2864FF">
+      <script src="/file3d/base/v3d.js" ></script>
+      <script src="/file3d/@id/@jsFile" ></script>
+      <script src="/file3d/@id/visual_logic.js" ></script>
+
+    <link rel="stylesheet" type="text/css" href="/file3d/base/base.css">
+      <style>
+        .btn-container {
+               display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 10px;
+    position: absolute;
+    width: auto;
+    height: 100%;
+    right: 0;
+        }
+      /*  .btn-container {
+            display: flex;
+            flex-direction: column;
+            bottom: 0;
+            padding: 10px;
+            position: absolute;
+            height: -webkit-fill-available;
+            right: 10px;
+            border-left: solid 2px #eee;
+            justify-content: space-between;
+        }*/
+
+            .btn-container button {
+             width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+        box-shadow: 1px 1px 2px 0px #00000082;
+            }
+    </style>
+</head>
+<body>
+
+ 
+<div id="v3d-container">
+    <div class="btn-container">
+        @Html.Raw(Model)
+        <button id="OffOn" class="ColorButton" style="background-color: white;">
+            <img src="../../../images/power.png" width="28" />
+        </button>
+        <button id="Back" class="ColorButton" style="background-color: white">
+            <img src="../../../images/back.png" width="28" />
+
+        </button>
+        <button id="Forward" class="ColorButton" style="background-color: white">
+            <img src="../../../images/front.png" width="28" />
+
+        </button>
+    </div>
+
+
+    <!--<div id="fullscreen_button" class="fullscreen-button fullscreen-open" title="Toggle fullscreen mode"></div>-->
+</div>
+
+
+@*<div id="v3d-container">
+    <div class="btn-container">
+        <button id="Black" class="ColorButton" style="background-color: black;"></button>
+        <button id="Green" class="ColorButton" style="background-color: green;"></button>
+        <button id="Blue" class="ColorButton" style="background-color: blue;"></button>
+        <button id="OffOn" class="ColorButton" style="background-color: white;">
+            <img src="../../../images/power.png" width="28" />
+        </button>
+        <button id="Back" class="ColorButton" style="background-color: white">
+            <img src="../../../images/back.png" width="28" />
+
+        </button>
+        <button id="Forward" class="ColorButton" style="background-color: white">
+            <img src="../../../images/front.png" width="28" />
+
+        </button>
+    </div>
+
+
+ </div>*@
+
+
+
+
+
+
+</body>
+</html>
+

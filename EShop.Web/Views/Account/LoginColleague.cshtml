@@ -1,0 +1,88 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.LoginColleagueViewModel
+@{
+    ViewData["Title"] = "ورود همکار";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+  <div class="login d-flex justify-content-center h-100">
+            <div class="content">
+                <div class="logo">
+                    <a asp-controller="Home" asp-action="Index">
+                    <img src="~/new/images/logo-top.png"  alt="فروشگاه اینترنت فرنا"></a>
+                </div>
+
+                <form asp-action="LoginColleague" method="post">
+                    <div asp-validation-summary="ModelOnly" style="color:red"></div>
+
+                    <span class="title">
+                        <h6>
+                            ورود به پنل همکاران فرنا
+                        </h6>
+                    </span>
+                    <input type="text" class="trs-3" asp-for="Username" placeholder=" (کد ملی / شناسه ملی شرکت) نام کاربری">
+                    <input type="password" class="trs-3" asp-for="Password" placeholder="  کلمه عبور">
+
+                
+                    <div class="forget f-parent">
+                        <label class="remember">
+                            مرا بخاطر بسپار
+                            <input type="checkbox">
+                            <span class="tick">
+                                <i class="fal fa-check"></i>
+                            </span>
+                        </label>
+                      @*  <a class="trs-3" href="#">
+                            رمز عبور خود را فراموش کرده اید؟
+                        </a>*@
+                    </div>
+                    <button class="trs-3">
+                        ورود به حساب
+                    </button>
+               @*     <button class="disposables trs-3">
+                        ورود با رمز یکبار مصرف
+                    </button>*@
+                </form>
+
+                <div class="lc-submit">
+                  
+                    <a asp-action="RegisterColleague" asp-controller="Account"  asp-route-type="@EnumRealLegal.Real"  class="spn-haghighi">ثبت نام حقیقی</a>
+                    <a asp-action="RegisterColleague" asp-controller="Account"  asp-route-type="@EnumRealLegal.Legal"   class=" spn-hoghoghi">ثبت نام حقوقی</a>
+                </div>
+                <span class="bottom-link">
+                    پشتیبان همکار
+                    <a class="trs-3" href="tel:09960796016 ">
+                        09960796016
+                    </a>
+                </span>
+
+            </div>
+        </div>
+ 
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+    <script>
+       
+            $("form").submit(function(event) {
+
+       //var recaptcha = $("#g-recaptcha-response").val();
+
+      $.validator.methods.range;
+			$.validator.methods.range = function(value, element, param) {
+				if(element.type === 'checkbox') {
+					return element.checked;
+				} else {
+					return defaultRangeValidator.call(this, value, element, param);
+				}
+			}
+
+     });
+    </script>
+
+}
+

@@ -1,0 +1,1249 @@
+﻿@using EndPoint.Web.Utilities
+@using EShop.DataLayer.Enum
+
+@{
+    string controller = ViewContext.RouteData.Values["Controller"]?.ToString() ?? "";
+    string action = ViewContext.RouteData.Values["Action"]?.ToString() ?? "";
+}
+
+<div data-active-color="white" data-background-color="crystal-clear" data-image="/Admin/img/sidebar-bg/01.jpg" class="app-sidebar" style="background: #0d1b42 !important;">
+    <div class="sidebar-header">
+        <div class="logo clearfix">
+            <a href="@Url.Action("index","Home")" class="logo-text float-right">
+                <span class="text align-middle"><small>پنل مدیریت فرنا</small></span>
+            </a><a id="sidebarToggle" href="javascript:;" class="nav-toggle d-none d-sm-none d-md-none d-lg-block"><i data-toggle="expanded" class="ft-disc toggle-icon"></i></a><a id="sidebarClose" href="javascript:;" class="nav-close d-block d-md-block d-lg-none d-xl-none"><i class="ft-circle"></i></a>
+        </div>
+    </div>
+    <div class="sidebar-content ps-container ps-theme-default">
+        <div class="nav-container">
+            <ul id="main-menu-navigation" data-menu="menu-navigation" class="navigation navigation-main">
+                @if (ClaimUtility.GetPermissons(User).Any(p => 
+                    p == 1 || p == 64 || p == 65 || p == 66 ||
+                    p == 67 || p == 68 || p == 69 || p == 92 ||
+                    p == 155 || p == 156 || p == 157|| p == 158))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">گرافیک</span>
+                        </a>
+                        <ul class="menu-content">
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 64))
+                            {
+                                <li class="@(controller.Contains("ProductOtherPage") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="ProductOtherPage" asp-action="Index" class="menu-item">محصولات سایر صفحات</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 65))
+                            {
+                                <li class="@(controller.Contains("SearchSuggestion") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="SearchSuggestion" asp-action="Index" class="menu-item">پیشنهادات سرچ هدر</a>
+                                </li>
+                            }
+                            @* @if (ClaimUtility.GetPermissons(User).Any(p => p == 1|| p == 1))
+                        {
+                        <li class="@(controller.Contains("") && action.Equals("") ? "active" : "")">
+                        <a asp-controller="Setting" asp-action="Index" class="menu-item">تنظیمات</a>
+                        </li>
+
+                        }*@
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 66))
+                            {
+                                <li class="@(controller.Contains("SiteSetting") && action.Equals("Edit") ? "active" : "")">
+                                    <a asp-controller="SiteSetting" asp-action="Edit" class="menu-item">تنظیمات سایت</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 92))
+                            {
+                                <li class="@(controller.Contains("SiteSetting") && action.Equals("EditPlus") ? "active" : "")">
+                                    <a asp-controller="SiteSetting" asp-action="EditPlus" class="menu-item">تنظیمات سایت پلاس</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 67))
+                            {
+                                <li class="@(controller.Contains("FilterPrice") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="FilterPrice" asp-action="Index" class="menu-item">فیلتر قیمت صفحه اصلی</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 68))
+                            {
+                                <li class="@(controller.Contains("FilterProperty") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="FilterProperty" asp-action="Index" class="menu-item">فیلتر ویژگی ها صفحه اصلی</a>
+                                </li>
+                            }
+                            @*   @if (ClaimUtility.GetPermissons(User).Any(p => p == 1|| p == 69))
+                        {
+                        <li class="@(controller.Contains("") && action.Equals("") ? "active" : "")">
+                        <a asp-controller="Component" asp-action="CircleComponents" class="menu-item">کامپوننت ها</a>
+                        </li>
+                        }*@
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 155))
+                            {
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-picture"></i><span data-i18n="" class="menu-title">بنر</span></a>
+                                    <ul class="menu-content">
+
+                                        <li class="@(controller.Contains("Banner") && action.Contains("sliderList") ? "active" : "")">
+                                            <a asp-controller="Banner" asp-action="sliderList" class="menu-item">اسلایدر</a>
+                                        </li>
+
+                                        <li class="@(controller.Contains("Banner") && action.Contains("BannerList") ? "active" : "")">
+                                            <a asp-controller="Banner" asp-action="BannerList" class="menu-item">بنر</a>
+                                        </li>
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 156))
+                            {
+                                <li class="@(action.Contains("CreateProduct") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="CreateProduct" class="menu-item">افزودن محصول</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 157))
+                            {
+                                <li class="@(controller.Contains("Catalog") && action.Contains("BrandList") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="BrandList">برندها</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 158))
+                            {
+                                <li class="@(controller.Contains("ProductSeri") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="ProductSeri" asp-action="Index">سری ها</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+                @if (ClaimUtility.GetPermissons(User).Any(p => 
+                    p == 1 || p == 70 || p == 71 || p == 72 ||
+                p == 73 || p == 145 || p == 151 || p == 152 ||
+                    p == 159 || p == 162 || p == 164|| p == 165))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">سئو</span>
+                        </a>
+                        <ul class="menu-content">
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 70))
+                            {
+                                <li class="@(controller.Contains("SiteFotterMenu") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="SiteFotterMenu" asp-action="Index" class="menu-item">مدیریت منو های فوتر</a>
+                                </li>
+
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 71))
+                            {
+                                <li class="@(controller.Contains("SiteFotterLink") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="SiteFotterLink" asp-action="Index" class="menu-item">مدیریت لینک های فوتر</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 72))
+                            {
+
+                                <li class="@(controller.Contains("SiteMenu") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="SiteMenu" asp-action="Index" class="menu-item">منو های سایت</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 145))
+                            {
+
+                                <li class="@(controller.Contains("SiteMenu") && action.Equals("IndexPlus") ? "active" : "")">
+                                    <a asp-controller="SiteMenu" asp-action="IndexPlus" class="menu-item">منو های سایت پلاس</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 73))
+                            {
+                                <li class="@(controller.Contains("Faq") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="Faq" asp-action="Index" class="menu-item">مدیریت Faq</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 151))
+                            {
+                                <li class="@(controller.Contains("Setting") && action.Contains("IndexStaticPage") ? "active" : "")">
+                                    <a asp-controller="Setting" asp-action="IndexStaticPage" class="menu-item">صفحات</a>
+                                </li>
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 152))
+                            {
+                                <li class="@(controller.Contains("CategoryBrandPage") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="CategoryBrandPage" asp-action="Index" class="menu-item">صفحه دسته بندی - برند</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 159))
+                            {
+                                <li class="@(controller.Contains("ProductSeri") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="ProductSeri" asp-action="Index">سری ها</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 162))
+                            {
+                                <li class="@(controller.Contains("PageSeo") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="PageSeo" asp-action="Index" class="menu-item">سئو صفحات</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 164))
+                            {
+                                <li class="@(controller.Contains("Seo") && action.Contains("RedirectList") ? "active" : "")">
+                                    <a asp-controller="Seo" asp-action="RedirectList" class="menu-item">ریدایرکت ها</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 165))
+                            {
+                                <li class="@(controller.Contains("ProductPricePage") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="ProductPricePage" asp-action="Index" class="menu-item">صفحه ی لیست قیمت محصولات</a>
+                                </li>
+                            }
+
+                        </ul>
+                    </li>
+                }
+                @if (ClaimUtility.GetPermissons(User).Any(p =>
+                    p == 1 || p == 74 || p == 75 || p == 76 || p == 77 ||
+                    p == 78 || p == 79 || p == 80 || p == 81 || p == 82 ||
+                    p == 83 || p == 84 || p == 85 || p == 86
+                || p == 87 || p == 88 || p == 89 || p == 90 || p == 91 ||
+                p == 93 || p == 148 || p == 149 || p == 160 || p == 161))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">
+                                تامین کنندگان
+                            </span>
+                        </a>
+                        <ul class="menu-content">
+                            @*   @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p==74))
+                        {
+                        <li class="@(action.Contains("OrderLimit") && controller.Contains("Order") ? "active" : "")">
+                        <a asp-controller="Order" asp-action="OrderLimit" class="menu-item">محدودیت سفارشات</a>
+                        </li>
+                        }*@
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 75))
+                            {
+
+                                <li class="@(action.Equals("OrderPriceColleauge") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="OrderPriceColleauge" class="menu-item">لیست فروش همکار</a>
+                                </li>
+
+                            }@if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 76))
+                            {
+
+                                <li class="@(action.Equals("OrderPrice") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="OrderPrice" class="menu-item">لیست فروش مشتری</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 77))
+                            {
+                                <li class="@(action.Contains("CreateProduct") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="CreateProduct" class="menu-item">افزودن محصول</a>
+                                </li>
+                            }@if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 78))
+                            {
+                                <li class="@(action.Equals("Product") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="ProductListContainer" class="menu-item">محصولات</a>
+                                </li>
+                            }@if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 148))
+                            {
+                                <li class="@(controller.Contains("Catalog") &&action.Equals("ProductListContainerReview") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="ProductListContainerReview" class="menu-item">نقد و بررسی محصولات</a>
+                                </li>
+                            }@if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 149))
+                            {
+                                <li class="@(controller.Contains("Catalog") &&action.Equals("ProductListContainerReviewPlus") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="ProductListContainerReviewPlus" class="menu-item">نقد و بررسی محصولات پلاس</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 79))
+                            {
+                                <li class="@(action.Equals("Product") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="ProductListContainerColleague" class="menu-item">محصولات همکار</a>
+                                </li>
+                            }@if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 79))
+                            {
+                                <li class="@(action.Equals("Product") ? "active" : "")">
+                                    <a asp-controller="Catalog" asp-action="ProductListContainerPlus" class="menu-item">محصولات پلاس</a>
+                                </li>
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 80))
+                            {
+                                <li class="@(controller.Contains("ColleaguePriceRange") &&action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="ColleaguePriceRange" asp-action="Index" class="menu-item">رنج تغییرات قیمت همکار</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 81))
+                            {
+                                <li class="@(controller.Contains("PlusPriceRange") &&action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="PlusPriceRange" asp-action="Index" class="menu-item">رنج تغییرات قیمت فرنا پلاس</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 93))
+                            {
+                                <li class="@(controller.Contains("ColleaguePlusPriceRange") &&action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="ColleaguePlusPriceRange" asp-action="Index" class="menu-item">رنج تغییرات قیمت پلاس همکار</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 82))
+                            {
+                                <li class="@(controller.Contains("Variant") && action.Equals("Index") ? "active" : "")">
+                                    <a asp-controller="Variant" asp-action="Index" class="menu-item">لیست موجودی ها</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 83))
+                            {
+                                <li class="@(controller.Contains("Variant") && action.Equals("IndexColleague") ? "active" : "")">
+                                    <a asp-controller="Variant" asp-action="IndexColleague" class="menu-item">لیست موجودی های همکار</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 84))
+                            {
+                                <li class="@(controller.Contains("Variant") && action.Equals("IndexColleague") ? "active" : "")">
+                                    <a asp-controller="Variant" asp-action="IndexPlus" class="menu-item">لیست موجودی های فرنا پلاس</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 143))
+                            {
+                                <li class="@(controller.Contains("Variant") && action.Equals("IndexColleague") ? "active" : "")">
+                                    <a asp-controller="Variant" asp-action="IndexPlusColleague" class="menu-item">لیست موجودی های پلاس همکار</a>
+                                </li>
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 85))
+                            {
+                                <li class="@(action.Contains("Payment") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="PaymentListContainer" class="menu-item">تراکنش ها</a>
+                                </li>
+
+                            }
+                            @*    @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p==86))
+                        {
+                        <li class="@(controller.Contains("Variant") && action.Contains("IndexPreSell") ? "active" : "")">
+                        <a asp-controller="Variant" asp-action="IndexPreSell" class="menu-item">پیش فروش محصولات</a>
+                        </li>
+
+                        }*@
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 87))
+                            {
+                                <li class="@(controller.Contains("Guarantee") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="Guarantee" asp-action="Index" class="menu-item">مدیریت گارانتی ها</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 88))
+                            {
+
+                                <li class="has-sub nav-item">
+                                    <a href="#">
+                                        <i class="icon-book-open"></i><span data-i18n="" class="menu-title">گزارشات</span>
+                                    </a>
+                                    <ul class="menu-content">
+
+
+                                        <li class="@(action.Contains("Order") && controller.Contains("Report") ? "active" : "")">
+                                            <a asp-controller="Report" asp-action="Order" class="menu-item">سفارشات</a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 89))
+                            {
+
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">اعتباری</span></a>
+                                    <ul class="menu-content">
+
+                                        @*<li class="@(action.Contains("DocumentsType") && controller.Contains("Credit")? "active" : "")">
+                                <a asp-controller="Credit" asp-action="Index"  class="menu-item">مدارک اعتباری</a>
+                                </li>*@
+                                        <li class="@(action.Contains("Index") && controller.Contains("Credit") ? "active" : "")">
+                                            <a asp-controller="Credit" asp-action="Index" class="menu-item">لیست درخواست ها</a>
+                                        </li>
+                                        <li class="@(action.Contains("ListBill") && controller.Contains("Credit") ? "active" : "")">
+                                            <a asp-controller="Credit" asp-action="ListBill" class="menu-item">فیش های واریزی</a>
+                                        </li>
+
+
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 90))
+                            {
+
+                                <li class="@(action.Contains("IndexColleague") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="IndexColleague" class="menu-item">لیست سفارشات همکار</a>
+                                </li>
+
+
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 91))
+                            {
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">درخواست های همکاری</span></a>
+                                    <ul class="menu-content">
+
+                                        @*<li class="@(action.Contains("DocumentsType") && controller.Contains("Credit")? "active" : "")">
+                                <a asp-controller="Credit" asp-action="Index"  class="menu-item">مدارک اعتباری</a>
+                                </li>*@
+
+                                        <li @*class="@(action.Contains("Index") && controller.Contains("CooperationRequest") ? "active" : "")"*@>
+                                            <a asp-controller="CooperationRequest" asp-action="Index" asp-route-Status="@EnumCooperationRequestStatus.Wating" class="menu-item">درخواست های جدید</a>
+                                        </li>
+                                        <li @*class="@(action.Contains("Index") && controller.Contains("CooperationRequest") ? "active" : "")"*@>
+                                            <a asp-controller="CooperationRequest" asp-action="Index" asp-route-Status="@EnumCooperationRequestStatus.Confairm" class="menu-item">درخواست های تایید شده</a>
+                                        </li>
+                                        <li @*class="@(action.Contains("Index") && controller.Contains("CooperationRequest") ? "active" : "")"*@>
+                                            <a asp-controller="CooperationRequest" asp-action="Index" asp-route-Status="@EnumCooperationRequestStatus.Reject" class="menu-item">درخواست های رد شده</a>
+                                        </li>
+                                        <li @*class="@(action.Contains("Index") && controller.Contains("CooperationRequest") ? "active" : "")"*@>
+                                            <a asp-controller="CooperationRequest" asp-action="Index" asp-route-Status="@EnumCooperationRequestStatus.WatingConfirmPhone" class="menu-item">درخواست های در انتظار</a>
+                                        </li>
+
+
+
+
+
+                                    </ul>
+                                </li>
+
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 160))
+                                    {
+                            <li class="has-sub nav-item">
+                                <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">سفارشات همکار</span></a>
+                                <ul class="menu-content">
+                                   
+                                        <li class="@(action.Contains("RegisterCart") && controller.Contains("ColleagueOrder") ? "active" : "")">
+                                            <a asp-controller="ColleagueOrder" asp-action="RegisterCart" class="menu-item">ثبت سفارش جدید</a>
+                                        </li>
+                                     
+                                        <li class="@(action.Contains("ListBill") && controller.Contains("ColleagueOrder") ? "active" : "")">
+                                            <a asp-controller="ColleagueOrder" asp-action="ListTempOrder" class="menu-item">سفارشات موقت</a>
+                                        </li>
+                                    
+                                        <li class="@(action.Contains("ListBill") && controller.Contains("ColleagueOrder") ? "active" : "")">
+                                            <a asp-controller="ColleagueOrder" asp-action="ListConfirmOrder" class="menu-item">سفارشات تایید شده</a>
+                                        </li>
+                                    
+                                        <li class="@(action.Contains("ListBill") && controller.Contains("ColleagueOrder") ? "active" : "")">
+                                            <a asp-controller="ColleagueOrder" asp-action="ListRejectOrder" class="menu-item">سفارشات لغو شده</a>
+                                        </li>
+                                    
+
+
+
+
+                                </ul>
+                            </li>
+                                    }
+                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 161))
+                        {
+                            <li class="@(controller.Contains("Catalog") && action.Contains("BrandList") ? "active" : "")">
+                                <a asp-controller="Catalog" asp-action="BrandList">برندها</a>
+                            </li>
+                        }
+                        </ul>
+                    </li>
+                }
+                @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 94 || p == 95 || p == 96 || p == 97 || p == 98 || p == 99 || p == 100 || p == 101 || p == 102 || p == 103 || p == 104
+                || p == 105 || p == 106 || p == 107 || p == 108 || p == 109 || p == 110 || p == 111 || p == 147))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">
+                                ارتباط با مشتری
+
+                            </span>
+                        </a>
+                        <ul class="menu-content">
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 94))
+                            {
+                                <li class="@(action.Equals("Index") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="Index" class="menu-item">لیست سفارشات</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 95))
+                            {
+                                <li class="@(action.Contains("IndexColleague") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="IndexColleague" class="menu-item">لیست سفارشات همکار</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 96))
+                            {
+                                <li @*class="@(action.Equals("Index") && controller.Contains("Order") ? "active" : "")"*@>
+                                    <a asp-controller="Order" asp-action="IndexInPerson" asp-route-delivered="false" class="menu-item">تحویل سفارشات حضوری</a>
+                                </li>
+
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 97))
+                            {
+                                <li @*class="@(action.Equals("Index") && controller.Contains("Order") ? "active" : "")"*@>
+                                    <a asp-controller="Order" asp-action="IndexInPerson" asp-route-delivered="true" class="menu-item">سفارشات حضوری تحویل شده</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 98))
+                            {
+                                <li class="@(action.Contains("ChangeOrderState") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="ChangeOrderState" class="menu-item">تغییر وضعیت سفارشات</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 99))
+                            {
+                                <li class="@(action.Contains("ConvertPreFactorToFactor") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="ConvertPreFactorToFactor" class="menu-item">تبدیل پیش فاکتور به فاکتور</a>
+                                </li>
+
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 100))
+                            {
+                                <li class="@(action.Contains("UploadPostCode") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="UploadPostCode" class="menu-item">بارگزاری کد دریافتی پست</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 101))
+                            {
+                                <li class="@(action.Contains("Customers") && controller.Contains("Customer") ? "active" : "")">
+                                    <a asp-controller="Customer" asp-action="Customers" class="menu-item">مشتریان</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 102))
+                            {
+                                <li class="@(action.Contains("CustomerAddress") && controller.Contains("Customer") ? "active" : "")">
+                                    <a asp-controller="Customer" asp-action="CustomerAddress" class="menu-item">آدرس های مشتریان</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 103))
+                            {
+                                <li class="@(action.Contains("Payment") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="PaymentListContainer" class="menu-item">تراکنش ها</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 104))
+                            {
+                                <li class="@(action.Contains("Shipment") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="Shipment" class="menu-item">روش های ارسال</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 147))
+                            {
+                                <li class="@(action.Contains("Index") && controller.Contains("Packing") ? "active" : "")">
+                                    <a asp-controller="Packing" asp-action="Index" class="menu-item">بسته بندی</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 105))
+                            {
+                                <li class="@(action.Contains("Index") && controller.Contains("Contact") ? "active" : "")">
+                                    <a asp-controller="Contact" asp-action="Index" class="menu-item">مدیریت تماس با ما</a>
+                                </li>
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 106))
+                            {
+                                <li class="@(action.Contains("BlockPostCode") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="BlockPostCode" class="menu-item">کد پستی های غیر مجاز</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 107 || p == 108 || p == 109))
+                            {
+                                <li class="has-sub nav-item">
+                                    <a href="#">
+                                        <i class="icon-book-open"></i><span data-i18n="" class="menu-title">مدیریت سفارشات</span>
+                                    </a>
+                                    <ul class="menu-content">
+
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 107))
+                                        {
+                                            <li class="@(action.Contains("ListUnsendOrder") && controller.Contains("Order") ? "active" : "")">
+                                                <a asp-controller="Order" asp-action="ListUnsendOrder" class="menu-item">ویرایش سفارشات ارسال نشده</a>
+                                            </li>
+                                        }
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 108))
+                                        {
+                                            <li class="@(action.Contains("IndexCustomerForEditContainer") && controller.Contains("Customer") ? "active" : "")">
+                                                <a asp-controller="Customer" asp-action="IndexCustomerForEditContainer" class="menu-item">ویرایش مشتریان</a>
+                                            </li>
+                                        }
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 109))
+                                        {
+                                            <li class="@(action.Contains("IndexCustomerAddressForEdit") && controller.Contains("Customer") ? "active" : "")">
+                                                <a asp-controller="Customer" asp-action="IndexCustomerAddressForEdit" class="menu-item">ویرایش آدرس های مشتریان</a>
+                                            </li>
+                                        }
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 110))
+                            {
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">طرح افق</span></a>
+                                    <ul class="menu-content">
+
+
+                                        <li class="@(action.Contains("UploadKhord") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="UploadKhord" class="menu-item">آپلود فایل مشتری</a>
+                                        </li>
+
+                                        <li class="@(action.Contains("IndexKhord") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="IndexKhord" class="menu-item">تاریخچه مشتری</a>
+                                        </li>
+                                        <li class="@(action.Contains("UploadHamkar") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="UploadHamkar" class="menu-item">آپلود فایل همکار</a>
+                                        </li>
+
+                                        <li class="@(action.Contains("IndexHamkar") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="IndexHamkar" class="menu-item">تاریخچه همکار</a>
+                                        </li>
+
+
+
+
+                                    </ul>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </li>
+                }
+                @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 111))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">انبار</span>
+                        </a>
+                        <ul class="menu-content">
+
+                            <li class="@(action.Equals("Index") && controller.Contains("Order") ? "active" : "")">
+                                <a asp-controller="Order" asp-action="Index" class="menu-item">لیست سفارشات</a>
+                            </li>
+
+
+                            <li class="@(action.Contains("IndexColleague") && controller.Contains("Order") ? "active" : "")">
+                                <a asp-controller="Order" asp-action="IndexColleague" class="menu-item">لیست سفارشات همکار</a>
+                            </li>
+
+
+                            <li @*class="@(action.Equals("Index") && controller.Contains("Order") ? "active" : "")"*@>
+                                <a asp-controller="Order" asp-action="IndexInPerson" asp-route-delivered="false" class="menu-item">تحویل سفارشات حضوری</a>
+                            </li>
+
+
+                            <li @*class="@(action.Equals("Index") && controller.Contains("Order") ? "active" : "")"*@>
+                                <a asp-controller="Order" asp-action="IndexInPerson" asp-route-delivered="true" class="menu-item">سفارشات حضوری تحویل شده</a>
+                            </li>
+
+
+
+
+                        </ul>
+                    </li>
+                }
+                @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 112 || p == 113 || p == 114 || p == 115))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">مالی</span>
+                        </a>
+                        <ul class="menu-content">
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 112))
+                            {
+                                <li class="@(action.Contains("Payment") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="PaymentListContainer" class="menu-item">تراکنش ها</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 113))
+                            {
+                                <li class="@(action.Equals("Index") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="Index" class="menu-item">لیست سفارشات</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 114))
+                            {
+                                <li class="@(action.Contains("IndexColleague") && controller.Contains("Order") ? "active" : "")">
+                                    <a asp-controller="Order" asp-action="IndexColleague" class="menu-item">لیست سفارشات همکار</a>
+                                </li>
+
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 115))
+                            {
+
+                                <li class="has-sub nav-item">
+                                    <a href="#">
+                                        <i class="icon-book-open"></i><span data-i18n="" class="menu-title">گزارشات</span>
+                                    </a>
+                                    <ul class="menu-content">
+
+
+                                        <li class="@(action.Contains("Order") && controller.Contains("Report") ? "active" : "")">
+                                            <a asp-controller="Report" asp-action="Order" class="menu-item">سفارشات</a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </li>
+                            }
+
+                        </ul>
+                    </li>
+                }
+
+                @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 116 || p == 117 || p == 118))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">تبلیغات</span>
+                        </a>
+                        <ul class="menu-content">
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 116))
+                            {
+
+                                <li class="@(action.Contains("Menu") ? "active" : "")">
+                                    <a asp-controller="UserSearch" asp-action="Index" class="menu-item">جستجو های کاربران</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 117))
+                            {
+                                <li class="@(action.Contains("Menu") ? "active" : "")">
+                                    <a asp-controller="UserProductView" asp-action="Index" class="menu-item">مشاهدات کاربران</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 118))
+                            {
+
+
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">تبلیغات</span></a>
+                                    <ul class="menu-content">
+
+
+                                        <li class="@(action.Contains("ProductListContainer") && controller.Contains("Advertising") ? "active" : "")">
+                                            <a asp-controller="Advertising" asp-action="ProductListContainer" class="menu-item">لیست محصولات تبلیغات</a>
+                                        </li>
+
+                                        <li class="@(action.Contains("ProductListDiscountContainer") && controller.Contains("Advertising") ? "active" : "")">
+                                            <a asp-controller="Advertising" asp-action="ProductListDiscountContainer" class="menu-item">محصولات دارای تخفیف</a>
+                                        </li>
+
+
+
+
+
+                                    </ul>
+                                </li>
+                            }
+
+
+
+
+                        </ul>
+                    </li>
+                }
+                @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 119 || p == 120 || p == 121 || p == 122 || p == 123 || p == 124 || p == 125 || p == 126 || p == 127 || p == 128 || p == 129 ||
+                p == 130 || p == 131 || p == 132 || p == 133 || p == 134 || p == 135 || p == 144 || p == 146 || p == 153 || p == 154))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">تنظیمات مدیریتی</span>
+                        </a>
+                        <ul class="menu-content">
+                            @* @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p==119))
+                        {
+
+                        <li class="@(controller.Contains("Menu") && action.Contains("Menu") ? "active" : "")">
+                        <a asp-controller="Menu" asp-action="Menu" class="menu-item">منو ها</a>
+                        </li>
+                        }*@
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 120))
+                            {
+                                <li class="@(controller.Contains("SiteFotterMenu") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="SiteFotterMenu" asp-action="Index" class="menu-item">مدیریت منو های فوتر</a>
+                                </li>
+
+
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 121))
+                            {
+
+                                <li class="@(controller.Contains("SiteMenu") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="SiteMenu" asp-action="Index" class="menu-item">منو های سایت</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 146))
+                            {
+
+                                <li class="@(controller.Contains("SiteMenu") && action.Equals("IndexPlus") ? "active" : "")">
+                                    <a asp-controller="SiteMenu" asp-action="IndexPlus" class="menu-item">منو های سایت پلاس</a>
+                                </li>
+                            }
+                            @*  @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p==122))
+                        {
+                        <li class="@(controller.Contains("Component") && action.Contains("CircleComponents") ? "active" : "")">
+                        <a asp-controller="Component" asp-action="CircleComponents" class="menu-item">کامپوننت ها</a>
+                        </li>
+                        }*@
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 123))
+                            {
+                                <li class="@(controller.Contains("FilterPrice") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="FilterPrice" asp-action="Index" class="menu-item">فیلتر قیمت صفحه اصلی</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 124))
+                            {
+                                <li class="@(controller.Contains("FilterProperty") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="FilterProperty" asp-action="Index" class="menu-item">فیلتر ویژگی ها صفحه اصلی</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 125))
+                            {
+
+                                <li class="@(controller.Contains("ColleaugeSetting") && action.Equals("Edit") ? "active" : "")">
+                                    <a asp-controller="ColleaugeSetting" asp-action="Edit" class="menu-item">تنظیمات همکار</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 144))
+                            {
+
+                                <li class="@(controller.Contains("ColleaugeSetting") && action.Equals("EditPlus") ? "active" : "")">
+                                    <a asp-controller="ColleaugeSetting" asp-action="EditPlus" class="menu-item">تنظیمات همکار پلاس</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 126))
+                            {
+
+                                <li class="@(controller.Contains("IndexLayout") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="IndexLayout" asp-action="Index" class="menu-item">چیدمان صفحه ی اصلی</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 127))
+                            {
+
+                                <li class="@(controller.Contains("CategotyMain") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="CategotyMain" asp-action="Index" class="menu-item">دسته بندی صفحه ی اصلی</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 128))
+                            {
+
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">اعتباری</span></a>
+                                    <ul class="menu-content">
+
+                                        @*<li class="@(action.Contains("DocumentsType") && controller.Contains("Credit")? "active" : "")">
+                                <a asp-controller="Credit" asp-action="Index"  class="menu-item">مدارک اعتباری</a>
+                                </li>*@
+                                        <li class="@(controller.Contains("Credit") && action.Contains("Index") ? "active" : "")">
+                                            <a asp-controller="Credit" asp-action="Index" class="menu-item">لیست درخواست ها</a>
+                                        </li>
+                                        <li class="@(controller.Contains("Credit") && action.Contains("ListBill") ? "active" : "")">
+                                            <a asp-controller="Credit" asp-action="ListBill" class="menu-item">فیش های واریزی</a>
+                                        </li>
+
+
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 129 || p == 130))
+                            {
+
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">همکاران</span></a>
+                                    <ul class="menu-content">
+
+
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 129))
+                                        {
+                                            <li class="@(controller.Contains("Customer") && action.Contains("IndexColleaue") ? "active" : "")">
+                                                <a asp-controller="Customer" asp-action="IndexColleaue" class="menu-item">لیست همکاران</a>
+                                            </li>
+                                        }
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 130))
+                                        {
+                                            <li class="@(controller.Contains("Customer") && action.Contains("IndexColleauePro") ? "active" : "")">
+                                                <a asp-controller="Customer" asp-action="IndexColleauePro" class="menu-item">لیست همکاران پیشرفته</a>
+                                            </li>
+
+                                        }
+
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 131 || p == 132))
+                            {
+
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">مدیریت کاربران</span></a>
+                                    <ul class="menu-content">
+
+
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 131))
+                                        {
+
+                                            <li class="@(controller.Contains("UserManagement") && action.Contains("Index") ? "active" : "")">
+                                                <a asp-controller="UserManagement" asp-action="Index" class="menu-item">کاربران</a>
+                                            </li>
+                                        }
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 132))
+                                        {
+                                            <li class="@(controller.Contains("User") && action.Contains("RoleList") ? "active" : "")">
+                                                <a asp-controller="User" asp-action="RoleList" class="menu-item">نقش ها</a>
+                                            </li>
+                                        }
+
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 133))
+                            {
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">تامین</span></a>
+                                    <ul class="menu-content">
+
+
+                                        <li class="@(controller.Contains("Warehouse") && action.Contains("Index") ? "active" : "")">
+                                            <a asp-controller="Warehouse" asp-action="Index" class="menu-item">مدیریت انبار ها</a>
+                                        </li>
+
+                                        <li class="@(controller.Contains("Supplier") && action.Contains("Index") ? "active" : "")">
+                                            <a asp-controller="Supplier" asp-action="Index" class="menu-item">مدیریت تامین کننده ها</a>
+                                        </li>
+
+
+                                        <li class="@(controller.Contains("SupplierFactor") && action.Contains("Index") ? "active" : "")">
+                                            <a asp-controller="SupplierFactor" asp-action="Index" class="menu-item">مدیریت سفارشات تامین</a>
+                                        </li>
+
+
+                                        <li class="@(controller.Contains("SupplierFactor") && action.Contains("IndexConfirmTamin") ? "active" : "")">
+                                            <a asp-controller="SupplierFactor" asp-action="IndexConfirmTamin" class="menu-item">مدیریت سفارشات تایید شده تامین</a>
+                                        </li>
+
+
+                                        <li class="@(controller.Contains("SupplierFactor") && action.Contains("IndexAll") ? "active" : "")">
+                                            <a asp-controller="SupplierFactor" asp-action="IndexAll" class="menu-item">مدیریت همه سفارشات تامین کننده ها</a>
+                                        </li>
+
+
+
+
+                                    </ul>
+                                </li>
+
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 134))
+                            {
+
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">انبار</span></a>
+                                    <ul class="menu-content">
+                                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 134))
+                                        {
+                                            <li class="has-sub nav-item">
+                                                <a href="#">
+                                                    <i class="icon-book-open"></i><span data-i18n="" class="menu-title">تامین کالا</span>
+                                                </a>
+                                                <ul class="menu-content">
+
+
+                                                    <li class="@(action.Equals("IndexAnbar") && controller.Contains("SupplierFactor") ? "active" : "")">
+                                                        <a asp-controller="SupplierFactor" asp-action="IndexAnbar" class="menu-item">مدیریت سفارشات انبار تامین کالا</a>
+                                                    </li>
+
+
+                                                    <li class="@(action.Equals("IndexConfirmAnbar") && controller.Contains("SupplierFactor") ? "active" : "")">
+                                                        <a asp-controller="SupplierFactor" asp-action="IndexConfirmAnbar" class="menu-item">مدیریت سفارشات تایید شده انبار تامین کالا</a>
+                                                    </li>
+
+
+                                                    <li class="@(action.Equals("IndexAll") && controller.Contains("SupplierFactor") ? "active" : "")">
+                                                        <a asp-controller="SupplierFactor" asp-action="IndexAll" class="menu-item">مدیریت همه سفارشات تامین کننده ها تامین کالا</a>
+                                                    </li>
+
+
+
+                                                    <li class="@(action.Equals("IndexAnbar") && controller.Contains("Order") ? "active" : "")">
+                                                        <a asp-controller="Order" asp-action="IndexAnbar" class="menu-item">مدیریت سفارشات مشتری انبار</a>
+                                                    </li>
+
+                                                    <li class="@(action.Equals("IndexAnbarConfirm") && controller.Contains("Order") ? "active" : "")">
+                                                        <a asp-controller="Order" asp-action="IndexAnbarConfirm" class="menu-item">مدیریت سفارشات تایید شده مشتری انبار</a>
+                                                    </li>
+
+
+                                                </ul>
+
+                                            </li>
+
+
+                                        }
+
+
+
+                                    </ul>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 135))
+                            {
+                                <li class="has-sub nav-item">
+                                    <a href="#"><i class="icon-users"></i><span data-i18n="" class="menu-title">طرح افق</span></a>
+                                    <ul class="menu-content">
+
+
+                                        <li class="@(action.Contains("UploadKhord") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="UploadKhord" class="menu-item">آپلود فایل مشتری</a>
+                                        </li>
+
+                                        <li class="@(action.Contains("IndexKhord") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="IndexKhord" class="menu-item">تاریخچه مشتری</a>
+                                        </li>
+                                        <li class="@(action.Contains("UploadHamkar") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="UploadHamkar" class="menu-item">آپلود فایل همکار</a>
+                                        </li>
+
+                                        <li class="@(action.Contains("IndexHamkar") && controller.Contains("Ofogh") ? "active" : "")">
+                                            <a asp-controller="Ofogh" asp-action="IndexHamkar" class="menu-item">تاریخچه همکار</a>
+                                        </li>
+
+
+
+
+                                    </ul>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 153))
+                            {
+                                <li class="@(controller.Contains("Category") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="Category" asp-action="Index" class="menu-item">دسته بندی ها</a>
+                                </li>
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 154))
+                            {
+                                <li class="@(controller.Contains("ProductSeri") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="ProductSeri" asp-action="Index">سری ها</a>
+                                </li>
+                            }
+                        </ul>
+                    </li>
+                }
+                @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 136 || p == 137 || 
+                                                               p == 138 || p == 139 || p == 140 ||
+                p == 141 || p == 142 || p == 163))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">دیجیتال مارکتینگ</span>
+                        </a>
+                        <ul class="menu-content">
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 136))
+                            {
+                                <li class="@(controller.Contains("FilterPrice") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="FilterPrice" asp-action="Index" class="menu-item">فیلتر قیمت صفحه اصلی</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 137))
+                            {
+                                <li class="@(controller.Contains("FilterProperty") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="FilterProperty" asp-action="Index" class="menu-item">فیلتر ویژگی ها صفحه اصلی</a>
+                                </li>
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 138))
+                            {
+
+                                <li class="@(controller.Contains("UserSearch") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="UserSearch" asp-action="Index" class="menu-item">جستجو های کاربران</a>
+                                </li>
+
+                            } @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 139))
+                            {
+                                <li class="@(controller.Contains("UserProductView") && action.Contains("Index") ? "active" : "")">
+                                    <a asp-controller="UserProductView" asp-action="Index" class="menu-item">مشاهدات کاربران</a>
+                                </li>
+
+                            }
+                            @* @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p==140))
+                        {
+                        <li class="@(controller.Contains("Component") && action.Contains("CircleComponents") ? "active" : "")">
+                        <a asp-controller="Component" asp-action="CircleComponents" class="menu-item">کامپوننت ها</a>
+                        </li>
+                        }*@
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 141))
+                            {
+                                <li class="@(controller.Contains("Variant") && action.Contains("ColorList") ? "active" : "")">
+                                    <a asp-controller="Variant" asp-action="ColorList" class="menu-item">لیست رنگ ها</a>
+                                </li>
+
+                            }
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 142))
+                            {
+
+                                <li class="has-sub nav-item ">
+
+                                    <a href="#"><span data-i18n="" class="menu-title">خصوصیات</span></a>
+
+                                    <ul class="menu-content">
+
+                                        <li class="@(controller.Contains("Catalog") && action.Contains("PropertyGroupList") ? "active" : "")">
+                                            <a asp-controller="Catalog" asp-action="PropertyGroupList" asp-route-id="1">
+                                                گروه خصوصیات
+                                            </a>
+                                        </li>
+
+                                        <li class="@(controller.Contains("Catalog") && action.Contains("PropertyNameList") ? "active" : "")">
+                                            <a asp-controller="Catalog" asp-action="PropertyNameList"> نام خصوصیات</a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </li>
+                            }
+
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 163))
+                            {
+                                <li class="@(controller.Contains("Customer") && action.Contains("UserComments") ? "active" : "")">
+                                    <a asp-controller="Customer" asp-action="UserComments" class="menu-item">نظرات کاربران</a>
+                                </li>
+                            }
+
+
+                        </ul>
+                    </li>
+                }
+
+                @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 150))
+                {
+                    <li class="has-sub nav-item">
+                        <a href="#">
+                            <i class="icon-bag"></i><span data-i18n="" class="menu-title">سایر</span>
+                        </a>
+                        <ul class="menu-content">
+                            @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 150))
+                            {
+
+
+
+                               
+
+                              
+                           
+                              
+
+
+
+
+
+
+
+
+
+
+                                @* <li class="@(controller.Contains("Category") && action.Contains("UpdatePriceGrouply") ? "active" : "")">
+                        <a asp-controller="Category" asp-action="UpdatePriceGrouply"  class="menu-item">تغییر قیمت گروهی</a>
+                        </li>*@
+
+
+
+
+
+
+                                @*   <li class="has-sub nav-item">
+                        <a href="#">
+                        <i class="icon-book-open"></i><span data-i18n="" class="menu-title">لیست بلاگ ها</span>
+                        </a>
+                        <ul class="menu-content">
+
+                        @if (ClaimUtility.GetPermissons(User).Any(p => p == 1 || p == 28))
+                        {
+                        <li class="@(action.Contains("Order") && controller.Contains("Report") ? "active" : "")">
+                        <a href="@Url.Link("https://blog.farnaa.com", "")" class="menu-item">مجله</a>
+                        </li>
+                        }
+
+
+                        </ul>
+                        </li>*@
+
+                               
+
+
+
+                            }
+
+
+
+
+                            @*   <li class="nav-item bg-danger mt-3">
+                        <a asp-controller="Account" asp-action="Logout"><i class="icon-logout"></i><span data-i18n="" class="menu-title">خروج</span></a>
+
+                        </li>*@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        </ul>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
+</div>

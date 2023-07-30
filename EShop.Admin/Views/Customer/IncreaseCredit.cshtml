@@ -1,0 +1,88 @@
+﻿@using EShop.Core.ViewModels.Credit
+@model IncreaseCreditUserColleaugeViewModel
+
+@{
+    ViewData["Title"] = "افزایش اعتبار همکار";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">افزایش اعتبار همکار </h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="IncreaseCredit" method="post" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Id" type="hidden" />
+ 
+                            <div class="row">
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Name" class="control-label"></label>
+                                        <input asp-for="Name" class="form-control" disabled="disabled"/>
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Username" class="control-label"></label>
+                                        <input asp-for="Username" class="form-control" disabled="disabled" />
+                                        <span asp-validation-for="Username" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Phone" class="control-label"></label>
+                                        <input asp-for="Phone" class="form-control" disabled="disabled" />
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                              
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Price" class="control-label"></label>
+                                        <select asp-for="Price"  class="form-control ">
+                                            <option value="0"> -- انتخاب کنید --</option>
+                                            <option value="50000000"> 50,000,000 تومان</option>
+                                        </select>
+                                        <span asp-validation-for="Price" class="text-danger"></span>
+
+                                    </fieldset>
+                                </div>
+                               
+
+                            
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="IndexColleaue" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+ 
+}

@@ -1,0 +1,106 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.Property.PropertyGroup>
+
+    @{
+    ViewData["Title"] = "لیست گروه مشخصات";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    int pagecount = (int)Math.Ceiling((double)ViewBag.Pagecount / 20);
+    int pagenumber = ViewBag.pagenumber;
+    }
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title"> لیست گروه مشخصات</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (TempData["res"] != null)
+                    {
+                        if (TempData["res"].ToString() == "success")
+                        {
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">×</button>
+
+                                عملیات با موفقیت انجام شد
+                            </div>
+                        }
+                        @if (TempData["res"].ToString() == "faild")
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">×</button>
+
+                                خطا در انجام عملیات
+                            </div>
+                        }
+                    }
+                
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="CreatePropertyGroup" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                ایجاد گروه مشخصات جدید
+                            </a>
+                        </div>
+                        <table class="table table-striped table-bordered table-responsive-sm  ">
+                            <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Id)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Priority)
+                                </th>
+
+                               
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Id)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Priority)
+                                    </td>
+
+
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+
+                        <div class="Paging">
+                            <div class="c-pager">
+                                <ul class="c-pager_items">
+
+
+                                    @for (int i = 1; i <= pagecount; i++)
+                                    {
+                                        <li>
+                                            <a class="c-pager_item @(i == pagenumber ? "is-active" : "")" asp-action="PropertyGroupList" asp-route-pagenumber="@i">@i</a>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+   

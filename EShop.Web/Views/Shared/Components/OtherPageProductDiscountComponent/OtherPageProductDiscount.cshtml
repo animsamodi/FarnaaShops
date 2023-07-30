@@ -1,0 +1,155 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductViewModel>
+
+@{
+    Layout = null;
+}
+@if (Model.Any())
+{
+
+
+    <div class="popular-products clear">
+        <div class="holder-popular"><div class="box-overlay"></div>
+            <div id="head-title">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="title  f-parent">
+                                <h2>
+                                    بیشترین تخفیف ها
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products">
+                <div class="container">
+                    <div class="row">
+                        <div class="owl-carousel nav-arrow">
+
+                            @foreach (var item in Model)
+                            {
+                                <div class="item-product trs-3">
+                                    <span class="pic-box">
+                                        @if (item.VariantColor != null)
+                                        {
+                                            <!--color-->
+                                            <div class="weaz-colors">
+                                                @foreach (var color in item.VariantColor)
+                                                {
+                                                    <div class=".wz_product_colors">
+                                                        <span class="wz-matrix-tooltip" style="background-color: @color.Color;">
+                                                            <span class="wz-matrix-tooltip-text">@color.Text</span>
+                                                        </span>
+                                                    </div>
+                                                }
+
+
+
+                                            </div>
+                                            <!--color-->
+                                        }
+                                        <a asp-action="Index" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3">
+                                            <img width="600" height="600" class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.ImgName" class="img-fluid" alt="@item.FaTitle">
+                                        </a>
+                                    </span>
+                                    <div class="product-info">
+                                        <span class="title-box mb-1">
+                                            <a asp-action="Index" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3">
+                                                @item.FaTitle
+                                            </a>
+                                        </span>
+                                        <span class="category mb-3">
+                                            @item.CategoryFaTitle
+                                        </span>
+                                        <div class="product-bottom f-parent">
+                                            @* <div class="rating">
+                                    <strong>
+                                    4.5
+                                    </strong>
+                                    <i class="fal fa-stars star"></i>
+                                    </div>*@
+
+                                            <div class="pric">
+                                                @if (item.MainPrice > 0)
+                                                {
+                                                    if (item.DiscountPrice != item.MainPrice)
+                                                    {
+                                                        var disPrice = item.MainPrice - item.DiscountPrice;
+                                                        <del><span>@item.MainPrice.ToString("N0")<span>تومان</span></span></del>
+                                                        <ins><span>@item.DiscountPrice.ToString("N0")<span>تومان</span></span></ins>
+
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <ins><span>@item.MainPrice.ToString("N0")<span>تومان</span></span></ins>
+
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    <ins>-- ناموجود --</ins>
+                                                }
+
+                                            </div>
+                                        </div>
+                                        <div class="actions trs-3">
+                                            <div class="action-holder">
+                                                <span class="action-item ">
+                                                    <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3 ">
+                                                        <i class="fal fa-shopping-bag "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        جزئیات محصول
+                                                    </p>
+                                                </span>
+                                                @*    <span class="action-item ">
+                                        <a href="dashboard-favorites.html" class="trs-3 ">
+                                        <i class="fal
+                                        fa-heart "></i>
+                                        </a>
+                                        <p class="tooltip-box trs-3 ">
+                                        افزودن به علاقمندی
+                                        </p>
+                                        </span>
+                                        <span class="action-item ">
+                                        <a  asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="trs-3 ">
+                                        <i class="fal fa-random "></i>
+                                        </a>
+                                        <p class="tooltip-box trs-3 ">
+                                        مقایسه محصول
+                                        </p>
+                                        </span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (item.MainPrice > 0)
+                                    {
+                                        if (item.DiscountPrice != item.MainPrice)
+                                        {
+                                            decimal disPrice = item.MainPrice - item.DiscountPrice;
+                                            var disPercent = Math.Ceiling(((disPrice * 100) / item.MainPrice));
+
+                                            <span class="discount">
+                                                @disPercent <span>%</span>
+                                            </span>
+
+                                        }
+
+
+                                    }
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

@@ -1,0 +1,182 @@
+﻿@model EShop.Core.ViewModels.AddressListViewModel
+@{
+    ViewData["Title"] = "آدرس جدید";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+    bool isColleague = ViewBag.isColleague;
+}
+@section Style{
+    <link href="~/css/selectric.css" rel="stylesheet" />
+
+     <link href="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css" rel="stylesheet" type="text/css">
+    <style>
+        .field-validation-error {
+            font-size: 9pt !important;
+        }
+        .alert-error {
+            background-color: #c4a373 !important;
+            color: white !important;
+            text-align: center !important;
+            border: none !important;
+            font-size: 11pt !important;
+        }
+    </style>
+}
+<div class="profile-stats">
+    <div class="profile-address">
+        <div class="middle-container">
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger">@ViewBag.Error</div>
+
+            }
+            <form class="form-checkout" asp-area="User" asp-controller="Profile" asp-action="CreateAddress" id="addaddressform">
+                <div class="form-checkout-row">
+                    <input type="hidden" id="addlat" asp-for="@Model.Address.Lat" >
+                    <input type="hidden" id="addlng" asp-for="@Model.Address.Lng" >
+                    @if (!isColleague)
+                    {
+   <label for="FullName">نام و نام خانوادگی  <abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                    <input type="text" asp-for="@Model.Address.FullName" class="input-name-checkout form-control">
+                    <span asp-validation-for="@Model.Address.FullName" class="text-danger field-validation-error-text"></span>
+
+                    <label for="Phone">شماره موبایل <abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                    <input type="text" asp-for="@Model.Address.Phone" class="input-name-checkout form-control text-left">
+                    <span asp-validation-for="@Model.Address.Phone" class="text-danger"></span>
+
+                    }
+                 
+
+
+
+
+                    <div class="form-checkout-valid-row">
+                        <label for="province">
+                            استان
+                            <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                        </label>
+                        <select class="province" asp-for="@Model.Address.ProvinceId" asp-items="@(new SelectList(ViewBag.provincelist, "ProvinceId", "ProvinceName"))" class="form-control">
+                            <option value="" selected="selected">استان مورد نظر خود را انتخاب کنید </option>
+                        </select>
+                        <span asp-validation-for="@Model.Address.ProvinceId" class="text-danger"></span>
+
+
+                    </div>
+
+                    <div class="form-checkout-valid-row">
+                        <label for="city">
+                            شهر
+                            <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                        </label>
+                        <select id="cityid" class="form-control" asp-for="@Model.Address.CityId">
+                            <option value="" selected="selected">شهر مورد نظر خود را انتخاب کنید</option>
+
+                        </select>
+                        <span asp-validation-for="@Model.Address.CityId" class="text-danger"></span>
+
+                    </div>
+
+                    <label for="post-code">کد پستی<abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                    <input type="text" asp-for="@Model.Address.PostalCode" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+                    <span asp-validation-for="@Model.Address.PostalCode" class="text-danger"></span>
+
+                    <label for="address">
+                        آدرس
+                        <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                    </label>
+                    <textarea rows="5" cols="30" asp-for="@Model.Address.PostalAddress" class="textarea-name-checkout form-control" placeholder="آدرس را وارد نمایید"></textarea>
+                    <span asp-validation-for="@Model.Address.PostalAddress" class="text-danger"></span>
+                    
+                    <div class="form-auth-row p-4">
+                        <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                        <span id="recaptchaerror" class="text-danger"></span>
+                    </div>
+                    <div class="AR-CR">
+                        <button type="submit" class="btn-registrar"> ثبت آدرس</button>
+                        <a  asp-action="Index"  class="cancel-edit-address" data-dismiss="modal" aria-label="Close">بازگشت</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+
+
+@section Scripts{
+    <script src="~/js/jquery.selectric.min.js"></script>
+
+     <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+
+    <script src="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.js" type="text/javascript"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+     <script>
+         $(document).ready(function () {
+             $("form").submit(function(event) {
+
+                 //var recaptcha = $("#g-recaptcha-response").val();
+                 //if (recaptcha === "") {
+                 //    event.preventDefault();
+                 //    $("#recaptchaerror").text("لطفا احراز هویت را انجام دهید")
+                 //}
+
+                 $.validator.methods.range;
+                 $.validator.methods.range = function(value, element, param) {
+                     if(element.type === 'checkbox') {
+                         return element.checked;
+                     } else {
+                         return defaultRangeValidator.call(this, value, element, param);
+                     }
+                 }
+
+             });
+             var cid = 0;
+
+             $(".province").change(function () {
+                 var id = $(this).children("option:selected").val();
+                 var cityselect = $("#cityid");
+                 $.ajax({
+                     type: "POST",
+                     url: "/Profile/GetCity",
+                     data: { id: id },
+                     success: function (data) {
+                         
+                         cityselect.children('.js-item').remove();
+                         data.forEach(function (item) {
+                             cityselect.append($("<option value='" + item.CityId + "' class='js-item'>" + item.CityName+"</option>"));
+                         });
+                     }
+                 });
+
+             });
+             function map() {
+                 var myMap = new L.Map('map', {
+                     key: ' web.440dAY4LY3LUOdu8Roq4H6H9uvaXFAtKEtXfr21p ',
+                     maptype: 'dreamy',
+                     poi: true,
+                     traffic: false,
+                     center: [35.699739, 51.338097],
+                     zoom: 10
+                 });
+
+                 myMap.on('click', addmarker);
+                 var marker;
+                 function addmarker(e) {
+                     if (marker) {
+                         myMap.removeLayer(marker)
+                     }
+                     marker = new L.marker(e.latlng).addTo(myMap);
+                     $('#addlat').val(marker.getLatLng().lat)
+                     $('#addlng').val(marker.getLatLng().lng)
+                     console.log(marker.getLatLng().lat)
+                     console.log(marker.getLatLng().lng)
+                 }
+
+              
+             }
+
+         });
+
+     </script>
+}

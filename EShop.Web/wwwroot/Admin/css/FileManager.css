@@ -1,0 +1,131 @@
+﻿body {
+    height:100%;
+}
+.content ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+}
+.content li {
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #d7dcdf;
+}
+.content {
+    height: 100%;
+    display:flex;
+    flex-wrap:wrap;
+    direction:ltr;
+}
+.folderexplorer {
+    flex-basis:18%;
+    max-width:18%;
+    background-color:#f7f8f9;
+    border:1px solid #d7dcdf
+}
+
+.folder {
+    font-size: 19px;
+    
+    padding-left:40px;
+    position:relative;
+    display:block;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    color:#333;
+    line-height:33px;
+    cursor:pointer
+}
+
+.folder:before{
+    font-family:FontAweSome;
+    content:"\f07b";
+    position:absolute;
+    left:10px;
+    font-size:20px;
+    line-height:2;
+    color:#0a90eb
+}
+
+
+.fileexplorer {
+    flex-basis: 82%;
+    max-width: 82%;
+    display:flex;
+    flex-wrap:wrap;
+    align-content:flex-start
+}
+
+.filecontainer {
+    flex-basis: 25%;
+    max-width: 25%;
+    padding:7px;
+}
+
+.img-container{
+    background-color:#f7f8f9;
+    height:235px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    cursor:pointer;
+}
+
+.details{
+    display:flex;
+    width:100%;
+    justify-content:space-between
+}
+.img-container span{
+    padding-left:6px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    width:80%;
+    display:block;
+    font-weight:bold
+}
+.thumbnail{
+    margin-bottom:5px;
+    width:98%;
+}
+
+.btn-delete {
+    color: #e90d26;
+    font-size: 18px;
+    margin-right: 15px;
+    line-height: 1.2;
+    cursor:pointer
+}
+
+.folder-back:before{
+    content:"\f060";
+    font-size:24px;
+    line-height:1.5;
+    color:#000;
+}
+
+.file-maneger{
+    display:flex;
+    width:100%;
+    height:100%;
+}
+
+.toolbar{
+    flex-basis:100%;
+    max-width:100%;
+    height:45px;
+    background-color:#f7f8f9;
+    border:1px solid #d7dcdf;
+    color:#373a3c;
+    display:flex;
+    align-items:center;
+    padding:10px;
+}
+
+.toolbar .btn{
+    font-weight:bold;
+    margin-left:10px
+}

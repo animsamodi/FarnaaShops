@@ -1,0 +1,96 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.VariantsForProductDetailViewModel>
+
+@{
+    ViewData["Title"] = "موجودی محصولات";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var productId = ViewBag.productid;
+}
+@Html.Partial("_alert")
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">موجودی محصولات</h4>
+                    </div>
+                </div>
+                <div class="col-12 p-0">
+                    <div class="alert alert-dark row m-0">
+                        <div class="col-2">
+                            <img src="https://media.farnaa.com/media/@ViewBag.ProductImage" width="100" />
+                        </div>
+                        <div class="col-10 align-self-center" >
+                            <h6>@ViewBag.ProductName</h6>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="CreateProductVariant" asp-route-id="@productId" asp class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                افزودن موجودی جدید
+                            </a>
+                            <a asp-action="ProductListContainer" class="btn btn-warning mt-1">بازگشت به لیست</a>
+
+                        </div>
+                       
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MainPrice)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Count)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Guarantee)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ProductOption)
+                            </th>
+
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MainPrice)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Count)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Guarantee)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ProductOption)
+                                        </td>
+
+
+                                        <td>
+                                            <a class="btn btn-primary" asp-action="DeleteProductVariant" asp-route-id="@item.VariantId"  asp-route-productId="@productId" >حذف</a>
+                                            <a class="btn btn-warning" asp-action="VariantPromotions" asp-route-id="@item.VariantId">تخفیفات شگفت انگیر</a>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

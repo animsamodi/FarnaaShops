@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<EShop.DataLayer.Entities.Site.UserSearch>
+
+@{
+    ViewData["Title"] = "جستجو های کاربران";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">جستجو های کاربران</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                         
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+                            
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.TextSearch)
+                            </th> 
+                            <th>
+                                    @Html.DisplayNameFor(model => model.CountTry)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.PrDateTry)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.UserId)
+                            </th>
+                            <th>
+                             </th>
+                          
+                        
+                             </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TextSearch)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CountTry)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PrDateTry)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.UserId)
+                                        </td>
+                                     
+                                        
+                                       
+  
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

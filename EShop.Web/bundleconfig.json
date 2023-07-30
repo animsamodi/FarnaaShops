@@ -1,0 +1,262 @@
+[
+  {
+    "outputFileName": "wwwroot/css/vendor/bootstrap.min.css",
+    "inputFiles": [
+      "wwwroot/css/vendor/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/vendor/materialdesignicons.min.css",
+    "inputFiles": [
+      "wwwroot/css/vendor/materialdesignicons.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/main.min.css",
+    "inputFiles": [
+      "wwwroot/css/main.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/style.min.css",
+    "inputFiles": [
+      "wwwroot/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/responsive.min.css",
+    "inputFiles": [
+      "wwwroot/css/responsive.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/font.min.css",
+    "inputFiles": [
+      "wwwroot/css/font.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/main-bundle.css",
+    "inputFiles": [
+      "wwwroot/css/style.min.css",
+      "wwwroot/css/responsive.min.css",
+      "wwwroot/css/main.min.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/vendor/bootstrap.min.js",
+    "inputFiles": [
+      "wwwroot/js/vendor/bootstrap.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/vendor/jquery.countdown.min.js",
+    "inputFiles": [
+      "wwwroot/js/vendor/jquery.countdown.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/promotion.min.js",
+    "inputFiles": [
+      "wwwroot/js/promotion.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/persianumber.min.js",
+    "inputFiles": [
+      "wwwroot/js/persianumber.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/main.min.js",
+    "inputFiles": [
+      "wwwroot/js/main.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/vendor/nice-select.min.css",
+    "inputFiles": [
+      "wwwroot/css/vendor/nice-select.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/_style.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/_style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/bootstrap.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/bootstrap.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/cart.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/cart.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/col.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/col.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/custom.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/custom.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/dashboard.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/dashboard.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/filter.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/filter.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/font-awesome.min.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/font-awesome.min.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/leaflet.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/leaflet.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/LoginColleague.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/LoginColleague.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/modal-address.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/modal-address.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/owl.carousel.min.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/owl.carousel.min.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/payment.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/payment.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/paymenthamakar.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/paymenthamakar.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/product.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/product.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/style.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/style.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/switch.min.css",
+    "inputFiles": [
+      "wwwroot/css/switch.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/colors/color-1.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/colors/color-1.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/sweetalert.min.css",
+    "inputFiles": [
+      "wwwroot/css/sweetalert.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/styles.pure.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/styles.pure.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/bootstrap.pure.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/bootstrap.pure.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/style.pure.min.css",
+    "inputFiles": [
+      "wwwroot/css/style.pure.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/swiper-bundle.pure.min.css",
+    "inputFiles": [
+      "wwwroot/css/swiper-bundle.pure.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/switch.pure.min.css",
+    "inputFiles": [
+      "wwwroot/css/switch.pure.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/colors/color-1.pure.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/colors/color-1.pure.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/font-awesome.pure.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/font-awesome.pure.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/js/main.min.js",
+    "inputFiles": [
+      "wwwroot/new/js/main.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/sweetAlert.min.js",
+    "inputFiles": [
+      "wwwroot/js/sweetAlert.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/js/pre-main.min.js",
+    "inputFiles": [
+      "wwwroot/new/js/pre-main.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/new/css/layout.min.css",
+    "inputFiles": [
+      "wwwroot/new/css/layout.css"
+    ]
+  }
+]

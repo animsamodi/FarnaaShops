@@ -1,0 +1,101 @@
+﻿@using EShop.Core.ExtensionMethods
+@model EShop.Core.ViewModels.Product.ProductReviewViewModel
+
+@{
+    Layout = null;
+}
+
+ 
+
+@if (!String.IsNullOrEmpty(Model.Suammry))
+{
+    <h2 class="params-headline">
+        نقد و بررسی اجمالی
+        <span>@ViewData["Title"]</span>
+    </h2>
+    <section class="content-expert-summary">
+        <div class="mask pm-3">
+            <div class="mask-text">
+                <p>
+                    @Html.Raw(Model.Suammry)
+                </p>
+            </div>
+            <a href="#" class="mask-handler">
+                <span class="show-more">+ ادامه مطلب</span>
+                <span class="show-less">- بستن</span>
+            </a>
+            <div class="shadow-box"></div>
+        </div>
+    </section>
+}
+<section class="content-expert-stats">
+    <div class="comments">
+        <div class="comments-summary">
+       
+        <div class="col-lg-6 col-md-6 col-xs-12 pr">
+
+                <div class="content-expert-evaluation p-0">
+
+                    @if (!String.IsNullOrEmpty(Model.Psitive))
+                    {
+                        string[] str = Model.Psitive.Split("=");
+                        <div class="col-lg-6 col-md-6 col-xs-12 d-inline-block pr">
+                            <div class="positive">
+                                <span class="plus">نقاط قوت</span>
+                                <ul>
+                                    @foreach (var item in str)
+                                    {
+                                        <li>  <i class="fa fa-plus-circle"></i>@item</li>
+                                    }
+
+
+                                </ul>
+                            </div>
+                        </div>}   @if (!String.IsNullOrEmpty(Model.Negative))
+                    {
+                        string[] negativestr = Model.Negative.Split("=");
+                        <div class="col-lg-6 col-md-6 col-xs-12 d-inline-block pr">
+                            <div class="negative">
+                                <span class="neg">نقاط ضعف</span>
+                                <ul>
+                                    @foreach (var item in negativestr)
+                                    {
+                                        <li> <i class="fa fa-minus-circle"></i>@item</li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    @if (!String.IsNullOrEmpty(Model.ShortReview))
+    {
+<section class="content-expert-review">
+         @Html.Raw(Model.ShortReview)
+    
+
+</section>
+    }
+    @if (!String.IsNullOrEmpty(Model.Review))
+    {
+        <div class="content-expert-articles">
+            @Html.Raw(Model.Review)
+        </div>
+    }
+<script src="~/js/vendor/jquery-3.6.0.min.js"></script>
+
+<script>
+    $('*').each(function(){ 
+ 
+        if ($(this).is('img')) {
+            $(this).addClass("img-fluid")
+            console.log($(this).attr('src'));
+        }  
+    });
+
+ 
+</script>

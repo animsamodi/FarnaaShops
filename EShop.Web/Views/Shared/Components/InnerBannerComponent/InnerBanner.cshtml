@@ -1,0 +1,24 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.Banner.BannerImage>
+
+@{
+    Layout = null;
+}
+
+    <div class="c-discount_banner ">
+        @foreach (var item in Model)
+        {
+            <a href="@item.Link" class="c-discount_banner-item" style="background:linear-gradient(270deg,#fff,#fff,#@item.Color);width:24%">
+                <div class="c-discount_banner-item_searchpage">
+                    <img class="c-discount_banner-item_searchpage-img" src="~/img/banner/search/@item.ImageName">
+                   <div class="c-discount_banner-item_searchpage-prop">
+                       <span class="c-discount_banner-item_searchpage-discount">تخفیف تا
+                       <span class="c-discount_banner-item_searchpage-discount_value">@item.Discount%</span>
+                       </span>
+                       <div class="c-discount_banner-item_searchpage-title">@item.Title</div>
+                       <div class="c-discount_banner-item_searchpage-button">خرید</div>
+                   </div>
+                </div>
+            </a>
+        }
+
+    </div>

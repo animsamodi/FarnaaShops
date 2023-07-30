@@ -1,0 +1,28 @@
+﻿
+@{
+
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+ 
+ <div id="content">
+
+</div>
+
+
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.selectric.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+
+
+ 
+
+    <script>
+        $("#content").load("/profile/AddressContent")
+        $("#content").persiaNumber();
+    </script>
+}
+
+

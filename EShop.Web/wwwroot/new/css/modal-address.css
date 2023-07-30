@@ -1,0 +1,111 @@
+.address {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.address .title {
+    margin-bottom: 50px;
+}
+
+.address .title h5 {
+    font-weight: 600;
+}
+
+.address .info-box form .item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.address .info-box form label {
+    display: block;
+    margin-bottom: 5px;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+.address .info-box form input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    border-color: #f1f1f1;
+    background: #f1f1f1;
+}
+
+.address .info-box form input:focus {
+    border-color: #ff5858;
+    box-shadow: none;
+}
+
+.address .info-box form select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    border-color: #f1f1f1;
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+.address .info-box form select:focus {
+    border-color: #ff5858;
+    box-shadow: none;
+}
+
+.address .info-box form .item .state-box {
+    position: relative;
+}
+
+.address .info-box form .item .state-box i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.address .info-box form .item .city {
+    width: 50%;
+    float: left;
+    padding-right: 3px
+}
+
+.address .edit-box form .item .city {
+    width: 50%;
+    float: left;
+    padding-right: 3px
+}
+
+.address .info-box form .item .state {
+    width: 50%;
+    float: left;
+    padding-left: 3px
+}
+
+.address .info-box form .item textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    border-color: #f1f1f1;
+    background: #f1f1f1;
+}
+
+.address .info-box form .item textarea:focus {
+    border-color: #d90268;
+}
+
+.btn-submit {
+    background: #d90268;
+    color: #f1f1f1;
+}
+
+.btn-submit:hover {
+    background: #233462;
+    color: #f1f1f1;
+}

@@ -1,0 +1,92 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductPropertyUserViewModel>
+
+@{
+    Layout = null;
+    var isFirst = true;
+}
+ 
+<article>
+
+    @foreach (var item in Model.GroupBy(g => g.GroupName))
+    {
+        if (isFirst)
+        {
+            <section>
+                <h3 class="params_title">@item.Key</h3>
+                <ul class="params-list">
+                    @foreach (var item2 in item.OrderBy(c => c.OrderPropertyName).ToList().GroupBy(g => g.PropertyName))
+                    {
+                        <li class="params-list-item">
+                            <div class="params-list-key">
+                                <span class="block item-key">@item2.Key</span>
+                            </div>
+                            @foreach (var item3 in item2.ToList())
+                            {
+
+                                <div class="params-list-value">
+                                    <span class="block">
+
+                                        @Html.Raw(item3.PropertValue)
+                                    </span>
+                                </div>
+                            }
+
+                        </li>
+                    }
+
+
+                </ul>
+            </section>
+            <a class="btn-collapse-property   a-hover-1" data-toggle="collapse" href="#collapseProperty" role="button" aria-expanded="false" aria-controls="collapseProperty">
+                مشاهده همه ی مشخصات
+            </a>
+        }
+
+
+        isFirst = false;
+        break;
+    }
+    @{ isFirst = true;}
+<div class="collapse" id="collapseProperty">
+    @foreach (var item in Model.GroupBy(g => g.GroupName))
+    {
+        if (!isFirst)
+        {
+
+            <section>
+                <h3 class="params_title">@item.Key</h3>
+                <ul class="params-list">
+                    @foreach (var item2 in item.OrderBy(c => c.OrderPropertyName).ToList().GroupBy(g => g.PropertyName))
+                    {
+                        <li class="params-list-item">
+                            <div class="params-list-key">
+                                <span class="block item-key">@item2.Key</span>
+                            </div>
+                            @foreach (var item3 in item2.ToList())
+                            {
+
+                                <div class="params-list-value">
+                                    <span class="block">
+
+                                        @Html.Raw(item3.PropertValue)
+                                    </span>
+                                </div>
+                            }
+
+                        </li>
+                    }
+
+
+                </ul>
+            </section>
+
+        }
+
+        isFirst = false;
+    }
+    <a class="btn-collapse-property2" data-toggle="collapse" href="#collapseProperty" role="button" aria-expanded="false" aria-controls="collapseProperty">
+        نمایش کمتر
+    </a>
+</div>
+
+    </article>

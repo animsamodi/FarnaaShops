@@ -1,0 +1,97 @@
+﻿@model List<EShop.Core.ViewModels.Cart.CartPageViewModel>
+
+@{
+    Layout = null;
+  }
+
+
+<div class="header-cart-basket">
+    <a asp-controller="Cart" asp-action="Index" asp-area="" class="cart-basket-box">
+        <span class="icon-cart">
+            <i class="mdi mdi-cart-outline"></i>
+        </span>
+        <span class="title-cart">سبد خرید</span>
+     
+        <span class="count-cart">@Model.Sum(c=> c.CartCount)</span>
+    </a>
+    <div class="widget-shopping-cart">
+        <div class="widget-shopping-cart-content">
+            @if (Model.Count > 0)
+            {
+
+                <ul class="product-list-widget">
+                    @foreach (var item in Model)
+                    {
+                        <li class="mini-cart-item">
+                            <div class="mini-cart-item-content">
+                                <a asp-action="RemoveCartDetail" asp-controller="Cart" asp-route-id="@item.VariantId" class="mini-cart-item-close">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                <a   class="mini-cart-item-image d-block">
+                                    <img src="https://media.farnaa.com/media/@item.ImgName">
+                                </a>
+                                <span class="product-name-card">
+                                    
+                                        @item.ProductName
+                                       </span>
+
+                                <div class="variation">
+                                    <span class="variation-n">فروشنده : </span>
+                                    <p class="mb-0">@item.SellerName </p>
+                                </div>
+                                <div class="variation">
+                                    <span class="variation-n">رنگ : </span>
+                                    <p class="mb-0"> <span class="cart-color " style="background-color: @item.ProductOptionValue"></span>@item.ProductOption</p> 
+                                </div>
+                                <hr class="mt-0"/>
+                                <div class="quantity">
+                                    <span class="quantity-Price-amount">
+                                        @item.SpecialPrice.ToString("N0")
+                                        <span>  تومان  </span>
+                                    </span>
+                                    <span class="cart-count pl">@item.CartCount عدد</span>
+                                </div>
+                            </div>
+                        </li>
+
+
+
+
+
+
+
+
+
+
+  
+                    }
+
+
+
+                </ul>
+                <div class="mini-card-total">
+                    <strong>قیمت کل : </strong>
+                    <span class="price-total">
+                        @Model.Sum(c=>c.SpecialPrice * c.CartCount).ToString("N0")
+                        <span>  تومان  </span>
+                    </span>
+                </div>
+                <div class="mini-card-button">
+                    <a asp-controller="Cart" asp-action="Index" asp-area="" class="card-checkout">مشاهده سبد خرید</a>
+                </div>
+
+
+            }
+            else
+            {
+                <div class="mini-card-total bg-danger text-white">
+                    <strong>سبد خرید شما خالی می باشد</strong>
+
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+

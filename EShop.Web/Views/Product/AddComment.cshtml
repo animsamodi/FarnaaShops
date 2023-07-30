@@ -1,0 +1,163 @@
+﻿@model EShop.Core.ViewModels.Product.ProductDetailUserViewModel
+
+@{
+    ViewData["Title"] = Model.FaTitle;
+    ViewData["EnTitle"] = Model.EnTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@section Style{
+
+
+    <link rel="stylesheet" href="/css/vendor/noUISlider.min.css" defer>
+    <link rel="stylesheet" href="/css/vendor/bootstrap-slider.min.css" defer>
+
+    <link rel="stylesheet" href="/css/vendor/lightgallery.css" defer>
+    <link href="~/Tokenfield/css/bootstrap-tokenfield.css" rel="stylesheet" defer/>
+    <link href="~/Tokenfield/css/tokenfield-typeahead.css" rel="stylesheet" defer />
+
+}
+
+
+
+
+<div class="col-12">
+    <div class="page-content page-row">
+        <div class="main-row">
+            <div id="breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">خانه</a></li>
+                        <li class="breadcrumb-item"><a asp-action="Search" asp-controller="Home">@Model.CategoryName</a></li>
+                        <li class="breadcrumb-item actc-box_suppliersive" aria-current="page">@Model.FaTitle </li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <form asp-area="User" asp-controller="Profile" asp-action="AddUserComment" method="post" id="addCommentForm">
+            <section class="product-comment">
+                <div class="comments-product">
+                    <div class="comments-product-row">
+                        <div class="col-lg-4 col-md-4 col-xs-12 pull-right">
+                            <div class="comments-product-col-gallery mt-3 pt-3 text-center">
+                                <a href="#">
+                                    <img src="https://media.farnaa.com/media/@Model.ImgName" style="max-width: 100%;">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-8 col-md-8 col-xs-12 pull-left">
+                            <div class="comments-product-col-info">
+                                <div class="comments-product-headline">
+                                    <h3 class="comments-product-title">
+                                        @Model.FaTitle
+                                        <span>@Model.EnTitle</span>
+                                    </h3>
+                                </div>
+                                <div class="comments-product-attributes p-0 pt-3">
+                                        <div class="comments-add-col-form">
+                                            <div class="form-comment">
+                                                     <input type="hidden" name="ProductId" value="@Model.ProductId" />
+                                                    <div class="col-md-12 col-sm-12">
+                                                        <div class="form-ui">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                <div class="form-row-title mb-2">نام و نام خانوادگی شما (اجباری)</div>
+                                                                    <div class="form-row">
+                                                                    <input class="input-ui pr-2" name="Name" type="text" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا نام و نام خانوادگی را وارد نمایید')" required="required" placeholder="نام و نام خانوادگی خود را بنویسید">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                <div class="form-row-title mb-2">موبایل شما (اختیاری)</div>
+                                                                    <div class="form-row">
+                                                                    <input class="input-ui pr-2" name="Mobile" type="text" placeholder="موبایل نظر خود را بنویسید">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <div class="form-row-title mb-2">عنوان نظر شما (اجباری)</div>
+                                                                    <div class="form-row">
+                                                                        <input class="input-ui pr-2" name="CommentTitle" type="text" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا عنوان نظر را وارد نمایید')" required="required" placeholder="عنوان نظر خود را بنویسید">
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 mt-5">
+                                                                    <div class="form-row-title mb-2">متن نظر شما (اجباری)</div>
+                                                                    <div class="form-row">
+                                                                        <textarea class="input-ui pr-2 pt-2" name="CommentText" rows="5" oninput="setCustomValidity('')" oninvalid="this.setCustomValidity('لطفا متن نظر را وارد نمایید')" required="required" placeholder="متن خود را بنویسید" style="height: 120px;"></textarea>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 mt-3">
+                                                                    <div class="form-row-title mb-2">نقاط قوت</div>
+                                                                    <div class="form-row comment-pos">
+
+                                                                        <input type="text" class="input-ui pr-2 tokenfield " name="Positive" placeholder="نقاط قوت نظر خود را بنویسید" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 mt-3">
+                                                                    <div class="form-row-title mb-2">نقاط ضعف</div>
+                                                                    <div class="form-row comment-neg">
+
+                                                                        <input type="text" class="input-ui pr-2 tokenfield " name="Negative" placeholder="نقاط ضعف نظر خود را بنویسید" />
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12 mt-3">
+                                                                    <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                                                                    <span id="recaptchaerror" class="text-danger"></span>
+                                                                </div>
+                                                                <br>
+                                                                <br>
+                                                                <br>
+                                                                <div class="col-12 mt-5 px-0">
+                                                                    <button class="btn comment-submit-button" type="submit">
+                                                                        ثبت نظر
+                                                                    </button>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+ 
+                                            </div>
+                                        </div>
+                                  
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </section>
+        </form>
+
+    </div>
+</div>
+
+@section Scripts
+ {
+
+
+    <script src="/js/vendor/bootstrap-slider.min.js" defer></script>
+    <script src="/Tokenfield/bootstrap-tokenfield.min.js" defer></script>
+    @*<script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>*@
+
+    <script type="">
+        $('.tokenfield').tokenfield()
+        $("form").submit(function (event) {
+
+            //var recaptcha = $("#g-recaptcha-response").val();
+            //if (recaptcha === "") {
+            //    event.preventDefault();
+            //    $("#recaptchaerror").text("لطفا احراز هویت را انجام دهید")
+            //}
+
+            $.validator.methods.range;
+            $.validator.methods.range = function (value, element, param) {
+                if (element.type === 'checkbox') {
+                    return element.checked;
+                } else {
+                    return defaultRangeValidator.call(this, value, element, param);
+                }
+            }
+
+        });
+    </script>
+}

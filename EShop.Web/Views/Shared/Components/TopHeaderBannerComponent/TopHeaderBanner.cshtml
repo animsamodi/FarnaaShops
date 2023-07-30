@@ -1,0 +1,29 @@
+﻿@using EShop.Core.ViewModels
+@model TopHeaderViewModel
+@if (Model.ShowTopImageBannerWeb)
+{
+   
+    <div class="tophead d-none d-lg-block">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <a href="@Model.TopImageBannerWebUrl" style="text-align: center;">
+                    <img class="lazy b-lazy" width="2800" height="100" src="https://farnaa.com/images/bg/bg-top-desktop.webp" data-src="https://media.farnaa.com/media/@Model.TopImageBannerWeb" alt="@Model.TopImageBannerWebTitle" class="img-top-header">
+                </a>
+            </div>
+        </div>
+    </div>
+}
+@if (Model.ShowTopImageBannerMobile)
+{
+  
+    <div class="tophead d-lg-none">
+        <div class="container-fluid p-0">
+            <div class="row">
+                <a href="@Model.TopImageBannerMobileUrl" style="text-align: center;">
+                    <img class="lazy b-lazy" width="1284" height="106" src="https://farnaa.com/images/bg/bg-top-mobile.webp" data-src="https://media.farnaa.com/media/@Model.TopImageBannerMobile" alt="@Model.TopImageBannerMobileTitle" class="img-top-header">
+                </a>
+            </div>
+        </div>
+    </div>
+}
+

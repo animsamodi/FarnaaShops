@@ -1,0 +1,317 @@
+﻿@using DevExtreme.AspNet.Mvc
+@using EShop.Core.ViewModels
+@{
+	ViewData["Title"] = "سفارشات";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles
+{
+
+
+	<link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
+
+	<link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+
+	
+
+	<script src="~/js/devextreme/jquery.js"></script>
+	<script src="~/js/devextreme/bootstrap.js"></script>
+
+	<script src="~/js/devextreme/cldr.js"></script>
+	<script src="~/js/devextreme/cldr/event.js"></script>
+	<script src="~/js/devextreme/cldr/supplemental.js"></script>
+	<script src="~/js/devextreme/cldr/unresolved.js"></script>
+	<script src="~/js/devextreme/globalize.js"></script>
+	<script src="~/js/devextreme/globalize/message.js"></script>
+	<script src="~/js/devextreme/globalize/number.js"></script>
+	<script src="~/js/devextreme/globalize/currency.js"></script>
+	<script src="~/js/devextreme/globalize/date.js"></script>
+
+	
+
+	<script src="~/js/devextreme/dx.all.js"></script>
+
+	
+
+	<script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
+	<script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.1/polyfill.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.8.0/exceljs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
+	<style>
+		body, body * {
+			direction: ltr !important;
+		}
+
+		.dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
+			vertical-align: top;
+			direction: rtl !important;
+			text-align: center !important;
+		}
+	</style>
+
+	<script src="~/js/devextreme/localization/dx.messages.fa.js"></script>
+}
+
+
+
+<section id="extended">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title-wrap bar-success">
+						<h4 class="card-title">سفارشات</h4>
+					</div>
+				</div>
+				<div class="card-body">
+
+					<div class="card-block">
+
+						<div class="form-body">
+							<div class="row">
+
+								<div class="col-md-6 col-12  ">
+									<fieldset class="form-group mb-0">
+										<label for="basicInput">تا تاریخ</label>
+										<input class="form-control date-piker" id="EDate" type="text" value="">
+
+										
+									</fieldset>
+								</div>
+								<div class="col-md-6 col-12  ">
+									<fieldset class="form-group mb-0">
+										<label for="basicInput">از تاریخ</label>
+										<input class="form-control date-piker" id="SDate" type="text" value="">
+
+										
+									</fieldset>
+								</div>
+								<div class=" col-12 pt-2 ">
+									@(Html.DevExtreme().Button()
+										.ID("filterDate")
+										.Text("جستجو")
+										.Icon("fa fa-search")
+										.Type(ButtonType.Default)
+										.OnClick(@<text>
+											         function(data) {
+											         var dataGrid = $("#gridContainer").dxDataGrid("instance");
+
+											         filterDate(dataGrid);}
+										          </text>))
+									<hr />
+
+								</div>
+
+
+
+
+
+							</div>
+						</div>
+
+						@(Html.DevExtreme().DataGrid<ReportOrder>()
+     .ID("gridContainer")
+     .AllowColumnReordering(true)
+     .AllowColumnResizing(true)
+     .ColumnAutoWidth(true)
+     .ShowBorders(true)
+     .ColumnChooser(c => c.Enabled(true))
+     .ColumnFixing(c => c.Enabled(true))
+      .FilterRow(filterRow => filterRow
+         .Visible(true)
+         .ApplyFilter(GridApplyFilterMode.Auto)
+     )
+     .SearchPanel(searchPanel => searchPanel
+         .Visible(true)
+         .Width(240)
+         .Placeholder("جستجو ...")
+     )
+     .Paging(paging => paging.PageSize(10))
+     .Pager(pager => {
+         pager.Visible(true);
+         pager.DisplayMode(GridPagerDisplayMode.Compact);
+         pager.ShowPageSizeSelector(true);
+         pager.AllowedPageSizes(new JS("[5, 10,25, 'all']"));
+         pager.ShowInfo(true);
+         pager.ShowNavigationButtons(true);
+     })
+     .Selection(s => s.Mode(SelectionMode.Multiple))
+     .Export(e => e.Enabled(true).AllowExportSelectedData(true))
+     .OnExporting("exporting")
+     .HeaderFilter(headerFilter => headerFilter.Visible(false))
+     .FilterPanel(filterPanel => filterPanel.Visible(true))
+      .Columns(columns => {
+      columns.AddFor(m => m.Id).SortOrder(SortOrder.Desc)
+                                 .Width(140)
+                                 ;
+          columns.AddFor(m => m.PrDate).Visible(false);
+          columns.AddFor(m => m.PrDateDisplay);
+          columns.AddFor(m => m.ClientName);
+          columns.AddFor(m => m.ClientTel);
+          columns.AddFor(m => m.ClientNatioalCode);
+          columns.AddFor(m => m.ClientAddress);
+          columns.AddFor(m => m.ClientPostalCode);
+          columns.AddFor(m => m.RecipientName);
+          columns.AddFor(m => m.RecipientTel);
+          columns.AddFor(m => m.RecipientAddress);
+          columns.AddFor(m => m.RecipientPostalCode);
+      columns.AddFor(m => m.CreateDate)
+                                 .Width(120)
+                                 .Alignment(HorizontalAlignment.Right)
+                                 .CalculateFilterExpression(@<text>
+                                                                                       function(value, selectedFilterOperations, target) {
+                                                                                       if(target === "headerFilter" && value === "weekends") {
+                                                                                       return [[getOrderDay, "=", 0], "or", [getOrderDay, "=", 6]];
+                                                                                       }
+                                                                                       return this.defaultCalculateFilterExpression.apply(this, arguments);
+                                                                                       }
+                                                                                    </text>);
+          columns.AddFor(m => m.AmountPayable)
+              .Alignment(HorizontalAlignment.Right)
+              .Format(Format.FixedPoint)
+               ;
+
+          columns.AddFor(m => m.ShipmentTitle);
+          columns.AddFor(m => m.ShipmentPrice)
+              .Alignment(HorizontalAlignment.Right)
+              .Format(Format.FixedPoint)
+
+              ;
+          columns.AddFor(m => m.Count);
+
+          columns.AddFor(m => m.Price)
+              .Alignment(HorizontalAlignment.Right)
+              .Format(Format.FixedPoint)
+
+              ;
+          columns.AddFor(m => m.SumPrice)
+              .Alignment(HorizontalAlignment.Right)
+              .Format(Format.FixedPoint)   ;
+          columns.AddFor(m => m.FaTitle);
+          columns.AddFor(m => m.Guarantee);
+          columns.AddFor(m => m.Color);
+          columns.AddFor(m => m.SaleReferenceId);
+      })  .Summary(s => s.TotalItems(items => {
+          items.Add()
+              .SummaryType(SummaryType.Count)
+              .CustomizeText(@<text>
+                                 function(data) { return "تعداد کل: "+ data.value }
+                              </text>)
+              .Column("Id");
+
+          items.AddFor(m => m.Count)
+              .SummaryType(SummaryType.Sum)
+              .CustomizeText(@<text>
+                                 function(data) { return "تعداد محصول: "+ data.value }
+                              </text>)
+              .Column("Count");
+      })
+                            )
+                            .DataSource(d => d.Mvc().Controller("ReportFiltering").LoadAction("GetOrder").Key("Id")))
+
+						@using (Html.DevExtreme().NamedTemplate("TagBoxTemplate"))
+						{
+							<input class="form-control date-piker " type="text" value="dfdf">
+							<script>
+								$('.date-piker').persianDatepicker({
+									format: 'YYYY/MM/DD',
+									autoClose: true,
+									initialValue: false
+								});
+							</script>
+
+						}
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+@section Scripts
+{
+
+	<script>
+		$('.date-piker').persianDatepicker({
+			format: 'YYYY/MM/DD',
+			autoClose: true,
+			initialValue: false
+		});
+		var fromValue = "";
+		var toValue = "";
+
+		function setFromValue(dataGrid, value) {
+			fromValue = value;
+			filterDate(dataGrid);
+
+		}
+
+		function setToValue(dataGrid, value) {
+			toValue = value;
+
+			filterDate(dataGrid);
+		}
+
+		function filterDate(dataGrid) {
+			toValue = persianToEnglishNumbers($("#EDate").val());
+			fromValue = persianToEnglishNumbers($("#SDate").val());
+			if (fromValue == "" && toValue == "") {
+				dataGrid.clearFilter();
+			} else {
+				if (toValue == "") {
+					dataGrid.filter(["PrDate", ">=", fromValue]);
+				} else if (fromValue == "") {
+					dataGrid.filter(["PrDate", "<=", toValue]);
+				} else {
+					dataGrid.filter(["PrDate", ">=", fromValue], "and", ["PrDate", "<=", toValue]);
+
+				}
+
+			}
+
+
+		}
+
+
+		function getOrderDay(rowData) {
+			return (new Date(rowData.OrderDate)).getDay();
+		}
+
+		function exporting(e) {
+			var workbook = new ExcelJS.Workbook();
+			var worksheet = workbook.addWorksheet('Employees');
+
+			DevExpress.excelExporter.exportDataGrid({
+				component: e.component,
+				worksheet: worksheet,
+				autoFilterEnabled: true
+			}).then(function () {
+				workbook.xlsx.writeBuffer().then(function (buffer) {
+					saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Employees.xlsx');
+				});
+			});
+			e.cancel = true;
+		}
+
+		var locale = getLocale();
+		Globalize.locale(locale);
+
+		function getLocale() {
+			var locale = sessionStorage.getItem("locale");
+			return locale != null ? locale : "fa";
+		}
+	</script>
+}
+
+
+
+
+
+

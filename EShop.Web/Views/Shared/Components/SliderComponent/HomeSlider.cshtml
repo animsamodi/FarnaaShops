@@ -1,0 +1,71 @@
+﻿@using AngleSharp.Common
+@model IEnumerable<EShop.DataLayer.Entities.Slider>
+
+@{
+    Layout = null;
+    var first = Model.FirstOrDefault();
+    var otherList = Model.Except(first);
+ }
+
+<div class="slider"> 
+    @if (first != null)
+            {
+ <div class="first-slider-item  d-none d-lg-block">
+                <a href="@first.Link">
+                <img src="https://media.farnaa.com/media/@first.ImgName" width="2000" height="500" alt="@first.Descrption" title="@first.Descrption" fetchpriority="high" style="border-radius: 0;">
+                </a>
+            </div>
+            }
+    <div class="slider-cotainer">
+        <div class="owl-carousel d-none c-desktop-slider">
+            @if (first != null)
+            {
+ <div class="slider-item">
+                <a href="@first.Link">
+                        <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-banner.webp" width="2000" height="500" data-src="https://media.farnaa.com/media/@first.ImgName" alt="@first.Descrption" title="@first.Descrption" fetchpriority="high" style="border-radius: 0;">
+                </a>
+            </div>
+            }
+           
+            @foreach (var item in otherList)
+            {
+                <div class="slider-item">
+                    <a href="@item.Link">
+                        <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-banner.webp" width="2000" height="500" data-src="https://media.farnaa.com/media/@item.ImgName" alt="@item.Descrption" title="@item.Descrption" style="border-radius: 0;">
+                    </a>
+                </div>
+            }
+
+
+        </div>
+@if (first != null)
+            {
+  <div class="first-slider-item d-lg-none">
+                <a href="@first.Link">
+                    <img src="https://media.farnaa.com/media/@first.ImgNameMobile" width="1000" height="800" alt="@first.Descrption" title="@first.Descrption" style="border-radius: 0;">
+                </a>
+            </div>
+            }
+        <div class="owl-carousel d-lg-none d-none c-mobile-slider"  >
+            @if (first != null)
+            {
+  <div class="slider-item">
+                <a href="@first.Link">
+                        <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-banner-mobile.webp" width="1000" height="800" data-src="https://media.farnaa.com/media/@first.ImgNameMobile" alt="@first.Descrption" title="@first.Descrption" fetchpriority="high" style="border-radius: 0;">
+                </a>
+            </div>
+            }
+          
+            @foreach (var item in otherList)
+            {
+                <div class="slider-item">
+                    <a href="@item.Link">
+                        <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-banner-mobile.webp" width="1000" height="800" data-src="https://media.farnaa.com/media/@item.ImgNameMobile" alt="@item.Descrption" title="@item.Descrption" style="border-radius: 0;">
+                    </a>
+                </div>
+            }
+        </div>
+
+    </div>
+</div>
+ 

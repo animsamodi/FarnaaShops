@@ -1,0 +1,49 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.UserProductView>
+
+@if (Model.Any())
+{
+    <div class="lastseen ">
+        <div class="hoder-seen ">
+            <div id="head-title ">
+                <div class="container ">
+                    <div class="row ">
+                        <div class="col-12 ">
+                            <div class="title f-parent " style="text-align: center; ">
+                                 <h3 style="font-size: 1.25rem;">
+                                    کالاهای که دیده اید !
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="seen-box ">
+                <div class="container ">
+                    <div class="row ">
+                        <div class="owl-carousel nav-arrow ">
+                            @foreach (var item in Model)
+                            {
+                                <div class="seen-item trs-3 ">
+
+                                    <a asp-action="Index" asp-controller="product" asp-route-category="@item.Product.Category.EnTitle.Replace(" ", "-")" asp-route-id="@item.ProductId" asp-route-name="@item.Product.EnTitle.Replace(" ", "-")" >
+                                        <img src="https://media.farnaa.com/media/@item.Product.ImgName" width="600" height="600" alt="@item.Product.FaTitle" />
+                                    </a>
+                                    <a asp-action="Index" asp-controller="product" asp-route-category="@item.Product.Category.EnTitle.Replace(" ", "-")" asp-route-id="@item.ProductId" asp-route-name="@item.Product.EnTitle.Replace(" ", "-")" class="trs-3 ">
+                                        @item.Product.FaTitle
+                                    </a>
+                                </div>
+                            }
+
+
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+}

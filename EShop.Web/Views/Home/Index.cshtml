@@ -1,0 +1,519 @@
+﻿@using EShop.Core.ViewModels
+@using EShop.Core.ViewModels.Product
+@using EShop.DataLayer.Enum
+@{
+    ViewData["Title"] = "فروشگاه فرنا | Farnaa";
+    var isFirstSlider = true;
+    var bannerImages = (List<BannerImageViewModel>)ViewBag.BannerImage;
+    //var SuggestList = (List<SearchPageViewModel>)ViewBag.Suggest;
+    var bannerHomeTop1 = bannerImages.FirstOrDefault(c => c.BannerType == EnumBannerType.HomeTop1);
+    var bannerHomeTop2 = bannerImages.FirstOrDefault(c => c.BannerType == EnumBannerType.HomeTop2);
+    var bannerHomeDown = bannerImages.FirstOrDefault(c => c.BannerType == EnumBannerType.HomeDown);
+
+
+}
+
+@section Meta
+{
+
+    @await Component.InvokeAsync("IndexMainMetaComponent")
+    @Html.Raw(ViewData["schema"])
+
+}
+
+<!-- ---------- Slider ---------- -->
+
+@await Component.InvokeAsync("SliderComponent",EnumTypeSlider.User)
+
+                        <!-- ---------- Category ---------- -->
+    @*<div class="category">
+        <div class="category-holder">
+            <div class="owl-carousel">
+                <div class="category-item">
+                    <div class="item-holder trs-3">
+                        <span class="item-img">
+                                <img src="~/new/images/category/category-01.png" alt="">
+                            </span>
+                        <span class="item-text  mt-4">
+                                کالاهای دیجیتالی
+                            </span>
+
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="item-holder trs-3">
+                        <span class="item-img">
+                                <img src="~/new/images/category/category-02.png" alt="">
+                            </span>
+                        <span class="item-text  mt-4">
+                                مد و پوشاک
+                            </span>
+
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="item-holder trs-3">
+                        <span class="item-img">
+                                <img src="~/new/images/category/category-03.png" alt="">
+                            </span>
+                        <span class="item-text  mt-4">
+                                کتاب و لوازم تحریر
+                            </span>
+
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="item-holder trs-3">
+                        <span class="item-img">
+                                <img src="~/new/images/category/category-04.png" alt="">
+                            </span>
+                        <span class="item-text  mt-4">
+                                اسباب بازی و کودک
+                            </span>
+
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="item-holder trs-3">
+                        <span class="item-img">
+                                <img src="~/new/images/category/category-05.png" alt="">
+                            </span>
+                        <span class="item-text  mt-4">
+                                زیبایی و سلامت
+                            </span>
+
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="item-holder trs-3">
+                        <span class="item-img">
+                                <img src="~/new/images/category/category-06.png" alt="">
+                            </span>
+                        <span class="item-text  mt-4">
+                                ورزش و سفر
+                            </span>
+
+                    </div>
+                </div>
+
+                <div class="category-item">
+                    <div class="item-holder trs-3">
+                        <span class="item-img">
+                                <img src="~/new/images/category/category-07.png" alt="">
+                            </span>
+                        <span class="item-text  mt-4">
+                                خوردنی و آشامیدنی
+                            </span>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>*@
+<!-- ---------- Category ---------- -->
+@await Component.InvokeAsync("MainCategoryWebComponent")
+
+  
+    <!-- ---------- Amazing Offer ---------- -->
+@await Component.InvokeAsync("IndexPromotionComponent")
+
+  
+
+  
+    
+                                <!-- ---------- Banner Ads 2 ---------- -->
+    <div class="banner-ads  ">
+        <div class="holder-ads">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="row">
+                            @if (bannerHomeTop1 != null)
+                            {
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="ads mb-2">
+                                        <a href="@bannerHomeTop1.Link" class="ads-pic">
+                                        <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-home-ads.webp" width="988" height="367" data-src="https://media.farnaa.com/media/@bannerHomeTop1.ImageName" alt="@bannerHomeTop1.Title" style="border-radius: 10px;">
+                                        </a>
+
+                                    </div>
+                                </div>
+                            }
+                            @if (bannerHomeTop2 != null)
+                            {
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="ads mb-2">
+                                        <a href="@bannerHomeTop2.Link" class="ads-pic">
+                                        <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-home-ads.webp" width="988" height="367" data-src="https://media.farnaa.com/media/@bannerHomeTop2.ImageName" alt="@bannerHomeTop2.Title" style="border-radius: 10px;">
+                                        </a>
+
+                                    </div>
+                                </div>
+                            }
+                            
+
+                   
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ---------- weaz-option ---------- -->
+
+    <div class="shop-product" style="margin: 0;">
+        <div class="container">
+            <div class="shop home-shop-container">
+                <div class="box-overlay"></div>
+                <div class="row">
+
+                    <div class="col-lg-4 col-12">
+                        @await Component.InvokeAsync("IndexFilterPriceComponent")
+
+                    </div>
+                    <div class="col-lg-4 col-12">
+                        @await Component.InvokeAsync("IndexFilterPropertyComponent")
+
+                    </div>
+                    <div class="col-lg-4 d-none d-lg-block">
+
+                        @await Component.InvokeAsync("IndexBrandComponent")
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- ---------- coming soon ---------- -->
+                        @*@await Component.InvokeAsync("IndexAvailableSoonComponent")*@
+
+
+
+<!-- ---------- Best seller Products ---------- -->
+                        @await Component.InvokeAsync("ProductBestSellingComponent")
+
+
+   
+
+
+<!-- ---------- Index Layout ---------- -->
+@await Component.InvokeAsync("IndexLayoutComponent")
+
+    
+
+    <!-- ---------- Blog ---------- -->
+@*    <div class="blog">
+        <div class="holder-blog">
+            <div id="head-title">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="title f-parent">
+                                <h5>
+                                    فرنا مگ
+                                </h5>
+                                <a href="#" style="float: left;">مشاهده همه</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="blog-box">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-10 col-md-9 col-sm-12">
+                            <div class="owl-carousel nav-arrow">
+                                <div class="blog-item trs-3">
+                                    <a href="blog-detail.html">
+                                        <div class="pic-blog mb-2">
+                                            <img src="~/new/images/blog/blog-01.png" alt="">
+                                            <div class="user">
+                                                <span class="pic-user">
+                                                    <img
+                                                        src="~/new/images/users/user-04.jpg" alt="">
+                                                </span>
+                                                <span class="name-user">
+                                                    <h6>
+                                                        سیروان میرزاپور
+                                                    </h6>
+                                                    <p>
+                                                        مدیریت
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="info-blog">
+                                            <p class="title mb-3 trs-3">
+                                                راهنمای جامع خرید کفش اسکیت برای حرفه ای ها و تازه کارها
+                                            </p>
+                                            <p class="text mb-3">
+                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                                            </p>
+
+                                            <div class="info-bottom f-parent">
+                                                <span class="comment">
+                                                    <i class="fal fa-comment"></i>
+                                                    21
+                                                </span>
+
+                                                <span class="date">
+                                                    <i class="fal fa-calendar"></i>
+                                                    29 اسفند 1401
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="blog-item trs-3">
+                                    <a href="blog-detail.html">
+                                        <div class="pic-blog mb-2">
+                                            <img src="~/new/images/blog/blog-02.png" alt="">
+                                            <div class="user">
+                                                <span class="pic-user">
+                                                    <img
+                                                        src="~/new/images/users/user-02.jpg" alt="">
+                                                </span>
+                                                <span class="name-user">
+                                                    <h6>
+                                                        سیروان میرزاپور
+                                                    </h6>
+                                                    <p>
+                                                        مدیریت
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="info-blog">
+                                            <p class="title mb-3 trs-3">
+                                                محبوب ترین لوازم گلکسی A03 سامسونگ درفرنا
+                                            </p>
+                                            <p class="text mb-3">
+                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                                            </p>
+
+                                            <div class="info-bottom f-parent">
+                                                <span class="comment">
+                                                    <i class="fal fa-comment"></i>
+                                                    21
+                                                </span>
+
+                                                <span class="date">
+                                                    <i class="fal fa-calendar"></i>
+                                                    29 اسفند 1401
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="blog-item trs-3">
+                                    <a href="blog-detail.html">
+                                        <div class="pic-blog mb-2">
+                                            <img src="~/new/images/blog/blog-03.png" alt="">
+                                            <div class="user">
+                                                <span class="pic-user">
+                                                    <img
+                                                        src="~/new/images/users/user-03.jpg" alt="">
+                                                </span>
+                                                <span class="name-user">
+                                                    <h6>
+                                                        سیروان میرزاپور
+                                                    </h6>
+                                                    <p>
+                                                        مدیریت
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="info-blog">
+                                            <p class="title mb-3 trs-3">
+                                                چه چیزی در فناوری 2022 جدید است را در فرنا بخوانید
+                                            </p>
+                                            <p class="text mb-3">
+                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                                            </p>
+
+                                            <div class="info-bottom f-parent">
+                                                <span class="comment">
+                                                    <i class="fal fa-comment"></i>
+                                                    21
+                                                </span>
+
+                                                <span class="date">
+                                                    <i class="fal fa-calendar"></i>
+                                                    29 اسفند 1401
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="blog-item trs-3">
+                                    <a href="blog-detail.html">
+                                        <div class="pic-blog mb-2">
+                                            <img src="~/new/images/blog/blog-04.png" alt="">
+                                            <div class="user">
+                                                <span class="pic-user">
+                                                    <img
+                                                        src="~/new/images/users/user-01.jpg" alt="">
+                                                </span>
+                                                <span class="name-user">
+                                                    <h6>
+                                                        سیروان میرزاپور
+                                                    </h6>
+                                                    <p>
+                                                        مدیریت
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="info-blog">
+                                            <p class="title mb-3 trs-3">
+                                                محبوب ترین لوازم گلکسی A03 سامسونگ درفرنا
+                                            </p>
+                                            <p class="text mb-3">
+                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                                            </p>
+
+                                            <div class="info-bottom f-parent">
+                                                <span class="comment">
+                                                    <i class="fal fa-comment"></i>
+                                                    21
+                                                </span>
+
+                                                <span class="date">
+                                                    <i class="fal fa-calendar"></i>
+                                                    29 اسفند 1401
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                                <div class="blog-item trs-3">
+                                    <a href="blog-detail.html">
+                                        <div class="pic-blog mb-2">
+                                            <img src="~/new/images/blog/blog-05.png" alt="">
+                                            <div class="user">
+                                                <span class="pic-user">
+                                                    <img
+                                                        src="~/new/images/users/user-04.jpg" alt="">
+                                                </span>
+                                                <span class="name-user">
+                                                    <h6>
+                                                        سیروان میرزاپور
+                                                    </h6>
+                                                    <p>
+                                                        مدیریت
+                                                    </p>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div class="info-blog">
+                                            <p class="title mb-3 trs-3">
+                                                محبوب ترین لوازم گلکسی A03 سامسونگ درفرنا
+                                            </p>
+                                            <p class="text mb-3">
+                                                لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد.
+                                            </p>
+
+                                            <div class="info-bottom f-parent">
+                                                <span class="comment">
+                                                    <i class="fal fa-comment"></i>
+                                                    21
+                                                </span>
+
+                                                <span class="date">
+                                                    <i class="fal fa-calendar"></i>
+                                                    29 اسفند 1401
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <div class="video">
+                                <img class=" d-none d-lg-block" src="~/new/images/bg/unboxing.png" alt="">
+                                <img class=" d-lg-none" src="~/new/images/bg/v.jpg" alt="">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>*@
+
+    <!-------seo-text------>
+    <div class="container">
+        <div class="row">
+            <section class="content-expert-summary" style="background-image: url( '../new/images/bg/1.png'); border: 1px #dcdcdc solid; border-radius: 10px;">
+                <div class="is-masked">
+                    <div class="mask-text-product-summary text-container"><div class="box-overlay"></div>
+                        <p>
+                            @Html.Raw(ViewBag.HomeFotterText) </p>
+                    </div>
+                    <a href="#" class="mask-handler">
+                        <span class="show-more" style="color: #d90268;">ادامه مطلب <i class="fa fa-chevron-down"></i></span>
+                        <span class="show-less" style="color: #d90268;"> بستن <i class="fa fa-chevron-up"></i></span>
+                    </a>
+                    <div class="shadow-box"></div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+<!-- ---------- Brand ---------- -->
+@await Component.InvokeAsync("IndexBrandMobileComponent")
+
+    
+
+
+    <!-- ---------- Banner Ads 3 ---------- -->
+    <div class="banner-ads">
+        <div class="holder-ads">
+            <div class="container">
+                <div class="row">
+                    
+                    @if (bannerHomeDown != null)
+                    {
+                       
+                        <div class="col-12 d-none d-lg-block">
+                            <div class="ads">
+                                <a href="@bannerHomeDown.Link" class="ads-pic">
+                                <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-rectangle.webp" width="2154" height="280" data-src="https://media.farnaa.com/media/@bannerHomeDown.ImageName" alt="@bannerHomeDown.Title">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-lg-none">
+                            <div class="ads">
+                                <a href="@bannerHomeDown.Link" class="ads-pic">
+                                <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-rectangle.webp" width="2154" height="280" data-src="https://media.farnaa.com/media/@bannerHomeDown.ImageName" alt="@bannerHomeDown.Title">
+                                </a>
+                            </div>
+                        </div>
+                    }
+
+                 
+
+                </div>
+            </div>
+        </div>
+    </div>
+    
+                                
+<a href="https://ecrating.ir/Clientdomains" target="_blank" class="c-ecrating"> سنجش رضایتمندی</a>

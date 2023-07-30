@@ -1,0 +1,83 @@
+﻿@using EShop.DataLayer.Enum
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model EShop.Core.ViewModels.Seo.EditRedirectViewModel
+
+@{
+    ViewData["Title"] = "ویرایش ریدایرکت";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش ریدایرکت</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="EditRedirect" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <input asp-for="Id" type="hidden" class="form-control" />
+                                 
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="TypeSystem" class="control-label"></label>
+                                        <select asp-for="TypeSystem"
+                                                asp-items="Html.GetEnumSelectList<EnumTypeSystem>()"
+                                                class="form-control">
+                                        </select>
+                                        <span asp-validation-for="TypeSystem" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="OldUrl" class="control-label">آدرس قدیمی</label>
+                                        <input asp-for="OldUrl" class="form-control" />
+                                        <span asp-validation-for="OldUrl" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="NewUrl" class="control-label">آدرس جدید</label>
+                                        <input asp-for="NewUrl" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="NewUrl" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                 <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="IsActive" class="control-label">وضعیت فعال بودن</label>
+                                        <input asp-for="IsActive" type="checkbox" dir="ltr" class="form-control" />
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">ویرایش
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button >
+                                <a asp-action="RedirectList" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+}

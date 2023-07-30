@@ -1,0 +1,77 @@
+﻿@model EShop.Admin.ViewModels.Components.CircleComponentItemViewModel
+
+@{
+    ViewData["Title"] = "ویرایش جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش کامپوننت جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="UpdateCircleComponent" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <input type="hidden" asp-for="Id"  />
+
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Title" class="control-label">عنوان کامپوننت</label>
+                                        <input asp-for="Title" class="form-control" />
+                                        <span asp-validation-for="Title" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Url" class="control-label">آدرس کامپوننت</label>
+                                        <input asp-for="Url" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="Url" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                  <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Order" class="control-label">اولویت نمایش</label>
+                                        <input asp-for="Order" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="Order" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                 <div class="col-xl-3 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="IsActive" class="control-label">وضعیت فعال بودن</label>
+                                        <input asp-for="IsActive" type="checkbox" dir="ltr" class="form-control" />
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">ویرایش
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button >
+                                <a asp-action="CircleComponents" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+}

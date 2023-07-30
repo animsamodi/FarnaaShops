@@ -1,0 +1,64 @@
+﻿@model ProductSearchWithFilterViewModel
+@using EShop.Core.ViewModels.Product
+@using EShop.DataLayer.Entities.Brand
+
+@{
+    Layout = null;
+}
+<style>
+    .modal-backdrop.show {
+        display: none !important;
+    }</style>
+<div class="shop-product bg-white overflow-auto" id="searchupdate">
+    <div class="container">  <div class="shop">
+
+            @*<h1 class="page-title">محصولات همکار</h1>*@
+
+            <!-- start sidebar--------------------->
+            @*   <div class="col-lg-3 col-md-4 col-xs-12 pr sticky-position desktop-show">
+
+        @Html.Partial("ProductViewPartials/_SearchSidebarProductsFilter", Model)
+    </div>*@
+
+
+
+            <div class="col-lg-12 col-md-12 col-xs-12 ">
+                <div class="shop-archive-content mt-3 d-block">
+                    <div class="shop-content">
+                        <div class="box-overlay"></div>
+
+                        <div class="tabs">
+                            @if (Model.Products.Any())
+                            {
+                @*@Html.Partial("ProductViewPartials/_ProductFilterSectionDesktop")*@
+                                <div class="tabs-stage">
+                                    <div id="tab-1" class="item-tab">
+                                        @Html.Partial("ProductViewPartials/_ProductsListDesktop", Model.Products)
+                                        @Html.Partial("ProductViewPartials/_ProductsPagging", Model.PaggingData)
+                                    </div> </div>
+                            }
+                            else
+                            {
+                                <div class="no-result-container">
+                                    <h6>
+                                        <i class="fa fa-warning"></i>نتیجه‌ای یافت نشد!
+                                    </h6>
+                                    @*  <p>
+                        از عبارت‌های متداول‌تر استفاده کنید و یا املای عبارت وارد‌شده را بررسی کنید.
+                    </p>*@
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+      
+        </div>
+</div>
+</div>
+
+
+
+ 

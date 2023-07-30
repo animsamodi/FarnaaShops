@@ -1,0 +1,70 @@
+﻿@model EShop.Core.ViewModels.RegisterUserViewModel
+@{
+    ViewData["Title"] = "ثبت نام همکار";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<div class="login d-flex justify-content-center h-100">
+    <div class="content">
+        <div class="logo">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/new/images/logo-top.png" alt="فروشگاه اینترنت فرنا">
+
+            </a>
+        </div>
+
+        <form asp-action="RegisterColleague">
+            <div asp-validation-summary="ModelOnly" style="color:red"></div>
+            <input type="hidden" name="Type" value="@TempData["Type"]"/>
+
+            <span class="title">
+                <h6>
+                    ثبت نام همکار
+                </h6>
+            </span>
+            <input type="text" class="trs-3" asp-for="Phone" placeholder="  شماره موبایل خود را وارد نمایید">
+
+            <span class="text">
+                شماره موبایل خود را وارد نمایید
+            </span>
+            <button class="trs-3 ">
+                ورود به  فرنا
+            </button>
+        </form>
+
+        @*   <span class="bottom-link">
+                آیا شما یک کاربر جدید هستید؟
+                <a class="trs-3" href="#">
+                    ثبت نام
+                </a>
+            </span>*@
+    </div>
+</div>
+ 
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+    <script>
+       
+            $("form").submit(function(event) {
+
+       //var recaptcha = $("#g-recaptcha-response").val();
+
+      $.validator.methods.range;
+			$.validator.methods.range = function(value, element, param) {
+				if(element.type === 'checkbox') {
+					return element.checked;
+				} else {
+					return defaultRangeValidator.call(this, value, element, param);
+				}
+			}
+
+     });
+    </script>
+
+}
+

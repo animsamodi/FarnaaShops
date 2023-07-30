@@ -1,0 +1,430 @@
+﻿@using EShop.Core.ExtensionMethods
+@model List<EShop.Core.ViewModels.Product.SearchPageViewModel>
+@using EShop.DataLayer.Entities.Brand
+
+@{
+	Layout = null;
+	int pagecount = ViewBag.count;
+	int pagenumber = ViewBag.PageNumber;
+}
+	        <div class="col-lg-3 col-md-4 col-xs-12 pr desktop-show">
+              <div class="main-row p-1">
+                        <div id="breadcrumb">
+                            <nav aria-label="breadcrumb">
+                                <ol class="breadcrumb m-0 p-0">
+                                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">خانه</a></li>
+@*									<li class="breadcrumb-item active" aria-current="page"><a href="@Url.Action( "MainCategory", "Home",new {title=Model.EnTitle.ToUrlFormat()} )"> @Model.Title </a></li>
+*@                          
+                    </ol>
+                            </nav>
+                        </div>
+                    </div>
+        <div class="shop-archive-sidebar filter-panel">
+            <div class="sidebar-archive mb-3">
+
+             
+                <section class="widget-product-categories  js-filter_box d-none">
+                    <header class="cat-header">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne" role="button" aria-expanded="false" aria-controls="headingOne">
+                                فیلتر ها :
+                                <i class="mdi mdi-chevron-down"></i>
+                            </button>
+                        </h2>
+                    </header>
+                    <div class="product-filter">
+                        <div class="card">
+                            <div class="collapse show" id="headingOne">
+                                <div class="card-main mb-0 c-box_item">
+                                    <ul class="c-box_cat-list js-filters">
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>  <section class="widget-product-categories">
+                    <header class="cat-header">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne5" role="button" aria-expanded="false" aria-controls="headingOne5">
+                                دسته بندی محصولات
+                                <i class="mdi mdi-chevron-down"></i>
+                            </button>
+                        </h2>
+                    </header>
+                    <div class="product-filter">
+                        <div class="card">
+                            <div class="collapse show" id="headingOne5">
+                                <div class="card-main mb-0 c-box_item">
+                                    <ul class="c-box_cat-list">
+                                        @Html.Raw(ViewData["category"])
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+
+                @if (ViewData["brand"] != null)
+                {
+                    <section class="widget-product-categories">
+                        <header class="cat-header">
+                            <h2 class="mb-0">
+                                <button class="btn btn-block text-right" data-toggle="collapse" href="#headingTwo" role="button" aria-expanded="false" aria-controls="headingTwo">
+                                    برند ها
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </button>
+                            </h2>
+                        </header>
+                        <div class="product-filter">
+                            <div class="card">
+                                <div class="collapse  " id="headingTwo">
+                                    <div class="card-main mb-0">
+
+                                        @foreach (var item in ViewData["brand"] as List<Brand>)
+                                        {
+                                           
+                                            <div class="form-auth-row row-option-filter">
+                                                <label for="#" class="ui-checkbox js-filter_label" data-en='@item.EnTitle' data-type="brand" data-id="@item.Id" data-fa="@item.FaTitle" for="brand @item.Id">
+                                                    <input class="js-filter_checkbox_categoryPage" type="checkbox" data-type="brand" data-id="@item.Id" id="brand @item.Id">
+                                                    <span class="ui-checkbox-check"></span>
+                                                </label>
+                                                <label for="remember" class="remember-me">                                                    @item.FaTitle - @item.EnTitle </label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                }
+             
+            </div>
+        </div>
+    </div>
+
+<div class="col-lg-9 col-md-8 col-xs-12 pl desktop-show">
+	<div class="shop-archive-content mt-3 d-block">
+		@if (Model.Any())
+		{
+
+			<div class="product-items">
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="Most-visited" role="tabpanel" aria-labelledby="Most-visited-tab">
+						<div class="row js-search_page-left m-0">
+							@if (Model.Count > 0)
+							{
+
+
+
+
+
+								@foreach (var item in Model)
+								{
+
+
+									<div class="col-lg-3 col-md-4 col-xs-12 order-1 d-block m-0 p-0">
+										<meta name="product_id" content="@item.ProductId">
+										<meta name="product_name" content="@item.FaTitle">
+										<meta name="guarantee" content="@item.GuranateeTitle">
+										<meta property="og:image" content="https://media.farnaa.com/media/@item.Img">
+										@if (item.MainPrice > 0)
+										{
+											<meta name="product_price" content="@item.PromotionPrice">
+											<meta name="product_old_price" content="@item.MainPrice">
+											<meta name="availability" content="instock">
+										}
+										else
+										{
+											<meta name="availability" content="outofstock">
+
+										}
+										<section class="product-box product product-type-simple">
+											@if (item.MainPrice > 0)
+											{
+												if (item.PromotionPrice != item.MainPrice)
+												{
+													decimal disPrice = (decimal)(item.MainPrice - item.PromotionPrice);
+													var disPercent = Math.Ceiling((decimal)(disPrice * 100 / item.MainPrice));
+													<div class=" item-descount-filter">
+
+														<span class="text-dark font-weight-bold"> </span>
+														@if (disPrice != null)
+														{
+															@disPercent
+															<span> % </span>
+														}
+
+
+													</div>
+
+												}
+											}
+											<div class="thumb p-3">
+												<a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryProduct.ToUrlFormat()" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="d-block">
+
+													<img width="600" height="600" src="https://media.farnaa.com/media/@item.Img">
+												</a>
+											</div>
+											<div class="title">
+												<a asp-action="Index" asp-controller="product" asp-route-id="@item.ProductId" asp-route-category="@item.CategoryProduct.ToUrlFormat()"  asp-route-name="@item.EnTitle.Replace(" ", "-")">@item.FaTitle</a>
+											</div>
+											<div class="price">
+											@if (item.MainPrice > 0)
+												{
+													if (item.PromotionPrice != item.MainPrice)
+													{
+														var disPrice = item.MainPrice - item.PromotionPrice;
+
+														<div class="col-6 pr p-1">
+															<del><span>@item.MainPrice.Value.ToString("N0")<span>  تومان  </span></span></del>
+														</div>
+														<div class="col-6 pl p-1">
+															<ins>
+																<span>
+																	@if (item.PromotionPrice != null)
+																	{
+																		@item.PromotionPrice.Value.ToString("N0")
+																	}
+																	<span>  تومان  </span>
+																</span>
+															</ins>
+
+														</div>
+
+													}
+													else
+													{
+														<div class="col-12  p-1">
+															<ins><span>@item.MainPrice.Value.ToString("N0")<span>  تومان  </span></span></ins>
+														</div>
+
+													}
+
+												}
+												else
+												{
+													<div class="  col-12 p-1">
+														<ins>-- ناموجود --</ins>
+													</div>
+												}
+											</div>
+										
+										</section>
+
+									</div>
+
+
+
+								}
+
+
+
+
+							}
+
+
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="pagination-product">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						@(pagecount > 1 ? Html.Raw(pagecount.GetPaging(pagenumber, "js-pager-item")) : Html.Raw(""))
+
+
+
+
+					</ul>
+				</nav>
+			</div>
+		}
+		else
+		{
+			<div class="no-result-container">
+				<h6>
+					<i class="fa fa-warning"></i>نتیجه‌ای یافت نشد!
+				</h6>
+				<p>
+					از عبارت‌های متداول‌تر استفاده کنید و یا املای عبارت وارد‌شده را بررسی کنید.
+				</p>
+			</div>
+		}
+
+	</div>
+</div>
+<div class="col-lg-12  mobile-show clear">
+	<div class="shop-archive-content mt-3 d-block">
+		@if (Model.Any())
+		{
+
+			<div class="product-items">
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="Most-visited" role="tabpanel" aria-labelledby="Most-visited-tab">
+						<div class="row js-search_page-left m-0">
+							@if (Model.Count > 0)
+							{
+
+
+
+
+
+								@foreach (var item in Model)
+								{
+
+
+									<div class="col-lg-12 order-1 d-block m-0 p-0">
+										<meta name="product_id" content="@item.ProductId">
+										<meta name="product_name" content="@item.FaTitle">
+										<meta name="guarantee" content="@item.GuranateeTitle">
+										<meta property="og:image" content="https://media.farnaa.com/media/@item.Img">
+										@if (item.MainPrice > 0)
+										{
+											<meta name="product_price" content="@item.PromotionPrice">
+											<meta name="product_old_price" content="@item.MainPrice">
+											<meta name="availability" content="instock">
+										}
+										else
+										{
+											<meta name="availability" content="outofstock">
+
+										}
+										<section class="product-box product product-type-simple d-flex mb-3 product-mobile-view">
+											@if (item.MainPrice > 0)
+											{
+												if (item.PromotionPrice != item.MainPrice)
+												{<div class="  item-descount-filter">
+
+														@{
+															decimal disPrice = (decimal)(item.MainPrice - item.PromotionPrice);
+															var disPercent = Math.Ceiling((decimal)(disPrice * 100 / item.MainPrice));
+
+														}
+
+														<span class="  font-weight-bold">  </span>
+														@if (disPrice != null)
+														{
+															@disPercent <span>%</span>
+														}
+													</div>
+												}
+
+
+											}
+
+											<div class="thumb p-3">
+												<a asp-action="Index" asp-route-category="@item.CategoryProduct.ToUrlFormat()" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="d-block">
+
+													<img width="600" height="600" src="https://media.farnaa.com/media/@item.Img">
+												</a>
+											</div>
+											<div class="d-flex flex-column justify-content-around">
+												<div class="title">
+													<a asp-action="Index" asp-route-category="@item.CategoryProduct.ToUrlFormat()" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")">@item.FaTitle</a>
+												</div>
+												<div class="price">
+\													@if (item.MainPrice > 0)
+													{
+														if (item.PromotionPrice != item.MainPrice)
+														{
+															var disPrice = item.MainPrice - item.PromotionPrice;
+															<div class="col-6 pl p-1">
+																<del><span>@item.MainPrice.Value.ToString("N0")<span>  تومان  </span></span></del>
+															</div>
+															<div class="col-6 pr p-1">
+																<ins>
+																	<span>
+																		@if (item.PromotionPrice != null)
+																		{
+																			@item.PromotionPrice.Value.ToString("N0")
+																		}
+																		<span>  تومان  </span>
+																	</span>
+																</ins>
+
+															</div>
+														}
+														else
+														{
+															<div class="col-12  p-1">
+																<ins><span>@item.MainPrice.Value.ToString("N0")<span>  تومان  </span></span></ins>
+															</div>
+
+														}
+
+													}
+													else
+													{
+														<div class="  col-12 p-1">
+															<ins>-- ناموجود --</ins>
+														</div>
+													}
+												</div>
+											</div>
+
+										</section>
+
+									</div>
+
+
+
+								}
+
+
+
+
+							}
+
+
+
+						</div>
+					</div>
+
+				</div>
+			</div>
+			<div class="pagination-product">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination">
+						@(pagecount > 1 ? Html.Raw(pagecount.GetPaging(pagenumber, "js-pager-item")) : Html.Raw(""))
+
+
+
+
+					</ul>
+				</nav>
+			</div>
+		}
+		else
+		{
+			<div class="no-result-container">
+				<h6>
+					<i class="fa fa-warning"></i>نتیجه‌ای یافت نشد!
+				</h6>
+				<p>
+					از عبارت‌های متداول‌تر استفاده کنید و یا املای عبارت وارد‌شده را بررسی کنید.
+				</p>
+			</div>
+		}
+
+	</div>
+</div>
+<script>
+	$('.pagination').delegate(".js-pager-item", "click", function () {
+		var pagenum = parseInt($(this).data("pagenumber"))
+		$.ajax({
+			type: 'GET',
+			url: '@Url.Action("ListCategoryBrandProduct","Home")',
+						data: {  brnad: @ViewBag.brnad, category: @ViewBag.category, pagenumber: pagenum},
+			success: function (res) {
+				$("#ProductList").html(res);
+			}
+		})
+	});
+   
+</script>

@@ -1,0 +1,129 @@
+﻿
+@using EShop.DataLayer.Enum
+@model EShop.DataLayer.Entities.SupplierFactor
+
+@{
+    ViewData["Title"] = "افزودن";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">افزودن</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="Create" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Status" type="hidden" value="1" /> 
+
+                                <div class="row">
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="SupplierId" class="control-label"></label>
+                                             <select asp-for="SupplierId" asp-items="@(new SelectList(ViewBag.Suppliers, "Id", "Company"))" class="form-control ">
+                                                <option value="">--انتخاب کنید--</option>
+                                            </select>
+                                            <span asp-validation-for="SupplierId" class="text-danger"></span>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="PrDateOrder" class="control-label"></label>
+                                            <input asp-for="PrDateOrder" class="form-control date-piker" />
+                                            <span asp-validation-for="PrDateOrder" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="PrDeliveryDate" class="control-label"></label>
+                                            <input asp-for="PrDeliveryDate" class="form-control date-piker" />
+                                            <span asp-validation-for="PrDeliveryDate" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="PostCode" class="control-label"></label>
+                                            <input asp-for="PostCode" class="form-control" />
+                                            <span asp-validation-for="PostCode" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="FactorNumber" class="control-label"></label>
+                                            <input asp-for="FactorNumber" class="form-control" />
+                                            <span asp-validation-for="FactorNumber" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="PostCode" class="control-label"></label>
+                                            <input asp-for="PostCode" class="form-control" />
+                                            <span asp-validation-for="PostCode" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="SumPrice" class="control-label "></label>
+                                            <input asp-for="SumPrice" class="form-control format-price" />
+                                            <span asp-validation-for="SumPrice" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="PaymentPrice" class="control-label"></label>
+                                            <input asp-for="PaymentPrice" class="form-control format-price" />
+                                            <span asp-validation-for="PaymentPrice" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="Description" class="control-label"></label>
+                                            <textarea asp-for="Description" class="form-control"></textarea>
+                                            <span asp-validation-for="Description" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    
+
+                                    <hr />
+
+                                </div>
+                            </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="Index" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $('.date-piker').persianDatepicker({
+            format: 'YYYY/MM/DD',
+            autoClose: true,
+            initialValue: false
+        });
+    </script>
+}
+

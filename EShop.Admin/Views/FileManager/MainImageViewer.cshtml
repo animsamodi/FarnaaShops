@@ -1,0 +1,259 @@
+﻿@using System.IO
+@{
+    Layout = null;
+    var directorylist = new DirectoryInfo(Directory.GetCurrentDirectory() + "https://media.farnaa.com/media/" + ViewBag.directory);
+    string backdirectory = String.IsNullOrEmpty(ViewBag.directory) ? "" : ViewBag.directory;
+    backdirectory = backdirectory.Substring(0, (backdirectory.LastIndexOf("/") > 0 ? backdirectory.LastIndexOf("/") : 0));
+
+}
+
+<div class="toolbar">
+    <a class="btn btn-default" data-toggle="modal" data-target="#modal-UploadImage">
+        <i class="fa fa-upload"></i>
+        Upload
+    </a>
+    <a class="btn btn-default" data-toggle="modal" data-target="#modal-NewFolder">
+        <i class="fa fa-folder"></i>
+        New Folder
+    </a>
+</div>
+<div class="file-maneger">
+    <div class="folderexplorer">
+        <ul>
+            @if (!String.IsNullOrEmpty(ViewBag.directory))
+            {
+                <li>
+                    <a class="folder folder-back">Back</a>
+                </li>
+            }
+
+            @foreach (var item in directorylist.EnumerateDirectories())
+            {
+                <li>
+                    <a class="folder folder-label">@item.Name</a>
+                    <i class="fa fa-trash btn-delete folder-delete" data-name="@item.Name" data-toggle="modal" data-target="#modal-delete-folder"></i>
+                </li>
+            }
+        </ul>
+    </div>
+
+    <div class="fileexplorer">
+        @foreach (var item in directorylist.GetFilesByExtensions(".png", ".jpg", ".gif"))
+        {
+            <div class="filecontainer">
+                <div class="img-container">
+                    <img src="https://media.farnaa.com/media/@ViewBag.directory/@item.Name" class="thumbnail" width="200" height="200" />
+                    <div class="details">
+                        <span>@item.Name</span>
+                        <i class="fa fa-trash btn-delete file-delete" data-name="@item.Name" data-toggle="modal" data-target="#modal-delete"></i>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="modal fade in" id="modal-delete-folder" style="padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"> حذف</h4>
+            </div>
+            <div class="modal-body">
+                <p>آیا میخواهید این پوشه را حذف کنید؟</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خیر</button>
+
+                <input type="hidden" name="foldername" class="foldername" />
+                <a class="btn btn-primary btn-submit-delete-folder">بله</a>
+
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+<div class="modal fade in" id="modal-delete" style="padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"> حذف</h4>
+            </div>
+            <div class="modal-body">
+                <p>آیا میخواهید این عکس را حذف کنید؟</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">خیر</button>
+
+                <input type="hidden" name="filename" class="delete-name" />
+                <a class="btn btn-primary btn-submit-delete">بله</a>
+
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+<div class="modal fade in" id="modal-NewFolder" style="padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"> ایجاد پوشه جدید</h4>
+            </div>
+            <div class="modal-body">
+                <p>لطفا نام را وارد کنید</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">انصراف</button>
+                <div class="form-group ">
+                    <label class="control-label">نام پوشه</label>
+                    <input type="text" name="FolderName" class="" />
+                </div>
+
+                <a class="btn btn-primary btn-create-folder">ایجاد</a>
+
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+<div class="modal fade in" id="modal-UploadImage" style="padding-right: 17px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title"> آپلود تصویر</h4>
+            </div>
+            <div class="modal-body">
+                <p>لطفا یک عکس انتخاب کنید</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">انصراف</button>
+                <form id="uploadimage">
+                    <input type="hidden" name="directory" value="@ViewBag.directory" />
+                    <input type="file" accept="*/image" name="upload" />
+                    <a class="btn btn-primary btn-uploadimage">آپلود</a>
+                </form>
+
+            </div>
+        </div>
+        
+    </div>
+    
+</div>
+<script src="/Admin/vendors/js/core/jquery-3.3.1.min.js"></script>
+<script src="/Admin/js/components-modal.min.js"></script>
+
+<script>
+    $(function () {
+        window.onpopstate = function () {
+            var url = new URL(location.href);
+            var directory = url.searchParams.get("directory");
+            if (directory == null || directory == '') {
+                $(".content").load("/FileManager/MainImageViewer")
+            }
+            else {
+ $(".content").load("/FileManager/MainImageViewer?directory=" +directory  )
+            }
+
+        };
+    });
+    $(".btn-uploadimage").click(function () {
+        alert("sfds")
+            $(".modal-backdrop").remove();
+            var fromdata = new FormData(document.getElementById("uploadimage"));
+             $.ajax({
+                    type: "POST",
+                    url: "/FileManager/MainImageUpload",
+                    data: fromdata,
+                 processData: false,
+                 contentType:false,
+
+                    success: function (res) {
+                     $(".content").html(res)
+
+                    }
+                })
+
+        });
+
+        $(".btn-create-folder").click(function () {
+            $(".modal-backdrop").remove();
+            var n = $(this).prev().find($("input[type=text]")).val();
+             $.ajax({
+                    type: "POST",
+                    url: "/FileManager/MainCreateFolder",
+                    data: { directory:'@ViewBag.directory', foldername:n },
+
+                    success: function (res) {
+                     $(".content").html(res)
+
+                    }
+                })
+
+        });
+        $(".btn-submit-delete-folder").click(function () {
+            $(".modal-backdrop").remove();
+            var n = $(this).prev().val();
+            $.ajax({
+                type: "POST",
+                url: "/FileManager/MainDeleteFolder",
+                data: { directory: '@ViewBag.directory', foldername: n },
+
+                success: function (res) {
+                    $(".content").html(res)
+
+                }
+            })
+
+        });
+        $(".btn-submit-delete").click(function () {
+            $(".modal-backdrop").remove();
+            var n = $(this).prev().val();
+             $.ajax({
+                    type: "POST",
+                    url: "/FileManager/MainDeleteImage",
+                    data: { directory:'@ViewBag.directory', name:n },
+
+                    success: function (res) {
+                     $(".content").html(res)
+
+                    }
+                })
+
+        });
+
+        $(".folder-delete").click(function () {
+            var name = $(this).data("name");
+            $(".foldername").val(name);
+        });
+        $(".file-delete").click(function () {
+            var name = $(this).data("name");
+            $(".delete-name").val(name);
+        });
+
+        $(".folder-label").click(function () {
+            $(".content").load("/FileManager/MainImageViewer?directory=" + '@ViewBag.directory' + "/" + encodeURIComponent($(this).text()))
+             history.pushState("","","MainFileManager?directory="+ '@ViewBag.directory' + "/" + encodeURIComponent($(this).text()))
+        });
+
+    $(".folder-back").click(function () {
+             history.pushState("","","MainFileManager?directory="+'@backdirectory')
+            $(".content").load("/FileManager/MainImageViewer?directory="+'@backdirectory')
+         });
+
+
+
+</script>

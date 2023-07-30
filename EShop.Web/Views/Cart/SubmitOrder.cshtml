@@ -1,0 +1,75 @@
+﻿@using System.Globalization
+
+@{
+    ViewData["Title"] = "ثبت سفارش";
+	Layout = "../Shared/_Layout.cshtml";
+
+}
+@section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+<div id="main-nav" class="p-2">
+
+	<div class="alert alert-success mt-2 mb-2">در حال انتقال به صفحه ی پرداخت بانک</div>
+	<div class="card-body">
+
+		<div class="d-flex flex-row flex-wrap">
+
+
+			<div class="form-group col-lg-12 mt-2">
+				<input type="hidden" value='@ViewBag.TypePay' id="Type">
+				<input type="hidden" value='@ViewBag.id' id="Id">
+
+				<form method="post" name="formBank" id="formBank" action='https://bpm.shaparak.ir/pgwchannel/startpay.mellat'>
+
+					<div class="p-3 mt-3" style="line-height: 35px;padding-top:25px">
+
+						
+						<input type="hidden" value='@ViewBag.id' id="RefId" name="RefId">
+						<input type="hidden" value='1' id="chkConditions" name="chkConditions">
+
+					</div>
+
+
+				</form>
+
+			</div>
+
+		</div>
+	</div>
+
+
+
+</div>
+
+
+@section Scripts
+{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			if ($("#Type").val() == "1") {
+				$("#formBank").submit();
+
+			} if ($("#Type").val() == "2") {
+
+				postRefId($("#Id").val());
+
+				function postRefId(refIdValue)
+				{
+					var form = document.createElement("form");
+					form.setAttribute("method", "POST");
+					form.setAttribute("action", "https://asan.shaparak.ir");
+					form.setAttribute("target", "_self");
+					var hiddenField = document.createElement("input");
+					hiddenField.setAttribute("name", "RefId");
+					hiddenField.setAttribute("value", refIdValue);
+					form.appendChild(hiddenField); document.body.appendChild(form);
+					form.submit();
+					document.body.removeChild(form);
+				}
+			}
+		});
+	</script>
+}

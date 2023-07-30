@@ -1,0 +1,23 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.CompareProductViewModel>
+@{
+    Layout = null;
+}
+
+    <ul class="c-remodal_compare-content_items">
+        @foreach (var item in Model)
+        {
+            <li class="js-remodal_compare-li" data-id="@item.ProductId">
+                <label class="c-remodal_compare-content_item">
+                    <div class="c-remodal_compare-content_img">
+                    <img src="https://media.farnaa.com/media/@item.ImgName">
+                    </div>
+
+                    <span class="c-remodal_compare-content_title"> @item.FaTitle</span>
+                </label>
+            </li>
+
+        }
+
+
+
+    </ul>

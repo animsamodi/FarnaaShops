@@ -1,0 +1,175 @@
+﻿@{
+    ViewData["Title"] = "نظرات";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.Core.ViewModels.UserCommentAdminVM>
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">نظرات</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        @if (Model.Any())
+                        {
+
+
+
+
+                            <table class="table font-size-10  table-condensed  table-striped table-bordered table-responsive-sm table-configuration">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>
+                                            کد محصول
+                                        </th>
+                                        <th>
+                                            نوع سیستم
+                                        </th>
+                                        <th>
+                                            محصول
+                                        </th>
+                                        <th>
+                                            نظر
+                                        </th>
+                                        <th>
+                                            کد کاربر
+                                        </th>
+                                        <th>
+                                            نام
+                                        </th>
+                                        <th>
+                                            موبایل
+                                        </th>
+                                        <th>
+                                            کاربر
+                                        </th>
+                                        <th>
+                                            کد ملی کاربر
+                                        </th>
+                                        <th>
+                                            تاریخ ثبت
+                                        </th>
+                                        <th>
+                                            زمان ثبت
+                                        </th>
+                                        <th>
+                                            وضعیت
+                                        </th>
+                                        <th>
+                                            عملیات
+                                        </th>
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        var commentStatus = "";
+                                        var commentStatusStyle = "";
+                                        if (item.StatusComment != null && item.StatusComment > 0)
+                                        {
+                                            commentStatus = EnumHelper<EnumStatusComment>.GetDisplayValue(item.StatusComment);
+                                        }
+
+                                        commentStatusStyle = item.StatusComment switch
+                                        {
+                                            EnumStatusComment.Confirm => "text-success",
+                                            EnumStatusComment.Reject => "text-danger",
+                                            _ => "text-primary"
+                                            };
+
+
+                                        var detId = "tbl_Det_" + item.Id;
+                                        <tr data-toggle="collapse" data-target="#@detId" class="accordion-toggle">
+                                            <td><button class="btn btn-primary mb-0"><span class="fa fa-eye"></span> </button></td>
+                                            <td>@item.ProductId</td>
+                                            @Html.DisplayFor(modelItem => item.TypeSystem)
+                                            <td>@item.ProductTitle</td>
+                                            <td>@item.CommentTitle</td>
+                                            <td>@item.UserId</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Mobile</td>
+                                            <td>@item.UserName</td>
+                                            <td>@item.UserNationalCode</td>
+                                            <td>@item.RegisterDate</td>
+                                            <td>@item.RegisterTime</td>
+                                            <td class="@commentStatusStyle">@commentStatus</td>
+                                            <td>
+                                                @if (item.StatusComment == 0 ||item.StatusComment == EnumStatusComment.Wait || item.StatusComment == EnumStatusComment.Confirm)
+                                                {
+                                                    <a class="btn btn-sm btn-danger"  asp-controller="Customer" asp-action="ChangeUserCommentStatus" asp-route-id="@item.Id" asp-route-statusComment="Reject">رد نظر</a>
+
+                                                }
+                                                @if (item.StatusComment == 0 ||item.StatusComment == EnumStatusComment.Wait || item.StatusComment == EnumStatusComment.Reject)
+                                                {
+                                                    <a class="btn btn-sm btn-success"   asp-controller="Customer" asp-action="ChangeUserCommentStatus" asp-route-id="@item.Id" asp-route-statusComment="Confirm">تایید نظر</a>
+
+                                                }
+                                            </td>
+
+
+
+
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="12" class="hiddenRow">
+                                                <div class="accordian-body collapse" id="@detId">
+                                                    <table class="table table-dark table-striped">
+                                                        <thead>
+                                                            <tr class="primary">
+                                                                <th>متن نظر </th>
+                                                                <th>نقاط قوت</th>
+                                                                <th>نقاط ضعف</th>
+                                                            </tr>
+                                                        </thead>
+
+                                                        <tbody>
+
+                                                            <tr>
+
+                                                                <td>@item.CommentText</td>
+                                                                <td>@item.Positive </td>
+                                                                <td> @item.Negative</td>
+
+                                                            </tr>
+
+
+
+
+
+                                                        </tbody>
+                                                    </table>
+
+                                                </div>
+                                            </td>
+                                        </tr>
+
+
+
+
+                                    }
+                                </tbody>
+                            </table>
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+

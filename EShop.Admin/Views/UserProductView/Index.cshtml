@@ -1,0 +1,80 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<EShop.DataLayer.Entities.UserProductView>
+
+@{
+    ViewData["Title"] = "مشاهدات کاربران";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">مشاهدات کاربران</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                         
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+                            
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.UserId)
+                            </th> 
+                            <th>
+                                    @Html.DisplayNameFor(model => model.ProductId)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.CountView)
+                            </th>
+                            <th>
+                                    @Html.DisplayNameFor(model => model.PrDateTime)
+                            </th> 
+                            <th>
+                             </th>
+                          
+                        
+                             </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.User.FullName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Product.FaTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CountView)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PrDateTime)
+                                        </td>
+                                     
+                                        
+                                       
+  
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

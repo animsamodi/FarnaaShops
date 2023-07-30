@@ -1,0 +1,310 @@
+﻿@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@model List<UserOrder>
+@{
+	ViewData["Title"] = "محصولات مورد علاقه";
+	Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+
+@section Style
+{
+	
+	<link rel="stylesheet" href="/css/vendor/noUISlider.min.css">
+
+}
+<div class="profile-stats bg-white">
+	<div class="c-profile_nav profile-title">
+		<h4>سفارشات</h4>
+	</div>
+	<div class="table-orders">
+		@if (Model.Any())
+		{
+
+
+			@foreach (var item in Model)
+			{
+				var orderStatus = "";
+				if (item.OrderStatus != null && item.OrderStatus > 0)
+				{
+					orderStatus = EnumHelper<EnumOrderStatus>.GetDisplayValue(item.OrderStatus.Value);
+				}
+
+
+				<table class="table table-profile-orders">
+					<thead class="thead-light">
+						<tr>
+							<th scope="col">شماره سفارش</th>
+							<th scope="col">تاریخ ثبت سفارش</th>
+							<th scope="col">وضعیت</th>
+							<th scope="col">مجموع</th>
+							<th scope="col">مبلغ پرداخت شده</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td class="order-code">
+								<a asp-area="User" asp-controller="Profile" asp-action="PrintOrder" asp-route-id="@item.OrderId" class="btn ml-2 btn-primary text-white"><i class="fa fa-print"></i></a>
+								@item.OrderId</td>
+							<td>@item.PrDatePay</td>
+							<td class="Waiting @(item.OrderStatus == EnumOrderStatus.NotPay?"text-danger":"text-success") font-weight-bold">@orderStatus</td>
+							<td class="totla">
+								<span class="amount">
+									@{ var sumAmount = item.SumAmount / 10;}
+									@sumAmount.ToString("N0")
+									<span>  تومان  </span>
+								</span>
+							</td>
+							<td class="totla">
+								<span class="amount">
+									@{ var tomanPrice = item.AmountPayable / 10;}
+									@tomanPrice.ToString("N0")
+									<span>  تومان  </span>
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="5">آدرس تحویل گیرنده :  @item.RecipientAddress , کد پستی : @item.RecipientPostalCode </td>
+
+						</tr>
+						<tr class="order-line"></tr>
+						<tr>
+							<td colspan="3">تحویل گیرنده :  @item.RecipientName , شماره تماس :  @item.RecipientTel</td>
+							<td colspan="2">@if (!string.IsNullOrEmpty(item.TrackingCodePost))
+							                {
+<span>کد پیگیری پست  :  @item.TrackingCodePost</span>
+							                } </td>
+
+						</tr>
+						<tr>
+							<td colspan="5">
+								روش ارسال :  @item.ShipmentTitle ,
+
+
+
+								@if (item.ShipmentPrice == null || item.ShipmentPrice == 0)
+								{
+									@*<span>رایگان</span>*@
+
+								}
+								else
+								{
+									<span>هزینه ارسال :</span>
+
+									var ShipmentPrice = item.ShipmentPrice / 10;
+
+									<span> @ShipmentPrice.Value.ToString("N0") </span>
+									<span>  تومان  </span>
+								}
+							</td>
+
+						</tr>
+						<tr class="order-line"></tr>
+						<tr>
+							<td colspan="5">
+								<div class="m-0 p-0 order-det-container">
+									@foreach (var product in item.OrderDetails)
+									{
+										<div class="order-det-item">
+											<div class="order-det-item-img">
+												<a asp-controller="Product" asp-area="" asp-action="Index" asp-route-id="@product.ProductId">
+													<img class="img-fluid" src="https://media.farnaa.com/media/@product.Image" />
+												</a>
+											</div>
+											<div class="order-det-item-details">
+												<h6 class="order-det-item-title"> @product.FaTitle</h6>
+												<div class="order-det-item-details-opt">
+													<h6 class="order-det-item-opt">
+														رنگ : <span class="order-det-item-opt-color" style="background-color: @product.ColorValue"></span><span>@product.Color</span>
+													</h6>
+													<h6 class="order-det-item-opt">گارانتی :<span>@product.Guarantee</span> </h6>
+													<h6 class="order-det-item-opt">تعداد :<span>@product.Count</span> </h6>
+												</div>
+												<h6 class="order-det-item-price">
+													قیمت :<span>
+														@{ var SumPriceAfterDiscount = product.SumPriceAfterDiscount.Value / 10;}
+														@SumPriceAfterDiscount.ToString("N0") تومان
+
+													</span>
+												</h6>
+
+											</div>
+
+
+										</div>
+									}
+								</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+
+
+
+			}
+			<div class="profile-orders">
+				<div class="collapse">
+					@foreach (var item in Model)
+					{
+						var orderStatus = "";
+						if (item.OrderStatus != null && item.OrderStatus > 0)
+						{
+							orderStatus = EnumHelper<EnumOrderStatus>.GetDisplayValue(item.OrderStatus.Value);
+						}
+
+						<div class="profile-orders-item">
+							<div class="profile-orders-header">
+
+								<div class="profile-orders-header-summary">
+									<div class="profile-orders-header-row">
+										<span class="text-secondary">@item.OrderId</span>
+										<span class="font-size-10 text-success">@orderStatus
+								<a asp-area="User" asp-controller="Profile" asp-action="PrintOrder" asp-route-id="@item.OrderId" class="btn ml-2 btn-primary text-white"><i class="fa fa-print"></i></a>
+
+										</span>
+									</div>
+								</div>
+
+								 
+								<div class="profile-orders-header-data">
+									<div class="profile-info-row">
+										<div class="profile-info-label">تاریخ ثبت سفارش</div>
+										<div class="profile-info-value">@item.PrDatePay</div>
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-label">مبلغ قابل پرداخت</div>
+										<div class="profile-info-value">
+											@{ var tomanPrice = item.AmountPayable / 10;}
+											@tomanPrice.ToString("N0")
+										</div>
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-label">مبلغ کل</div>
+										<div class="profile-info-value">
+											<span class="amount">
+												@{ var sumAmount = item.SumAmount / 10;}
+												@sumAmount.ToString("N0")
+
+												<span>  تومان  </span>
+											</span>
+										</div>
+									</div>
+									<div class="profile-info-row">
+										<div class="profile-info-label">آدرس تحویل گیرنده</div>
+										<div class="text-secondary font-size-10 mb-2">
+
+											@item.RecipientAddress , کد پستی : @item.RecipientPostalCode
+
+										</div>
+									</div>
+                                    <div class="profile-info-row">
+                                        <div class="profile-info-label">تحویل گیرنده</div>
+                                        <div class="text-secondary font-size-10 mb-2">
+
+                                            @item.RecipientName , شماره تماس :  @item.RecipientTel
+
+                                        </div>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(item.TrackingCodePost))
+                                    {
+                                        <div class="profile-info-row">
+                                            <div class="profile-info-label">کد پیگیری پست</div>
+                                            <div class="text-secondary font-size-10 mb-2">
+
+                                                @item.RecipientName ,   @item.TrackingCodePost :  @item.RecipientTel
+
+                                            </div>
+                                        </div>
+                                        
+                                    } 
+									<div class="profile-info-row">
+										<div class="profile-info-label">روش ارسال</div>
+										<div class="profile-info-value">
+											<span class="amount">
+												@item.ShipmentTitle
+											</span>
+										</div>
+									</div>
+									
+									@if (item.ShipmentPrice == null || item.ShipmentPrice == 0)
+									{
+										@*<span>رایگان</span>*@
+									}
+									else
+									{
+										var ShipmentPrice = item.ShipmentPrice / 10;
+										<div class="profile-info-row">
+											<div class="profile-info-label">هزینه ارسال</div>
+											<div class="profile-info-value">
+												<span class="amount">
+
+ 
+													<span> @ShipmentPrice.Value.ToString("N0") </span>
+													<span>  تومان  </span>
+
+
+												</span>
+											</div>
+										</div>
+
+									}
+									@foreach (var product in item.OrderDetails)
+									{
+										<div class="order-det-item">
+											<div class="order-det-item-img">
+												<a asp-controller="Product" asp-area="" asp-action="Index" asp-route-id="@product.ProductId">
+													<img class="img-fluid" src="https://media.farnaa.com/media/@product.Image" />
+												</a>
+											</div>
+											<div class="order-det-item-details">
+												<h6 class="order-det-item-title"> @product.FaTitle</h6>
+												<div class="order-det-item-details-opt">
+													<h6 class="order-det-item-opt">
+														رنگ : <span class="order-det-item-opt-color" style="background-color: @product.ColorValue"></span><span>@product.Color</span>
+													</h6>
+													<h6 class="order-det-item-opt">گارانتی :<span>@product.Guarantee</span> </h6>
+													<h6 class="order-det-item-opt">تعداد :<span>@product.Count</span> </h6>
+												</div>
+												<h6 class="order-det-item-price">
+													قیمت :<span>
+
+														@{ var SumPriceAfterDiscount = product.SumPriceAfterDiscount.Value / 10;}
+														@SumPriceAfterDiscount.ToString("N0") تومان
+													</span>
+												</h6>
+
+											</div>
+
+
+										</div>
+									}
+								</div>
+							</div>
+						</div>
+
+					}
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="profile-alert-container col-9 m-auto">
+				<h6>
+					اطلاعاتی برای نمایش وجود ندارد
+				</h6>
+			</div>
+		}
+
+	</div>
+</div>
+
+@section Scripts
+{
+	
+	<script src="/js/vendor/ResizeSensor.min.js"></script>
+	<script src="/js/vendor/theia-sticky-sidebar.min.js"></script>
+	<script src="/js/vendor/wNumb.js"></script>
+	<script src="/js/vendor/nouislider.min.js"></script>
+	
+}

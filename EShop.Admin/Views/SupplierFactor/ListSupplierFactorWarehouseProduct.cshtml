@@ -1,0 +1,241 @@
+﻿@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using EShop.DataLayer.Entities
+@model IEnumerable<EShop.DataLayer.Entities.WarehouseProduct>
+
+@{
+    ViewData["Title"] = "محصولات سفارشات انبار";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var supplierFactorProduct = (SupplierFactorProduct)ViewBag.SupplierFactorProduct;
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">محصولات سفارشات انبار</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                  
+                    <form class="form" asp-action="AddWarehouseProductIMEI" enctype="multipart/form-data">
+                        
+                        <div class="modal-body">
+                            <div class="form-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input name="supplierFactorProductId" value="@supplierFactorProduct.Id" type="hidden"/>
+                                <div class="row">
+
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label class="control-label">انبار</label>
+                                            <select name="WarehouseId" asp-items="@(new SelectList(ViewBag.Warehouses, "Id", "Name"))" class="form-control ">
+                                            </select>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label class="control-label">IMEI</label>
+                                            <input class="form-control" name="IMEI" id="IMEI"/>
+                                        </fieldset>
+                                    </div>
+
+
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">ثبت</button>
+                        </div>
+
+
+                    </form>
+                    <div class="card-block">
+                        <div class="box-header with-border">
+
+                            @* <button type="button" class="btn btn-info mb-2" data-toggle="modal" data-target=".bd-example-modal-lg">ثبت IMEI
+                                <i class="ft-plus"></i>
+
+                            </button>*@
+
+                        </div>
+                        @if (supplierFactorProduct != null)
+                        {
+                            <div class="row m-0 bg-dark rounded text-white p-2 mb-3">
+                                <div class="col-12">محصول : @supplierFactorProduct.Variant.Product.FaTitle</div>
+                                <div class="col-12"><hr/></div>
+                                <div class="col-md-4">تعداد سفارش : @supplierFactorProduct.Count</div>
+                                <div class="col-md-4">کد افق : @supplierFactorProduct.Code</div>
+                                <div class="col-md-4">تعداد ثبت شده : @Model.Count()</div>
+                            </div>
+                        }
+
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+
+                            <th>
+ردیف                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.WarehouseId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Code)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IMEI)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DeliveryDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DeliveryTime)
+                            </th>
+                            <th>
+                            </th>
+
+
+                            <th></th>
+                            </thead>
+                            <tbody>
+                                @{ int counter = 0;}
+                            @foreach (var item in Model)
+                            {
+                                counter++;
+                                <tr>
+                                    <td>
+                                        @counter   
+                                         </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Warehouse.Name)
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Code)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IMEI)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DeliveryDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DeliveryTime)
+                                    </td>
+
+
+
+
+
+                                    <td>
+
+                                        <a class="btn btn-danger" asp-action="DeleteWarehouseProductIMEI" asp-route-id="@item.Id">حذف IMEI</a>
+
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form class="form" asp-action="AddWarehouseProductIMEI" enctype="multipart/form-data">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h5 class="modal-title">ثبت </h5>
+
+            </div>
+            <div class="modal-body">
+                <div class="form-body">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input name="supplierFactorProductId" value="@supplierFactorProduct.Id" type="hidden" />
+                    <div class="row">
+
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                                <label class="control-label">انبار</label>
+                                <select name="WarehouseId" asp-items="@(new SelectList(ViewBag.Warehouses, "Id", "Name"))" class="form-control ">
+                                    <option value="">--انتخاب کنید--</option>
+                                </select>
+
+                            </fieldset>
+                        </div>
+                        <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                            <fieldset class="form-group">
+                                <label class="control-label">کد افق</label>
+                                <input disabled="disabled" readonly="readonly" class="form-control" value="@supplierFactorProduct.Code" />
+                            </fieldset>
+                        </div>
+                        <div class="col-12 ">
+                            <div class="col-12 row m-0">
+                               
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-success btn-sm" id="btnAddIMEI">
+                                        <i class="ft-plus"></i>
+                                    </button>
+                                </div>
+                                <div class="col-10">
+                                    <input type="text" class="form-control form-control-sm"  id="IMEIText"/>
+                                </div>
+                            </div>
+                                <div class="row IMEI-Container p-2 border rounded m-0">
+                             </div>
+                        </div>
+
+                        <hr />
+
+                    </div>
+                </div>
+               
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">ثبت</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+            </div>
+       
+                
+            </form>
+
+        </div>
+    </div>
+</div>*@
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script>
+   
+$("#IMEI").focus();
+        
+
+        $("#btnAddIMEI").click(function () {
+            if ($("#IMEIText").val()) {
+                var value = $("#IMEIText").val();
+                var text = $("#IMEIText").val();
+                $(".IMEI-Container").append("<div class=' btn-block btn-info' style='padding:7px'><button style='margin-left:0' type='button' class='close pull-left btn-remove'>×</button>" +
+                    "<input type='hidden' value='" + value + "' name='IMEIList' /><span style='margin-left:10px' class='parenttext'>" + text + "</span> </div>");
+                $("#IMEIText").val("");
+            }
+        });
+
+        $('.IMEI-Container').delegate(".btn-remove", 'click', function () {
+ 
+            $(this).parent().remove();
+        });
+    
+    </script>
+}

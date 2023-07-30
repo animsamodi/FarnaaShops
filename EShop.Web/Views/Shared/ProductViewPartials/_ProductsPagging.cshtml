@@ -1,0 +1,26 @@
+@model EShop.Core.ViewModels.Product.PaggingViewModel
+
+<div class="pagination">
+    <ul class="pagination-box">
+        @*<li class="item arrow">
+        <a class="trs-3" href="#">
+        <i class="fal fa-chevron-right"></i>
+        </a>
+        </li>*@
+
+        @for (int i = 1; i <= Model.Count; i++)
+        {
+            <li class="page-item">
+
+            </li>
+            <li class="item">
+                <a class="page-link trs-3  js-product-pager @(i == Model.Page ? "active" : "")" data-type="page" data-id="@i">@i</a>
+            </li>
+        }
+        @*  <li class="item arrow">
+        <a class="trs-3" href="#">
+        <i class="fal fa-chevron-left"></i>
+        </a>
+        </li>*@
+    </ul>
+</div>

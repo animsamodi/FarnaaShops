@@ -1,0 +1,103 @@
+﻿@model EShop.Core.ViewModels.CreateSliderViewModel
+@using EShop.DataLayer.Enum
+
+@{
+    ViewData["Title"] = "اسلایدر جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ایجاد اسلایدر جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="CreateSlider" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                 
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="TypeSystem" class="control-label"></label>
+                                        <select asp-for="TypeSystem"
+                                                asp-items="Html.GetEnumSelectList<EnumTypeSystem>()"
+                                                class="form-control">
+                                        </select>
+                                        <span asp-validation-for="TypeSystem" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Type" class="control-label"></label>
+                                        <select asp-for="Type"
+                                                asp-items="Html.GetEnumSelectList<EnumTypeSlider>()"
+                                                class="form-control">
+                                        </select> <span asp-validation-for="Type" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Sort" class="control-label"></label>
+                                        <input asp-for="Sort" class="form-control"/>
+                                        <span asp-validation-for="Sort" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Link" class="control-label"></label>
+                                        <input asp-for="Link" dir="ltr" class="form-control"/>
+                                        <span asp-validation-for="Link" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="DesktopImg" class="control-label"></label>
+                                        <input asp-for="DesktopImg" type="file" class="form-control"/>
+                                        <span asp-validation-for="DesktopImg" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="MobileImg" class="control-label"></label>
+                                        <input asp-for="MobileImg" type="file" class="form-control"/>
+                                        <span asp-validation-for="MobileImg" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Description" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="Description" rows="3"></textarea>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button >
+                                <a asp-action="SliderList" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+}

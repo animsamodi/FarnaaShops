@@ -1,0 +1,99 @@
+﻿@model List<FavoriteListForProfileViewModel>
+
+
+<div class="table-favorites">
+    @if (Model.Any())
+    {
+        <table class="table ns-table table-profile-favorites">
+            <thead>
+                <tr>
+                    <th scope="col" width="50"> </th>
+                    <th scope="col">نام محصول</th>
+                    <th scope="col">قیمت</th>
+                    <th class="actions-th"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+
+                    <tr>
+                        <th scope="row">
+                            <div class="favorites-product-img">
+                                <img src="https://media.farnaa.com/media/@item.ImgName">
+                              
+                            </div>
+                        </th>
+                        <td>
+                            <a asp-action="Index" asp-controller="Product" asp-route-id="@item.Productid" asp-route-category="@item.ProductCategory" asp-route-name="@item.EnTitle.Replace(" ","-")" >@item.ProductTitle</a>
+                        </td>
+                        <td>
+                            <span class="amount-fav-product">
+                                @if (item.price != 0)
+                                {
+                                    <span> @item.price</span>
+                                    <span>  تومان  </span>
+
+                                }
+                                else
+                                {
+                                    <span> --نا موجود--</span>
+                                }
+                            </span>
+                        </td>
+                        <td class="text-left actions">
+                            <a asp-action="RemoveFavorite" asp-controller="Profile" asp-area="User" asp-route-id="@item.FavoriteId" class="remove-product"><i class="mdi mdi-close"></i></a>
+                        </td>
+                    </tr>
+                    <tr class="spacer"></tr>
+
+                }
+
+
+            </tbody>
+        </table>
+
+        @foreach (var item in Model)
+        {
+            <div class="profile-recent-fav">
+                <a href="#" class="img-profile-favorites">
+                    <img src="https://media.farnaa.com/media/@item.ImgName">
+                </a>
+                <div class="profile-recent-fav-col">
+                    <a asp-action="Index" asp-route-category="@item.ProductCategory" asp-controller="Product" asp-route-id="@item.Productid"  asp-route-name="@item.EnTitle.Replace(" ","-")" >@item.ProductTitle</a>
+                </div>
+                <div class="profile-recent-fav-price">
+                    <span class="amount-fav-product">
+                        @if (item.price != 0)
+                        {
+                            <span> @item.price</span>
+                            <span>  تومان  </span>
+
+                        }
+                        else
+                        {
+                            <span> --نا موجود--</span>
+                        }
+                    </span>
+                </div>
+                <div class="profile-recent-fav-remove">
+                    <a asp-action="RemoveFavorite" asp-controller="Profile" asp-area="User" asp-route-id="@item.FavoriteId"><i class="mdi mdi-close"></i></a>
+                </div>
+            </div>
+
+
+        }
+
+    }
+    else
+    {
+        <div class="profile-alert-container col-9 m-auto">
+            <h6>
+                اطلاعاتی برای نمایش وجود ندارد
+            </h6>
+        </div>
+    }
+
+</div>
+
+  

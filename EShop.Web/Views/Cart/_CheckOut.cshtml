@@ -1,0 +1,96 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.Cart.CheckOutPaymentVM
+@{
+
+
+
+    ViewBag.Title = "پاسخ بانک";
+
+
+    Layout = "../Shared/_Layout.cshtml";
+}
+ @section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+
+<section class="blog-checkout d-block order-1">
+    <div class="col-lg">
+        <div class="checkout woocommerce-checkout">
+            <div class="content-checkout">
+                <div class="middle-container">
+                    <form action="#" class="form-checkout">
+                        <div class="col2-set" id="customer-details">
+                            <div class="col-12">
+                                <div class="billing-fields mt-4">
+                                    @if (Model != null && Model.PaymentStatus == EnumPaymentStatus.Pay)
+                                    {
+                                    <h4 class="text-success font-weight-bold">
+
+                                        پرداخت با موفقیت انجام شد
+                                    </h4>
+                                    }
+                                    else
+                                    {
+                                    <h4 class="text-danger font-weight-bold">
+
+                                        متاسفانه پرداخت شما ناموفق بود!
+                                    </h4>
+                                    }
+ 
+                                    @if (Model == null || Model.PaymentStatus != EnumPaymentStatus.Pay )
+                                {
+                                    <p class="thankyou-order-received">
+                                        @TempData.Peek("Message")
+                                        <br/>
+                                        چنانچه مبلغی از حساب شما کسر شده است، تا ۲۴ ساعت آینده به حساب شما باز خواهد گشت.
+                                        <br />
+
+                                    </p>
+                                }
+                                    @if (Model != null && Model.OrderId != 0)
+                                    {
+                                    <ul class="order-overview">
+                                        <li class="order-overview-item">
+                                            شماره سفارش :
+                                            <span>@Model.OrderId</span>
+                                        </li>
+                                        <li class="order-overview-item">
+                                            شماره پیگیری :
+                                            <span>@Model.SaleReferenceId</span>
+                                        </li>
+                                        <li class="order-overview-item">
+                                            تاریخ :
+                                            <span>@Model.PrDatePay</span>
+                                        </li>
+
+                                        <li class="order-overview-item">
+                                            مبلغ :
+                                            <span class="amount">
+                                                @{
+                                                                     var price = Model.Price / 10;
+                                                }
+                                                @price.ToString("N0")
+                                                <span>  تومان  </span>
+                                            </span>
+                                        </li>
+                                    </ul>
+                                    }
+
+                                </div>
+                                <a class="btn-add-to-cart-more btn btn-primary   a-hover-1" asp-area="User" asp-controller="Profile" asp-action="Orders">
+                                    مشاهده سفارشات
+                                </a>
+                                </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

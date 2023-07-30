@@ -1,0 +1,267 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="loading">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <title>پنل مدیریت</title>
+
+    <link rel="shortcut icon" type="image/png" href="/Admin/img/ico/favicon-32.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="robots" content="noindex, follow">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/Admin/fonts/feather/style.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/fonts/simple-line-icons/style.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/vendors/css/perfect-scrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/vendors/css/prism.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/vendors/css/chartist.min.css">
+    <link href="~/Admin/vendors/css/tables/datatable/datatables.min.css" rel="stylesheet" />
+    <link href="~/Admin/vendors/css/tables/datatable/responsive.dataTables.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="/Admin/css/app.css">
+    <link href="~/Admin/css/style.css" rel="stylesheet" />
+    <link href="~/css/Pagination.css" rel="stylesheet" />
+	<link href="~/css/persian-datepicker.css" rel="stylesheet" />
+
+    @RenderSection("Styles", false)
+
+</head>
+<body data-col="2-columns" class=" 2-columns ">
+	<div class="check-container check-container-hide"><i class="fa fa-check"></i></div>
+
+ 	<div class="wrapper">
+
+		@Html.Partial("_rightMenu")
+		@Html.Partial("_topNavbar")
+
+
+
+
+
+		<div class="main-panel">
+			<div class="main-content">
+				<div class="content-wrapper">
+					<div class="container-fluid">
+						@RenderBody()
+					</div>
+				</div>
+			</div>
+
+			<footer class="footer footer-static footer-light">
+				<p class="clearfix text-muted text-center px-2"><span>&copy; 2022 کپی رایت , همه حقوق محفوظ است </span></p>
+			</footer>
+
+		</div>
+	</div>
+ 
+	<aside id="notification-sidebar" class="notification-sidebar d-none d-sm-none d-md-block">
+		<a class="notification-sidebar-close"><i class="ft-x font-medium-3"></i></a>
+		<div class="side-nav notification-sidebar-content">
+			<div class="row">
+				<div class="col-12 mt-1">
+					<ul class="nav nav-tabs">
+						<li class="nav-item"><a id="base-tab1" data-toggle="tab" aria-controls="base-tab1" href="#activity-tab" aria-expanded="true" class="nav-link active"><strong>فعالیت</strong></a></li>
+						<li class="nav-item"><a id="base-tab2" data-toggle="tab" aria-controls="base-tab2" href="#settings-tab" aria-expanded="false" class="nav-link"><strong>تنظیمات</strong></a></li>
+					</ul>
+					<div class="tab-content">
+						<div id="activity-tab" role="tabpanel" aria-expanded="true" aria-labelledby="base-tab1" class="tab-pane active">
+							<div id="activity-timeline" class="col-12 timeline-left">
+								<h6 class="mt-1 mb-3 text-bold-400">فعالیت اخیر</h6>
+								<div class="timeline">
+									<ul class="list-unstyled base-timeline activity-timeline ml-0">
+										<li>
+											<div class="timeline-icon bg-danger"><i class="ft-shopping-cart"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-danger">به روز رسانی</a><span class="d-block">علی رضایی تجهیزات جدیدی را برای دفتر منطقه ای خریداری کرد.</span></div><small class="text-muted">همین الان</small>
+										</li>
+										<li>
+											<div class="timeline-icon bg-primary"><i class="fa fa-plane"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-primary">اضافه</a><span class="d-block">پرواز بعدی شما برای ایالات متحده آمریکا در تاریخ 15 آگوست 2015 صورت خواهد گرفت.</span></div><small class="text-muted">25 ساعت پیش</small>
+										</li>
+										<li>
+											<div class="timeline-icon bg-dark"><i class="ft-mic"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-dark">اختصاص داده</a><span class="d-block">سارا نظری یک پست صوتی برای کنفرانس بعدی ارسال کنید</span></div><small class="text-muted">15 روز پیش</small>
+										</li>
+										<li>
+											<div class="timeline-icon bg-warning"><i class="ft-map-pin"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-warning">جدید</a><span class="d-block">علی محمدی یک فروشگاه جدید را در خیابان ولیعصر باز کنید</span></div><small class="text-muted">20 روز پیش</small>
+										</li>
+										<li>
+											<div class="timeline-icon bg-primary"><i class="ft-inbox"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-primary">اضافه</a><span class="d-block">پست صوتی برای کنفرانس</span></div><small class="text-muted">2 هفته پیش</small>
+										</li>
+										<li>
+											<div class="timeline-icon bg-danger"><i class="ft-mic"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-danger">به روز رسانی</a><span class="d-block">علی محمدی یک فروشگاه جدید را در خیابان ولیعصر باز کنید</span></div><small class="text-muted">1 ماه پیش</small>
+										</li>
+										<li>
+											<div class="timeline-icon bg-dark"><i class="ft-inbox"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-dark">اختصاص داده</a><span class="d-block">سارا نظری یک پست صوتی برای کنفرانس بعدی ارسال کنید</span></div><small class="text-muted">1 ماه پیش</small>
+										</li>
+										<li>
+											<div class="timeline-icon bg-warning"><i class="ft-map-pin"></i></div>
+											<div class="base-timeline-info"><a href="#" class="text-uppercase text-warning">جدید</a><span class="d-block">پروژه جدید با رضا محمودی آغاز شد. </span></div><small class="text-muted">2 ماه پیش</small>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div id="settings-tab" aria-labelledby="base-tab2" class="tab-pane">
+							<div id="settings" class="col-12">
+								<h6 class="mt-1 mb-3 text-bold-400">تنظیمات عمومی</h6>
+								<ul class="list-unstyled">
+									<li>
+										<div class="togglebutton">
+											<div class="switch">
+												<span class="text-bold-500">اطلاعیه</span>
+												<div class="float-right">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+															<input id="notifications1" checked="checked" type="checkbox" class="custom-control-input">
+															<label for="notifications1" class="custom-control-label"></label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<p>هنگام بررسی بله یا بدون پاسخ، از کادرهای جعبه استفاده کنید.</p>
+									</li>
+									<li>
+										<div class="togglebutton">
+											<div class="switch">
+												<span class="text-bold-500">نمایش فعالیت اخیر</span>
+												<div class="float-right">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+															<input id="recent-activity1" checked="checked" type="checkbox" class="custom-control-input">
+															<label for="recent-activity1" class="custom-control-label"></label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<p>برای مشخص کردن ویژگی لازم است که کادر ورودی خود را با ورودی مرتبط کنیم.</p>
+									</li>
+									<li>
+										<div class="togglebutton">
+											<div class="switch">
+												<span class="text-bold-500">اطلاعیه</span>
+												<div class="float-right">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+															<input id="notifications2" type="checkbox" class="custom-control-input">
+															<label for="notifications2" class="custom-control-label"></label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<p>هنگام بررسی بله یا بدون پاسخ، از کادرهای جعبه استفاده کنید.</p>
+									</li>
+									<li>
+										<div class="togglebutton">
+											<div class="switch">
+												<span class="text-bold-500">نمایش فعالیت اخیر</span>
+												<div class="float-right">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+															<input id="recent-activity2" type="checkbox" class="custom-control-input">
+															<label for="recent-activity2" class="custom-control-label"></label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<p>برای مشخص کردن ویژگی لازم است که کادر ورودی خود را با ورودی مرتبط کنیم.</p>
+									</li>
+									<li>
+										<div class="togglebutton">
+											<div class="switch">
+												<span class="text-bold-500">ایمیل های خود را نمایش دهید</span>
+												<div class="float-right">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+															<input id="show-emails" type="checkbox" class="custom-control-input">
+															<label for="show-emails" class="custom-control-label"></label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<p>هنگام بررسی بله یا بدون پاسخ، از کادرهای جعبه استفاده کنید.</p>
+									</li>
+									<li>
+										<div class="togglebutton">
+											<div class="switch">
+												<span class="text-bold-500">نمایش آمار کار</span>
+												<div class="float-right">
+													<div class="form-group">
+														<div class="custom-control custom-checkbox mb-2 mr-sm-2 mb-sm-0">
+															<input id="show-stats" checked="checked" type="checkbox" class="custom-control-input">
+															<label for="show-stats" class="custom-control-label"></label>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<p>برای مشخص کردن ویژگی لازم است که کادر ورودی خود را با ورودی مرتبط کنیم.</p>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</aside>
+
+ 
+
+<script src="/Admin/vendors/js/core/jquery-3.3.1.min.js"></script>
+@*<script src="~/js/vendor/jquery-3.6.0.min.js"></script>*@
+
+    @*<script src="~/js/vendor/jquery.js"></script>*@
+
+	<script src="/Admin/js/persian-datepicker.min.js"></script>
+	<script src="/Admin/vendors/js/core/popper.min.js"></script>
+	<script src="/Admin/vendors/js/core/bootstrap.min.js"></script>
+	<script src="/Admin/vendors/js/perfect-scrollbar.jquery.min.js"></script>
+	<script src="/Admin/vendors/js/prism.min.js"></script>
+	<script src="/Admin/vendors/js/jquery.matchHeight-min.js"></script>
+	<script src="/Admin/vendors/js/screenfull.min.js"></script>
+	<script src="/Admin/vendors/js/pace/pace.min.js"></script>
+
+	<script src="/Admin/js/app-sidebar.js"></script>
+	<script src="/Admin/js/notification-sidebar.js"></script>
+	
+	<script src="/Admin/js/components-modal.min.js"></script>
+	<script src="~/Admin/vendors/js/datatable/datatables.min.js"></script>
+	
+
+	<script src="~/js/formatPrice.js"></script>
+	<script src="~/js/formNavigation.js"></script>
+	<script src="~/js/persian-date.js"></script>
+	<script src="~/js/persian-datepicker.js"></script>
+	<script src="~/js/helper.js"></script>
+
+	@RenderSection("Scripts", required: false)
+	<script>
+		$('.table-configuration').DataTable({
+			"order": [[0, "desc"]]
+
+		});
+		$('.date-piker').persianDatepicker({
+			format: 'YYYY/MM/DD',
+			autoClose: true,
+			initialValue: false
+		});
+
+
+	</script>
+</body>
+
+ </html>
+

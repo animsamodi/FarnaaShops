@@ -1,0 +1,181 @@
+﻿@using DevExtreme.AspNet.Mvc
+@using EShop.Core.ViewModels
+@{
+	ViewData["Title"] = "مدیریت کاربران";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles
+{
+	
+
+	<link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
+
+	<link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+
+
+	<script src="~/js/devextreme/jquery.js"></script>
+	<script src="~/js/devextreme/bootstrap.js"></script>
+
+	
+	<script src="~/js/devextreme/cldr.js"></script>
+	<script src="~/js/devextreme/cldr/event.js"></script>
+	<script src="~/js/devextreme/cldr/supplemental.js"></script>
+	<script src="~/js/devextreme/cldr/unresolved.js"></script>
+	<script src="~/js/devextreme/globalize.js"></script>
+	<script src="~/js/devextreme/globalize/message.js"></script>
+	<script src="~/js/devextreme/globalize/number.js"></script>
+	<script src="~/js/devextreme/globalize/currency.js"></script>
+	<script src="~/js/devextreme/globalize/date.js"></script>
+
+
+	<script src="~/js/devextreme/dx.all.js"></script>
+
+	
+
+	<script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
+	<script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.1/polyfill.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.8.0/exceljs.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
+	<style>
+		body, body * {
+			direction: ltr !important;
+		}
+
+		.dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
+			vertical-align: top;
+			direction: rtl !important;
+			text-align: center !important;
+		}
+	</style>
+
+	<script src="~/js/devextreme/localization/dx.messages.fa.js"></script>
+}
+
+
+
+<section id="extended">
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="card">
+				<div class="card-header">
+					<div class="card-title-wrap bar-success">
+						<h4 class="card-title">مدیریت کاربران</h4>
+					</div>
+				</div>
+				<div class="card-body">
+
+					<div class="card-block">
+
+						<div id="data-grid-demo">
+							@(Html.DevExtreme().DataGrid<UserAdminViewModel>()
+		.ID("gridContainer")
+		.ShowBorders(true)
+		.Paging(p => p.Enabled(false))
+		.Editing(e => e.Mode(GridEditMode.Popup)
+			.AllowUpdating(true)
+			.AllowAdding(true)
+			.AllowDeleting(true)
+			.Popup(p => p
+				.Title("کاربر")
+				.ShowTitle(true)
+				.Width(700)
+				.Height(525)
+			)
+			.Form(f => f.Items(items => {
+				items.AddGroup()
+					.ColCount(2)
+					.ColSpan(2)
+					.Items(groupItems => {
+						groupItems.AddSimpleFor(m => m.FullName);
+						groupItems.AddSimpleFor(m => m.Phone);
+						groupItems.AddSimpleFor(m => m.Password);
+						groupItems.AddSimpleFor(m => m.RoleId);
+						groupItems.AddSimpleFor(m => m.IsActive);
+
+					});
+
+			}))
+		)
+		.SearchPanel(searchPanel => searchPanel.Visible(true))
+		.Columns(columns => {
+			columns.AddFor(m => m.FullName)
+					;
+
+			columns.AddFor(m => m.Phone);
+
+			columns.AddFor(m => m.IsActive);
+
+			                    columns.AddFor(m => m.Password)
+				                    .Visible(false);
+
+			columns.AddFor(m => m.RoleId)
+
+				.Lookup(lookup => lookup
+					.DataSource(d => d.Mvc().Controller("UserManagement").LoadAction("GetRole").Key("Id"))
+					.DisplayExpr("Name")
+					.ValueExpr("Id")
+				);
+			    columns.Add()
+				.Type(GridCommandColumnType.Buttons)
+				.Buttons(b => {
+				b.Add().Name(GridColumnButtonName.Edit).CssClass("text-decoration-none").Text("ویرایش").Icon("fa fa-pencil text-primary  font-medium-3 ");
+				b.Add().Name(GridColumnButtonName.Delete).CssClass(" text-decoration-none").Text("حذف").Icon("fa fa-trash-o  text-danger  font-medium-3 ");
+				                    });
+
+		})
+		.DataSource(d => d.Mvc()
+			.Controller("UserManagement")
+			.LoadAction("Get")
+			.UpdateAction("Put")
+			.InsertAction("Post")
+			.DeleteAction("Delete")
+			.Key("Id")
+		)
+								)
+
+
+							@using (Html.DevExtreme().NamedTemplate("TagBoxTemplate"))
+							{
+								<input class="form-control date-piker " type="text" value="dfdf">
+								<script>$('.date-piker').persianDatepicker({
+	format: 'YYYY/MM/DD',
+	autoClose: true,
+	initialValue: false
+});</script>
+						 
+							}
+						</div>
+
+
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+ 
+ 
+<script>
+
+	function getOrderDay(rowData) {
+		return (new Date(rowData.OrderDate)).getDay();
+	}
+
+
+	var locale = getLocale();
+	Globalize.locale(locale);
+
+	function getLocale() {
+		var locale = sessionStorage.getItem("locale");
+		return locale != null ? locale : "fa";
+	}
+</script>

@@ -1,0 +1,107 @@
+﻿@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.DataLayer.Entities.User.User>
+
+@{
+    Layout = null;
+    int pagecount = (int)Math.Ceiling((double)ViewBag.count / 25);
+    int pagenumber = ViewBag.PageNumber;
+}
+
+    @if (Model.Any())
+                        {
+
+
+
+
+                            <table class="table font-size-10  table-condensed  table-striped table-bordered table-responsive-sm table-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.Id)
+                                        </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.FullName)
+                                        </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.Username)
+                                        </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.Phone)
+                                        </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.NatioalCode)
+                                        </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.AcceptPrice )
+                                        </th>
+                                        <th>              
+                                        </th>
+                                        
+                                         
+                                   
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        
+
+                                         <tr  >
+                                             <td>@item.Id</td>
+                                            <td>@item.FullName</td>
+                                            <td>@item.Username</td>
+                                            <td>@item.Phone</td>
+                                            <td>@item.NatioalCode</td>
+                                            <td>@item.AcceptPrice?.ToString("N0")</td>
+                                            <td>
+                                                <a   asp-controller="Customer" asp-action="IncreaseCreditPro"  class="btn btn-success btn-sm" asp-route-id="@item.Id">افزایش اعتبار</a>
+                                                <a   asp-controller="Customer" asp-action="EditPro"  class="btn btn-primary btn-sm" asp-route-id="@item.Id">ویرایش</a>
+                                                <a   asp-controller="Customer" asp-action="DeletePro"  class="btn btn-danger btn-sm" asp-route-id="@item.Id">حذف</a>
+                                               
+                                                @if(item.IsActive){
+                            <a   asp-controller="Customer" asp-action="ChangeUserStatus" asp-route-id="@item.Id" asp-route-status="false" class="btn btn-warning btn-sm" asp-route-id="@item.Id">مسدود سازی</a>
+
+                                                }else{
+                            <a   asp-controller="Customer" asp-action="ChangeUserStatus" asp-route-id="@item.Id" asp-route-status="true" class="btn btn-info btn-sm" asp-route-id="@item.Id">فعال کردن</a>
+
+                                                }
+                                                </td>
+
+                                        
+                                           
+                                            
+                                        </tr>
+
+                                         
+
+
+
+
+                                    }
+                                </tbody>
+                            </table>
+
+                        }
+<div class="col-12 text-center" id="productlist">
+    @(pagecount > 1 ? Html.Raw(pagecount.GetPaging(pagenumber, "js-pager-item")) : Html.Raw(""))
+
+</div>
+
+
+<script>
+    $('#productlist').delegate(".js-pager-item", "click", function () {
+        var pagenum = parseInt($(this).data("pagenumber"));
+        $.ajax({
+            type: 'GET',
+
+                     url: '/Customer/ListColleauePro',
+            data: { Name : '',Username:'',Phone:'', pagenumber: pagenum },
+            success: function (res) {
+                $("#list").html(res);
+            }
+        });
+    });
+
+</script>

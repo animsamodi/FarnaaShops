@@ -1,0 +1,501 @@
+.shipment-page-container {
+    width: 100%;
+    height: auto;
+    float: right;
+    border: 1px #dcdcdc solid;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 15px;
+}
+
+.headline-checkout-shopping {
+    width: 100%;
+    color: #858585;
+    padding-right: 25px;
+    margin-bottom: 15px;
+}
+
+.payment {
+    width: 100%;
+    float: right;
+    margin-bottom: 20px;
+}
+
+.payment ul.checkout-paymethod {
+    background: #fff;
+    width: 100%;
+    position: relative;
+}
+
+.payment ul.checkout-paymethod .wallet-container:first-child {
+    width: 100%;
+    float: right;
+}
+
+.payment ul.checkout-paymethod .wallet-container {
+    display: block;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item {
+    padding: 10px 35px 8px 0px;
+    float: right;
+    width: 100%;
+    position: relative;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item>span {
+    font-size: 30px;
+    color: #c6c6c6;
+    position: absolute;
+    right: 85px;
+    top: 28px;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item .radio-primary {
+    float: right;
+    display: inline-block;
+    position: absolute;
+    top: 20px;
+    right: 5px;
+    width: 19px;
+    height: 19px;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item .radio-primary span.ui-radio-check {
+    cursor: pointer;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ccc;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item .radio-primary input[type=radio] {
+    position: absolute;
+    z-index: 9999999;
+    width: 19px;
+    height: 19px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item .radio-primary input[type=radio]:checked+.ui-radio-check:before {
+    width: 15px;
+    height: 15px;
+    content: "";
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 15px;
+    height: 15px;
+    background: #d90268;
+    border-radius: inherit;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item .checkout-paymethod-title {
+    font: 14px;
+    font-weight: 700;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item .checkout-paymethod-title p.checkout-paymethod-title-label {
+    font-size: 0.9rem;
+    margin-bottom: 5px;
+    color: #777;
+}
+
+.payment ul.checkout-paymethod .wallet-container .checkout-paymethod-item .checkout-paymethod-title img {
+    width: auto;
+    height: 50px;
+}
+
+.shipment-page-container .add-address {
+    padding: 10px;
+    float: left;
+    cursor: pointer;
+}
+
+.shipment-page-container .add-address i {
+    color: #d90268;
+}
+
+.shipment-page-container .add-address span {
+    color: #233462;
+    font-size: 0.9rem;
+}
+
+.shipment-page-container .add-address span:hover {
+    color: #d90268;
+}
+
+.address {
+    margin-bottom: 20px;
+    padding: 20px;
+    border-radius: 10px;
+    background: #ffffff;
+}
+
+.address .title {
+    margin-bottom: 50px;
+}
+
+.address .title h5 {
+    font-weight: 600;
+}
+
+.address .info-box .item {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.address .info-box label {
+    display: block;
+    margin-bottom: 5px;
+    padding-right: 10px;
+    font-size: 14px;
+}
+
+.address .info-box input {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    border-color: #f1f1f1;
+    background: #f1f1f1;
+}
+
+.address .info-box input:focus {
+    border-color: #ff5858;
+    box-shadow: none;
+}
+
+.address .info-box select {
+    width: 100%;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 12px;
+    border-color: #f1f1f1;
+    background: #f1f1f1;
+    cursor: pointer;
+}
+
+.address .info-box select:focus {
+    border-color: #ff5858;
+    box-shadow: none;
+}
+
+.address .info-box .item .state-box {
+    position: relative;
+}
+
+.address .info-box .item .state-box i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.address .info-box .item .city {
+    width: 50%;
+    float: left;
+    padding-right: 3px
+}
+
+.address .edit-box form .item .city {
+    width: 50%;
+    float: left;
+    padding-right: 3px
+}
+
+.address .info-box .item .state {
+    width: 50%;
+    float: left;
+    padding-left: 3px
+}
+
+.address .info-box .item textarea {
+    width: 100%;
+    padding: 15px;
+    border-radius: 15px;
+    font-size: 12px;
+    border-color: #f1f1f1;
+    background: #f1f1f1;
+}
+
+.address .info-box .item textarea:focus {
+    border-color: #d90268;
+}
+
+.btn-submit {
+    background: #d90268;
+    color: #f1f1f1;
+}
+
+.btn-submit:hover {
+    background: #233462;
+    color: #f1f1f1;
+}
+
+.select-bime {
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+    background-color: #dcdcdc;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+.select-bime label {
+    padding: 5px;
+    font-size: 14px;
+}
+
+.select-bime .bime-box {
+    position: relative;
+}
+
+.select-bime .bime-box i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    cursor: pointer;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.shop-cart .product-box {
+    border: 1px #dcdcdc solid;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.shop-cart .product-box .product-cart {
+    width: 100%;
+    height: auto;
+    display: inline-block;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.shop-cart .product-box .product-cart .remove-from-cart {
+    width: 30px;
+    height: 30px;
+    background: #eae9e9;
+    color: #b9b7b7;
+    border-radius: 50px;
+    display: inline-block;
+    margin: 85px 0;
+    text-align: center;
+    line-height: 28px;
+    float: right;
+}
+
+.shop-cart .product-box .product-cart .checkout-col-desc {
+    font-size: 0.9rem;
+    color: #777;
+    float: right;
+    margin: 10px;
+    display: inline-block;
+    overflow: hidden;
+}
+
+.shop-cart .product-box .product-cart .checkout-col-total {
+    display: flex;
+    flex-direction: column;
+    float: right;
+    margin-top: 55px;
+}
+
+.shop-cart .product-box .col-thumb {
+    float: right;
+}
+
+.shop-cart .product-box .col-thumb img {
+    width: 50px;
+    margin: 10px;
+}
+
+.shop-cart .product-box .name {
+    display: block;
+}
+
+.shop-cart .product-box .name:hover {
+    color: #233462;
+    ;
+}
+
+.shop-cart .product-box .count {
+    display: block;
+    font-size: 13px;
+    color: #a4a4a4;
+}
+
+.shop-cart .product-box .price {
+    display: block;
+    font-size: 14px;
+    color: #d90268;
+}
+
+.shop-cart .product-box .price del {
+    display: block;
+    font-size: 13px;
+    color: #a4a4a4;
+    text-decoration: line-through;
+}
+
+.shop-cart .product-box .quantity {
+    position: relative;
+    float: right;
+    font-size: 18px;
+    margin: 10px;
+}
+
+.shop-cart .product-box .quantity .qty {
+    width: 80px;
+    height: 40px;
+    padding: 5px 25px 5px 25px;
+    border-radius: 10px;
+    text-align: center;
+    background: #f1f1f1;
+}
+
+.shop-cart .product-box .quantity .qtyminus {
+    right: 0;
+}
+
+.shop-cart .product-box .quantity .qtyplus {
+    left: 0;
+}
+
+.shop-cart .product-box .quantity .button {
+    position: absolute;
+    top: 50%;
+    padding: 8px;
+    background: none;
+    transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+}
+
+.shop-cart .product-box .quantity .button:hover {
+    color: #d90268;
+}
+
+.shop-cart .product-box .total-price {
+    display: block;
+    font-size: 18px;
+    float: left;
+    margin-top: 5px;
+}
+
+.shop-cart .product-box .remove {
+    padding: 4px;
+    font-size: 14px;
+    text-align: center;
+    border-radius: 10px;
+    color: #ffffff;
+    background: #d90268;
+    align-items: end;
+    float: right;
+}
+
+.shop-cart .product-box .remove:hover {
+    background: #233462;
+}
+
+.shop-cart .product-box .button a {
+    padding: 10px 30px;
+    border-radius: 10px;
+    color: #ffffff;
+    background: #19bfd3;
+}
+
+.shop-cart .product-box .button a:hover {
+    background: #233462;
+}
+
+.shop-cart .product-box .button .back {
+    float: right;
+}
+
+.shop-cart .product-box .button .update {
+    float: left;
+}
+
+.shop-cart .product-box .product-cart .category .info-product li {
+    position: relative;
+    font-size: 12px;
+    margin-left: 30px;
+}
+
+.shop-cart .product-box .product-cart .category .info-product li::before {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 3px;
+    top: 50%;
+    right: -20px;
+    border-radius: 50%;
+    background: #d9d9d9;
+}
+
+.shop-cart .product-box .product-cart .category .info-product .comment a:hover {}
+
+.shop-cart .product-box .product-cart .category .info-product .comment a strong {
+    color: #a4a4a4;
+    font-weight: 100;
+}
+
+.shop-cart .product-box .product-cart .category .info-product .comment a:hover {}
+
+.shop-cart .product-box .product-cart .category .info-product .comment a strong {
+    color: #d90268;
+    font-weight: 100;
+}
+
+.shop-cart .cart .price-cart .copon {
+    margin-bottom: 20px;
+}
+
+.shop-cart .cart .price-cart .copon .title {
+    font-weight: 600;
+}
+
+.shop-cart .cart .price-cart .copon form {
+    position: relative;
+}
+
+.shop-cart .cart .price-cart .copon form input {
+    width: 100%;
+    padding: 15px 15px 15px 90px;
+    font-size: 12px;
+    border-radius: 10px;
+    background: #e8e8e8;
+}
+
+.shop-cart .cart .price-cart .copon form button {
+    position: absolute;
+    width: 70px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 10px 0 0 10px;
+    color: #ffffff;
+    background: #d90268;
+}
+
+.shop-cart .cart .price-cart .copon form button:hover {
+    background: #233462;
+    ;
+}

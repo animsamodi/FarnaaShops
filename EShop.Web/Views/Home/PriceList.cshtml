@@ -1,0 +1,114 @@
+﻿@using Microsoft.AspNetCore.Http.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model System.Tuple<EShop.DataLayer.Entities.Seri.ProductPricePage,System.Collections.Generic.List<EShop.Core.ViewModels.Product.ProductViewModel>>
+
+@{
+    ViewData["Title"] = Model.Item1.MetaTitle ?? Model.Item1.Title;
+    Layout = "_Layout";
+}
+
+
+@section Meta
+    {
+ 
+   @* <meta name="title" content="@(Model.Item1.MetaTitle ?? Model.Item1.Title)">*@
+        @if (Model.Item1.MetaDescription != null)
+        {
+        <meta name="description" content="@(Model.Item1.MetaDescription)">
+        }
+        @if (Model.Item1.MetaKeywords != null)
+        {
+        <meta name="keywords" content="@Model.Item1.MetaKeywords">
+
+        }
+        @if (Model.Item1.Canonical != null)
+        {
+        <link rel="canonical" href="@Model.Item1.Canonical">
+
+        }
+
+
+        @Html.Raw(Model.Item1.HeaderTag)
+        @Html.Raw(Model.Item1.Schema)
+
+
+    <meta property="og:title" content="@(Model.Item1.MetaTitle ?? Model.Item1.Title)">
+    <meta property="og:description" content="@Model.Item1.MetaDescription">
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farnaa.com/images/logo.png">
+    <meta property="og:image:alt" content="@(Model.Item1.MetaTitle ?? Model.Item1.Title)">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+
+}
+
+
+    <section class="blog-checkout d-block order-1">
+        <div class="col-lg">
+            <div class="checkout woocommerce-checkout">
+                <div class="content-checkout">
+                    <div class="middle-container">
+                        <div class="main-row pt-0">
+                            <div id="breadcrumb">
+                                <breadcrumb>
+
+                                    <nav aria-label="breadcrumb">
+                                        <ol class="breadcrumb mb-0">
+                                            <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">خانه</a></li>
+                                            <li class="breadcrumb-item actc-box_suppliersive" aria-current="page"><a href="@Context.Request.Path">@Model.Item1.Title </a></li>
+                                        </ol>
+                                    </nav>
+                                </breadcrumb>
+                            </div>
+                        </div>
+                        <form action="#" class="form-checkout">
+                            <div class="col2-set" id="customer-details">
+                                <div class="col-12">
+
+                                    <div class="billing-fields mt-4 bg-product-price">
+
+                                        <h1 class="product-price-page-title font-weight-bold">
+
+                                            @Model.Item1.Title
+                                        </h1>
+                                        <h3 class="product-price-page-title font-weight-bold mt-3">
+
+                                            لیست قیمت گوشی @DateTime.Now.ConvertMiladiToShamsi()
+                                        </h3>
+
+
+
+                                        <hr />
+
+                                        <div class="product-price-list-container">
+                                            @foreach (var item in Model.Item2)
+                                        {
+                                            <div class="product-price-list-item">
+                                                <span>
+                                                    <a asp-action="Index" asp-controller="product"  asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="btn btn-success product-price-list-item-btn">
+خرید                                                    </a>
+                                                </span>
+                                                 <span class="product-price-list-item-price">@item.MainPrice.ToString("N0") تومان</span>
+                                                <span class="product-price-list-item-title">
+                                                    @item.EnTitle
+                                                    <br/>
+                                                   <span class="product-price-list-item-fatitle"> @item.FaTitle </span>
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

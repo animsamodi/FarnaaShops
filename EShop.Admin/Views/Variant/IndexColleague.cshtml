@@ -1,0 +1,167 @@
+﻿@using EShop.Core.ViewModels
+@using EShop.Core.Helpers
+@model IEnumerable<EShop.Core.ViewModels.VariantsProductDetailViewModel>
+
+
+
+@{
+    ViewData["Title"] = "لیست موجودی های همکار";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    string search = "";
+    if (TempData["Search"] != null)
+    {
+        search = (string) TempData["Search"];
+    }
+    var updateResult = new List<VariantUpdateMessageViewModel>();
+    if (TempData["UpdateResult"] != null)
+    {
+        updateResult = (List<VariantUpdateMessageViewModel>) TempData.Get<List<VariantUpdateMessageViewModel>>("UpdateResult");
+    }
+}
+
+
+ 
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست موجودی های همکار</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        <form asp-action="IndexColleague">
+                            <div class="col-lg-12">
+                                <div class="input-group">
+                                    <input type="text" class="form-control" name="search" value="@search" placeholder="جستجو برای ...">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary" type="submit">جستجو</button>
+                                    </div>
+                                </div>
+                             
+                            </div>
+                        </form>
+                        <hr/>
+                        @if (Model.Any())
+                        {
+                    <form asp-action="UpdateProductsVariantsColleague"  onsubmit="submitForm(event)">
+                        <table class="table   table-bordered  table-responsive dataTable font-small-2 formNavigation" role="grid">
+                            <thead>
+                               
+                            </thead>
+                            <tbody>
+
+                                @{
+                                    int counter = 0;
+
+                                }
+
+                                @foreach (var itemGroup in Model.GroupBy(c => c.ProductId).ToList())
+                                {
+                                    counter++;
+                                    var varient = Model.FirstOrDefault(c => c.ProductId == itemGroup.Key);
+
+                                    <tr role="row" class="@(counter / 2 == 0 ? "odd" : "even")">
+                                        <td colspan="1">
+                                            @Html.Raw((String.IsNullOrEmpty(varient.Image) ? "" : "<img src='https://media.farnaa.com/media/" + varient.Image + "' class='thumbnail' width='80' />"))
+
+                                        </td>
+                                        <td colspan="5" style="vertical-align: inherit;">
+                                            <strong>@varient.ProductFaTitle</strong>
+                                        </td>
+                                    </tr>
+                                    <tr role="row">
+                                     
+                                        <th tabindex="0" rowspan="1" colspan="1">رنگ</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">گارانتی</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">قیمت</th>
+                                         <th tabindex="0" rowspan="1" colspan="1">موجودی</th>
+                                   @*     <th tabindex="0" rowspan="1" colspan="1">تعدادافزایش</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">تعداد کاهش </th>*@
+                                        <th tabindex="0" rowspan="1" colspan="1">حداکثر تعداد خرید</th>
+                                        <th tabindex="0" rowspan="1" colspan="1">قیمت همکار از مشتری حساب شود ؟</th>
+
+
+
+                                    </tr>
+                                    foreach (var item in itemGroup)
+                                    {
+                                        <tr role="row" class="@(counter / 2 == 0 ? "odd" : "even")">
+
+                                            <td>
+                                                <input type="hidden" name="VariantIds" value="@item.VariantId" />
+                                                <input type="hidden" name="search" value="@search" />
+                                                @item.ProductOption
+                                                <div class="variant-color" style="background-color: @item.ProductOptionCode"></div>
+                                            </td>
+                                            <td>@item.Guarantee</td>
+                                            <td><input type="text" class="arrow-togglable form-control format-price" name="MainPrices" value="@item.PriceColleague.ToString("N0")" /></td>
+                                             <td><input type="text" class="arrow-togglable form-control format-number-ziro" name="Counts" disabled="disabled" value="@item.Count" /></td>
+                                           @* <td><input type="text" class="arrow-togglable form-control format-number-ziro" name="IncreaseCounts" value="0" /></td>
+                                            <td><input type="text" class="arrow-togglable form-control format-number-ziro" name="DecreaseCounts" value="0" /></td>*@
+                                             <td><input type="text" class="arrow-togglable form-control format-number-ziro" name="MaxOrderCounts" value="@item.MaxOrderCountColleague" /></td>
+                                           <td>
+                                               <select name="GetColleaguePriceFromOrginals" class="form-control">
+                                                   @if (item.GetColleaguePriceFromOrginal)
+                                                   {
+                                                       <option value="1" selected="selected">بله</option>
+                                                       <option value="0">خیر</option>
+                                                   }
+                                                   else
+                                                   {
+                                                       <option value="1">بله</option>
+                                                       <option value="0" selected="selected">خیر</option>
+                                                   }
+                                          
+                                               </select>
+                                               
+                                           </td>
+
+
+
+                                        </tr>
+                                        var resItem = updateResult.FirstOrDefault(c => c.Id == item.VariantId);
+                                        if (resItem != null && !resItem.IsOk)
+                                        {
+                                            <tr role="row" class="@(counter / 2 == 0 ? "odd" : "even")">
+
+                                                <td colspan="8">
+                                                    <div class="col-12 alert alert-danger ">@resItem.Message</div>
+                                                </td>
+
+
+                                            </tr>
+                                        }
+                                    }
+                                    <tr role="row" class="@(counter / 2 == 0 ? "odd" : "even")">
+                                        <td colspan="6" class="bg-warning p-0 pt-1">
+ 
+                                        </td>
+                                     </tr>
+
+                                }
+
+
+
+                            </tbody>
+
+                        </table>
+                        <button type="submit" class="btn btn-primary"> ثبت تغییرات</button>
+                    </form>
+                        }
+                            
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts
+{
+    <script>
+      
+    </script>
+}

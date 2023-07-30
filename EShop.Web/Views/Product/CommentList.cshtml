@@ -1,0 +1,98 @@
+﻿
+@using EShop.Core.ExtensionMethods
+@model List<EShop.Core.ViewModels.Product.CommentForUserViewModel>
+
+@{
+    Layout = null;
+    int pagecount = (int)Math.Ceiling((double)ViewBag.commentcount / 4);
+    int pagenumber = ViewBag.CommentPageNumber;
+    int sort = ViewBag.Commentsort;
+
+}
+
+
+
+
+
+
+<ul class="comment-list">
+    @foreach (var item in Model)
+    {
+        <li>
+            <div class="col-lg-3 pr">
+                <section>
+                    <div class="comments-user-shopping">
+                        @item.Name
+                        <div class="cell-date">
+                            @item.CreateDate.GetMonthPersian()
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="col-lg-9 pl">
+                <div class="article">
+                    <ul class="comment-text">
+                        <div class="header">
+                            <div>@item.CommentTitle</div>
+                          
+                            <p>
+                                @item.CommentText
+                            </p>
+                        </div>
+                        <div class="comments-evaluation">
+                            @if (item.Positive != null)
+                            {
+                                <div class="comments-evaluation-positive">
+                                    <span>نقاط قوت</span>
+                                    <ul>
+                                        @foreach (var item2 in item.Positive.GetEvaluation())
+                                        {
+                                            if (!string.IsNullOrEmpty(item2.Trim()))
+                                            {
+                                                <li>@item2</li>
+
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            }
+                            @if (item.Negative != null)
+                            {
+                                <div class="comments-evaluation-negative">
+                                    <span>نقاط ضعف</span>
+                                    <ul>
+                                        @foreach (var item2 in item.Negative.GetEvaluation())
+                                        {
+                                            if (!string.IsNullOrEmpty(item2.Trim()))
+                                            {
+                                                <li>@item2</li>
+
+                                            }
+                                        }
+                                    </ul>
+                                </div>
+                            }
+
+
+                        </div>
+                    </ul>
+                </div>
+            </div>
+        </li>
+    }
+</ul>
+<div class="col-lg-12 clear pt-5">
+    @Html.Raw(pagecount.GetPaging(pagenumber, "js-comment c-pager_item"))
+
+</div>
+
+<script>
+    $('#CommentList').delegate(".js-comment ", "click", function () {
+        var pagenum = parseInt($(this).data("pagenumber"))
+        $('#CommentList').load("@Url.Action("CommentList","Product")", { productid: @ViewBag.productid, pagenumber: pagenum, sort: @ViewBag.Commentsort, commentcount:@ViewBag.commentcount })
+        clearInterval(timer);
+        scrolltotab();
+    });
+
+
+</script>

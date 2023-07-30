@@ -1,0 +1,14 @@
+@model EShop.Core.ViewModels.Product.PaggingViewModel
+
+<div class="pagination-product">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            @for (int i = 1; i <= Model.Count; i++)
+            {
+                <li class="page-item">
+                    <a class="page-link  js-product-pager @(i == Model.Page ? "active" : "")" data-type="page" data-id="@i">@i</a>
+                </li>
+            }
+        </ul>
+    </nav>
+</div>

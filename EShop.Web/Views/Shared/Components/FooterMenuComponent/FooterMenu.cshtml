@@ -1,0 +1,250 @@
+﻿@using EShop.DataLayer.Enum
+@model List<EShop.DataLayer.Entities.Site.SiteFotterMenu>
+@{
+    //bool isColleague = (bool)TempData["IsColleague"];
+}
+
+<div class="col-lg-2 col-md-4 col-sm-4 d-none d-lg-block ">
+    <div class="links ">
+        <h3 class="title mb-3 ">
+            راهنمای خرید
+        </h3>
+        <ul class="link-box ">
+            @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Rahnama).ToList())
+            {
+                                      
+                <li class="link-item ">
+                    <a class="trs-3 " href="@item.Url">
+                        @item.Title 
+                    </a>
+                </li>
+            } 
+        </ul>
+    </div>
+</div>
+<div class="col-lg-2 col-md-4 col-sm-4 d-none d-lg-block ">
+    <div class="links ">
+        <h3 class="title mb-3 ">
+            خدمات فرنا
+        </h3>
+        <ul class="link-box ">
+            @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Khadamat).ToList())
+            {
+                                      
+                <li class="link-item ">
+                    <a class="trs-3 " href="@item.Url">
+                        @item.Title 
+                    </a>
+                </li>
+            } 
+        </ul>
+    </div>
+</div>
+<div class="col-lg-2 col-md-4 col-sm-4 d-none d-lg-block ">
+    <div class="links ">
+        <h3 class="title mb-3 ">
+            با فرنا
+        </h3>
+        <ul class="link-box ">
+            @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.BaFarna).ToList())
+            {
+                                      
+                <li class="link-item ">
+                    <a class="trs-3 " href="@item.Url">
+                        @item.Title 
+                    </a>
+                </li>
+            } 
+        </ul>
+    </div>
+</div>
+
+<div class="col-mob d-lg-none ">
+    <div class="col-content ">
+        <div class="row ">
+            <div class="col-12 ">
+                <div class="col-grid ">
+                    <div class="col-item ">
+                        <a class="col-title trs-3 " href="#custom ">
+                            راهنمای خرید
+                            <i class="fal fa-chevron-down "></i>
+                        </a>
+                        <div class="col-content ">
+                            <div class="links ">
+
+                                <ul class="link-box ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Rahnama).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    } 
+                                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-item ">
+                        <a class="col-title trs-3 " href="#custom ">
+                            خدمات فرنا
+                            <i class="fal fa-chevron-down "></i>
+                        </a>
+                        <div class="col-content ">
+                            <div class="links ">
+                                <ul class="link-box ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Khadamat).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    } 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-item ">
+                        <a class="col-title trs-3 " href="#custom ">
+                            با فرنا
+                            <i class="fal fa-chevron-down "></i>
+                        </a>
+                        <div class="col-content ">
+                            <div class="links ">
+                                <ul class="link-box ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.BaFarna).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    } 
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*      <div class="col-lg-2 col-md-4 col-sm-4 ">
+                            <div class="links d-lg-none " data-bs-toggle="collapse " data-bs-target="#collapse-buy " type="button " aria-expanded="false " aria-controls="collapse-buy ">
+                                <h6 class="title mb-3 ">
+                                    راهنمای خرید
+                                    <i class="fa fa-chevron-down " style="color: #d90268; "></i>
+                                </h6>
+
+                                <ul class="link-box collapse " id="collapse-buy ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Rahnama).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    }
+                                   
+                               
+                                </ul>
+                            </div>
+                            <div class="links d-none d-lg-block ">
+                                <h6 class="title mb-3 ">
+                                    راهنمای خرید
+                                </h6>
+                                <ul class="link-box ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Rahnama).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    }
+                                  
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-4 col-sm-4 ">
+                            <div class="links d-lg-none " data-bs-toggle="collapse " data-bs-target="#collapse-service " type="button " aria-expanded="false " aria-controls="collapse-service ">
+                                <h6 class="title mb-3 ">
+                                    خدمات فرنا
+                                    <i class="fa fa-chevron-down " style="color: #d90268; "></i>
+                                </h6>
+                                <ul class="link-box collapse dont-collapse-sm " id="collapse-service ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Khadamat).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="links d-none d-lg-block ">
+                                <h6 class="title mb-3 ">
+                                    خدمات فرنا
+                                </h6>
+                                <ul class="link-box ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.Khadamat).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 col-md-4 col-sm-4 ">
+                            <div class="links d-lg-none " data-bs-toggle="collapse " data-bs-target="#collapse-about " type="button " aria-expanded="false " aria-controls="collapse-about ">
+                                <h6 class="title mb-3 ">
+                                    با فرنا
+                                    <i class="fa fa-chevron-down " style="color: #d90268; "></i>
+                                </h6>
+                                <ul class="link-box collapse " id="collapse-about ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.BaFarna).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                            <div class="links d-none d-lg-block ">
+                                <h6 class="title mb-3 ">
+                                    با فرنا
+                                </h6>
+                                <ul class="link-box ">
+                                    @foreach (var item in Model.Where(c => c.Type == EnumTypeFotterMenu.BaFarna).ToList())
+                                    {
+                                      
+                                        <li class="link-item ">
+                                            <a class="trs-3 " href="@item.Url">
+                                                @item.Title 
+                                            </a>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+
+*@

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+ 
+<html>
+<head>
+</head>
+<body id="main">
+	<main>
+		<textarea id="editor1" class="form-control"></textarea>
+	</main>
+	<script src="../ckeditor.js"></script>
+
+	<script>
+		//initSample();
+		CKEDITOR.replace('editor1', {
+			language: 'fa',
+			filebrowserWindowWidth: 1050,
+			filebrowserWindowHeight: 1050
+		});
+	</script>
+
+</body>
+</html>

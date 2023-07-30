@@ -1,0 +1,132 @@
+﻿@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@model IEnumerable<CooperationRequest>
+
+@{
+    Layout = null;
+    int pagecount = (int)Math.Ceiling((double)ViewBag.count / 25);
+    int pagenumber = ViewBag.PageNumber;
+    var status = ViewBag.Status;
+    var name = ViewBag.Name;
+    var code = ViewBag.Code;
+
+}
+
+<table class="table table-responsive-md table-bordered table-striped text-center">
+    <thead>
+        <tr class="font-size-10">
+            <th>
+                کد رایانه
+            </th>
+            <th>
+                نوع سیستم
+            </th>
+            <th>
+                نوع
+            </th>
+
+            <th>
+                نام (نام شرکت)
+            </th>
+            <th>
+                کد ملی (شناسه ملی)
+            </th>
+
+
+
+
+            <th>
+                وضعیت
+            </th>
+
+
+            <th>
+                تاریخ ثبت
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="font-size-10">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+
+                <td>
+                    @Enumerations.GetEnumDescription(item.TypeSystem)
+                </td>
+                <td>
+                    @Enumerations.GetEnumDescription(item.Type)
+                </td>
+
+                <td>
+                    @{
+                        if (item.Type == EnumRealLegal.Legal)
+                        {
+                            <span>@item.Name</span>
+                        }
+                        else
+                        {
+                            <span>@item.Name @item.Family</span>
+
+                        }
+                    }
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CodeMeli)
+                </td>
+
+
+                <td>
+                    @Enumerations.GetEnumDescription(item.Status)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreateDate)
+                </td>
+
+
+
+
+
+
+
+
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary btn-sm" asp-action="Detail" asp-controller="CooperationRequest" asp-route-Status="@status"  asp-route-id="@item.Id">جزئیات</a>
+
+                    </div>
+
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="col-12 text-center" id="productlist">
+    @(pagecount > 1 ? Html.Raw(pagecount.GetPaging(pagenumber, "js-pager-item")) : Html.Raw(""))
+
+</div>
+
+
+<script>
+    $('#productlist').delegate(".js-pager-item", "click", function () {
+        var pagenum = parseInt($(this).data("pagenumber"));
+        $.ajax({
+            type: 'GET',
+            url: '/CooperationRequest/List',
+            data: { pagenumber: pagenum, name: '@name', code: '@code', status: '@status' },
+            success: function (res) {
+                $("#list").html(res);
+            }
+        });
+    });
+
+</script>

@@ -1,0 +1,111 @@
+﻿@using EShop.DataLayer.Enum
+@using EShop.Core.Helpers
+@model IEnumerable<EShop.DataLayer.Entities.Order.OrderLimit>
+
+@{
+    ViewData["Title"] = "محدودیت سفارشات";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">محدودیت سفارشات</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="CreateOrderLimit" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                افزودن
+                            </a>
+                        </div>
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LimitType)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Value)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Count)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CategoryId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CountTry)
+                            </th>
+                            <th>
+                            </th>
+
+
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    var orderStatus = EnumHelper<EnumOrderLimitType>.GetDisplayValue(item.LimitType);
+
+
+                                    <tr>
+                                        <td>
+                                            @orderStatus
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Value)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Count)
+                                        </td>
+                                        <td>
+                                            @{ var price = item.Price ?? 0;}
+                                            @price.ToString("N0")
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Category.FaTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IsActive)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CountTry)
+                                        </td>
+
+                                        <td>
+
+                                            <a asp-action="DeleteOrderLimit" asp-route-id="@item.Id" class="danger border-0 bg-transparent  p-0 btn-delete" data-original-title="حذف" title="حذف">
+                                                <i class="fa fa-trash-o font-medium-3 mr-2"></i>
+                                            </a>
+                                            <a asp-action="EditOrderLimit" asp-route-id="@item.Id" class="danger border-0 bg-transparent  p-0 btn-add" data-original-title="ویرایش" title="ویرایش">
+                                                <i class="fa fa-edit font-medium-3 mr-2"></i>
+                                            </a>
+
+                                        </td>
+
+
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

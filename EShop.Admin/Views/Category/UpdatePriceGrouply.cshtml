@@ -1,0 +1,89 @@
+﻿
+@model EShop.Admin.ViewModels.Products.UpdatePriceGrouplyViewModel?
+
+@{
+    ViewData["Title"] = "ویرایش گروهی قیمت";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@*@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}*@
+<div class="row">
+    <div class="col-md-12">
+          @Html.Partial("_alert")
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش قیمت گروهی</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="UpdatePriceGrouply" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Percent" class="control-label"></label>
+                                        <input min="-100" max="100" asp-for="Percent" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="Percent" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="CategoryId" class="control-label"></label>
+                                        <select asp-for="CategoryId" asp-items="@(new SelectList(ViewBag.CategoryList,"Id","Title"))" class="form-control "></select>
+                                        <span asp-validation-for="CategoryId" class="text-danger"></span>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="BrandId" class="control-label"></label>
+                                        <select asp-for="BrandId" asp-items="@(new SelectList(ViewBag.BrandList,"Id","Title"))" class="form-control "></select>
+                                        <span asp-validation-for="BrandId" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="ProductListContainer" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*
+@section Scripts
+{
+    <script src="~/js/bootstrap-multiselect.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#Guarantees_dropdown').multiselect({
+
+                nonSelectedText: '-- انتخاب کنید --',
+            });
+            $('#Colors_dropdown').multiselect({
+
+                nonSelectedText: '-- انتخاب کنید --',
+            });
+        });
+    </script>
+}
+
+*@

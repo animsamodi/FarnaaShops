@@ -1,0 +1,104 @@
+﻿@model EShop.DataLayer.Entities.Variety.Variant
+
+@{
+    ViewData["Title"] = "موجودی ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var productId = ViewBag.productid;
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش موجودی جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="EditProductVariant" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="ProductId" value="@productId" type="hidden"/>
+                            <input asp-for="Id"   type="hidden"/>
+                            <input asp-for="ShopCount"   type="hidden"/>
+                            <input asp-for="VoteCount"   type="hidden"/>
+                            <input asp-for="TotallySatisfied"   type="hidden"/>
+                            <input asp-for="Satisfied"   type="hidden"/>
+                            <input asp-for="Neutral"   type="hidden"/>
+                            <input asp-for="DisSatisfied"   type="hidden"/>
+                            <input asp-for="TotallyDisSatisfied"   type="hidden"/>
+                            <input asp-for="ReserveCount"   type="hidden"/>
+                            <input asp-for="SellerId"   type="hidden"/>
+                            <input asp-for="CreateDate"   type="hidden"/>
+                            <input asp-for="LastUpdateDate"   type="hidden"/>
+                            <input asp-for="IsDelete"   type="hidden"/>
+
+                            <div class="row">
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Price" class="control-label"></label>
+                                        <input asp-for="Price" class="form-control" />
+                                        <span asp-validation-for="Price" class="text-danger"></span>
+                                    </div>
+                                </div> 
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="SepcialPrice" class="control-label"></label>
+                                        <input asp-for="SepcialPrice" class="form-control" />
+                                        <span asp-validation-for="SepcialPrice" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="Count" class="control-label"></label>
+                                        <input asp-for="Count" class="form-control" />
+                                        <span asp-validation-for="Count" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="MaxOrderCount" class="control-label"></label>
+                                        <input asp-for="MaxOrderCount" class="form-control" />
+                                        <span asp-validation-for="MaxOrderCount" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="ProductOptionId" class="control-label"></label>
+                                         <select class="form-control" asp-for="ProductOptionId" asp-items="@(new SelectList(ViewBag.ProductOptionlist, "Id", "Name"))"  >
+                                            <option value="" selected="selected">آپشن مورد نظر خود را انتخاب کنید </option>
+                                        </select>
+                                        <span asp-validation-for="ProductOptionId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <div class="form-group">
+                                        <label asp-for="GuaranteeId" class="control-label"></label>
+                                         <select   asp-for="GuaranteeId" asp-items="@(new SelectList(ViewBag.Guaranteelist, "Id", "Title"))" class="form-control">
+                                            <option value="" selected="selected">گارانتی مورد نظر خود را انتخاب کنید </option>
+                                        </select>
+                                        <span asp-validation-for="GuaranteeId" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="ProductVariants" asp-route-id="@productId" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ 

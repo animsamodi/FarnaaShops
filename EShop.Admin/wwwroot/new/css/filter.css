@@ -1,0 +1,71 @@
+.header-filters .remodal-search-advanced {
+    width: 100%;
+    height: 100%;
+    z-index: 99999999;
+    position: fixed;
+    color: #2b2e38;
+    background: #f1f1f1;
+    top: 0;
+    right: 0;
+    display: block;
+    overflow-y: scroll;
+    display: none;
+    overflow-x: hidden;
+}
+
+.search-filter-remodal-close {
+    position: absolute;
+    top: 6px;
+    left: 22px;
+    display: block;
+    overflow: visible;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+    -webkit-transition: color .2s;
+    -o-transition: color .2s;
+    transition: color .2s;
+    text-decoration: none;
+    color: #000;
+    border: 0;
+    outline: none !important;
+    background: transparent;
+    font-size: 25px;
+    line-height: 1;
+    padding: 5px;
+    z-index: 100;
+    outline: none;
+}
+
+.header-filters .btn-filter {
+    border-radius: 4px;
+    background-color: #e0e0e0;
+    color: #424242;
+    line-height: 1.833;
+    padding: 5px 11px;
+    margin-left: 5px;
+    outline: none;
+    font: 14px iranyekan;
+    cursor: pointer;
+}
+
+.header-filters .remodal-search-advanced .remodal-page-header {
+    padding: 0 25px;
+    width: 100%;
+    background: #e9e9e9;
+    font: 16px iranyekan;
+    float: right;
+    height: 55px;
+    line-height: 50px;
+}
+
+.header-filters .remodal-search-advanced .remodal-page-header-flex {
+    display: flex;
+}
+
+.header-filters .advance-header {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    border-bottom: 1px #dcdcdc sol;
+}

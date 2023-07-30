@@ -1,0 +1,186 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.DataLayer.Entities.Order.Shipment
+
+@{
+    ViewData["Title"] = "روش ارسال جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ایجاد دسته بندی جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="EditShipment" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Id" type="hidden" />
+                            <input asp-for="CreateDate" type="hidden" />      
+                            <input id="city" value="@Model.CityId" type="hidden" />
+
+
+                            <div class="row">
+                                 
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="TypeSystem" class="control-label"></label>
+                                        <select asp-for="TypeSystem"
+                                                asp-items="Html.GetEnumSelectList<EnumTypeSystem>()"
+                                                class="form-control">
+                                        </select>
+                                        <span asp-validation-for="TypeSystem" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Title" class="control-label"></label>
+                                        <input asp-for="Title" class="form-control" />
+                                        <span asp-validation-for="Title" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="TitleCrm" class="control-label"></label>
+                                        <input asp-for="TitleCrm" class="form-control" />
+                                        <span asp-validation-for="TitleCrm" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Type" class="control-label"></label>
+                                        <select asp-for="Type"
+                                                asp-items="Html.GetEnumSelectList<EnumTypeShipment>()"
+                                                class="form-control">
+                                        </select>
+                                        <span asp-validation-for="Type" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Price" class="control-label"></label>
+                                        <input asp-for="Price" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="Price" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="PricePerAddProduct" class="control-label"></label>
+                                        <input asp-for="PricePerAddProduct" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="PricePerAddProduct" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ProvinceId" class="control-label"></label>
+
+                                        <select class="province form-control" asp-for="ProvinceId" asp-items="@(new SelectList(ViewBag.provincelist, "ProvinceId", "ProvinceName"))" class="form-control">
+                                            <option value="" selected="selected">استان مورد نظر خود را انتخاب کنید </option>
+                                        </select>
+                                        <span asp-validation-for="ProvinceId" class="text-danger"></span>
+
+
+                                    </fieldset>
+                                </div>
+
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="CityId" class="control-label"></label>
+                                        <select id="cityid" class="form-control" asp-for="CityId">
+                                            <option value="" selected="selected">شهر مورد نظر خود را انتخاب کنید</option>
+
+                                        </select>
+                                        <span asp-validation-for="CityId" class="text-danger"></span>
+
+
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="IsActive" class="control-label"></label>
+                                        <input asp-for="IsActive" dir="ltr"  />
+                                        <span asp-validation-for="IsActive" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="CheckPreSell" class="control-label"></label>
+                                        <input asp-for="CheckPreSell" dir="ltr"  />
+                                        <span asp-validation-for="CheckPreSell" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="NeedGenerateDeliveryCode" class="control-label"></label>
+                                        <input asp-for="NeedGenerateDeliveryCode" dir="ltr"  />
+                                        <span asp-validation-for="NeedGenerateDeliveryCode" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="Shipment" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script>
+        $(document).ready(function () {
+              var cid = $("#city").val();
+              getCity();
+            $(".province").change(function () {
+
+                getCity();
+            });
+
+            function getCity() {
+                var id = $(".province").children("option:selected").val();
+                var cityselect = $("#cityid");
+                $.ajax({
+                    type: "POST",
+                    url: "/Order/GetCity",
+                    data: { id: id },
+                    success: function (data) {
+                        
+                        cityselect.children('.js-item').remove();
+                        data.forEach(function (item) {
+                            if (item.cityId == cid) {
+                                cityselect.append($("<option selected='selected' value='" + item.cityId + "' class='js-item'>" + item.cityName + "</option>"));
+
+                            } else {
+                                cityselect.append($("<option value='" + item.cityId + "' class='js-item'>" + item.cityName + "</option>"));
+
+                            }
+                        });
+                    }
+                });
+            }
+
+        });
+
+    </script>
+}
+
+

@@ -1,0 +1,644 @@
+﻿@model EShop.Core.ViewModels.Category.MainCategoryPageWithFilterViewModel
+@using EShop.Core.ViewModels.Product
+@using EShop.Core.ViewModels.Seo
+@using EShop.DataLayer.Entities.Brand
+@using Microsoft.AspNetCore.Http.Extensions
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageStructure = ViewData["pageStructure"] as PageStructureViewModel;
+    if (pageStructure == null)
+        pageStructure = new PageStructureViewModel();
+    ViewData["Title"] = pageStructure.MetaTitle;
+}
+@section Meta
+{
+
+     @*<meta name="og:title" content="@pageStructure.OgTitle"/>*@
+<meta name="description" content="@pageStructure.MetaDescription"/>
+
+    @Html.Raw(pageStructure.Schema)
+
+
+    <meta property="og:title" content="@pageStructure.MetaTitle">
+    <meta property="og:description" content="@pageStructure.MetaDescription">
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farnaa.com/images/logo.png">
+    <meta property="og:image:alt" content="@pageStructure.MetaTitle">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+
+}
+@section Style
+{
+ 
+<link rel="stylesheet" href="/css/vendor/noUISlider.min.css">
+
+}
+
+
+    <!-- ---------- Shop ---------- -->
+    <div class="shop-product">
+        <div class="container">
+        <div class="address-bar"><div class="box-overlay"></div>
+            <ul class="box-address">
+                <li class="item">
+                    <a class="trs-3" href="@Url.Action("Index", "Home")">
+                        فرنا
+                        <i class="fal fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="item active">
+                    <h1 class="trs-3" >
+                        @Model.Title
+                    </h1>
+                </li>
+            </ul>
+        </div>
+
+        <div class="banner-ads  ">
+            <div class="holder-ads ">
+                <div class="container ">
+                    <div class="row ">
+                    @if (!string.IsNullOrEmpty(pageStructure.Banner))
+                    {
+                        <div class="col-12 d-none d-lg-block ">
+                            <div class="ads ">
+                                <a href="@pageStructure.BannerUrl" class="ads-pic ">
+                                    <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-page-banner.webp"  data-src="https://media.farnaa.com/media/@pageStructure.Banner"  width="2880" height="600"  fetchpriority="high" alt="@pageStructure.MetaTitle">
+                                </a>
+                            </div>
+                        </div>
+                    }@if (!string.IsNullOrEmpty(pageStructure.BannerMobile))
+                    {
+                        <div class="col-12 d-lg-none ">
+                            <div class="ads ">
+                                <a href="@pageStructure.BannerUrl" class="ads-pic ">
+                                        <img class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-page-banner-mobile.webp" data-src="https://media.farnaa.com/media/@pageStructure.BannerMobile" width="2083" height="833" fetchpriority="high" alt="@pageStructure.MetaTitle">
+                                </a>
+                            </div>
+                        </div>
+                    }
+                 @*   
+                   *@   
+
+                      
+
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="shop">
+            <div class="row">
+
+            <div class="col-12   d-lg-none">
+            <div class="header-filters">
+                        <div class="advance-header">
+                            <div class="box-overlay"></div>
+
+                <button class="btn-filter btn-filter-advanced" onclick="document.getElementById('modal-search').style.display='block'">جستجوی پیشرفته</button>
+
+            </div>
+            <div class="remodal-search-advanced modal-filter" id="modal-search">
+            <nav class="remodal-page-layout">
+            <div class="remodal-page-header-flex">
+                <button class="search-filter-remodal-close" onclick="document.getElementById('modal-search').style.display='none'">
+                    <i class="fa fa-window-close" style="color: #d90268;"></i>
+                </button>
+                <div class="remodal-page-header">فیلتر محصولات1</div>
+            </div>
+
+            <div class="remodal-page-main">
+            <div class="shop-product">
+            <div class="shop">
+            <div class="row">
+            <div class="col-xl-3 col-lg-4 order-2 order-lg-1 filter-container"><div class="box-overlay"></div>
+            <div class="filter">
+
+<div class="brand js-filter_box  d-none">
+    <div class="title">
+        <span>
+            فیلتر ها
+        </span>
+    </div>
+    <div class="brand-box">
+        <ul class="c-box_cat-list js-filters">
+        </ul>
+    </div>
+</div>
+<div class="available">
+    <div class="available-stock-switch">
+        <label class="available-switch">
+            <input class="available-stock-only" type="checkbox" />
+            <span class="available-switch-slider round"></span>
+        </label>
+        <label class="available-stock-switch-text" >فقط کالاهای موجود</label>
+     
+    </div>
+</div>
+<div class="available">
+    <div class="available-discounted-switch">
+        <label class="discounted-switch">
+            <input class="available-discounted-only" type="checkbox" />
+            <span class="available-switch-slider round"></span>
+        </label>   
+        <label class="available-stock-switch-text">کالاهای تخفیف دار</label>
+
+    </div>
+</div>
+@if (Model.SideBarData.Categories.Count > 0)
+{
+    <div class="brand">
+        <div class="title">
+            <span>
+                دسته بندی محصولات
+            </span>
+        </div>
+        <div class="brand-box">
+            <ul style="display:inline-block !important;" class="c-box_cat-list">
+                @foreach (var item in Model.SideBarData.Categories)
+                {
+                    <li class='c-box_cat-item'>
+                        <span class='c-box_cat-span'>
+                            <a asp-action="subcategory" asp-controller="category" asp-route-title="@item.EnglishTitle.ToUrlFormat()"
+                               asp-route-categoryName="@Model.Category.EnglishTitle.ToUrlFormat()"   
+                                                       
+                               class='c-box_cat-link @(Model.Category!=null ? (item.Id == Model.Category.Id ? "is-active" : ""):"")'>
+                                @item.PersianTitle
+                            </a>
+                        </span>
+                    </li>
+                    @if(item.SubCategory is not null && item.SubCategory.Count > 0)
+                    {
+                        <ul class='c-box_cat-list'>
+                            @foreach(var subcategory in item.SubCategory)
+                            {
+                                <li class='c-box_cat-item'>
+                                    <span class='c-box_cat-span c-box_cat-span-arrow_left'>
+                                        <a href='/category/@subcategory.EnglishTitle.ToUrlFormat()'
+                                           class='c-box_cat-link @(Model.Category!=null ?(item.Id ==  Model.Category.Id ? "is-active" : ""):"")'>
+                                            @subcategory.PersianTitle
+                                        </a>
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+}
+@if (Model.SideBarData.Brands != null && Model.SideBarData.Brands.Count != 0 && !string.IsNullOrEmpty(Model.SelectedParentCategory))
+{
+    <div class="brand">
+        <div class="title">
+            <span>
+                براساس برند
+            </span>
+        </div>
+        <div class="brand-box">
+            <ul style="display:inline-block !important;" class="c-box_cat-list">
+                @foreach (var item in Model.SideBarData.Brands)
+                {
+                    <li class='c-box_cat-item'>
+                        <span class='c-box_cat-span'>
+                            <a asp-action="subcategory" asp-controller="category" asp-route-title="@Model.SelectedCategory.ToUrlFormat()"
+                               asp-route-categoryName="@Model.SelectedParentCategory.ToUrlFormat()"
+                               asp-route-seriName="@item.EnglishTitle.ToUrlFormat()"
+                               class='c-box_cat-link @(Model.SelectedBrand!=null ? (item.EnglishTitle.ToUrlFormat() == Model.SelectedBrand ? "is-active" : ""):"")'>
+                                @item.PersianTitle
+                            </a>
+                        </span>
+                    </li>
+                                      
+                }
+            </ul>
+        </div>
+    </div>
+
+}
+@if (Model.SideBarData.Series != null && Model.SideBarData.Series.Count != 0)
+{
+    <div class="brand">
+        <div class="title">
+            <span>
+                سری محصولات
+                </span>
+        </div>
+        <div class="brand-box">
+            <ul style="display:inline-block !important;" class="c-box_cat-list">
+                @foreach (var item in Model.SideBarData.Series)
+                {
+                    <li class='c-box_cat-item'>
+                        <span class='c-box_cat-span'>
+                            <a asp-action="subcategory" asp-controller="category" asp-route-title="@Model.SelectedBrand.ToUrlFormat()"
+                               asp-route-categoryName="@Model.SelectedCategory.ToUrlFormat()"
+                               asp-route-seriName="@item.EnglishTitle.ToUrlFormat()"
+                               class='c-box_cat-link @(Model.SelectedSeri!=null ? (item.EnglishTitle.ToUrlFormat() == Model.SelectedSeri ? "is-active" : ""):"")'>
+                                @item.PersianTitle
+                            </a>
+                        </span>
+                    </li>
+                                      
+                }
+            </ul>
+        </div>
+    </div>
+
+}
+
+
+@if (@Model.SideBarData.MaxPrice > 0)
+{
+    <div class="pric">
+        <div class="title">
+            <span>
+                براساس قیمت
+            </span>
+        </div>
+        <div class="pric-box">
+            <div class="c-filter">
+                <div class="c-box_filter-slider">
+                    <div class="rangeSlider-mobile"></div>
+                </div>
+
+                <ul class="c-filter_range">
+                    <li data-label="از" data-currency="تومان">
+                        <input type="text" id="min_price_value" class="js-slider_range-from" data-range="@Model.SideBarData.MinPrice.Value"
+                               data-value="@Model.SideBarData.MinPrice.Value" value="@Model.SideBarData.MinPrice.Value" disabled="disabled">
+                    </li>
+
+                    <li data-label="تا" data-currency="تومان">
+                        <input type="text" id="max_price_value" class="js-slider_range-to" data-range="@Model.SideBarData.MaxPrice.Value"
+                               data-value="@Model.SideBarData.MaxPrice.Value" value="@Model.SideBarData.MaxPrice.Value" disabled="disabled">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+@*<div class="color">
+    <div class="title">
+        <h6>
+            براساس رنگ
+        </h6>
+    </div>
+
+    <div class="color-box f-parent">
+        <span id="color" class="color-item
+                                            color-1">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-2">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-3">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-4">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-5">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-6">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-7">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-8">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-9">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-10">
+            <i class="fal fa-check"></i>
+        </span>
+    </div>
+</div>*@
+
+
+@*<div class="button-filter">
+    <a class="trs-3" href="#">
+        فیلتر
+    </a>
+</div>*@
+</div>
+            </div>
+            </div>
+            </div>
+            </div>
+            </div>
+
+            </nav>
+            </div>
+            </div>
+
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">
+                                <p class="text">
+                                    مرتب سازی بر اساس
+                                </p>
+                            </h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="shop-content">
+                                <div class="tabs">
+                                    <ul class="tabs-nav">
+                                        <li class="nav-item" data-bs-dismiss="modal">
+                                            <a class="trs-3" href="#tab-1">
+                                                جدیدترین
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-bs-dismiss="modal">
+                                            <a class="trs-3" href="#tab-2">
+                                                پرفروش ترین
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-bs-dismiss="modal">
+                                            <a class="trs-3" href="#tab-3">
+                                                ارزان ترین
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-bs-dismiss="modal">
+                                            <a class="trs-3" href="#tab-4">
+                                                گران ترین
+                                            </a>
+                                        </li>
+                                        <li class="nav-item" data-bs-dismiss="modal">
+                                            <a class="trs-3" href="#tab-5">
+                                                پیشنهاد ویژه
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            </div>
+            <div class="col-xl-3 col-lg-4 order-2 order-lg-1  d-none d-lg-block filter-container"><div class="box-overlay"></div>
+            @Html.Partial("ProductViewPartials/_SidebarProductsFilter",Model)
+
+            
+            </div>
+
+            <div class="col-xl-9 col-lg-8 order-lg-2">
+                <div class="shop-content">
+                    <div class="box-overlay"></div>
+
+                    @foreach (var category in Model.CategotyMainProductsViewModels.OrderBy(c => c.Order))
+                    {
+                        var url = "";
+                        if (string.IsNullOrEmpty(category.Url))
+                        {
+                            if (category.BrandId != null)
+                            {
+                                url = Url.Action("SubCategory", "category", new
+                                {
+                                    categoryName = Model.Category.EnglishTitle.ToUrlFormat(),
+                                    title = category.BrandEnTitle.ToUrlFormat()
+                                });
+                            }
+                            else if (category.CatId != null)
+                            {
+                                url = Url.Action("SubCategory", "category", new
+                                {
+                                    categoryName = Model.Category.EnglishTitle.ToUrlFormat(),
+                                    title = category.CatEnTitle.ToUrlFormat()
+                                });
+                            }
+                        }
+                        else
+                        {
+                            url = category.Url;
+                        }
+                        <!-- ---------- Products Items ---------- -->
+                        <div class="popular-products clear" style="margin-top: 0;">
+                            <div class="holder-popular">
+                                <div class="box-overlay"></div>
+                                <div id="head-title">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="title f-parent">
+                                                    <h2 style="font-weight: 600; font-size: 1.25rem;">
+                                                        @category.Title
+                                                    </h2>
+
+                                                    @if (!string.IsNullOrEmpty(url))
+                                                    {
+                                                        <a href="@url" style="float: left;">نمایش همه</a>
+
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="products">
+                                    <div class="container">
+                                        <div class="row">
+                                            <div class="owl-carousel nav-arrow owl-carousel-preload">
+                                                @foreach (var item in category.Products.Take(15))
+                                                {
+                                                    <div class="item-product item-product-preload">
+                                                        <span class="pic-box">
+                                                            <a asp-action="Index" asp-route-category="@item.CategoryEnTitle.ToUrlFormat()" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.ToUrlFormat()" class="d-block hover-img-link">
+                                                                <img data-src="https://media.farnaa.com/media/@item.ImgName" width="600" height="600" src="https://farnaa.com/images/bg/bg-square.webp" class="lazy b-lazy" alt="@item.FaTitle">
+                                                            </a>
+                                                        </span>
+                                                        <div class="product-info">
+                                                            <span class="title-box mb-1 ">
+                                                                <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.ToUrlFormat()" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.ToUrlFormat()" class="trs-3">
+                                                                    @item.FaTitle
+                                                                </a>
+                                                            </span>
+                                                            <span class="mb-3">
+                                                                <!---->
+                                                                @*<div class="ProductComp_product_icon__OLqA5">
+                                                <ul class="pr_icon">
+                                                    <li><span class="fa fa-hdd" id="hard-disk"></span><span class="">4</span></li>
+                                                    <li><span class="fa fa-mobile"></span><span class="">1.77</span></li>
+                                                    <li><span class="fa fa-camera"></span><span class="">VGA</span></li>
+                                                    <li><span class="fa fa-battery-bolt"></span><span class="">800</span></li>
+                                                </ul>
+                                            </div>*@
+                                                                <!---->
+                                                            </span>
+                                                            <div class="product-bottom f-parent ">
+                                                                @*<div class="rating">
+                                                <strong>
+                                                    4.5
+                                                </strong>
+                                                <i class="fal fa-stars star "></i>
+                                            </div>*@
+
+                                                                <div class="pric">
+                                                                    @if (item.MainPrice > 0)
+                                                                    {
+                                                                        if (item.DiscountPrice != item.MainPrice)
+                                                                        {
+                                                                            var disPrice = item.MainPrice - item.DiscountPrice;
+                                                                            <del><span>@item.MainPrice.ToString("N0")<span>تومان</span></span></del>
+
+                                                                            <ins><span>@item.DiscountPrice.ToString("N0")<span>تومان</span></span></ins>
+
+
+
+                                                                        }
+                                                                        else
+                                                                        {
+
+                                                                            <ins><span>@item.MainPrice.ToString("N0")<span>تومان</span></span></ins>
+
+
+                                                                        }
+
+                                                                    }
+                                                                    else
+                                                                    {
+
+                                                                        <ins>-- ناموجود --</ins>
+
+                                                                    }
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="actions trs-3 ">
+                                                                <div class="action-holder">
+                                                                    <span class="action-item">
+
+                                                                        <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ", "-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="trs-3 ">
+
+                                                                            <i class="fal fa-shopping-bag"></i>
+                                                                        </a>
+                                                                        <p class="tooltip-box trs-3 ">
+                                                                            جزئیات محصول
+                                                                        </p>
+                                                                    </span>
+                                                                    @*<span class="action-item ">
+                                                    <a href="dashboard-favorites.html" class="trs-3">
+                                                        <i class="fal fa-heart "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        افزودن
+                                                        به
+                                                        علاقمندی
+                                                    </p>
+                                                </span>
+                                                                    <span class="action-item ">
+                                                                        <a asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="trs-3 ">
+                                                                            <i class="fal fa-random"></i>
+                                                                        </a>
+                                                                        <p class="tooltip-box trs-3 ">
+                                                                            مقایسه محصول
+                                                                        </p>
+                                                                    </span>*@
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @if (item.MainPrice > 0)
+                                                        {
+                                                            if (item.DiscountPrice != item.MainPrice)
+                                                            {
+                                                                decimal disPrice = item.MainPrice - item.DiscountPrice;
+                                                                var disPercent = Math.Ceiling(((disPrice * 100) / item.MainPrice));
+                                                                <span class="discount-full ">
+                                                                    تخفیف @disPrice.ToString("N0")
+                                                                    تومان
+                                                                </span>
+
+                                                            }
+
+
+                                                        }
+
+                                                    </div>
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+            </div>
+    </div>
+    </div>
+    </div>
+
+<!--content-->
+@if (!string.IsNullOrEmpty(pageStructure.Text))
+{
+    <div class="container text-container"><div class="box-overlay"></div>
+        <div class="row">
+            <div class="content">
+
+                @Html.Raw(pageStructure.Text)
+            </div>
+
+
+        </div>
+    </div>
+}
+    <!--content-->
+<!-- ---------- Banner Ads ---------- -->
+@await Component.InvokeAsync("OtherPageBannerComponent")
+
+    
+
+
+@section Scripts{
+
+
+<script src="/js/vendor/ResizeSensor.min.js" defer></script>
+<script src="/js/vendor/theia-sticky-sidebar.min.js" defer></script>
+<script src="/js/vendor/wNumb.js" defer></script>
+<script src="/js/vendor/nouislider.min.js" defer></script>
+
+<script src="/js/user-main.js" defer></script>
+<script src="~/js/filter-on-products.js" defer></script>
+
+
+<script  defer>
+
+        var searchmax_price =@(Model.SideBarData.MaxPrice!=null && Model.SideBarData.MaxPrice > 0 ? Model.SideBarData.MaxPrice : 0)
+
+        $(document).ready(function () {
+            $('.js-filter_checkbox').prop('checked', false);
+            tofaprice()
+            init_search_category_page(searchmax_price)
+    })
+</script>
+}

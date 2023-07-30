@@ -1,0 +1,16 @@
+﻿@using EShop.DataLayer.Entities.User
+@model User
+@*@model DataLayer.Entities.User.User*@
+<div class="col-12 bg-danger">
+    @if(Model.AcceptPrice == null)
+    {
+            <span class="profile-box-phone text-white">مبلغ اعتبار شما (تومان) : 0</span>
+
+    }
+    else
+    {
+            <span class="profile-box-phone text-white">مبلغ اعتبار شما (تومان) : @Model.AcceptPrice.Value.ToString("N0")</span>
+
+    }
+
+</div>

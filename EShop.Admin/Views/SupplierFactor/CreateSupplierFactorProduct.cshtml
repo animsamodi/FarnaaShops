@@ -1,0 +1,106 @@
+﻿
+@using EShop.DataLayer.Enum
+@model EShop.DataLayer.Entities.SupplierFactorProduct
+
+@{
+    ViewData["Title"] = "افزودن";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+    <!-- Latest compiled and minified CSS -->
+    <link href="~/select/bootstrap-select.min.css" rel="stylesheet" />
+
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">افزودن</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="CreateSupplierFactorProduct" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="SupplierFactorId" type="hidden" value="@ViewBag.SupplierFactorId" /> 
+
+                                <div class="row">
+
+                                    <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="VariantId" class="control-label"></label>
+                                            <select asp-for="VariantId" asp-items="@(new SelectList(ViewBag.Products, "Value", "Text"))" class="form-control selectpicker" data-live-search="true ">
+                                                <option value="">--انتخاب کنید--</option>
+                                            </select>
+                                            <span asp-validation-for="VariantId" class="text-danger"></span>
+
+                                        </fieldset>
+                                    </div> 
+                                    
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="Price" class="control-label "></label>
+                                            <input asp-for="Price" class="form-control format-price" />
+                                            <span asp-validation-for="Price" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="Count" class="control-label"></label>
+                                            <input asp-for="Count" class="form-control" />
+                                            <span asp-validation-for="Count" class="text-danger"></span>
+                                        </fieldset>
+                                    </div> 
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="Code" class="control-label"></label>
+                                            <input asp-for="Code" class="form-control" />
+                                            <span asp-validation-for="Code" class="text-danger"></span>
+                                        </fieldset>
+                                    </div> 
+
+                                    <hr />
+
+                                </div>
+                            </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="Index" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="~/select/bootstrap-select.min.js"></script>
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="~/select/defaults-fa_ir.min.js"></script>
+     <script>
+        $('.date-piker').persianDatepicker({
+            format: 'YYYY/MM/DD',
+            autoClose: true,
+            initialValue: false
+        });
+        $(document).ready(function (){
+            $('.selectpicker').selectpicker();
+
+        });
+
+    </script>
+}
+

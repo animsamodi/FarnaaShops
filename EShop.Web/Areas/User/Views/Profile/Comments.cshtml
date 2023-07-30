@@ -1,0 +1,99 @@
+﻿@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@model List<UserCommentVM>
+@{
+    ViewData["Title"] = "نظرات";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+
+<div class="profile-stats">
+    <div class="c-profile_nav profile-title">
+        <h4>نظرات</h4>
+    </div>
+    <div class="profile-comment">
+        @if (Model.Any())
+        {
+            <table class="table table-borderless table-profile-comment">
+                <thead>
+                    <tr>
+                        <th scope="col"></th>
+                        <th scope="col">محصول</th>
+                        <th scope="col">نظر</th>
+                        <th scope="col">وضعیت</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model)
+                {
+
+                    var commentStatus = "";
+                    if (item.StatusComment != null && item.StatusComment > 0)
+                    {
+                        commentStatus = EnumHelper<EnumStatusComment>.GetDisplayValue(item.StatusComment);
+                    }
+                <tr>
+                    <th scope="row" class="th-img">
+                        <div class="thumb-img">
+                            <a asp-controller="Product" asp-area="" asp-action="Index" asp-route-name="@item.ProductTitle.ToUrlFormat()" asp-route-category="@item.productCategoryName.ToUrlFormat()"  asp-route-id="@item.ProductId">
+                                        <img width="600" height="600" src="https://media.farnaa.com/media/@item.ProductImage">
+                            </a>
+                            </div>
+                    </th>
+                    <td style="width: 250px;">
+@item.ProductTitle
+</td>
+                    <td>
+                        <strong> @item.CommentText</strong>
+                        <br/>
+                        @item.CommentText
+                    </td>
+                    <td style="width: 100px;">
+                        <span class="profile-comment-status-approved">@commentStatus</span>
+                    </td>
+
+                </tr>
+                }
+                </tbody>
+            </table>
+            <div class="profile-comment-thumb">
+                @foreach (var item in Model)
+                {
+                    var commentStatus = "";
+                    if (item.StatusComment != null && item.StatusComment > 0)
+                    {
+                        commentStatus = EnumHelper<EnumStatusComment>.GetDisplayValue(item.StatusComment);
+                    }
+                    <div class="profile-comment-img">
+                        <a asp-controller="Product" asp-area="" asp-action="Index" asp-route-category="@item.productCategoryName.ToUrlFormat()"  asp-route-name="@item.ProductTitle.ToUrlFormat()" asp-route-id="@item.ProductId">
+                            <img width="600" height="600" src="https://media.farnaa.com/media/@item.ProductImage">
+                        </a>
+                    </div>
+                    <div class="profile-comment-content">
+                        <h4>
+                            @item.ProductTitle
+                            <span class="profile-comment-status-review">@commentStatus</span>
+                            <p>
+                                <strong> @item.CommentText</strong>
+                                <br/>
+                                @item.CommentText
+
+                            </p>
+                        </h4>
+                    </div>
+                }
+
+            </div>
+        }
+        else
+        {
+            <div class="profile-alert-container col-9 m-auto">
+                <h6>
+                    اطلاعاتی برای نمایش وجود ندارد
+                </h6>
+            </div>
+        }
+
+    </div>
+</div>
+

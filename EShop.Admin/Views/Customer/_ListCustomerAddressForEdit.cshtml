@@ -1,0 +1,106 @@
+﻿@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<EShop.DataLayer.Entities.Address.UserAddress>
+
+@{
+    Layout = null;
+    int pagecount = (int)Math.Ceiling((double)ViewBag.count / 25);
+    int pagenumber = ViewBag.PageNumber;
+}
+
+    @if (Model.Any())
+                        {
+
+
+
+
+                            <table class="table font-size-10  table-condensed  table-striped table-bordered table-responsive-sm table-configuration">
+                                <thead>
+                                    <tr>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.Id)
+                                        </th>
+                                        <th>              
+کد رایانه مشتری                                        </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.FullName)
+                                        </th>   <th>              
+نام و نام خانوادگی مشتری                                        </th>
+
+                <th>
+                    @Html.DisplayNameFor(model => model.Phone)
+                </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.Province.ProvinceName)
+                                        </th>
+                                        <th>              
+                                            @Html.DisplayNameFor(model => model.City.CityName)
+                                        </th>
+                                        <th>              
+کد ملی مشتری                                        </th>
+                                        <th>              
+تلفن مشتری                                        </th>
+                                        <th>              
+                                        </th>
+                                        
+                                         
+                                   
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        
+
+                                         <tr  >
+                                             <td>@item.Id</td>
+                    <td>@item.User.Id</td>
+                                            <td>@item.FullName</td>
+                                            <td>@item.User.FullName</td>
+                                             <td>@item.Phone</td>
+                    <td>@item.Province.ProvinceName</td>
+                    <td>@item.City.CityName</td>
+                    <td>@item.User.NatioalCode</td>
+                    <td>@item.User.Phone</td>
+                                             <td>
+                                                 <a  asp-controller="Customer" asp-action="EditAddress"  class="btn btn-primary btn-sm" asp-route-id="@item.Id">ویرایش</a>
+                                                 </td>
+
+                                        
+                                           
+                                            
+                                        </tr>
+
+                                         
+
+
+
+
+                                    }
+                                </tbody>
+                            </table>
+
+                        }
+<div class="col-12 text-center" id="productlist">
+    @(pagecount > 1 ? Html.Raw(pagecount.GetPaging(pagenumber, "js-pager-item")) : Html.Raw(""))
+
+</div>
+
+
+<script>
+    $('#productlist').delegate(".js-pager-item", "click", function () {
+        var pagenum = parseInt($(this).data("pagenumber"));
+        $.ajax({
+            type: 'GET',
+
+            url: '/Customer/ListCustomerAddressForEdit',
+            data: { Name : '',Username:'',Phone:'', pagenumber: pagenum },
+            success: function (res) {
+                $("#list").html(res);
+            }
+        });
+    });
+
+</script>

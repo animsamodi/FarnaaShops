@@ -1,0 +1,106 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductViewModel>
+
+@{
+	Layout = null;
+}
+
+
+<aside class="main-row-bg d-block d-md-block">
+	<div class="bg-cover"></div>
+	<div class="container-main">
+		<div class="d-block">
+			<section class="content-title section-title mt-5">
+				<div class="align-items-center">
+					<div class="col-auto">
+						<div class="title">
+							<h2>پربازدید ترین محصوات</h2>
+						</div>
+
+					</div>
+				</div>
+			</section>
+			<div class="mb-3">
+				@foreach (var item in Model)
+				{
+					<div class="col-lg-4 col-md-6 col-sm-12 col-12 pt-4 pr">
+
+						<div class="card-product-horizontal">
+							<div class="text-danger item-descount text-center">
+								@if (item.MainPrice > 0)
+								{
+									if (item.DiscountPrice != item.MainPrice)
+									{
+										var disPrice = item.MainPrice - item.DiscountPrice;
+
+										<span class="text-dark font-weight-bold">تخفیف : </span> @disPrice.ToString("N0")<span class=" font-weight-bold"> تومان </span>
+
+									}
+
+
+								}
+							</div>
+							<div class="card-product-horizontal-img">
+
+								<a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.ToUrlFormat()" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="d-block">
+									<img src="https://media.farnaa.com/media/@item.ImgName" width="600" height="600" class="img-fluid" alt="@item.FaTitle">
+								</a>
+							</div>
+							<div class="card-product-horizontal-content">
+								<div class="card-product-horizontal-content-title">
+									<a asp-action="Index" asp-controller="product"  asp-route-category="@item.CategoryEnTitle.ToUrlFormat()"  asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")">
+										<h3>
+											@item.FaTitle
+										</h3>
+									</a>
+								</div>
+								<div class="card-product-horizontal-content-price price-container">
+
+
+									@if (item.MainPrice > 0)
+									{
+										if (item.DiscountPrice != item.MainPrice)
+										{
+											var disPrice = item.MainPrice - item.DiscountPrice;
+											<div class="col-6 pr p-1">
+												<del><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></del>
+											</div>
+											<div class="col-6 pl p-1">
+												<ins><span>@item.DiscountPrice.ToString("N0")<span>  تومان  </span></span></ins>
+
+											</div>
+
+										}
+										else
+										{
+											<div class="  col-12 p-1">
+												<ins><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></ins>
+											</div>
+
+										}
+
+									}
+									else
+									{
+										<div class="  col-12 p-1">
+											<ins>-- ناموجود --</ins>
+										</div>
+									}
+
+								</div>
+
+							</div>
+
+							<hr class="m-2 clear" />
+							<a asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="pl">
+								<img src="/images/icon/compare.png" class="item-compaire-img" width="25" />
+							</a>
+						</div>
+					</div>
+
+				}
+
+
+			</div>
+		</div>
+	</div>
+</aside>

@@ -1,0 +1,343 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.UserEditProfile
+@{
+    ViewData["Title"] = "ویرایش پروفایل";
+
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+<div class="profile-stats">
+    <div class="c-profile_nav profile-title">
+        <h4>ویرایش پروفایل</h4>
+    </div>
+    <div class="profile-address">
+    <div class="middle-container">
+    @if (TempData["Message"] != null)
+    {
+        <div class="alert alert-warning col-12">
+           @TempData["Message"]
+        </div>
+        }
+        <form asp-action="EditProfile" method="post" class="form-checkout" enctype="multipart/form-data">
+        <div asp-validation-summary="All" class="text-danger"></div>
+        <input asp-for="Id" type="hidden"/>
+        <input asp-for="UserAddressId" type="hidden"/>
+        <input asp-for="Phone" type="hidden"/>
+        <input id="city" value="@Model.CityId" type="hidden"/>
+        <div class="row m-0 col-lg-12">
+        <div class="col-lg-6 col-md-12 col-sm-12">
+
+            <div class="form-checkout-row  ">
+
+                <label for="mobile">شماره تلفن</label>
+                <input type="text" id="mobile" value="@Model.Phone" disabled="disabled" class="input-namefirst-checkout form-control">
+                <span asp-validation-for="@Model.Phone" class="text-danger"></span>
+
+                <label asp-for="Name">نام <abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                <input type="text" asp-for="Name" class="input-namefirst-checkout form-control">
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+                <label asp-for="Family">نام خانوادگی <abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                <input type="text" asp-for="Family" class="input-namefirst-checkout form-control">
+                <span asp-validation-for="@Model.Family" class="text-danger"></span>
+
+                <label asp-for="NatioalCode">کد ملی <abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                <input type="text" asp-for="NatioalCode" class="input-namefirst-checkout form-control">
+                <span asp-validation-for="@Model.NatioalCode" class="text-danger"></span>
+
+                <label asp-for="Email">ایمیل</label>
+                <input type="text" asp-for="Email" class="input-email-checkout form-control">
+                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+
+                <label asp-for="CartNo">شماره کارت</label>
+               <input type="text" asp-for="CartNo" class="input-namefirst-checkout form-control">
+                <span asp-validation-for="@Model.CartNo" class="text-danger"></span>
+
+               <label asp-for="ShebaNo">شماره شبا</label>
+               <input type="text" asp-for="ShebaNo" class="input-namefirst-checkout form-control">
+                <span asp-validation-for="@Model.ShebaNo" class="text-danger"></span>
+
+                <label asp-for="BDate">تاریخ تولد</label>
+                <input type="text" asp-for="BDate" class="input-namefirst-checkout form-control">
+                <span asp-validation-for="@Model.BDate" class="text-danger"></span>
+
+
+
+                <div class="form-checkout-valid-row">
+                    <label for="province">
+                        استان
+                        <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                    </label>
+                    <select class="province" asp-for="@Model.ProvinceId" asp-items="@(new SelectList(ViewBag.provincelist, "ProvinceId", "ProvinceName"))" class="form-control">
+                        <option value="" selected="selected">استان مورد نظر خود را انتخاب کنید </option>
+                    </select>
+                    <span asp-validation-for="@Model.ProvinceId" class="text-danger"></span>
+
+
+                </div>
+
+                <div class="form-checkout-valid-row">
+                    <label for="city">
+                        شهر
+                        <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                    </label>
+                    <select id="cityid" class="form-control" asp-for="@Model.CityId">
+                        <option value="" selected="selected">شهر مورد نظر خود را انتخاب کنید</option>
+
+                    </select>
+                    <span asp-validation-for="@Model.CityId" class="text-danger"></span>
+
+                </div>
+
+                <label for="post-code">کد پستی<abbr class="required" title="ضروری" style="color: red;">*</abbr></label>
+                <input type="text" asp-for="@Model.PostalCode" class="input-name-checkout form-control" placeholder="کد پستی را بدون خط تیره بنویسید">
+                <span asp-validation-for="@Model.PostalCode" class="text-danger"></span>
+
+                <label for="address">
+                    آدرس
+                    <abbr class="required" title="ضروری" style="color: red;">*</abbr>
+                </label>
+                <textarea rows="5" cols="30" asp-for="@Model.PostalAddress" class="textarea-name-checkout form-control" placeholder="آدرس را وارد نمایید"></textarea>
+                <span asp-validation-for="@Model.PostalAddress" class="text-danger"></span>
+                @*Address*@
+
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-12 col-sm-12 border-right">
+            <div class="col-xl-12 col-lg-12 col-md-12 mb-1 checkbox-form-user">
+                <label>
+                    <input asp-for="IsHoghughi"/> @Html.DisplayNameFor(model => model.IsHoghughi)
+                    <input type="hidden" asp-for="UserLegalId"/>
+
+                </label>
+            </div>
+            <div class="form-checkout-row row profile-legal-container">
+                <div class="profile-legal-container-mask">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label class="mt-0" asp-for="CompanyName"> </label>
+                    <input type="text" asp-for="CompanyName" class="input-name-checkout form-control">
+                    <span asp-validation-for="CompanyName" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label class="mt-0" asp-for="CodeEghtesadi"> </label>
+                    <input type="text" asp-for="CodeEghtesadi" class="input-name-checkout form-control">
+                    <span asp-validation-for="CodeEghtesadi" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="ShomareSabt"> </label>
+                    <input type="text" asp-for="ShomareSabt" class="input-name-checkout form-control">
+                    <span asp-validation-for="ShomareSabt" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="CodeNaghshTajer"> </label>
+                    <input type="text" asp-for="CodeNaghshTajer" class="input-name-checkout form-control">
+                    <span asp-validation-for="CodeNaghshTajer" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="TarikhTasis"> </label>
+                    <input type="text" asp-for="TarikhTasis" class="input-name-checkout form-control date-piker">
+                    <span asp-validation-for="TarikhTasis" class="text-danger  "></span>
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="ShenaseMeli"> </label>
+                    <input type="text" asp-for="ShenaseMeli" class="input-name-checkout form-control date-piker">
+                    <span asp-validation-for="ShenaseMeli" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="NoeSherkat"> </label>
+                    <select asp-for="NoeSherkat" asp-items="Html.GetEnumSelectList<EnumNoeSherkat>()" class="input-name-checkout form-control">
+                        <option value="">- انتخاب کنید -</option>
+                    </select>
+                    <span asp-validation-for="NoeSherkat" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="NoeMalekiyat"> </label>
+                    <select asp-for="NoeMalekiyat" asp-items="Html.GetEnumSelectList<EnumNoeMalekiyat>()" class="input-name-checkout form-control">
+                        <option value="">- انتخاب کنید -</option>
+                    </select>
+                    <span asp-validation-for="NoeMalekiyat" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="NoeTamalok"> </label>
+                    <select asp-for="NoeTamalok" asp-items="Html.GetEnumSelectList<EnumNoeTamalok>()" class="input-name-checkout form-control">
+                        <option value="">- انتخاب کنید -</option>
+                    </select>
+                    <span asp-validation-for="NoeTamalok" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <label asp-for="NeshaniMahaleKar"> </label>
+                    <textarea rows="5" cols="30" asp-for="NeshaniMahaleKar" class="textarea-name-checkout form-control"></textarea>
+                    <span asp-validation-for="NeshaniMahaleKar" class="text-danger  "></span>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="CodePostiNeshaniMahaleKar"> </label>
+                    <input type="text" asp-for="CodePostiNeshaniMahaleKar" class="input-name-checkout form-control">
+                    <span asp-validation-for="CodePostiNeshaniMahaleKar" class="text-danger  "></span>
+                </div>
+
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="TelephoneSabet"> </label>
+                    <input type="text" asp-for="TelephoneSabet" class="input-name-checkout form-control">
+                    <span asp-validation-for="TelephoneSabet" class="text-danger  "></span>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="form-checkout-row row col-12 legal-doc">
+            <div class="col-lg-12 user-form-divider">
+                <hr class="mb-1">
+            </div>
+           @* <div class="col-lg-6 col-md-6 col-sm-12">
+                <input type="hidden" asp-for="FileRuznameRasmi"/>
+                <label asp-for="FileRuznameRasmi"> </label>
+                <a href="https://media.farnaa.com/media/@Model.FileRuznameRasmi" target="_blank" download="">
+                    <img src="https://media.farnaa.com/media/@Model.FileRuznameRasmi" class="img-fluid round border" style="height: 200px;" alt=""/>
+                </a>
+                <input type="file" asp-for="FormFileRuznameRasmi" class="input-name-checkout form-control">
+                <span asp-validation-for="FormFileRuznameRasmi" class="text-danger  "></span>
+            </div>*@
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <input type="hidden" asp-for="FileAkharinTaghirat"/>
+
+                <label asp-for="FileAkharinTaghirat"> </label>
+                            <a href="https://media.farnaa.com/media/@Model.FileAkharinTaghirat" target="_blank" download="">
+                                <img src="https://media.farnaa.com/media/@Model.FileAkharinTaghirat" class="img-fluid round border" style="height: 200px;" alt="" />
+                </a>
+                <input type="file" asp-for="FormFileAkharinTaghirat" class="input-name-checkout form-control">
+                <span asp-validation-for="FormFileAkharinTaghirat" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <input type="hidden" asp-for="FileSahebanEmza"/>
+
+                <label asp-for="FileSahebanEmza"> </label>
+                            <a href="https://media.farnaa.com/media/@Model.FileSahebanEmza" target="_blank" download="">
+                                <img src="https://media.farnaa.com/media/@Model.FileSahebanEmza" class="img-fluid round border" style="height: 200px;" alt="" />
+                </a>
+                <input type="file" asp-for="FormFileSahebanEmza" class="input-name-checkout form-control">
+                <span asp-validation-for="FormFileSahebanEmza" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <input type="hidden" asp-for="FileAgahiTasis"/>
+
+                <label asp-for="FileAgahiTasis"> </label>
+                            <a href="https://media.farnaa.com/media/@Model.FileAgahiTasis" target="_blank" download="">
+                                <img src="https://media.farnaa.com/media/@Model.FileAgahiTasis" class="img-fluid round border" style="height: 200px;" alt="" />
+                </a>
+                <input type="file" asp-for="FormFileAgahiTasis" class="input-name-checkout form-control">
+                <span asp-validation-for="FormFileAgahiTasis" class="text-danger  "></span>
+            </div>
+        </div>
+        <div class="form-checkout-row col-12">
+            <div class="form-auth-row p-4">
+                <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                <span id="recaptchaerror" class="text-danger"></span>
+            </div>
+            <div class="AR-CR">
+                <button type="submit" class="btn-registrar"> ثبت تغییرات </button>
+                <a asp-controller="Profile" asp-area="User" asp-action="Index" class="cancel-edit-address" data-dismiss="modal" aria-label="Close">بازگشت</a>
+            </div>
+        </div>
+
+        </div>
+
+        </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script src="~/js/jquery.selectric.min.js"></script>
+<script src="~/js/jquery.validate.min.js"></script>
+<script src="~/js/jquery.validate.unobtrusive.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+<script>
+    $(document).ready(function() {
+        $(".legal-doc").hide();
+        $(".profile-legal-container").hide();
+        if ($("#IsHoghughi").is(":checked")) {
+            $(".profile-legal-container-mask").slideUp();
+            $(".legal-doc").slideDown();
+            $(".profile-legal-container").slideDown();
+
+
+        } else {
+            $(".profile-legal-container-mask").slideDown();
+            $(".legal-doc").slideUp();
+            $(".profile-legal-container").slideUp();
+
+
+        }
+        $("#IsHoghughi").change(function() {
+            if ($("#IsHoghughi").is(":checked")) {
+                $(".profile-legal-container-mask").slideUp();
+                $(".legal-doc").slideDown();
+                $(".profile-legal-container").slideDown();
+
+            } else {
+                $(".profile-legal-container-mask").slideDown();
+                $(".legal-doc").slideUp();
+                $(".profile-legal-container").slideUp();
+
+            }
+        });
+
+        $("form").submit(function(event) {
+
+                var recaptcha = $("#g-recaptcha-response").val();
+                //if (recaptcha === "") {
+                //    event.preventDefault();
+                //    $("#recaptchaerror").text("لطفا احراز هویت را انجام دهید")
+                //}
+
+            $.validator.methods.range;
+            $.validator.methods.range = function(value, element, param) {
+                if (element.type === 'checkbox') {
+                    return element.checked;
+                } else {
+                    return defaultRangeValidator.call(this, value, element, param);
+                }
+            }
+
+        });
+
+        var cid = $("#city").val();
+        getCity();
+        $(".province").change(function() {
+
+            getCity();
+        });
+
+        function getCity() {
+            var id = $(".province").children("option:selected").val();
+            var cityselect = $("#cityid");
+            $.ajax({
+                type: "POST",
+                url: "/Profile/GetCity",
+                data: { id: id },
+                success: function(data) {
+                    cityselect.children('.js-item').remove();
+                    data.forEach(function(item) {
+                        if (item.cityId == cid) {
+                            cityselect.append($("<option selected='selected' value='" + item.CityId + "' class='js-item'>" + item.CityName + "</option>"));
+
+                        } else {
+                            cityselect.append($("<option value='" + item.CityId + "' class='js-item'>" + item.CityName + "</option>"));
+
+                        }
+                    });
+                }
+            });
+        }
+
+    });
+
+</script>
+
+}
+
+

@@ -1,0 +1,148 @@
+﻿@using EShop.Core.Helpers
+@model IEnumerable<EShop.Core.ViewModels.Credit.CreditBillViewModel>
+
+@{
+    Layout = null;
+    int pagecount = (int)Math.Ceiling((double)ViewBag.count / 25);
+    int pagenumber = ViewBag.PageNumber;
+}
+
+<table class="table table-responsive-md table-bordered table-striped text-center">
+    <thead>
+        <tr class="font-size-10">
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FullName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Phone)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NatioalCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Bank)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.ConfirmPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+
+
+
+
+            <th>
+                @Html.DisplayNameFor(model => model.Status)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.DatePay)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CreateDate)
+            </th>
+     
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr class="font-size-10">
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserId)
+                </td>
+
+                <td>               
+                    @Html.DisplayFor(modelItem => item.FullName)
+
+                 </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Phone)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NatioalCode)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Bank)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                
+                <td>
+                    @Html.DisplayFor(modelItem => item.ConfirmPrice)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+
+                <td>
+                    @Enumerations.GetEnumDescription(item.Status)
+                </td>
+
+                <td>
+                    @item.DatePay?.ConvertMiladiToShamsi()
+                </td>
+                <td>
+                    @item.CreateDate.ConvertMiladiToShamsi()
+                </td>
+
+
+
+
+                <td>
+                    <div class="btn-group">
+                        <a class="btn btn-primary btn-sm" asp-action="DetailBill" asp-controller="Credit"   asp-route-id="@item.Id">جزئیات</a>
+                    
+                    </div>
+
+
+
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div class="col-12 text-center" id="productlist">
+    @(pagecount > 1 ? Html.Raw(pagecount.GetPaging(pagenumber, "js-pager-item")) : Html.Raw(""))
+
+</div>
+
+
+<script>
+    $('#productlist').delegate(".js-pager-item", "click", function () {
+        var pagenum = parseInt($(this).data("pagenumber"));
+        $.ajax({
+            type: 'GET',
+            url: '/credit/CreditBillList',
+            data: { pagenumber: pagenum },
+            success: function (res) {
+                $("#list").html(res);
+            }
+        });
+    });
+
+</script>

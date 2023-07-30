@@ -1,0 +1,96 @@
+﻿@using EShop.Core.ViewModels
+@using EShop.Core.ViewModels.Product
+@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.DataLayer.Entities.Slider>
+@{
+    ViewData["Title"] = "فروشگاه فرنا | Farnaa";
+    var isFirstSlider = true;
+    var bannerImages = (List<BannerImageViewModel>)ViewBag.BannerImage;
+    var SuggestList = (List<SearchPageViewModel>)ViewBag.Suggest;
+
+
+}
+
+@section Meta
+{
+
+	@await Component.InvokeAsync("IndexMainMetaComponent")
+    @Html.Raw(ViewData["schema"])
+
+}
+
+<div class="d-block mt-2">
+    @*
+        <div class="col-lg-6 col-md-6 col-xs-12 pr p-0 ">
+        <div class="adplacement-container-column">
+        @foreach (var item in bannerImages.Where(c => c.BannerType == EnumBannerType.HomeSideSlider).OrderBy(c => c.Sort))
+        {
+        <a href="@item.Link" class="adplacement-item">
+        <div class="adplacement-sponsored-box mb-0 pr-3">
+        <img src="https://media.farnaa.com/media/@item.ImageName" alt="@item.Title">
+        </div>
+        </a>
+        }
+
+        @foreach (var item in bannerImages.Where(c => c.BannerType == EnumBannerType.HomeSideSliderdown).OrderBy(c => c.Sort))
+        {
+
+        <div class="adplacement-container-column col-lg-6 col-md-6 col-xs-12 pl p-0 mt-3">
+        <a href="@item.Link" class="adplacement-item">
+        <div class="adplacement-sponsored-box">
+        <img src="https://media.farnaa.com/media/@item.ImageName" alt="@item.Title">
+        </div>
+        </a>
+        </div>
+        }
+
+        </div>
+        </div>*@
+
+    <div class="col-lg-12 col-xs-12 p-0">
+
+        @await Component.InvokeAsync("SliderComponent",EnumTypeSlider.User)
+    </div>
+
+    @await Component.InvokeAsync("MainCategoryWebComponent")
+
+    @await Component.InvokeAsync("MainCategoryMobileComponent")
+
+
+    @await Component.InvokeAsync("IndexPromotionComponent")
+
+
+    @*@await Component.InvokeAsync("CircleComponentsCarouselComponent")*@
+
+
+    <div class="d-block">
+
+        @await Component.InvokeAsync("IndexLayoutComponent")
+
+    </div>
+    <div class="col-lg-12 col-md-12 col-xs-12 pr order-1 d-block block p-0 main-cat-text">
+        <section class="content-expert-summary">
+            <div class="mask pm-3">
+                <div class="mask-text">
+                    <p>
+                        @Html.Raw(ViewBag.HomeFotterText)
+                    </p>
+                </div>
+                <a href="#" class="mask-handler">
+                    <span class="show-more">+ ادامه مطلب</span>
+                    <span class="show-less">- بستن</span>
+                </a>
+                <div class="shadow-box"></div>
+            </div>
+        </section>
+    </div>
+
+    @section Scripts
+    {
+
+    <script src="~/js/persianumber.min.js"></script>
+    <script src="~/js/promotion.js"></script>
+
+
+    }
+</div>

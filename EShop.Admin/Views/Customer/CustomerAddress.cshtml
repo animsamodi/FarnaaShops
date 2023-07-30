@@ -1,0 +1,177 @@
+﻿@using DevExtreme.AspNet.Mvc
+@using EShop.Core.ViewModels
+@{
+    ViewData["Title"] = "آدرس های مشتریان";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@section Styles
+{
+   
+
+    <link href="~/css/devextreme/dx.common.css" rel="stylesheet" />
+
+    <link href="~/css/devextreme/dx.light.css" rel="stylesheet" />
+
+  
+
+    <script src="~/js/devextreme/jquery.js"></script>
+    <script src="~/js/devextreme/bootstrap.js"></script>
+
+    
+    <script src="~/js/devextreme/cldr.js"></script>
+    <script src="~/js/devextreme/cldr/event.js"></script>
+    <script src="~/js/devextreme/cldr/supplemental.js"></script>
+    <script src="~/js/devextreme/cldr/unresolved.js"></script>
+    <script src="~/js/devextreme/globalize.js"></script>
+    <script src="~/js/devextreme/globalize/message.js"></script>
+    <script src="~/js/devextreme/globalize/number.js"></script>
+    <script src="~/js/devextreme/globalize/currency.js"></script>
+    <script src="~/js/devextreme/globalize/date.js"></script>
+
+  
+
+    <script src="~/js/devextreme/dx.all.js"></script>
+
+  
+
+    <script src="~/js/devextreme/aspnet/dx.aspnet.mvc.js"></script>
+    <script src="~/js/devextreme/aspnet/dx.aspnet.data.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/7.10.1/polyfill.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/exceljs/3.8.0/exceljs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+
+
+    <style>
+        body, body * {
+            direction: ltr !important;
+        }
+
+        .dx-datagrid-content .dx-datagrid-table .dx-row > td, .dx-datagrid-content .dx-datagrid-table .dx-row > tr > td {
+            vertical-align: top;
+            direction: rtl !important;
+            text-align: center !important;
+        }
+    </style>
+
+    <script src="~/js/devextreme/localization/dx.messages.fa.js"></script>
+}
+
+
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">آدرس های مشتریان</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+
+
+
+
+                        @(Html.DevExtreme().DataGrid<UserCustomerAddressViewModel>()
+     .ID("gridContainer")
+     .AllowColumnReordering(true)
+     .AllowColumnResizing(true)
+     .ColumnAutoWidth(true)
+     .ShowBorders(true)
+     .ColumnChooser(c => c.Enabled(true))
+     .ColumnFixing(c => c.Enabled(true))
+      .FilterRow(filterRow => filterRow
+         .Visible(true)
+         .ApplyFilter(GridApplyFilterMode.Auto)
+     )
+     .SearchPanel(searchPanel => searchPanel
+         .Visible(true)
+         .Width(240)
+         .Placeholder("جستجو ...")
+     )
+     .Paging(paging => paging.PageSize(10))
+     .Pager(pager => {
+         pager.Visible(true);
+         pager.DisplayMode(GridPagerDisplayMode.Compact);
+         pager.ShowPageSizeSelector(true);
+         pager.AllowedPageSizes(new JS("[5, 10,25, 'all']"));
+         pager.ShowInfo(true);
+         pager.ShowNavigationButtons(true);
+     })
+     .Selection(s => s.Mode(SelectionMode.Multiple))
+     .Export(e => e.Enabled(true).AllowExportSelectedData(true))
+     .OnExporting("exporting")
+     .HeaderFilter(headerFilter => headerFilter.Visible(false))
+     .FilterPanel(filterPanel => filterPanel.Visible(true))
+      .Columns(columns => {
+      columns.AddFor(m => m.UserId)
+                                 .Width(140)
+                                 ;
+
+
+
+          columns.AddFor(m => m.CustomerFullName);
+          columns.AddFor(m => m.CustomerPhone);
+          columns.AddFor(m => m.CustomerNatioalCode);
+          columns.AddFor(m => m.AddressId).SortOrder(SortOrder.Desc);
+ 
+          columns.AddFor(m => m.TransfereeFullName);
+          columns.AddFor(m => m.TransfereePhone);
+          columns.AddFor(m => m.TransfereeProvince);
+          columns.AddFor(m => m.TransfereeCity);
+          columns.AddFor(m => m.TransfereePostalAddress);
+          columns.AddFor(m => m.TransfereePostalCode);
+ 
+
+
+      })
+                            .DataSource(d => d.Mvc().
+                                Controller("Customer").
+                                LoadAction("GetCustomerAddress").
+                                Key("AddressId")
+                            )
+                            )
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<script>
+
+    function getOrderDay(rowData) {
+        return (new Date(rowData.OrderDate)).getDay();
+    }
+    function exporting(e) {
+        var workbook = new ExcelJS.Workbook();
+        var worksheet = workbook.addWorksheet('Customers');
+
+        DevExpress.excelExporter.exportDataGrid({
+            component: e.component,
+            worksheet: worksheet,
+            autoFilterEnabled: true
+        }).then(function () {
+            workbook.xlsx.writeBuffer().then(function (buffer) {
+                saveAs(new Blob([buffer], { type: 'application/octet-stream' }), 'Customers.xlsx');
+            });
+        });
+        e.cancel = true;
+    }
+
+    var locale = getLocale();
+    Globalize.locale(locale);
+
+    function getLocale() {
+	    var locale = sessionStorage.getItem("locale");
+	    return locale != null ? locale : "fa";
+    }
+</script>

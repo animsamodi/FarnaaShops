@@ -1,0 +1,145 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.DataLayer.Entities.Order.Order
+
+@{
+	ViewData["Title"] = "ویرایش سفارش";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش سفارش</h4>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="px-3">
+					<form class="form" asp-action="EditOrder" method="post" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Id" type="hidden" />
+                            <input asp-for="ShipmentPrice" type="hidden" />
+                            <input asp-for="SumAmount" type="hidden" />
+                            <input asp-for="AmountPayable" type="hidden" />
+                            <input asp-for="CrmValidationItem" type="hidden" />
+                            <input asp-for="UserId" type="hidden" />
+                            <input asp-for="CrmSendCode" type="hidden" />
+                            <input asp-for="OrderStatus" type="hidden" />
+                            <input asp-for="TrackingCodePost" type="hidden" />
+                            <input asp-for="FactorNoTadbir" type="hidden" />
+                            <input asp-for="IsSendToTadbir" type="hidden" />
+                            <input asp-for="IsCheckPayState" type="hidden" />
+                            <input asp-for="IsColleauge" type="hidden" />
+                            <input asp-for="ShipmentId" type="hidden" />
+                            <input asp-for="InPersonCode" type="hidden" />
+                            <input asp-for="DeliveryDate" type="hidden" />
+                            <input asp-for="PrDeliveryDate" type="hidden" />
+                            <input asp-for="DeliveryTime" type="hidden" />
+                            <input asp-for="NeedUseDeliveryCode" type="hidden" />
+                   
+                            <input asp-for="CreateDate" type="hidden" />
+
+                            <div class="row">
+
+                               
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ClientName" class="control-label"></label>
+                                        <input asp-for="ClientName" class="form-control" />
+                                        <span asp-validation-for="ClientName" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ClientTel" class="control-label"></label>
+                                        <input asp-for="ClientTel" class="form-control" />
+                                        <span asp-validation-for="ClientTel" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ClientNatioalCode" class="control-label"></label>
+                                        <input asp-for="ClientNatioalCode" class="form-control" />
+                                        <span asp-validation-for="ClientNatioalCode" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ClientAddress" class="control-label"></label>
+                                        <input asp-for="ClientAddress" class="form-control" />
+                                        <span asp-validation-for="ClientAddress" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ClientPostalCode" class="control-label"></label>
+                                        <input asp-for="ClientPostalCode" class="form-control" />
+                                        <span asp-validation-for="ClientPostalCode" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="RecipientName" class="control-label"></label>
+                                        <input asp-for="RecipientName" class="form-control" />
+                                        <span asp-validation-for="RecipientName" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="RecipientTel" class="control-label"></label>
+                                        <input asp-for="RecipientTel" class="form-control" />
+                                        <span asp-validation-for="RecipientTel" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="RecipientAddress" class="control-label"></label>
+                                        <input asp-for="RecipientAddress" class="form-control" />
+                                        <span asp-validation-for="RecipientAddress" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="RecipientPostalCode" class="control-label"></label>
+                                        <input asp-for="RecipientPostalCode" class="form-control" />
+                                        <span asp-validation-for="RecipientPostalCode" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ShipmentTitle" class="control-label"></label>
+                                        <input asp-for="ShipmentTitle" class="form-control" />
+                                        <span asp-validation-for="ShipmentTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                
+                             
+                            </div>
+
+                        </div>
+						<div class="form-actions">
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary mr-1">
+									ثبت
+									<i class="ft-thumbs-up position-right"></i>
+								</button>
+								<a asp-action="ListUnsendOrder" class="btn btn-warning">بازگشت به لیست</a>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts{
+	<script src="~/js/jquery.validate.min.js"></script>
+	<script src="~/js/jquery.validate.unobtrusive.js"></script>
+	 
+}
+
+

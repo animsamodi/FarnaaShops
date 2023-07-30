@@ -1,0 +1,339 @@
+﻿@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.Core.ViewModels.IndexLayoutViewModel>
+
+@{
+    Layout = null;
+}
+
+
+
+
+@foreach (var latout in Model)
+{
+    if (latout.Type == EnumTypeLayotIndex.Product)
+    {
+        var url = "";
+        if (latout.CategoryTitle != null)
+        {
+            if (string.IsNullOrEmpty(latout.ParentCategoryEnName))
+                url = Url.Action("MainCategory", "category", new { title = latout.CategoryTitle.ToUrlFormat() });
+            else
+                url = Url.Action("SubCategory", "category", new { categoryName = latout.ParentCategoryEnName, title = latout.CategoryTitle.ToUrlFormat() });
+
+        }
+        else if (latout.BrandId != null)
+        {
+            url = Url.Action("Search", "Home", new { brand = latout.BrandId });
+        }
+        else if (latout.Url != null)
+        {
+            url = latout.Url;
+
+        }
+        <div class="popular-products clear" style="background: #fff;">
+            <div class="holder-popular"><div class="box-overlay"></div>
+                <div class="products">
+                    <div class="container">
+                        <div class="row">
+                            <div id="head-title">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 d-lg-none">
+                                            <div class="title f-parent">
+                                                
+                                                <h2 style="font-weight: 600;font-size: 1.25rem;">
+                                                   @latout.Title
+                                                </h2>
+                                                @if (!string.IsNullOrEmpty(url))
+                                                {
+                                                    <a href="@url" style="float: left;">نمایش همه</a>
+
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-2 d-none d-lg-block">
+                                <div class="trs-3 left-element">
+                                    <div class="title f-parent">
+                                       
+                                        <h2 style="font-weight: 600;font-size: 1.25rem;">
+                                            @latout.Title
+                                        </h2>
+                                    </div>
+                                    <span>
+                                        <img src="https://media.farnaa.com/media/@latout.SideImage" width="150" height="150" alt="@latout.Title">
+                                    </span>
+                                    @if (!string.IsNullOrEmpty(url))
+                                    {
+                                        <div class="show-all-btn">
+                                            <a href="@url">نمایش همه</a>
+                                        </div>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="col-lg-10 col-md-12">
+                                <div class="owl-carousel nav-arrow">
+                                @foreach (var item in latout.Products)
+                                {
+
+                                    <div class="item-product">
+                                        <span class="pic-box">
+                                            @if (item.VariantColor != null)
+                                            {
+                                                <!--color-->
+                                                <div class="weaz-colors">
+                                                    @foreach (var color in item.VariantColor)
+                                                    {
+                                                        <div class=".wz_product_colors">
+                                                            <span class="wz-matrix-tooltip" style="background-color: @color.Color;">
+                                                                <span class="wz-matrix-tooltip-text">@color.Text</span>
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                
+                                            
+
+                                                </div>
+                                                <!--color-->
+                                            }
+                                            <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ", "-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="trs-3">
+                                                    <img width="600" height="600" class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.ImgName" alt="@item.FaTitle" />
+                                             </a>
+                                        </span>
+                                        <div class="product-info">
+                                            <span class="title-box mb-1">
+                                                <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ", "-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="trs-3">
+                                                    @item.FaTitle
+                                                </a>
+                                            </span>
+                                            <span class="mb-3">
+                                                <!---->
+                                              @*  <div class="ProductComp_product_icon__OLqA5">
+                                                    <ul class="pr_icon">
+                                                        <li>
+                                                            <span class="fa fa-hdd"
+                                                                  id="hard-disk"></span><span class="">4</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="fa fa-mobile"></span><span class="">1.77</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="fa fa-camera"></span><span class="">VGA</span>
+                                                        </li>
+                                                        <li>
+                                                            <span class="fa fa-battery-bolt"></span><span class="">800</span>
+                                                        </li>
+                                                    </ul>
+                                                </div>*@
+                                                <!---->
+                                            </span>
+                                            <div class="product-bottom f-parent">
+                                                @*<div class="rating">
+                                                    <strong>
+                                                        4.5
+                                                    </strong>
+                                                    <i class="fal fa-stars star"></i>
+                                                </div>*@
+
+                                                <div class="pric">
+                                                    @if (item.MainPrice > 0)
+                                                    {
+                                                        if (item.DiscountPrice != item.MainPrice)
+                                                        {
+                                                            var disPrice = item.MainPrice - item.DiscountPrice;
+                                                            <div class="col-12">
+                                                                <del><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></del>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <ins><span>@item.DiscountPrice.ToString("N0")<span>  تومان  </span></span></ins>
+
+                                                            </div>
+
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="col-12">
+                                                                <ins><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></ins>
+                                                            </div>
+
+                                                        }
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="  col-12">
+                                                            <ins>-- ناموجود --</ins>
+                                                        </div>
+                                                    }
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="actions trs-3">
+                                                <div class="action-holder">
+                                                        <span class="action-item ">
+                                                    <a  asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3 ">
+                                                        <i class="fal fa-shopping-bag "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        جزئیات محصول
+                                                    </p>
+                                                </span>
+                                            @*    <span class="action-item ">
+                                                    <a href="dashboard-favorites.html" class="trs-3 ">
+                                                        <i class="fal
+                                                                fa-heart "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        افزودن به علاقمندی
+                                                    </p>
+                                                </span>
+                                                <span class="action-item ">
+                                                    <a  asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="trs-3 ">
+                                                        <i class="fal fa-random "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        مقایسه محصول
+                                                    </p>
+                                                </span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                   
+                                        @if (item.MainPrice > 0)
+                                        {
+                                            if (item.DiscountPrice != item.MainPrice)
+                                            {
+                                                decimal disPrice = item.MainPrice - item.DiscountPrice;
+                                                var disPercent = Math.Ceiling((disPrice * 100 / item.MainPrice));
+                                               @* <div class="  item-descount">
+
+
+                                                    @disPercent <span>%</span>
+
+                                                </div>*@
+                                                <span class="discount-full">
+                                                    تخفیف @disPrice.ToString("N0") تومان
+                                                </span>
+                                            }
+
+
+                                        }
+                                    </div>
+                                }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    }
+    else if (latout.Type == EnumTypeLayotIndex.Image1)
+    {
+        <div class="banner-ads">
+            <div class="holder-ads">
+                <div class="container">
+                    <div class="row">
+                    
+             
+                            <div class="col-12 d-none d-lg-block">
+                                <div class="ads">
+                                    <a href="@latout.ImageUrl1" class="ads-pic">
+                                    <img class="lazy b-lazy" width="2878" height="610" src="https://farnaa.com/images/bg/bg-rectangle.webp" data-src="https://media.farnaa.com/media/@latout.Image1" alt="@latout.Title">
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="col-12 d-lg-none">
+                                <div class="ads">
+                                    <a href="@latout.ImageUrl1" class="ads-pic">
+                                    <img class="lazy b-lazy" width="2878" height="610" src="https://farnaa.com/images/bg/bg-rectangle.webp" data-src="https://media.farnaa.com/media/@latout.Image1" alt="@latout.Title">
+                                    </a>
+                                </div>
+                            </div>
+                      
+                 
+
+                    </div>
+                </div>
+            </div>
+        </div>
+     
+    }
+    else if (latout.Type == EnumTypeLayotIndex.Image2)
+    {
+        <div class="banner-ads">
+            <div class="holder-ads">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 col-6">
+                            <div class="ads mb-2">
+                                <a href="@latout.ImageUrl1" class="ads-pic">
+                                    <img class="lazy b-lazy" width="988" height="367" src="https://farnaa.com/images/bg/bg-rectangle.webp" data-src="https://media.farnaa.com/media/@latout.Image1" alt="@latout.Title" />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-6">
+                            <div class="ads">
+                                <a href="@latout.ImageUrl2" class="ads-pic">
+                                    <img class="lazy b-lazy" width="988" height="367" src="https://farnaa.com/images/bg/bg-rectangle.webp" data-src="https://media.farnaa.com/media/@latout.Image2" alt="@latout.Title">
+                                </a>
+                            </div>
+                        </div>
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    else if (latout.Type == EnumTypeLayotIndex.Image4)
+    {
+        <div class="banner-ads">
+            <div class="holder-ads">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-3 col-6">
+                            <div class="ads mb-2">
+                                <a href="@latout.ImageUrl1" class="ads-pic">
+                                    <img class="lazy b-lazy" width="1675" height="1256" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@latout.Image1" alt="@latout.Title" />
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-3 col-6">
+                            <div class="ads">
+                                <a href="@latout.ImageUrl2" class="ads-pic">
+                                    <img class="lazy b-lazy" width="1675" height="1256"  src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@latout.Image2" alt="@latout.Title">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="ads">
+                                <a href="@latout.ImageUrl3" class="ads-pic">
+                                    <img class="lazy b-lazy" width="1675" height="1256" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@latout.Image3" alt="@latout.Title">
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-6">
+                            <div class="ads">
+                                <a href="@latout.ImageUrl4" class="ads-pic">
+                                    <img class="lazy b-lazy" width="1675" height="1256" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@latout.Image4" alt="@latout.Title">
+                                </a>
+                            </div>
+                        </div>
+
+                      
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+}

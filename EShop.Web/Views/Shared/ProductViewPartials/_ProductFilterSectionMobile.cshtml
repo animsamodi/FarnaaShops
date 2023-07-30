@@ -1,0 +1,41 @@
+@using EShop.Core.ViewModels.Product
+@model CategoryViewModel
+
+
+<div class="archive-header">
+    <div class="main-row p-1">
+         <div id="breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb m-0 p-0">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">خانه</a></li>
+                    @if (Model != null)
+                    {
+                        if (Model.ParentCategory != null)
+                        {
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <a href="@Url.Action( "MainCategory", "category",
+                                             new {title=Model.ParentCategory.EnglishTitle.ToUrlFormat()} )">
+                                    @Model.ParentCategory.PersianTitle
+                                </a>
+                            </li>
+                        }
+                        <li class="breadcrumb-item active" aria-current="page">
+                            <a href="#">
+                                @Model.PersianTitle
+                            </a>
+                        </li>
+                    }
+                </ol>
+            </nav>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-6 text-center">
+            <button class="btn-filter-mobile-wiew" data-toggle="modal" data-target="#FilterModal"> <i class="fa fa-filter"></i>فیلتر کردن</button>
+        </div>
+        <div class="col-6 text-center">
+            <button class="btn-filter-mobile-wiew" data-toggle="modal" data-target="#SortModal"> <i class="fa fa-sort-amount-desc"></i>مرتب سازی</button>
+        </div>
+
+    </div>
+</div>

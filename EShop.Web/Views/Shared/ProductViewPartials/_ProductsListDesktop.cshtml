@@ -1,0 +1,174 @@
+﻿@using EShop.Core.ViewModels.Product
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model List<ProductSearchWithFilterItem>
+@{
+    Layout = null;
+}
+
+<div class="products row">
+@if (Model.Count > 0)
+{
+    @foreach (var item in Model)
+        {
+            <meta name="product_id" content="@item.ProductId">
+            <meta name="product_name" content="@item.FaTitle">
+            <meta name="guarantee" content="@item.GuranateeTitle">
+            <meta property="og:image" content="https://media.farnaa.com/media/@item.Img">
+            @if (item.MainPrice > 0)
+            {
+                <meta name="product_price" content="@item.PromotionPrice">
+                <meta name="product_old_price" content="@item.MainPrice">
+                <meta name="availability" content="instock">
+            }
+            else
+            {
+                <meta name="availability" content="outofstock">
+
+            }
+            <div class="col-md-3 col-sm-4 col-6">
+        <div class="item trs-3">
+            <span class="pic-box">
+                <!--color-->
+            @if (item.VariantColor != null)
+                    {     <div class="weaz-colors">
+                   
+                        @foreach (var color in item.VariantColor)
+                        {
+                            <div class=".wz_product_colors">
+                                <span class="wz-matrix-tooltip" style="background-color: @color.Color;">
+                                    <span class="wz-matrix-tooltip-text">@color.Text</span>
+                                </span>
+                            </div>
+                        }
+                  
+
+
+
+                </div>  }
+                <!--color-->
+                <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryProduct" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.ToUrlFormat()" >
+
+                            <img width="600" height="600" class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.Img" alt="@item.FaTitle">
+                </a>            </span>
+            <div class="product-info">
+                <span class="title-box mb-1">
+                    
+                            <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryProduct" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.ToUrlFormat()" class="trs-3">@item.FaTitle</a>
+
+                </span>
+              @*  <span>
+                    <!---->
+                    <div class="ProductComp_product_icon__OLqA5">
+                        <ul class="pr_icon">
+                            <li><span class="fa fa-hdd" id="hard-disk"></span><span class="">4</span></li>
+                            <li><span class="fa fa-mobile"></span><span class="">1.77</span></li>
+                            <li><span class="fa fa-camera "></span><span class="">VGA</span></li>
+                            <li><span class="fa fa-battery-bolt "></span><span class=" ">800</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!---->
+                </span>*@
+                <div class="product-bottom f-parent">
+
+
+                    <div class="pric">
+                        @if (item.MainPrice > 0)
+                                    {
+                                        if (item.PromotionPrice != item.MainPrice)
+                                        {
+                                            var disPrice = item.MainPrice - item.PromotionPrice;
+
+                                                 <del><span>@item.MainPrice.Value.ToString("N0")<span>تومان</span></span></del>
+                                         
+                                                <ins>
+                                                    <span>
+                                                        @if (item.PromotionPrice != null)
+                                                        {
+                                                            @item.PromotionPrice.Value.ToString("N0")
+                                                        }
+                                                        <span>تومان</span>
+                                                    </span>
+                                                </ins>
+ 
+
+                                        }
+                                        else
+                                        {
+                                     
+                                                <ins><span>@item.MainPrice.Value.ToString("N0")<span>تومان</span></span></ins>
+                                        
+
+                                        }
+
+                                    }
+                                    else
+                                    {
+                                         
+                                            <ins>-- ناموجود --</ins>
+                                       
+                                    }
+                    </div>
+                </div>
+                <div class="actions trs-3">
+                    <div class="action-holder">
+                        <span class="action-item">
+                             <a  asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryProduct.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3 ">
+
+                                <i class="fal fa-shopping-bag"></i>
+                            </a>
+                            <p class="tooltip-box trs-3">
+                                جزئیات محصول
+                            </p>
+                        </span>
+                      @*  <span class="action-item">
+                            <a href="#" class="trs-3">
+                                <i class="fal fa-heart"></i>
+                            </a>
+                            <p class="tooltip-box trs-3">
+                                افزودن
+                                به
+                                علاقمندی
+                            </p>
+                        </span>*@
+                   @*     <span class="action-item">
+                            <a  asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="trs-3 ">
+                                <i class="fal fa-random"></i>
+                            </a>
+                            <p class="tooltip-box trs-3">
+                                مقایسه محصول
+                            </p>
+                        </span>*@
+                    </div>
+                </div>
+            </div>
+            @if (item.MainPrice > 0)
+            {
+                if (item.PromotionPrice != item.MainPrice)
+                {
+                    decimal disPrice = (decimal)(item.MainPrice - item.PromotionPrice);
+                    var disPercent = Math.Ceiling((decimal)(disPrice * 100 / item.MainPrice));
+                  
+                        @if (disPrice != null)
+                        {
+                            <span class="discount-full">
+                                @disPrice.ToString("N0") تومان تخفیف
+                            </span>
+                        }
+
+
+             
+
+                }
+            }
+           
+        </div>
+    </div>
+        }
+    }
+    
+
+
+</div>
+
+

@@ -1,0 +1,288 @@
+﻿
+@model EShop.Core.ViewModels.Product.AddProductViewModel
+
+@{
+    ViewData["Title"] = "محصول جدید";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ایجاد محصول جدید</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="CreateProduct" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="row">
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="SpecCode" class="control-label"></label>
+                                        <input asp-for="SpecCode" class="form-control" />
+                                        <span asp-validation-for="SpecCode" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="CommodityId" class="control-label"></label>
+                                        <input asp-for="CommodityId" class="form-control" />
+                                        <span asp-validation-for="CommodityId" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="FaTitle" class="control-label"></label>
+                                        <input asp-for="FaTitle" class="form-control" />
+                                        <span asp-validation-for="FaTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="EnTitle" class="control-label"></label>
+                                        <input asp-for="EnTitle" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="EnTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                               @* <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Ram" class="control-label"></label>
+                                        <input asp-for="Ram" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="Ram" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Rom" class="control-label"></label>
+                                        <input asp-for="Rom" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="Rom" class="text-danger"></span>
+                                    </fieldset>
+                                </div>*@
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="CategoryID" class="control-label"></label>
+                                        <select asp-for="CategoryID" asp-items="@(new SelectList(ViewBag.CategoryList,"Id","Title"))" class="form-control "></select>
+                                        <span asp-validation-for="CategoryID" class="text-danger"></span>
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="BrandID" class="control-label"></label>
+                                        <select asp-for="BrandID" asp-items="@(new SelectList(ViewBag.BrandList,"Id","Title"))" class="form-control "></select>
+                                        <span asp-validation-for="BrandID" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="SeriId" class="control-label"></label>
+                                        <select asp-for="SeriId"   class="form-control ">
+                                            <option value="" >-- انتخاب کنید --</option>
+                                        </select>
+                                        <span asp-validation-for="SeriId" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ImgName" class="control-label"></label>
+                                        <input asp-for="ImgName" type="file" accept="image/*" class="form-control" />
+                                        <span asp-validation-for="ImgName" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="KeyWord" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="KeyWord" rows="3"></textarea>
+                                        <span asp-validation-for="KeyWord" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="MetaTitle" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="MetaTitle" rows="3"></textarea>
+                                        <span asp-validation-for="MetaTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="MetaDescription" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="MetaDescription" rows="3"></textarea>
+                                        <span asp-validation-for="MetaDescription" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="MetaKeywords" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="MetaKeywords" rows="3"></textarea>
+                                        <span asp-validation-for="MetaKeywords" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Canonical" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="Canonical" rows="3"></textarea>
+                                        <span asp-validation-for="Canonical" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="HeaderTag" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="HeaderTag" rows="3"></textarea>
+                                        <span asp-validation-for="HeaderTag" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Schema" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="Schema" rows="3"></textarea>
+                                        <span asp-validation-for="Schema" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                 <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                                                    <fieldset class="form-group">
+                                                                        <label asp-for="FAQSchema" class="control-label"></label>
+                                                                        <textarea class="form-control" asp-for="FAQSchema" rows="3"></textarea>
+                                                                        <span asp-validation-for="FAQSchema" class="text-danger"></span>
+                                                                    </fieldset>
+                                                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="PopUpContent" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="PopUpContent" rows="3"></textarea>
+                                        <span asp-validation-for="PopUpContent" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label>
+                                            <input asp-for="IsShowPopUp" /> @Html.DisplayNameFor(model => model.IsShowPopUp)
+                                        </label>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label>
+                                            <input asp-for="IsPublished" /> @Html.DisplayNameFor(model => model.IsPublished)
+                                        </label>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label>
+                                            <input asp-for="IsAvailablesoon" /> @Html.DisplayNameFor(model => model.IsAvailablesoon)
+                                        </label>
+                                    </fieldset>
+                                </div>
+                                <hr />
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ColorsIds" class="control-label"></label>
+                                        @Html.ListBoxFor(model => model.ColorsIds, new MultiSelectList(Model.drpColors, "Value", "Text"), new { @class = "form-control", multiple = "multiple", id = "Colors_dropdown" })
+                                        <span asp-validation-for="ColorsIds" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="GuaranteesIds" class="control-label"></label>
+                                        @Html.ListBoxFor(model => model.GuaranteesIds, new MultiSelectList(Model.drpGuarantees, "Value", "Text"), new { @class = "form-control", multiple = "multiple", id = "Guarantees_dropdown", })
+                                        <span asp-validation-for="GuaranteesIds" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="ProductListContainer" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script src="~/js/bootstrap-multiselect.js"></script>
+    @*<script src="~/Admin/ckeditor/ckeditor.js"></script>*@
+         <script src="~/lib/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        $(document).ready(function () {
+            $('#Guarantees_dropdown').multiselect({
+
+                nonSelectedText: '-- انتخاب کنید --',
+            });
+            $('#Colors_dropdown').multiselect({
+
+                nonSelectedText: '-- انتخاب کنید --',
+            });
+           
+            //CKEDITOR.replace('PopUpContent', {
+            //    language: 'fa',
+            //    filebrowserImageUploadUrl: "../../FileManager/ImageUpload",
+            //    filebrowserBrowseUrl: "../../FileManager/CKEditorFileManager",
+            //    filebrowserWindowWidth: 1050,
+            //    filebrowserWindowHeight: 1050,
+            //});
+            CKEDITOR.replace('PopUpContent');
+        });
+    </script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+    
+        var seriId = $("#SeriId").val();
+        getSeries();
+        $("#CategoryID").change(function() {
+
+            getSeries();
+        });
+        $("#BrandID").change(function() {
+
+            getSeries();
+        });
+
+        function getSeries() {
+            var catId = $("#CategoryID").children("option:selected").val();
+            var brandId = $("#BrandID").children("option:selected").val();
+            var seriselect = $("#SeriId");
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetSeriesByCategoryBrandId","ProductSeri",new {area="Admin"})',
+                data: {catId:catId, brandId: brandId },
+                success: function(data) {
+                    seriselect.children('.js-item').remove();
+                    data.forEach(function(item) {
+                        if (item.Id == seriId) {
+                            seriselect.append($("<option selected='selected' value='" + item.Id + "' class='js-item'>" + item.Title + "</option>"));
+
+                        } else {
+                            seriselect.append($("<option value='" + item.Id + "' class='js-item'>" + item.Title + "</option>"));
+
+                        }
+                    });
+                }
+            });
+        }
+    });
+    </script>
+}
+

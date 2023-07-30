@@ -1,0 +1,177 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductPromotionIndexViewModel>
+
+@{
+    Layout = null;
+    var counter = 0;
+}
+
+
+
+@if (Model.Any())
+{
+    <div class="amazing-offer" style="background: url('../new/images/bg/bg-2.png');background-size: cover; background-repeat: repeat;">
+        <div class="holder-amazing">
+            <div class="products">
+                <div class="container">
+                    <div class="row">
+                        <div class="d-lg-none">
+                            <div class="title f-parent">
+                                <h5 style="color: #fff; padding: 10px;">
+                                    فروش ویژه موبایل
+                                </h5>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 d-none d-lg-block">
+                            <!---->
+                            <div class="trs-3 left-element">
+                                <div class="title f-parent">
+                                    <h4 style="font-weight: 600; color:
+                                            #fff;">
+                                        فروش ویژه موبایل
+                                    </h4>
+                                </div>
+                                <span>
+                                    <img src="~/new/images/banner/3.png" alt="">
+                                </span>
+                               @* <div class="show-all-btn" style="color:
+                                        #fff;">
+                                    <a href="#">مشاهده همه</a>
+                                </div>*@
+
+                            </div>
+                            <!---->
+                        </div>
+                        <div class="col-lg-10 col-md-12">
+                            <div class="amazing-right">
+                                <div class="owl-carousel nav-arrow">
+                                @foreach (var item in Model)
+                                {
+                                    counter++;
+
+                                    decimal discount = item.MainPrice - item.DiscountPrice;
+                                    item.Percent = (int)Math.Ceiling( (discount * 100 / item.MainPrice));
+
+                                    
+                                    <div class="product-item">
+                                        <div class="info-pic">
+                                            <span class="pic-box">
+                                                    <img width="600" height="600" src="https://media.farnaa.com/media/@item.ImgName" alt="@item.FaTitle">
+                                            </span>
+                                            <div class="actions trs-3">
+                                                <div class="action-holder">
+                                                    <span class="action-item">
+                                                            <a asp-action="Index" asp-route-category="@item.CategoryTitle.Replace(" ","-")" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="trs-3">
+                                                            <i class="fal fa-shopping-bag"></i>
+                                                        </a>
+                                                        <p class="tooltip-box trs-3">جزئیات محصول </p>
+                                                    </span>
+                                                @*    <span class="action-item">
+                                                        <a href="dashboard-favorites.html" class="trs-3">
+                                                            <i class="fal fa-heart"></i>
+                                                        </a>
+                                                        <p class="tooltip-box trs-3">
+                                                            افزودن به
+                                                            علاقمندی
+                                                        </p>
+                                                    </span>
+                                                    <span class="action-item">
+                                                        <a asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="trs-3">
+                                                            <i class="fal fa-random"></i>
+                                                        </a>
+                                                        <p class="tooltip-box trs-3">
+                                                            مقایسه محصول
+                                                        </p>
+                                                    </span>*@
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="product-info">
+                                            <div class="title mb-3">
+                                                    <a asp-action="Index" asp-route-category="@item.CategoryTitle.Replace(" ","-")" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="text trs-3 mb-2">
+                                                    @item.FaTitle
+                                                </a>
+
+                                            </div>
+                                          @*  <div class="rating mb-3">
+                                                <i class="fal fa-star"></i>
+                                                <i class="fal fa-star"></i>
+                                                <i class="fal fa-star"></i>
+                                                <i class="fal fa-star"></i>
+                                                <i class="fal fa-star"></i>
+                                            </div>*@
+                                            <div class="info">
+                                                <div class="info-section
+                                                        d-none d-sm-block">
+                                                    <ul class="info-box">
+                                                        <span class="info-title mb-2">
+                                                            ویژگی های محصول :
+                                                        </span>
+                                                        @foreach(var prop in item.Property){
+                                                            <li class="info-item mb-1">
+                                                                <span class="if-label">
+                                                                    @prop.Name :
+                                                                </span>
+                                                                <span class="if-title">
+                                                                    @prop.Value
+                                                                </span>
+                                                            </li>
+                                                        }
+                                                     
+                                                  
+                                                    </ul>
+                                                </div>
+                                                <div class="item-left">
+                                                    <div class="timer mb-5">
+                                                        <div class="time-count" data-countdown="2023/01/01">
+                                                          @*  <ul>
+                                                                <li>
+                                                                    <span></span>
+                                                                    <span>روز</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span></span>
+                                                                    <span>ساعت</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span></span>
+                                                                    <span>دقیقه</span>
+                                                                </li>
+                                                                <li>
+                                                                    <span></span>
+                                                                    <span>ثانیه</span>
+                                                                </li>
+                                                            </ul>*@
+                                                            <div class="c-discount_counter js-discount_counter">
+                                                                <div class="c-counter js-counter" data-nowdate="@DateTime.Now" data-discountdate="@item.date">
+
+                                                                </div>
+                                                           
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="pric">
+                                                        <del>
+                                                                @item.MainPrice.ToString("N0") تومان
+                                                        </del>
+                                                        <ins>
+                                                                @item.DiscountPrice.ToString("N0") تومان
+                                                        </ins>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <span class="discount">
+                                                تخفیف @item.Percent%
+                                        </span>
+                                    </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

@@ -1,0 +1,56 @@
+﻿
+@{
+    ViewData["Title"] = "لیست فیش ها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Html.Partial("_alert")
+<section id="extended">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-0">
+                <div class="card-header">
+                @*    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>*@
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+               
+                <div class="card-body">
+
+                    <div class="card-block">
+                       
+                        <div id="list"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+     <script src="~/Admin/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $.ajax({
+            type: 'GET',
+            url: '/credit/CreditBillList',
+            data: {  pagenumber: 1 },
+            success: function (res) {
+                $("#list").html(res);
+            }
+        })
+
+    </script>
+}
+

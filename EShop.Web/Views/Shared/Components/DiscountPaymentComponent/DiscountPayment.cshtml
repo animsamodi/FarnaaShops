@@ -1,0 +1,66 @@
+﻿@model  IEnumerable<EShop.DataLayer.Entities.Cart.GiftCard>
+@{
+    Layout = null;
+}
+
+
+    <div class="c-cart_page_row">
+        <div class="c-checkout_price-options">
+            <section class="c-checkout_price-options_container">
+                <div class="c-checkout_price-options_header">
+                    <span>استفاده از کارت هدیه فرنا</span><span class="c-tooltip">
+                        <span class="c-tooltip_icon"></span>
+                        <div class="c-tooltip_container">
+                            <div class="c-tooltip_arrow"></div>
+                            <p class="c-tooltip_text">
+                                با استفاده از کد کارت هدیه، تمام یا بخشی از مبلغ سفارش توسط کارت هدیه پرداخت می‌شود.
+                                در صورت باقی ماندن بخشی از مبلغ کارت هدیه، امکان استفاده از باقی مانده مبلغ برای خریدهای بعدی امکان‌پذیر است.
+                        </div>
+                    </span>
+                </div>
+
+                <div>
+                    <p class="c-checkout_price-options_desc">
+                        با ثبت کد کارت هدیه، مبلغ کارت هدیه از “مبلغ قابل پرداخت” کسر می‌شود.
+                    </p>
+                    <div class="c-checkout_price-options_row">
+                        <div class="c-checkout_price-options_fields">
+                            <select id="giftcartselect">
+                                <option>انتخاب کنید</option>
+                                @foreach (var item in Model)
+                                {
+                                    <option data-amount="@item.Balance">@item.Code</option>
+                                }
+                            </select>
+                            <input class="c-input c-checkout_price-options_gift-input js-gift_input" placeholder="مثلا 1234ABCd5678efgh0123">
+                        </div>
+                        <div class="c-checkout_price-options_button">
+                            <button class="btn-primary disabled js-gift_btn" type="button">ثبت کد هدیه</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+        <div class="c-checkout_price-options">
+            <section class="c-checkout_price-options_container">
+                <div class="c-checkout_price-options_header">
+                    <span> استفاده از کد تخفیف فرنا</span>
+                </div>
+
+                <div>
+                    <p class="c-checkout_price-options_desc">
+                        با ثبت کد تخفیف، مبلغ کد تخفیف از “مبلغ قابل پرداخت” کسر می‌شود.
+                    </p>
+                    <div class="c-checkout_price-options_row">
+                        <div class="c-checkout_price-options_fields">
+
+                            <input class="c-input js-discount_input" placeholder="مثلا 837A2CS">
+                        </div>
+                        <div class="c-checkout_price-options_button">
+                            <button class="btn-primary disabled js-discount_btn" type="button">ثبت کد تخفیف</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>

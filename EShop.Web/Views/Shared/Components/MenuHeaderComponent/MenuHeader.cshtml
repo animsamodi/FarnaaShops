@@ -1,0 +1,235 @@
+﻿@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.DataLayer.Entities.SiteMenu>
+ 
+<div class="main-menu"><div class="box-overlay"></div>
+    <div class="container">
+        <div class="row" style="margin-bottom: 2px;">
+            <div class="col-lg-8 col-1">
+                <div class="holder-menu d-none d-lg-block">
+                    <ul class="menu">
+                        
+                        @foreach (var item in Model.Where(c => c.Type != EnumTypeMenu.SubMenu).OrderBy(c => c.Sort))
+                        {
+                            if (item.Type == EnumTypeMenu.Single)
+                            {
+                                <li class="menu-item">
+                                    <a href="@item.Link" class="menu-text trs-3">
+                                        @item.Title
+                                    </a>
+                                </li>
+                            }
+                            else if (item.Type == EnumTypeMenu.Multi)
+                            {
+                                <li class="menu-item">
+                                    <a href="@item.Link" class="menu-text
+                                                trs-3">
+                                        @item.Title
+                                        <i class="fal fa-chevron-down"></i>
+                                    </a>
+                                    @if (Model.Where(c => c.ParentCode == item.Code).Any())
+                                    {
+                                        <ul class="submenu-tow trs-3">
+                                            @foreach (var subMenuMulti in Model.Where(c => c.ParentCode == item.Code).OrderBy(c => c.Sort))
+                                            {
+                                                <li class="submenu-item">
+                                                    <a class="trs-3" href="@subMenuMulti.Link">
+                                                        @subMenuMulti.Title
+                                                    </a>
+                                                </li>
+                                            }
+
+
+                                        </ul>
+                                    }
+
+                                </li>
+
+                            }
+                            else if (item.Type == EnumTypeMenu.Main)
+                            {
+                                <li class="menu-item">
+                                    <a class="menu-text trs-3 main-menu-item" >
+                                        @item.Title
+                                        <i class="fal fa-chevron-down"></i>
+                                    </a>
+                                    <div class="mega-menu trs-3">
+                                        <ul class="category-list">
+                                            @foreach (var sub1 in Model.Where(c => c.ParentCode == item.Code).OrderBy(c => c.Sort))
+                                            {
+                                                <li class="category-item">
+                                                    <a href="@sub1.Link" class="link trs-3">
+                                                        <span class="icon">
+                                                            <i class="fal @sub1.Icon"></i>
+                                                        </span>
+                                                        @sub1.Title
+                                                    </a>
+                                                    <div class="sub-holder-row">
+                                                    
+                                                            <ul class="sub-menu">
+
+
+                                                                @foreach (var sub2 in Model.Where(c => c.ParentCode == sub1.Code).OrderBy(c => c.Sort))
+                                                                {
+                                                                    @if (Model.Where(c => c.ParentCode == sub2.Code).Any())
+                                                                    {
+                                                                        <li class="sub-title  mb-2">
+                                                                            <a href="@sub2.Link" class="s-link trs-3">
+                                                                                @sub2.Title
+                                                                            </a>
+                                                                        </li>
+                                                                        @foreach (var sub3 in Model.Where(c => c.ParentCode == sub2.Code).OrderBy(c => c.Sort))
+                                                                        {
+                                                                            <li class="sub-item mb-1 trs-3">
+                                                                                <a href="@sub3.Link" class="s-link trs-3">
+                                                                                    @sub3.Title
+                                                                                </a>
+                                                                            </li>
+                                                                        }
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <li class="sub-item mb-1 trs-3">
+                                                                            <a href="@sub2.Link" class="s-link trs-3">
+                                                                                @sub2.Title
+                                                                            </a>
+                                                                        </li>
+                                                                    }
+
+
+                                                                }
+
+
+                                                            </ul>
+                                                        
+                                                    </div>
+                                                </li>
+
+                                            }
+
+
+                                        </ul>
+                                    </div>
+                                </li>
+
+                            }
+                        }
+
+
+                    </ul>
+                </div>
+                <!-- ---------- Mobile Menu ---------- -->
+                <div class="mobile-menu d-block d-lg-none">
+                    <div class="btn-mobile">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="mobile-content trs-5">
+                        <div style="display: block; text-align: center;
+                                    padding-bottom: 10px;margin-bottom: 10px; border-bottom:1px #dcdcdc solid ;">
+                            <img src="~/new/images/favicon.png" alt="">
+                        </div>
+                        <ul class="menu">
+                            @foreach (var item in Model.Where(c => c.Type != EnumTypeMenu.SubMenu).OrderBy(c => c.Sort))
+                            {
+                                if (item.Type == EnumTypeMenu.Single)
+                                {
+                                    <li class="item">
+                                        <div>
+                                            <a class="trs-3" href="@item.Link">
+                                                @item.Title
+                                            </a>
+                                        </div>
+                                        
+                                    </li>
+                                }
+                                else if (item.Type == EnumTypeMenu.Multi)
+                                {
+                                    foreach (var siteMenu in Model.Where(c => c.ParentCode == item.Code).OrderBy(c => c.Sort))
+                                    {
+                                        <li class="item">
+                                            <div>
+                                                <a class="trs-3" href="@siteMenu.Link">
+                                                    @siteMenu.Title
+                                                </a>
+                                            </div>
+
+                                        </li>
+                                    }
+                                }
+                            }
+
+
+                        </ul>
+                        <ul class="category">
+                            @foreach (var item in Model.Where(c => c.Type != EnumTypeMenu.SubMenu).OrderBy(c => c.Sort))
+                            {
+                                if (item.Type == EnumTypeMenu.Main)
+                                {
+                                    foreach (var sub1 in Model.Where(c => c.ParentCode == item.Code).OrderBy(c => c.Sort))
+                                    {
+                                        <li class="item">
+                                            <a class="trs-3" href="@sub1.Link">
+                                                <i class="fal fa-mobile"></i> @sub1.Title
+                                                <span>
+                                                    <i class="fal fa-chevron-down"></i>
+                                                </span>
+                                            </a>
+                                            <ul class="sub-menu">
+                                                @foreach (var sub2 in Model.Where(c => c.ParentCode == sub1.Code).OrderBy(c => c.Sort))
+                                                {
+                                                    <li>
+                                                        <a class="trs-3" href="@sub2.Link">
+                                                            @sub2.Title
+                                                            <span>
+                                                                <i class="fal
+                                                                    fa-chevron-down"></i>
+                                                            </span>
+                                                        </a>
+                                                        <ul>
+                                                            @foreach (var sub3 in Model.Where(c => c.ParentCode == sub2.Code).OrderBy(c => c.Sort))
+                                                            {
+                                                                <li>
+                                                                  
+                                                                     
+                                                                        <a class="trs" href="@sub3.Link">
+                                                                            @sub3.Title
+                                                                        </a>
+                                                                     
+
+                                                                 
+                                                                </li>
+                                                            }
+
+
+
+                                                        </ul>
+                                                    </li>
+                                                }
+
+
+                                            </ul>
+                                        </li>
+
+                                    }
+                                }
+                            }
+
+                        </ul>
+                    </div>
+                    <div class="menu-overlay trs-5"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-11">
+                <div class="d-block d-lg-none">
+                    <div class="search-mobile-header">
+                        <form >
+                            <input type="text" id="header-search-input-mobile" class="header-search-input" name="q" placeholder="جستجو محصولات...">
+                            <button type="button" id="btn-search-header-mobile"> <i class="fal fa-search"></i> </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

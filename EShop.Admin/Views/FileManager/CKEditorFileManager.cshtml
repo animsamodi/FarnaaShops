@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewData["Title"] = "مدیریت فایل ها";
+    Layout = null;
+}
+
+<html>
+
+<head>
+    <title>مدیریت فایل ها</title>
+    <link href="~/Admin/css/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Admin/bower_components/font-awesome/css/font-awesome.css" rel="stylesheet" />
+    @*<link href="~/Admin/dist/css/AdminLTE.css" rel="stylesheet" />*@
+    <link href="~/Admin/css/FileManager.css" rel="stylesheet" />
+     <script src="~/Admin/vendors/js/core/jquery-3.3.1.min.js"></script>
+    @*<script src="~/js/jquery.unobtrusive-ajax.min.js"></script>*@
+    <script src="~/Admin/bower_components/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+
+
+<body>
+    <div class="content">
+        @await Html.PartialAsync("CkEditorImageViewer.cshtml")
+    </div>
+</body>
+</html>
+

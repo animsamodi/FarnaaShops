@@ -1,0 +1,105 @@
+﻿
+@{
+    ViewData["Title"] = "لیست تراکنش ها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Html.Partial("_alert")
+<section id="extended">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form class="form" asp-action="PaymentList" data-ajax="true"
+                              data-ajax-update="#list"
+                              data-ajax-mode="replace">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">کد سفارش</label>
+                                            <input type="text" class="form-control form-control-sm"   name="OrderId" id="OrderId">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">RefId</label>
+                                            <input type="text" class="form-control form-control-sm"   name="RefId"  id="RefId">
+                                        </fieldset>
+                                    </div>
+
+
+
+
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">از تاریخ</label>
+                                            <input class="form-control date-piker" id="PSDate" name="PSDate" type="text"  >
+
+                                        </fieldset>
+                                    </div> <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">تا تاریخ</label>
+                                            <input class="form-control date-piker" id="PEDate" name="PEDate" type="text"  >
+
+                                        </fieldset>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-sm btn-primary m-0">جستجو
+                                        <i class="ft-search position-right"></i>
+                                    </button> 
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+               
+                <div class="card-body">
+
+                    <div class="card-block">
+                       
+                        <div id="list"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+     <script src="~/Admin/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $.ajax({
+                type: 'GET',
+                url: '/order/PaymentList',
+                data: { RefId: '', PSDate: '', PEDate: '', OrderId: null, PageNumber: 1 },
+                success: function (res) {
+                    $("#list").html(res);
+                }
+            })
+             $('.date-piker').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                initialValue: false
+            });
+ 
+    </script>
+}
+

@@ -1,0 +1,221 @@
+﻿@using EShop.DataLayer.Enum
+@using Microsoft.AspNetCore.Http.Extensions
+@model EShop.DataLayer.Entities.Site.Contact
+@{
+    ViewData["Title"] = Model.MetaTitle ;
+
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section Style
+{
+    <link rel="stylesheet" href="~/new/css/leaflet.css" />
+
+}
+
+@section Meta
+{
+ 
+   @* <meta name="title" content="@(Model.MetaTitle )">*@
+    @if (Model.MetaDescription != null)
+    {
+        <meta name="description" content="@(Model.MetaDescription)">
+    }
+    @if (Model.MetaKeywords != null)
+    {
+        <meta name="keywords" content="@Model.MetaKeywords">
+
+    }
+    @if (Model.Canonical != null)
+    {
+        <link rel="canonical" href="@Model.Canonical">
+
+    }
+
+
+    <meta property="og:title" content="@(Model.MetaTitle )">
+    <meta property="og:description" content="@Model.MetaDescription">
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farnaa.com/images/logo.png">
+    <meta property="og:image:alt" content="@(Model.MetaTitle )">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+   @Html.Raw(Model.BaseSchema)
+
+    @Html.Raw(Model.HeaderTag)
+    @Html.Raw(Model.Schema)
+}
+
+
+<!-- ---------- Contact Us Page ---------- -->
+<div class="contact">
+    <input type="hidden" id="Lat" value="@Model.Lat"/>
+    <input type="hidden" id="Lng" value="@Model.Lng" />
+    <div class="container">
+        <div class="address-bar"><div class="box-overlay"></div>
+            <ul class="box-address">
+                <li class="item">
+                    <a class="trs-3" asp-controller="Home" asp-action="Index">
+                        خانه
+                        <i class="fal fa-chevron-left"></i>
+                    </a>
+                </li>
+
+                <li class="item active">
+                    <h1 class="trs-3">
+                        @Model.MetaTitle
+                    </h1>
+                </li>
+            </ul>
+        </div>
+
+        <!-- ---------- Banner Ads 3 ---------- -->
+        @*        <div class="banner-ads ">
+            <div class="holder-ads ">
+                <div class="container ">
+                    <div class="row ">
+
+                        <div class="col-12 d-none d-lg-block ">
+                            <div class="ads ">
+                                <a href="# " class="ads-pic ">
+                                    <img src="img/brandcomp/samsung.jpg " alt=" ">
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="col-12 d-lg-none ">
+                            <div class="ads ">
+                                <a href="# " class="ads-pic ">
+                                    <img src="img/brandcomp/s1.png " alt=" ">
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="address">
+                    <h5>آدرس فرنا</h5>
+                    <p>
+                        <br> @Model.Address
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12">
+                <div class="address">
+                    <h5>کد پستی</h5>
+                    <p>
+                        <br> @Model.CodePosti
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-12">
+                <div class="address">
+                    <p>
+                        @Html.Raw(Model.Text)
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-box">
+            <div class="row">
+                <div class="col-md-4 col-sm-6 col-6">
+                    <div class="con-item">
+                        <i class="fal fa-comment"></i>
+                        <h4>
+                            @Model.Title1
+
+                        </h4>
+                        <p>
+                            @Model.Email1 </p>
+                        <span>
+                            <a href="tel:@Model.Phone1"> @Model.Phone1 </a>
+                            </span>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-6 col-6">
+                    <div class="con-item">
+                        <i class="fal fa-shopping-bag"></i>
+                        <h4>
+                            @Model.Title2
+                        </h4>
+                        <p>
+                            @Model.Email2
+                        </p>
+                        <span>
+                            <a href="tel:@Model.Phone2"> @Model.Phone2 </a>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6 col-6">
+                    <div class="con-item">
+                        <i class="fal fa-user"></i>
+                        <h4>
+                            @Model.Title3
+                        </h4>
+                        <p>
+                            @Model.Email3
+                        </p>
+                        <span>
+                            <a href="tel:@Model.Phone3"> @Model.Phone3 </a>                        </span>
+                    </div>
+                </div>
+                @*  <div class="col-md-3 col-sm-6 col-6">
+                    <div class="con-item">
+                        <i class="fal fa-share"></i>
+                        <h4>
+                            اشتراک گزاری
+                        </h4>
+                        <p>
+                            ارسال به دیگران
+                        </p>
+                        <span>
+                            021-123456789
+                        </span>
+                    </div>
+                </div>*@
+            </div>
+        </div>
+
+        <div class="contact-form">
+            <div class="row">
+                <div class="col-12" id="map" style="border-radius: 10px; border: 1px #dcdcdc solid;">
+                    <div style="width: 100%; height: 400px;"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+<!-- ---------- Banner Ads ---------- -->
+@await Component.InvokeAsync("OtherPageBannerComponent")
+
+
+<!-- ---------- Popular Products ---------- -->
+@await Component.InvokeAsync("OtherPageProductDiscountComponent")
+
+
+            @section Scripts
+            {
+                <!-- JS Files -->
+    <script src="~/new/js/jquery-3.6.1.min.js"></script>
+                <!-- Main JS File -->
+
+    <script src="~/new/js/leaflet.js"></script>
+                 <script src="~/new/js/map.js"></script>
+            }

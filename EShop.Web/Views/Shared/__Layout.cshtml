@@ -1,0 +1,261 @@
+﻿@using EndPoint.Web.Utilities
+@using Microsoft.AspNetCore.Http.Extensions
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png" />
+
+
+
+    @RenderSection("Meta", false)
+
+    <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "Organization",
+          "url": "http://www.farnaa.com",
+          "logo": "https://farnaa.com/images/logo.png"
+        }
+    </script>
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+
+    <link rel="preload" as="font" href="/css/vendor/font-awesome.min.css">
+    <link rel="preload" as="font" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="preload" as="font" href="/css/font.min.css">
+
+    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/vendor/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/vendor/nice-select.min.css">
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.css">
+    @RenderSection("Style", false)
+
+    <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/css/font.min.css">
+    <link rel="stylesheet" href="/css/sweetalert.css">
+
+
+  @*  <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "d7nytafrcx");
+    </script>*@
+    <!--BEGIN RAYCHAT CODE-->
+    <script type="text/javascript">!function () { function t() { var t = document.createElement("script"); t.type = "text/javascript", t.async = !0, localStorage.getItem("rayToken") ? t.src = "https://app.raychat.io/scripts/js/" + o + "?rid=" + localStorage.getItem("rayToken") + "&href=" + window.location.href : t.src = "https://app.raychat.io/scripts/js/" + o + "?href=" + window.location.href; var e = document.getElementsByTagName("script")[0]; e.parentNode.insertBefore(t, e) } var e = document, a = window, o = "5ab48fef-92be-4b0b-8694-8df82e43aaf5"; "complete" == e.readyState ? t() : a.attachEvent ? a.attachEvent("onload", t) : a.addEventListener("load", t, !1) }();</script>
+    
+    <!--yektanet-->
+    <script> !function (t, e, n) { t.yektanetAnalyticsObject = n, t[n] = t[n]  function () { t[n].q.push(arguments) }, t[n].q = t[n].q  []; var a = new Date, r = a.getFullYear().toString() + "0" + a.getMonth() + "0" + a.getDate() + "0" + a.getHours(), c = e.getElementsByTagName("script")[0], s = e.createElement("script"); s.id = "ua-script-6x0M3RlV"; s.dataset.analyticsobject = n; s.async = 1; s.type = "text/javascript"; s.src = "https://cdn.yektanet.com/rg_woebegone/scripts_v3/6x0M3RlV/rg.complete.js?v=" + r, c.parentNode.insertBefore(s, c) }(window, document, "yektanet"); </script>
+    <!--yektanet-->
+    <!--END RAYCHAT CODE-->
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-213446536-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-213446536-1');
+    </script>
+
+</head>
+
+<body>
+    <!-- header-------------------------------->
+    @if (ClaimUtility.IsColleauge(User))
+    {
+    <partial name="_headerColleauge" />
+
+    }
+    else
+    {
+            <partial name="__header" />
+
+    }
+    <div class="nav-categories-overlay"></div>
+    <!-- header-------------------------------->
+    <div class="container-main">
+
+        @RenderBody()
+    </div>
+     @if (ClaimUtility.IsColleauge(User))
+    {
+        <partial name="__footer" />
+
+    }
+    else
+    {
+                <partial name="__footer" />
+
+    }
+
+
+
+    <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+
+    <script src="~/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/js/vendor/bootstrap.min.js"></script>
+
+    <script src="/js/vendor/owl.carousel.min.js"></script>
+    <script src="/js/swiper-bundle.min.js"></script>
+
+    <script src="/js/vendor/jquery.countdown.min.js"></script>
+    <script src="/js/vendor/jquery.nice-select.min.js"></script>
+
+    <script src="/js/main.js"></script>
+    <script src="/js/sweetAlert.js"></script>
+
+    <script src="/js/jquery.lazy.min.js"></script>
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.js"></script>
+
+
+    <script type="text/javascript">
+
+
+           $(document).ready(function () {
+               $('.lazy').lazy({
+                   effect: "fadeIn",
+                   effectTime: 2000,
+                   threshold: 0,
+                   delay: 1000
+
+
+               });
+               var swiper = new Swiper(".mySwiper", {
+                   slidesPerView: 1.4,
+                   spaceBetween: 10,
+                   freeMode: true,
+
+                   breakpoints: {
+                       610: {
+                           slidesPerView: 2
+                       },
+                       768: {
+                           slidesPerView: 4
+                       },
+                       1024: {
+                           slidesPerView:5
+                       },
+                   },
+               });
+                var swiper2 = new Swiper(".mySwiper2", {
+                   slidesPerView: 1.4,
+                   spaceBetween: 10,
+                   freeMode: true,
+
+                   breakpoints: {
+                       610: {
+                           slidesPerView: 2
+                       },
+                       768: {
+                           slidesPerView: 4
+                       },
+                       1024: {
+                           slidesPerView: 4
+                       },
+                   },
+               });
+               var swiperRange = new Swiper(".rangeSwiper", {
+                   slidesPerView: 3.4,
+                   spaceBetween: 5,
+                   autoplay: {
+                       delay: 5000,
+                   },
+                   breakpoints: {
+                       610: {
+                           slidesPerView: 4
+                       },
+                       768: {
+                           slidesPerView:5
+                       },
+                       1024: {
+                           slidesPerView: 7
+                       },
+                   },
+               });
+               $("#header-search-input").autocomplete({
+                   source: '@Url.Action("HeaderSearch2","Home")',
+
+                   select: function(event, ui) {
+                       setTimeout(() => {                 searchHeader();
+                       }, 100);
+                   }
+               });
+               $('#header-search-input').keyup(function(e){
+                   if(e.keyCode == 13)
+                   {
+                       searchHeader();
+                   }
+               });
+
+               $("#btn-search-header").click(function () {
+
+
+                   searchHeader();
+               });
+
+
+               function searchHeader() {
+                   
+                   var url = "@Url.Action("Search", "Home",new{area = ""})";
+                   location.href = url + "?q=" + $("#header-search-input").val();
+
+               }
+               $("#header-search-input-mobile").autocomplete({
+                   source: '@Url.Action("HeaderSearch2","Home")',
+
+                   select: function(event, ui) {
+                       setTimeout(() => {
+                           searchHeaderMobile();
+                       }, 100);
+                   }
+               });
+               $('#header-search-input-mobile').keyup(function(e){
+                   if(e.keyCode == 13)
+                   {
+                       searchHeaderMobile();
+                   }
+               });
+
+               $("#btn-search-header-mobile").click(function () {
+
+
+                   searchHeaderMobile();
+               });
+
+
+               function searchHeaderMobile() {
+                   
+                   var url = "@Url.Action("Search", "Home",new{area = ""})";
+                   location.href = url + "?q=" + $("#header-search-input-mobile").val();
+
+               }
+           });
+
+    </script>
+</body>
+
+
+</html>
+
+

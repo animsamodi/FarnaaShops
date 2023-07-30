@@ -1,0 +1,437 @@
+﻿@{
+    ViewData["Title"] = "لیست سفارشات";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}@using EShop.Core.Helpers
+@using EShop.Core.ViewModels
+@using EShop.DataLayer.Enum
+@model List<EShop.Core.ViewModels.UserOrderAdmin>
+@{
+    UserOrderSearchAdmin search = new UserOrderSearchAdmin();
+    if (ViewBag.Search != null)
+    {
+        search = (UserOrderSearchAdmin)ViewBag.Search;
+    }
+    int pagecount = (int)Math.Ceiling((double)ViewBag.count / 30);
+    int pagenumber = ViewBag.PageNumber;
+}
+<section id="extended">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form class="form" asp-action="Index" data-ajax="true"
+                              data-ajax-update="#list"
+                              data-ajax-mode="replace">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">کد سفارش</label>
+                                            <input type="text" class="form-control form-control-sm" value="@search.OrderId" name="OrderId">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">مشتری</label>
+                                            <input type="text" class="form-control form-control-sm" value="@search.ClientName" name="ClientName">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">کدملی مشتری</label>
+                                            <input type="text" class="form-control form-control-sm" value="@search.ClientNatioalCode" name="ClientNatioalCode">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">تلفن مشتری</label>
+                                            <input type="text" class="form-control form-control-sm" value="@search.ClientTel" name="ClientTel">
+                                        </fieldset>
+                                    </div>
+
+
+
+                                    <div class="col-md-4 col-12">
+                                        <fieldset class="form-group  mb-0 position-relative">
+                                            <label for="basicInput">وضعیت</label>
+
+                                            <select class="form-control form-control-sm" name="OrderStatus">
+                                                @if (search.OrderStatus == null)
+                                                {
+                                                    <option selected="">وضعیت را انتخاب کیند</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option>وضعیت را انتخاب کیند</option>
+
+                                                }   @if (search.OrderStatus == EnumOrderStatus.Pay)
+                                                {
+                                                    <option value="2" selected="selected">پرداخت شده</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="2">پرداخت شده</option>
+
+                                                }
+                                                @if (search.OrderStatus == EnumOrderStatus.NotPay)
+                                                {
+                                                    <option value="3" selected="selected">پرداخت نشده</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="3">پرداخت نشده</option>
+
+                                                }   @if (search.OrderStatus == EnumOrderStatus.InProccess)
+                                                {
+                                                    <option value="4" selected="selected">در حال پردازش</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="4">در حال پردازش</option>
+
+                                                }   @if (search.OrderStatus == EnumOrderStatus.SendToAnbar)
+                                                {
+                                                    <option value="5" selected="selected">ارسال به انبار</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="5">ارسال به انبار</option>
+
+                                                }   @if (search.OrderStatus == EnumOrderStatus.OutAnbar)
+                                                {
+                                                    <option value="6" selected="selected">خروج از انبار</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="6">خروج از انبار</option>
+
+                                                }   @if (search.OrderStatus == EnumOrderStatus.SendPost)
+                                                {
+                                                    <option value="7" selected="selected">تحویل شده به شرکت حمل و نقل</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="7">تحویل شده به شرکت حمل و نقل</option>
+
+                                                }
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <fieldset class="form-group  mb-0 position-relative">
+                                            <label for="basicInput">وضعیت ارسال به سامانه مالی</label>
+
+                                            <select class="form-control form-control-sm" name="SendTadbir">
+                                                @if (search.SendTadbir == null)
+                                                {
+                                                    <option selected="">وضعیت ارسال به سامانه مالی</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option>وضعیت ارسال به سامانه مالی</option>
+
+                                                }   @if (search.SendTadbir == EnumYesNo.Yes)
+                                                {
+                                                    <option value="1" selected="selected">ارسال شده</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="1">ارسال شده</option>
+
+                                                }
+                                                @if (search.SendTadbir == EnumYesNo.No)
+                                                {
+                                                    <option value="2" selected="selected">ارسال نشده</option>
+
+                                                }
+                                                else
+                                                {
+                                                    <option value="2">ارسال نشده</option>
+
+                                                }
+
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <fieldset class="form-group  mb-0 position-relative">
+                                            <label for="basicInput">روش ارسال</label>
+
+                                                                                    <select name="Shipment" asp-items="@(new SelectList(ViewBag.Shipments,"Title","Title"))" class="form-control ">
+                                                                                                                                                                                                                                    <option value="">روش ارسال را انتخاب کنید</option>
+
+                                                                                    </select>
+
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">از تاریخ</label>
+                                            <input class="form-control date-piker" id="PSDate" name="PSDate" type="text" value="@search.PSDate">
+
+                                        </fieldset>
+                                    </div> <div class="col-md-4 col-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">تا تاریخ</label>
+                                            <input class="form-control date-piker" id="PEDate" name="PEDate" type="text" value="@search.PEDate">
+
+                                        </fieldset>
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-sm btn-primary m-0">
+                                        جستجو
+                                        <i class="ft-search position-right"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست سفارشات</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        @if (Model.Any())
+                        {
+                            long sum = 0;
+
+                            foreach (var userOrderAdmin in Model)
+                            {
+                                if (userOrderAdmin.OrderStatus != null && userOrderAdmin.OrderStatus != EnumOrderStatus.NotPay)
+                                {
+                                    sum += userOrderAdmin.AmountPayable;
+                                }
+                            }
+                            sum /= 10;
+                            <div class="d-flex justify-content-between">
+                                <h6>تعداد : @Model.Count</h6>
+                                @*<h6>مبلغ کل پرداخت شده : @sum.ToString("N0") تومان</h6>*@
+                            </div>
+
+
+                            <hr />
+                            <div class="col-12" id="list">
+                                <table class="table font-size-10  table-condensed  table-striped table-bordered table-responsive table-configuration">
+                                    <thead style="white-space: nowrap;">
+                                        <tr>
+                                            <th></th>
+                                            <th>شماره سفارش</th>
+                                            <th>مشتری</th>
+                                            <th>کدملی مشتری</th>
+                                            <th>تلفن مشتری</th>
+
+                                            <th>بیجک پست</th>
+                                            <th>تاریخ سفارش</th>
+                                            <th>تاریخ پرداخت</th>
+                                            <th>زمان پرداخت</th>
+                                            <th>وضعیت</th>
+                                            <th>مجموع</th>
+                                            <th>مبلغ پرداخت شده</th>
+                                            <th>کد تراکنش</th>
+                                            <th>شماره فاکتور سامانه مالی</th>
+                                            <th>شناسه فاکتور سامانه مالی</th>
+                                            <th>وضعیت ارسال به سامانه مالی</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                            var orderStatus = "";
+                                            if (item.OrderStatus != null && item.OrderStatus > 0)
+                                            {
+                                                orderStatus = EnumHelper<EnumOrderStatus>.GetDisplayValue(item.OrderStatus.Value);
+                                            }
+
+                                            var detId = "tbl_Det_" + item.OrderId;
+                                            <tr data-toggle="collapse" data-target="#@detId" class="accordion-toggle">
+                                                <td><button class="btn btn-primary mb-0"><span class="fa fa-eye"></span></button></td>
+                                                <td>@item.OrderId</td>
+                                                <td>@item.ClientName</td>
+                                                <td>@item.ClientNatioalCode</td>
+                                                <td>@item.ClientTel</td>
+
+
+                                                <td>@item.TrackingCodePost</td>
+                                                <td>@item.PrDate</td>
+                                                <td>@item.PrDatePay</td>
+                                                <td>
+                                                    @if (item.DatePay != null)
+                                                    {
+                                                        @item.DatePay.Value.ToShortTimeString()
+                                                    }
+                                                </td>
+                                                <td class="Waiting @(item.OrderStatus == EnumOrderStatus.NotPay ? "text-danger" : "text-success") font-weight-bold">@orderStatus</td>
+                                                <td class="totla">
+                                                    <span class="amount">
+                                                        @{ var sumAmount = item.SumAmount / 10;}
+                                                        @sumAmount.ToString("N0")
+                                                        <span>  تومان  </span>
+                                                    </span>
+                                                </td>
+                                                <td class="totla">
+                                                    <span class="amount">
+                                                        @{ var tomanPrice = item.AmountPayable / 10;}
+                                                        @tomanPrice.ToString("N0")
+                                                        <span>  تومان  </span>
+                                                    </span>
+                                                </td>
+                                                <td>@item.SaleReferenceId </td>
+                                                <td>@item.FactorNoTadbir</td>
+                                                <td>@item.CrmValidationItem</td>
+                                                <td>
+                                                    @if (item.IsSendToTadbir)
+                                                    {
+                                                        <span class="text-success">ارسال شده</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-danger">ارسال نشده</span>
+
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (!item.IsSendToTadbir && item.OrderStatus == EnumOrderStatus.InProccess)
+                                                    {
+                                                        <a asp-action="SendToCrm" asp-route-id="@item.OrderId" class="btn btn-warning btn-sm">ارسال به سامانه مالی</a>
+                                                    }
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="15" class="hiddenRow">
+                                                    <div class="accordian-body collapse" id="@detId">
+                                                        <table class=" table  mb-0 border-bottom-danger">
+                                                            <tr>
+                                                                <td colspan="8">آدرس تحویل گیرنده : @item.RecipientAddress , کد پستی : @item.RecipientPostalCode </td>
+
+                                                            </tr>
+                                                            <tr class="order-line"></tr>
+                                                            <tr>
+                                                                <td colspan="8">تحویل گیرنده : @item.RecipientName , شماره تماس : @item.RecipientTel</td>
+
+                                                            </tr>
+                                                            <tr>
+                                                                <td colspan="8">
+                                                                    روش ارسال : @item.ShipmentTitle ,
+
+
+                                                                    @if (item.ShipmentPrice == null || item.ShipmentPrice == 0)
+                                                                    {
+                                                                        @*<span>رایگان</span>*@
+                                                                    }
+                                                                    else
+                                                                    { <span>
+                                                                            هزینه ارسال :
+                                                                        </span>
+
+                                                                        var shipmentPrice = item.ShipmentPrice / 10;
+                                                                        <span>@shipmentPrice.Value.ToString("N0")</span>
+                                                                        <span>  تومان  </span>
+                                                                    }
+                                                                </td>
+
+                                                            </tr>
+                                                            <tr class="order-line"></tr>
+                                                        </table>
+                                                        <table class="table border border-danger ">
+                                                            <thead>
+                                                                <tr class="primary">
+                                                                    <th>تصویر محصول</th>
+                                                                    <th>عنوان محصول</th>
+                                                                    <th>رنگ</th>
+                                                                    <th>گارانتی</th>
+                                                                    <th>تعداد</th>
+                                                                    <th>قیمت</th>
+                                                                </tr>
+                                                            </thead>
+
+                                                            <tbody>
+                                                                @foreach (var product in item.OrderDetails)
+                                                                {
+                                                                    <tr>
+                                                                        <td>
+                                                                            <img class="img-fluid" width="70" src="https://media.farnaa.com/media/@product.Image" />
+                                                                        </td>
+                                                                        <td>@product.FaTitle</td>
+                                                                        <td>@product.Color </td>
+                                                                        <td> @product.Guarantee</td>
+                                                                        <td> @product.Count</td>
+                                                                        <td>
+                                                                            @{ var SumPriceAfterDiscount = product.SumPriceAfterDiscount.Value / 10;}
+                                                                            @SumPriceAfterDiscount.ToString("N0") تومان
+                                                                        </td>
+
+                                                                    </tr>
+
+                                                                }
+
+
+
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts
+{
+    <script>
+        $('.date-piker').persianDatepicker({
+            format: 'YYYY/MM/DD',
+            autoClose: true,
+            initialValue: false
+        });
+    </script>
+ 
+}

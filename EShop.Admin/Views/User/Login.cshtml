@@ -1,0 +1,118 @@
+﻿@model EShop.Core.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "ورود به پنل مدیریت";
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+ 
+       <title>ورود به مدیریت</title>
+ 
+     
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-touch-fullscreen" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500,700,900%7CMontserrat:300,400,500,600,700,800,900" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="/Admin/fonts/feather/style.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/fonts/simple-line-icons/style.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/fonts/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/vendors/css/perfect-scrollbar.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/vendors/css/prism.min.css">
+    <link rel="stylesheet" type="text/css" href="/Admin/css/app.css">
+</head>
+<body data-col="1-column" class=" 1-column  blank-page blank-page">
+     <div class="wrapper">
+        
+        <section id="login">
+            <div class="container-fluid">
+                <div class="row full-height-vh">
+                    <div class="col-12 d-flex align-items-center justify-content-center gradient-aqua-marine" style="background: #0d1b42;">
+                        <div class="card px-4 py-2 box-shadow-2 width-400">
+                            <div class="card-header text-center">
+                                <img class="img-fluid mb-2"   src="/images/logo-new.png"/>
+                                <h4 class="text-uppercase text-bold-400 text-center grey darken-1">ورود به پنل مدیریت</h4>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-block">
+                                    <form asp-action="Login" asp-controller="User"  method="post">
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <input asp-for="Email_Phone" class="form-control form-control-lg"   placeholder="نام کاربری" required >
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <input asp-for="Password" type="password" class="form-control form-control-lg"   placeholder="رمز عبور" required>
+                                            </div>
+                                        </div>
+                                      @*  <div class="form-group">
+                                            <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                                            <span id="recaptchaerror" class="text-danger"></span>
+                                        </div>*@
+                                        <div class="form-group">
+                                            <div class="text-center col-md-12">
+                                                <button type="submit" class="btn  px-4 py-2 text-uppercase white font-small-4 box-shadow-2 border-0" style="
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                          
+background-color: #d90269;
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         ">ورود</button>                                            </div>
+                                        </div>
+
+
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </div>
+     
+    <script src="/Admin/vendors/js/core/jquery-3.3.1.min.js"></script>
+    <script src="/Admin/js/persian-datepicker.min.js"></script>
+    <script src="/Admin/vendors/js/core/popper.min.js"></script>
+    <script src="/Admin/vendors/js/core/bootstrap.min.js"></script>
+    <script src="/Admin/vendors/js/perfect-scrollbar.jquery.min.js"></script>
+    <script src="/Admin/vendors/js/prism.min.js"></script>
+    <script src="/Admin/vendors/js/jquery.matchHeight-min.js"></script>
+    <script src="/Admin/vendors/js/screenfull.min.js"></script>
+    <script src="/Admin/vendors/js/pace/pace.min.js"></script>
+    
+    
+    
+    
+    <script src="/Admin/js/app-sidebar.js"></script>
+<script src="/Admin/js/notification-sidebar.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+<script>
+       
+    $("form").submit(function(event) {
+
+        $.validator.methods.range;
+        $.validator.methods.range = function(value, element, param) {
+            if(element.type === 'checkbox') {
+                return element.checked;
+            } else {
+                return defaultRangeValidator.call(this, value, element, param);
+            }
+        }
+
+    });
+</script>
+   
+    
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.BannerImageViewModel>
+
+<div class="banner-ads">
+    <div class="holder-ads">
+        <div class="container">
+            <div class="row">
+                @foreach (var item in Model.OrderBy(c => c.Sort))
+                {
+                    <div class="col-lg-3 col-6">
+                        <div class="ads mb-2">
+                            <a href="@item.Link" class="ads-pic">
+                                <img class="lazy b-lazy" width="1675" height="1256" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.ImageName" alt="@item.Title">
+                            </a>
+                        </div>
+                    </div>
+                }
+                
+
+
+            </div>
+        </div>
+    </div>
+</div>

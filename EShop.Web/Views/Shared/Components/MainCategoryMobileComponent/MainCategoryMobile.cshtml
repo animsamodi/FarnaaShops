@@ -1,0 +1,29 @@
+﻿@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.DataLayer.Entities.CategotyMain>
+
+@{
+	Layout = null;
+}
+
+
+<div class="category-main-container-top mobile-show ">
+
+	<div class="category-main-container"> 
+
+		@foreach (var item in Model)
+		{
+			// if(item.Type== EnumTypeCategotyMain.ByBrand)
+		    <a  asp-controller="category" asp-action="MainCategory" asp-route-title="@(item.EnTitle != null?item.EnTitle.Replace(" ","-"): "")">
+				<div class="category-main-item">
+					<div class="category-main-img ">
+						<img src="https://media.farnaa.com/media/@item.Image" class="img-category-mobile" height="30" alt="@item.Title" />
+					</div>
+					<div class="category-main-title">@item.Title</div>
+				</div>
+			</a>
+		}
+
+
+
+	</div>
+</div>

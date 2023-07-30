@@ -1,0 +1,140 @@
+﻿@using EShop.Core.ViewModels
+@using Newtonsoft.Json
+@model EShop.Core.ViewModels.ActivePhoneViewModel
+@{
+    ViewData["Title"] = "تایید موبایل همکار";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    long userid= 0;
+    var phone="";
+    if (TempData["UserId"] != null && TempData["Phone"] != null){
+        userid= JsonConvert.DeserializeObject<long>(TempData["UserId"].ToString()) ;
+        phone = JsonConvert.DeserializeObject<string>(TempData["Phone"].ToString()) ;
+    }
+    else
+    {
+        Context.Response.Redirect("/");
+
+    }
+
+}
+<div class="row">
+    <div class="col-lg">
+        <section class="page-account-box">
+            <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+                <div class="ds-userlogin">
+                    <a href="#" class="account-box-logo">Farnaa</a>
+                    <div class="account-box">
+                        <div class="Login-to-account mt-4">
+                            <form asp-action="ConfirmPhoneColleague" class="account-box-content">
+                                <div asp-validation-summary="ModelOnly" style="color:red"></div>
+
+                                <input hidden="hidden" asp-for="userid" value="@userid" />
+                                <input type="hidden" name="Type" value="@TempData["Type"]"/>
+
+                                <div class="message-light">
+                                    <div class="massege-light-send">
+                                        برای شماره همراه @phone کد تایید ارسال گردید
+                                        <div class="form-edit-number">
+                                            <a asp-action="Register" class="edit-number-link  a-hover-1 ">ویرایش شماره</a>
+                                        </div>
+                                    </div>
+                                    <div class="account-box-verify-content">
+                                        <div class="form-account">
+                                            <div class="form-account-title">کد فعال سازی پیامک شده را وارد کنید</div>
+                                            <div class="form-account-row">
+                                                <input asp-for="ActiveCode" class="form-control text-center" placeholder=" _ _ _ _ _">
+                                                <span asp-validation-for="ActiveCode" class="text-danger"></span>
+
+                                            </div>
+                                        </div>
+                                    </div> @*<div class="form-auth-row p-4">
+                                        <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                                        <span id="recaptchaerror" class="text-danger"></span>
+                                    </div>*@
+                              
+                                    <div class="account-footer">
+                                        <div class="account-footer">
+                                            <div class="form-row-account">
+                                                <button class="btn btn-primary btn-login">تکمیل ثبت نام</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/persianumber.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+    <script>
+       
+        $("form").submit(function(event) {
+
+            //var recaptcha = $("#g-recaptcha-response").val();
+
+            $.validator.methods.range;
+            $.validator.methods.range = function(value, element, param) {
+                if(element.type === 'checkbox') {
+                    return element.checked;
+                } else {
+                    return defaultRangeValidator.call(this, value, element, param);
+                }
+            }
+
+        });
+    </script>
+    <script>
+        ResendTimer();
+        ResendCode();
+        function ResendCode() {
+            $("#btn-resendcode").click(function () {
+                ResendTimer();
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/users/resendcode/@userid"
+                });
+            })
+        }
+
+        function ResendTimer() {
+
+            var minutes = 1;
+            var seconds = 30;
+            var counter = $(".counter");
+
+            interval = setInterval(function () {
+                if (minutes >= 0) {
+
+
+                    counter.html('<span>' + ("00" + minutes).substr(-2) + '</span>:<span>' + ("00" + seconds).substr(-2) + '</span>');
+                    counter.persiaNumber();
+                    seconds--;
+                    if (seconds < 0) {
+                        seconds = 59;
+                        minutes--;
+                    }
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+    </script>
+
+}
+
+
+

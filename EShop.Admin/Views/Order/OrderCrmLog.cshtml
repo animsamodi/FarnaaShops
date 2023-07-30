@@ -1,0 +1,128 @@
+﻿@{
+    ViewData["Title"] = "لاگ تدبیر";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}@using EShop.Core.Helpers
+@using EShop.Core.ViewModels
+@using EShop.DataLayer.Enum
+@model List<EShop.DataLayer.Entities.Order.CrmLog>
+ 
+<section id="extended">
+  
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لاگ تدبیر</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                         <div class="box-header with-border">
+                            <a asp-action="ListUnsendOrder" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                بازگشت
+                            </a>
+                        </div>
+                        @if (Model.Any())
+                        {
+                            
+                            <div class="col-12" id="list">
+                                <table class="table font-size-10  table-condensed  table-striped table-bordered table-responsive table-configuration">
+                                    <thead style="white-space: nowrap;">
+                                        <tr>
+                                            <th></th>
+                                            <th>OrderId</th>
+                                            <th>Result</th>
+                                            <th>Date</th>
+                                            <th>ResultCode</th>
+                                             
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @foreach (var item in Model)
+                                        {
+                                             
+
+                                            var detId = "tbl_Det_" + item.Id;
+                                            <tr data-toggle="collapse" data-target="#@detId" class="accordion-toggle">
+                                                <td>
+                                                    <button class="btn btn-primary mb-0"><span class="fa fa-eye"></span></button>
+                                                 </td>
+                                                <td>@item.OrderId</td>
+                                                <td>@item.Result</td>
+                                                <td>@item.DateCall</td>
+                                                <td>@item.ResultCode</td>
+
+ 
+                                            </tr>
+
+                                            <tr>
+                                                <td colspan="15" class="hiddenRow">
+                                                    <div class="accordian-body collapse" id="@detId">
+                                                        <table class=" table  mb-0 border-bottom-danger">
+                                                            <tr>
+                                                                <td colspan="8">Token :  @item.Token </td>
+
+                                                            </tr>
+                                                            <tr class="order-line"></tr>
+                                                            <tr>
+                                                                <td colspan="8">Url :  @item.Url </td>
+
+                                                            </tr>
+                                                            <tr class="order-line"></tr>
+                                                            <tr>
+                                                                <td colspan="8">Params :  @item.Params </td>
+
+                                                            </tr>
+                                                            <tr class="order-line"></tr>
+                                                            <tr>
+                                                                <td colspan="8">ResultMessage :  @item.ResultMessage </td>
+
+                                                            </tr>
+                                                            <tr class="order-line"></tr>
+                                                            <tr>
+                                                                <td colspan="8">Result :  @item.Result </td>
+
+                                                            </tr>
+                                                            <tr class="order-line"></tr>
+                                             
+                                                        </table>
+                                                         
+
+                                                    </div>
+                                                </td>
+                                            </tr>
+
+
+
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+@section Scripts
+    {
+    <script>
+        $('.date-piker').persianDatepicker({
+            format: 'YYYY/MM/DD',
+            autoClose: true,
+            initialValue: false
+        });
+    </script>
+
+}

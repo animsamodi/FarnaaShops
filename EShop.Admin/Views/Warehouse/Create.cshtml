@@ -1,0 +1,70 @@
+﻿
+@using EShop.DataLayer.Enum
+@model EShop.DataLayer.Entities.Warehouse
+
+@{
+    ViewData["Title"] = "افزودن";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">افزودن</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="Create" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                                <div class="row">
+
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="Name" class="control-label"></label>
+                                            <input asp-for="Name" class="form-control" />
+                                            <span asp-validation-for="Name" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="Mahal" class="control-label"></label>
+                                            <input asp-for="Mahal" class="form-control" />
+                                            <span asp-validation-for="Mahal" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                   
+
+                                    <hr />
+
+                                </div>
+                            </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="Index" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+  
+}
+

@@ -1,0 +1,184 @@
+﻿@using EShop.Core.Helpers
+@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.Core.ViewModels.Credit.CreditUserListViewModel>
+@{
+    ViewData["Title"] = "لیست درخواست ها";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+
+@section Style
+{
+
+    <link rel="stylesheet" href="/css/vendor/noUISlider.min.css">
+
+}
+@if (TempData["success"] != null)
+{
+    <div class="col-lg-12 row p-2">
+        <div class="col-12 alert alert-success d-flex justify-content-between">
+            <p class="mb-0">
+        @TempData["success"]
+            </p>
+ 
+
+         </div>
+    </div>
+}
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-danger">@TempData["Message"]</div>
+
+}
+<div class="profile-stats">
+    <div class="table-favorites">
+        @if (Model.Any())
+        {
+            <table class="table ns-table table-profile-favorites">
+                <thead>
+                    <tr>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.TrakingCode)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.CreateDate)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.LastUpdateDate)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.AcceptPrice)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.CreditExpDate)
+                        </th>
+                        <th scope="col">
+                            @Html.DisplayNameFor(model => model.CreditStatus)
+                        </th>
+                        <th class="actions-th"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr class="border-0">
+
+                            <td>
+                                @item.TrakingCode
+                            </td>
+                            <td>
+                                @item.CreateDate
+                            </td>
+                            <td>
+                                @item.LastUpdateDate
+                            </td>
+                            <td>
+
+                                @item.AcceptPrice.ToString("N0")
+                            </td>
+                            <td>
+
+                                @item.CreditExpDate
+                            </td>
+                            <td>
+                                @{
+                                    var CreditStatus = "";
+                                    if (item.CreditStatus > 0)
+                                    {
+                                        CreditStatus = EnumHelper<EnumCreditStatus>
+                    .GetDisplayValue(item.CreditStatus);
+                                    }
+                                    if (item.CreditStatus == EnumCreditStatus.Confirm)
+                                    {
+                                        <span class="text-success">
+                                            @CreditStatus
+                                        </span>
+                                    }
+                                    else if(item.CreditStatus == EnumCreditStatus.Reject)
+                                    {
+                                        <span class="text-danger">
+                                            @CreditStatus
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="text-primary">
+                                            @CreditStatus
+                                        </span>
+                                    }
+                                }
+
+                            </td>
+
+                        </tr>
+                        <tr>
+                            <td colspan="6" class="border-grey">
+                                @if (!string.IsNullOrWhiteSpace(item.AdminMessage))
+                                {
+                                    <small><strong>پیغام کارشناس : </strong>@item.AdminMessage</small>
+                                }
+                            </td>
+                        </tr>
+                        <tr class="spacer"></tr>
+
+                    }
+
+
+                </tbody>
+            </table>
+
+            @foreach (var item in Model)
+            {
+                <div class="profile-recent-fav">
+
+                    <div class="profile-recent-fav-col">
+                        @Html.DisplayNameFor(model => model.CreateDate) :     @item.CreateDate
+                    </div>
+                    <div class="profile-recent-fav-col">
+                        @Html.DisplayNameFor(model => model.LastUpdateDate) :     @item.LastUpdateDate
+                    </div>
+                    <div class="profile-recent-fav-col">
+                        @Html.DisplayNameFor(model => model.AcceptPrice) :     @item.AcceptPrice
+                    </div>
+                    <div class="profile-recent-fav-price">
+                        <span class="amount-fav-product">
+                            @Html.DisplayNameFor(model => model.CreditStatus) :    @{
+                                var CreditStatus = "";
+                                if (item.CreditStatus > 0)
+                                {
+                                    CreditStatus = EnumHelper<EnumCreditStatus>
+                                        .GetDisplayValue(item.CreditStatus);
+                                }
+                            }
+                            @CreditStatus
+
+                        </span>
+                    </div>
+
+                </div>
+
+
+            }
+
+        }
+        else
+        {
+            <div class="profile-alert-container col-9 m-auto">
+                <h6>
+                    اطلاعاتی برای نمایش وجود ندارد
+                </h6>
+            </div>
+        }
+
+    </div>
+</div>
+
+@section Scripts
+{
+
+    <script src="/js/vendor/ResizeSensor.min.js"></script>
+    <script src="/js/vendor/theia-sticky-sidebar.min.js"></script>
+    <script src="/js/vendor/wNumb.js"></script>
+    <script src="/js/vendor/nouislider.min.js"></script>
+
+}

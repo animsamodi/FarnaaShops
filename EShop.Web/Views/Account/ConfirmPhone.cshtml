@@ -1,0 +1,198 @@
+﻿@using EShop.Core.ViewModels
+@using Newtonsoft.Json
+@model EShop.Core.ViewModels.ActivePhoneViewModel
+@{
+    ViewData["Title"] = "تایید موبایل";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+    long userid = 0;
+    var phone = "";
+    if (TempData["UserId"] != null && TempData["Phone"] != null)
+    {
+        userid = JsonConvert.DeserializeObject<long>(TempData["UserId"].ToString());
+        phone = JsonConvert.DeserializeObject<string>(TempData["Phone"].ToString());
+    }
+    else
+    {
+        Context.Response.Redirect("/");
+
+    }
+
+}
+<div class="login d-flex justify-content-center h-100">
+    <div class="content">
+        <div class="logo">
+            <a asp-controller="Home" asp-action="Index">
+
+                <img src="~/new/images/logo-top.png" alt="فروشگاه اینترنت فرنا">
+            </a>
+        </div>
+        <form asp-action="ConfirmPhone">
+            <div asp-validation-summary="ModelOnly" style="color:red"></div>
+
+            <input hidden="hidden" asp-for="userid" value="@userid" />
+
+            <span class="title">
+                <h6>
+                    کد فعال سازی پیامک شده را وارد کنید
+                </h6>
+            </span>
+
+            <div class="number">
+                <input class="trs-3 code-1 c-code" type="tel" maxlength="1" asp-for="ActiveCodeArr" pattern="[0-9]">
+                <input class="trs-3 code-2 c-code" type="tel" maxlength="1" asp-for="ActiveCodeArr" pattern="[0-9]">
+                <input class="trs-3 code-3 c-code" type="tel" maxlength="1" asp-for="ActiveCodeArr" pattern="[0-9]">
+                <input class="trs-3 code-4 c-code" type="tel" maxlength="1" asp-for="ActiveCodeArr" pattern="[0-9]">
+                <input class="trs-3 code-5 c-code" type="tel" maxlength="1" asp-for="ActiveCodeArr" pattern="[0-9]">
+            </div>
+            <span class="text">
+                کد ارسال شده برای شماره @phone
+            </span>
+            <button class="trs-3">
+                ورود
+            </button>
+        </form>
+
+        @*  <span class="bottom-link">
+        قبلا ثبت نام کردید؟
+        <a class="trs-3" href="#">
+        ورود
+        </a>
+        </span>*@
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/persianumber.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+    <script>
+        $(document).ready(function () {
+            $(".c-code").val("");
+
+
+            $(".code-1").focus();
+            $(".code-1").keyup(function (e) {
+                console.log(e.which);
+                if (e.which == 8) {
+
+                } else {
+                    $(".code-2").val("");
+                    $(".code-2").focus();
+                }
+
+
+            });
+            $(".code-2").keyup(function (e) {
+                console.log(e.which);
+                if (e.which == 8) {
+                    $(".code-1").val("");
+                    $(".code-1").focus();
+                } else {
+                    $(".code-3").val("");
+                    $(".code-3").focus();
+                }
+
+
+            });
+            $(".code-3").keyup(function (e) {
+                console.log(e.which);
+                if (e.which == 8) {
+                    $(".code-2").val("");
+                    $(".code-2").focus();
+                } else {
+                    $(".code-4").val("");
+                    $(".code-4").focus();
+                }
+
+
+            });
+            $(".code-4").keyup(function (e) {
+                console.log(e.which);
+                if (e.which == 8) {
+                    $(".code-3").val("");
+                    $(".code-3").focus();
+                } else {
+                    $(".code-5").val("");
+                    $(".code-5").focus();
+                }
+
+
+            });
+            $(".code-5").keyup(function (e) {
+                console.log(e.which);
+                if (e.which == 8) {
+                    $(".code-4").val("");
+                    $(".code-4").focus();
+                } else {
+                    $("form").submit();
+
+                }
+
+            });
+
+        });
+
+        $("form").submit(function (event) {
+
+            //var recaptcha = $("#g-recaptcha-response").val();
+
+            $.validator.methods.range;
+            $.validator.methods.range = function (value, element, param) {
+                if (element.type === 'checkbox') {
+                    return element.checked;
+                } else {
+                    return defaultRangeValidator.call(this, value, element, param);
+                }
+            }
+
+        });
+
+    </script>
+    <script>
+        ResendTimer();
+        ResendCode();
+        function ResendCode() {
+            $("#btn-resendcode").click(function () {
+                ResendTimer();
+
+
+                $.ajax({
+                    type: "POST",
+                    url: "/users/resendcode/@userid"
+                });
+            })
+        }
+
+        function ResendTimer() {
+
+            var minutes = 1;
+            var seconds = 30;
+            var counter = $(".counter");
+
+            interval = setInterval(function () {
+                if (minutes >= 0) {
+
+
+                    counter.html('<span>' + ("00" + minutes).substr(-2) + '</span>:<span>' + ("00" + seconds).substr(-2) + '</span>');
+                    counter.persiaNumber();
+                    seconds--;
+                    if (seconds < 0) {
+                        seconds = 59;
+                        minutes--;
+                    }
+                } else {
+                    clearInterval(interval);
+                }
+            }, 1000);
+        }
+
+    </script>
+
+}
+
+
+

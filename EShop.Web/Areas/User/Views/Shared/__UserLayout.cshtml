@@ -1,0 +1,186 @@
+﻿
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" type="image/png" href="images/logo.png" />
+
+    <meta name="robots" content="noindex, follow">
+
+    <title>@ViewData["Title"]</title>
+
+    <link rel="preload" as="font" href="/css/vendor/font-awesome.min.css">
+    <link rel="preload" as="font" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="preload" as="font" href="/css/font.min.css">
+
+    <link rel="stylesheet" href="/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/vendor/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/vendor/nice-select.min.css">
+
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/responsive.min.css">
+    @RenderSection("Style", false)
+
+    <link rel="stylesheet" href="/css/vendor/font-awesome.min.css">
+    <link rel="stylesheet" href="/css/vendor/materialdesignicons.min.css">
+    <link rel="stylesheet" href="/css/font.min.css">
+
+    <script type="text/javascript">
+        (function(c,l,a,r,i,t,y){
+            c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+            t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+            y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", "d7nytafrcx");
+    </script>
+</head>
+
+<body>
+    <!-- header-------------------------------->
+    <partial name="_header" />
+    <div class="nav-categories-overlay"></div>
+    <!-- header-------------------------------->
+
+
+
+
+
+    <div class="container-main">
+        <div class="d-block">
+            <section class="profile-home">
+                <div class="col-lg">
+                    <div class="post-item-profile order-1 d-block">
+                        <div class="col-lg-3 col-md-3 col-xs-12 pr">
+                            @await Html.PartialAsync("_rightPanel.cshtml")
+
+
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-xs-12 pl">
+                            <div class="profile-content">
+                                @RenderBody()
+
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+    <partial name="_footer" />
+
+
+    <div class="progress-wrap">
+        <svg class="progress-circle svg-content" width="100%" height="100%" viewBox="-1 -1 102 102">
+            <path d="M50,1 a49,49 0 0,1 0,98 a49,49 0 0,1 0,-98" />
+        </svg>
+    </div>
+
+<script src="~/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="/js/vendor/bootstrap.js"></script>
+
+    <script src="/js/vendor/owl.carousel.min.js"></script>
+    <script src="/js/vendor/jquery.countdown.js"></script>
+    <script src="/js/vendor/jquery.nice-select.min.js"></script>
+
+    <script src="/js/main.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+    <script type="text/javascript">
+    $(document).ready(function () {
+        $("#header-search-input").autocomplete({
+            source: '@Url.Action("HeaderSearch2","Home")',
+
+            select: function(event, ui) {
+                setTimeout(() => {                 searchHeader();
+                }, 100);
+            }
+        });
+		$('#header-search-input').keyup(function(e){
+		    if(e.keyCode == 13)
+		    {
+			    searchHeader();
+		    }
+	    });
+
+        $("#btn-search-header").click(function () {
+
+
+	        searchHeader();
+        });
+
+
+        function searchHeader() {
+	          
+            var url = "@Url.Action("Search", "Home",new{area = ""})";
+            location.href = url + "?q=" + $("#header-search-input").val();
+        }
+        $("#header-search-input-mobile").autocomplete({
+            source: '@Url.Action("HeaderSearch2","Home")',
+
+            select: function(event, ui) {
+                setTimeout(() => {                 searchHeader();
+                }, 100);
+            }
+        });
+        $('#header-search-input-mobile').keyup(function(e){
+            if(e.keyCode == 13)
+            {
+                searchHeaderMobile();
+            }
+        });
+
+        $("#btn-search-header-mobile").click(function () {
+
+
+            searchHeaderMobile();
+        });
+
+
+        function searchHeaderMobile() {
+            
+            var url = "@Url.Action("Search", "Home",new{area = ""})";
+            location.href = url + "?q=" + $("#header-search-input-mobile").val();
+        }
+    });
+
+    </script>
+</body>
+
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@RenderSection("script", false)
+
+

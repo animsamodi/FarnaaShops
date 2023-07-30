@@ -1,0 +1,331 @@
+﻿@using EShop.Core.ViewModels.Cart
+@model List<EShop.Core.ViewModels.Cart.CartPageViewModel>
+
+@{
+    Layout = null;
+    List<CartPageEditViewModel> EditList = new List<CartPageEditViewModel>();
+    int specialprice = 0;
+    int mainprice = 0;
+}
+
+
+
+
+
+
+
+
+@if (Model.Count > 0)
+{
+
+    <div class="main-row">
+        <div id="breadcrumb">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-0 py-0">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">خانه</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">سبد خرید</li>
+                </ol>
+            </nav>
+        </div>
+        <section class="cart-home">
+            <div class="post-item-cart d-block order-2">
+                <div class="content-page row ">
+                    <div class="cart-form col-md-8">
+                        <form action="#" class="c-form  ">
+                            @foreach (var item in Model)
+                            {
+                                CartPageEditViewModel temp = new CartPageEditViewModel
+                    {
+                        CartDetailId = item.CartDetialId,
+                        CartId = item.CartId,
+                        Count = item.CartCount,
+                        IsActiveCart = true,
+                        Price = item.CartPrice,
+                        VariantId = item.VariantId
+                    };
+                                <div class="row m-0  bg-white radius-15 mb-2 shadow-custom py-5">
+                                    <div class="col-md-4">
+                                        <div class="product-thumbnail-img">
+                                            <a asp-action="Index" asp-controller="Product" asp-route-id="@item.ProductId" asp-route-category="@item.CategoryName.ToUrlFormat()" asp-route-name="@item.EnTitle.ToUrlFormat()">
+                                                <img class="img-fluid" width="600" height="600" src="https://media.farnaa.com/media/@item.ImgName">
+                                            </a>
+
+                                        </div>
+                                        @if (item.RemianingCount > 0)
+                                        {
+
+                                            <div class="required-number before position-relative">
+                                                <div class="quantity quantity d-flex justify-content-center">
+                                                    @if (item.RemianingCount < item.CartCount)
+                                                    {
+                                                        temp.Count = item.RemianingCount;
+                                                        temp.ChangeType = 1;
+                                                        item.CartCount = item.RemianingCount;
+                                                    }
+                                                    @if (item.MaxOrderCount < item.CartCount)
+                                                    {
+                                                        temp.Count = item.MaxOrderCount;
+                                                        temp.ChangeType = 1;
+                                                        item.CartCount = item.MaxOrderCount;
+                                                    }
+                                                    @if (item.RemianingCount > 1 && item.MaxOrderCount > 1)
+                                                    {
+                                                        var maxCount = item.MaxOrderCount <= item.RemianingCount ? item.MaxOrderCount : item.RemianingCount;
+                                                        <input type="number" readonly class="js-select_count" data-id="@item.VariantId" min="1" max="@maxCount" step="1" value="@item.CartCount">
+
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <input type="number" readonly min="1" max="1" step="1" value="1">
+
+                                                    }
+                                                    <div class="quantity-nav">
+                                                        <div class="quantity-button quantity-up">+</div>
+                                                        <div class="quantity-button quantity-down">-</div>
+                                                    </div>
+                                                </div>
+                                                <a asp-action="RemoveCartDetail" asp-route-id="@item.VariantId" class="remove-product-cart">
+                                                    <i class="mdi mdi-trash-can"></i>
+                                                </a>
+                                            </div>
+
+
+
+                                            @if (item.SpecialPrice != item.CartPrice)
+                                            {
+                                                temp.ChangeType = 1;
+                                                temp.Price = item.SpecialPrice;
+                                            }
+
+
+
+                                        }
+                                        else
+                                        {
+                                            temp.ChangeType = 2;
+                                        }
+                                    </div>
+                                    <div class="col-md-8   d-flex align-items-center">
+                                        <div class="product-title w-100 h-100 d-flex flex-column justify-content-around">
+
+                                            <a class="cart-product-title" asp-action="Index" asp-controller="Product" asp-route-id="@item.ProductId" asp-route-category="@item.CategoryName.ToUrlFormat()" asp-route-name="@item.EnTitle.ToUrlFormat()">
+                                                @item.ProductName
+                                            </a>
+                                            <div class="variation">
+                                                <div class="variant-color">
+                                                    <span class="variant-color-title"> @item.ProductOption</span>
+                                                    <div class="variant-shape" style="background: @item.ProductOptionValue"></div>
+                                                </div>
+                                                <div class="variant-guarantee mt-2">
+                                                    گارانتی :@item.Guarantee
+                                                </div>
+                                                <div class="seller">
+                                                    فروشنده :
+                                                    <span>@item.SellerName</span>
+                                                </div>
+                                            </div>
+                                            @if (item.RemianingCount > 0)
+                                            {
+
+
+
+
+                                                @if (item.SpecialPrice != item.CartPrice)
+                                                {
+                                                    temp.ChangeType = 1;
+                                                    temp.Price = item.SpecialPrice;
+                                                }
+                                                @if (item.MainPrice > item.SpecialPrice)
+                                                {
+                                                    decimal descountPrice = item.MainPrice - item.SpecialPrice;
+
+                                                    <del class="js-price     position-relative   cart-price">
+                                                        @{
+                                                            var disPercent = Math.Ceiling((descountPrice * 100 / item.MainPrice));
+                                                        }
+                                                        @item.MainPrice.ToString("N0") تومان
+                                                        <span class="descount-cart"> @disPercent  <span>%</span></span>
+                                                    </del>
+
+
+                                                    <span class="amount amount-product-cart cart-price">
+                                                        @item.SpecialPrice.ToString("N0")
+                                                        <span>  تومان  </span>
+                                                    </span>
+
+
+
+                                                }
+                                                else
+                                                {
+                                                    <div class="amount amount-product-cart">
+                                                        @item.MainPrice.ToString("N0")
+                                                        <span>  تومان  </span>
+                                                    </div>
+
+                                                }
+
+
+                                            }
+                                        </div>
+                                    </div>
+                                </div>
+                                EditList.Add(temp);
+                                specialprice += item.SpecialPrice * item.CartCount;
+                                mainprice += item.MainPrice * item.CartCount;
+
+                            }
+
+                        </form>
+                    </div>
+                    <div class="cart-collaterals col-md-4 ">
+                        <div class="totals d-block bg-white radius-15 position-relative shadow-custom py-5">
+                            <div class="checkout-summary">
+                                <ul class="checkout-summary-summary">
+                                    <li class="cart-subtotal">
+
+                                        <span class="amount">قیمت کالا ها</span>
+                                        <span>@mainprice.ToString("N0") تومان</span>
+
+                                    </li>
+                                    @if (mainprice > specialprice)
+                                    {
+                                        <li class="cart-subtotal">
+                                            <span class="amount">تخفیف ها</span>
+                                            <span class="text-danger">
+                                                @{
+                                                    var tempsumprice = (mainprice - specialprice).ToString("N0");
+                                                }@tempsumprice تومان
+                                            </span>
+                                        </li>
+                                    }
+
+                                    <hr />
+                                    <li class="order-total">
+                                        <span class="amount"> جمع کل</span>
+                                        <span> @specialprice.ToString("N0") تومان</span>
+                                    </li>
+                                    <hr />
+                                    <li class="order-total">
+                                        <div class="cart-collaterals mt-3 border-0 shadow-none">
+                                            <div class="coupon">
+                                                @if (TempData["DiscountCodeError"] != null)
+                                                {
+                                                    <div class="alert alert-danger">
+                                                        @TempData["DiscountCodeError"]
+                                                    </div>
+                                                } @if (TempData["DiscountCodeSuccess"] != null)
+                                                {
+                                                    <div class="alert alert-success">
+                                                        @TempData["DiscountCodeSuccess"]
+                                                    </div>
+                                                    <form asp-controller="Cart" asp-action="RemoveDiscountCode" class="d-flex">
+                                                        <input type="hidden" name="code" value="@TempData["DiscountCode"]">
+                                                        <input type="text" class="input-coupon-code" value="@TempData["DiscountCode"]" disabled="disabled" placeholder="كد تخفیف:">
+                                                        <button class="btn btn-coupon-remove">حذف تخفیف</button>
+                                                    </form>
+                                                }
+                                                @if (TempData["DiscountCode"] == null)
+                                                {
+                                                    <form asp-controller="Cart" asp-action="CheckDiscountCode" class="d-flex">
+                                                        <input type="text" name="code" class="input-coupon-code" placeholder="كد تخفیف:">
+                                                        <button class="btn btn-coupon">اعمال تخفیف</button>
+                                                    </form>
+
+                                                }
+
+                                            </div>
+                                        </div>
+
+
+                                    </li>
+                                    <li class="discount-code p-0 m-0">
+                                        <div class=" align-items-center">
+
+                                            <div class="proceed-to-checkout">
+                                                <a asp-action="Shipping" class="checkout-button d-block">
+                                                    ادامه ثبت سفارش
+                                                </a>
+
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+
+}
+else
+{
+
+    <div class="main-row">
+        <section class="cart-home">
+            <div class="post-item-cart d-block order-2">
+                <div class="content-page">
+                    <div class="cart-form">
+                        <div class="cart-empty text-center d-block">
+                            <div class="cart-empty-img mb-4 mt-4">
+                                <img src="/images/shopping-cart.png">
+                            </div>
+                            <p class="cart-empty-title">سبد خرید شما در حال حاضر خالی است.</p>
+                            <a asp-area="User" asp-controller="Profile" asp-action="Index" class="btn account-btn btn-primary">مشاهده حساب کاربری</a>
+                            <div class="return-to-shop">
+                                <a asp-controller="Home" asp-action="Index" class="backward btn btn-secondary">بازگشت به صفحه اصلی</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+}
+<!--From Old Attached-->
+@*<script src="~/js/vendor/jquery-3.2.1.min.js"></script>*@
+@*<script src="/js/vendor/bootstrap.min.js"></script>
+
+<script src="/js/vendor/owl.carousel.min.js"></script>
+<script src="/js/swiper-bundle.min.js"></script>
+
+<script src="/js/vendor/jquery.countdown.min.js"></script>
+<script src="/js/vendor/jquery.nice-select.min.js"></script>
+
+<script src="/js/main.js"></script>
+<script src="/js/sweetAlert.js"></script>
+
+<script src="/js/jquery.lazy.min.js"></script>*@
+<!--From Old Attached-->
+@*<script src="~/js/main.js"></script>*@
+<script>
+    //$(window).resize(function() {
+    //    reviewVideoResize();
+    //});
+
+    //$(document).ready(function() {
+    //    reviewVideoResize();
+    //});
+    //function reviewVideoResize() {
+    //    var w = $(".review-video").css("width");
+    //    if (w != undefined) {
+    //        w = w.replace("px", "") / 1.7;
+    //        $(".review-video").css("height", w + "px");
+
+    //    }
+    //    //console.log(w)
+    //}
+    function UpdateList() {
+        $.ajax({
+            type: 'POST',
+            url: '/cart/ChangeUpdateCartDeetial',
+            data: { value: @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(EditList))}
+        })
+    }
+
+</script>

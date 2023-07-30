@@ -1,0 +1,121 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductPromotionIndexViewModel>
+
+@{
+    Layout = null;
+    var counter = 0;
+}
+
+
+
+@if (Model.Any())
+{
+
+    <div class="col-lg-12  clear p-0">
+        <div class="content-widget-amazing p-0">
+            <div class="widget widget-product card">
+
+
+                <section id="amazing-slider" class="carousel slide carousel-fade card overflow-auto" data-ride="carousel">
+
+                    <ol class="carousel-indicators pr-0 d-flex flex-row col-lg-12">
+                        @foreach (var item in Model)
+                        {
+                            <li class="@(counter == 0 ? "active" : "")" data-target="#amazing-slider" data-slide-to="@counter">
+
+                                <img src="https://media.farnaa.com/media/@item.ImgName" class="img-fluid" alt="@item.FaTitle">
+
+                            </li>
+                            counter++;
+                        }
+                    </ol>
+                    <div class="row m-0 p-5 slider-amazing-product-container">
+                        <div class="   p-0 col-12 col-lg-5 d-flex align-items-center justify-content-center">
+                            <img class="img-fluid desktop-show" alt="شگفت انگیز های فرنا" src="images/bg-promotion-web.PNG" />
+                            <img class="img-fluid mobile-show" alt="شگفت انگیز های فرنا" src="images/bg-promotion-mobile.png" />
+                        </div>
+                        <div class="carousel-inner p-0 col-12 col-lg-7">
+                            @{ counter = 0;}
+                            @foreach (var item in Model)
+                            {
+                                counter++;
+
+                                decimal discount = item.MainPrice - item.DiscountPrice;
+                                item.Percent = (int)Math.Ceiling( (discount * 100 / item.MainPrice));
+
+                                <div class="carousel-item  @(counter == 1 ? "active" : "") @(Model.Count() == counter ? "finished" : "")">
+                                    <div class="row m-0 promotion-carousel-item-row">
+
+                                        <div class="col-8 js-discount_container p-2 d-flex amazing-details-container">
+                                            <div class="col-8 m-auto amazing-details p-0">
+
+                                                <div class=" amazing-details-title">
+                                                    <h2 class="product-title pt-3">
+                                                        <a asp-action="Index"  asp-route-category="@item.CategoryTitle.Replace(" ","-")" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")">
+                                                            @item.FaTitle
+                                                        </a>
+                                                    </h2>
+                                                    <div class="countdown-timer mt-0">
+                                                        <div class="c-discount_counter js-discount_counter">
+                                                            <div class="c-counter js-counter" data-nowdate="@DateTime.Now" data-discountdate="@item.date">
+
+                                                            </div>
+                                                           
+
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                               
+
+
+                                                <div class="price text-center promotion-price ">
+                                                    <div class="promotion-price-item pt-2">
+                                                        <span>
+                                                            <span class="promotion-discount">
+                                                                <span>@item.Percent% </span>
+                                                            </span>
+                                                        </span><del class="m-0 mr-2"><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></del>
+
+                                                    </div>
+                                                    <div class="promotion-price-item pt-3">
+                                                        <ins><span>@item.DiscountPrice.ToString("N0")<span>  تومان  </span></span></ins>
+                                                    </div>
+                                                    
+
+                                                    <div class="promotion-price-item pt-3">
+                                                        <a asp-action="Index"  asp-route-category="@item.CategoryTitle.Replace(" ","-")" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")" class="btn-view-amazing">
+                                                            مشاهده
+                                                        </a>
+                                                    </div>
+
+
+
+                                                </div>
+
+                                            </div>
+
+                                            <div class="  col-4 d-flex align-items-center">
+                                                <a class="img-amazing-container text-center" asp-route-category="@item.CategoryTitle.Replace(" ","-")"  asp-action="Index" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")">
+                                                    <img width="600" height="600" src="https://media.farnaa.com/media/@item.ImgName" alt="@item.FaTitle" class="img-fluid img-amazing">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="  col-4   img-link-amazing p-0">
+                                            <div class="gradient-box">
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+
+
+
+                        </div>
+                    </div>
+
+
+                </section>
+            </div>
+        </div>
+    </div>}

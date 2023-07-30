@@ -1,0 +1,157 @@
+﻿@using EShop.DataLayer.Entities.Ofogh
+@using EShop.DataLayer.Enum
+@model IEnumerable<OfoghHistory>
+
+@{
+    ViewData["Title"] = "طرح افق";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">طرح افق</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="UploadKhord" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                آپلود فایل
+                            </a>
+                        </div>
+                        <table class="table table-striped table-bordered table-responsive table-configuration">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TypeOfogh)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.StatusOfogh)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CountTry)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LastTryDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.LastTryTime)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.TarikhSanad)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ShomareSuratHesab)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ShenaseMeli)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.NameKharidar)
+                            </th>
+                          
+                            <th>
+                                @Html.DisplayNameFor(model => model.Mobile)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.CodePostiMabda)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Sharh)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ShenaseKala)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ShenaseRahgiri)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Mablagh)
+                            </th>
+                          
+                        
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Id)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TypeOfogh)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StatusOfogh)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CountTry)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LastTryDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.LastTryTime)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TarikhSanad)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ShomareSuratHesab)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ShenaseMeli)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NameKharidar)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Mobile)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CodePostiMabda)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Sharh)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ShenaseKala)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ShenaseRahgiri)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Mablagh)
+                                        </td>
+                                        
+                                       
+                                        <td>
+                                            @if (item.StatusOfogh == EnumStatusOfogh.Error)
+                                            {
+                                            @*<a class="btn btn-primary" asp-action="SendKhord" asp-route-id="@item.Id">ارسال</a>*@
+
+                                            }
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

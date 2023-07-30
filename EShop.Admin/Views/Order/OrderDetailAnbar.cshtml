@@ -1,0 +1,264 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.DataLayer.Entities.Order.Order
+
+@{
+    ViewData["Title"] = "جزئیات سفارش انبار";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}@Html.Partial("_alert")
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+                <div class="card-title-wrap bar-success d-flex align-items-center justify-content-between">
+                    <h4 class="card-title mb-0">جزئیات سفارش انبار</h4>
+                    <a  asp-controller="Order" asp-action="PrintOrder" asp-route-id="@Model.Id" class="btn ml-2 btn-info text-white"><i class="fa fa-print"></i></a>
+
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="px-3">
+                         <div class="form-body">
+                            
+                         <form class="form" asp-action="AddOrderProductIMEI" enctype="multipart/form-data">
+
+                            <div class="modal-body border mb-2 bg-dark rounded">
+                                 <div class="form-body">
+                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                     <input name="OrderId" value="@Model.Id" type="hidden"/>
+                                     <div class="row">
+
+                                        
+                                         <div class="col-xl-9 col-lg-8 col-md-12 mb-1">
+                                             <fieldset class="form-group">
+                                                 <label class="control-label text-white">IMEI</label>
+                                                 <input class="form-control form-control-sm" name="IMEI" id="IMEI"/>
+                                             </fieldset>
+                                         </div>
+                                        <div class="col-xl-3 col-lg-4 col-md-12 mb-1 pt-3 mt-1">
+                                            <button type="submit" class="btn btn-success  w-100 text-center">ثبت</button>
+
+                                         </div>
+
+
+
+
+                                     </div>
+                                 </div>
+
+                             </div>
+                         
+
+
+                         </form>
+                            <div class="row">
+
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Id" class="control-label"></label>
+                                        <input asp-for="Id" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ClientName" class="control-label"></label>
+                                        <input asp-for="ClientName" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="ClientTel" class="control-label"></label>
+                                    <input asp-for="ClientTel" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="ClientNatioalCode" class="control-label"></label>
+                                    <input asp-for="ClientNatioalCode" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ClientAddress" class="control-label"></label>
+                                    <input asp-for="ClientAddress" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="ClientPostalCode" class="control-label"></label>
+                                    <input asp-for="ClientPostalCode" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="RecipientName" class="control-label"></label>
+                                    <input asp-for="RecipientName" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="RecipientTel" class="control-label"></label>
+                                    <input asp-for="RecipientTel" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="RecipientAddress" class="control-label"></label>
+                                    <input asp-for="RecipientAddress" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="ShipmentTitle" class="control-label"></label>
+                                    <input asp-for="ShipmentTitle" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="ShipmentPrice" class="control-label"></label>
+                                        <input asp-for="ShipmentPrice" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="SumAmount" class="control-label"></label>
+                                    <input asp-for="SumAmount" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="AmountPayable" class="control-label"></label>
+                                    <input asp-for="AmountPayable" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="CrmValidationItem" class="control-label"></label>
+                                    <input asp-for="CrmValidationItem" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="UserId" class="control-label"></label>
+                                    <input asp-for="UserId" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="CrmSendCode" class="control-label"></label>
+                                    <input asp-for="CrmSendCode" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="TrackingCodePost" class="control-label"></label>
+                                    <input asp-for="TrackingCodePost" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+                               
+                                <div class="col-xl-3 col-md-4 col-lg-12 mb-1">
+                                    <fieldset class="form-group">
+                                    <label asp-for="FactorNoTadbir" class="control-label"></label>
+                                    <input asp-for="FactorNoTadbir" class="form-control form-control-sm" disabled="disabled" readonly="readonly" />
+                                     </fieldset>
+                                </div>
+
+                            <table class="table border border-danger ">
+                                <thead>
+                                    <tr class="primary">
+                                        <th>تصویر محصول</th>
+                                        <th>عنوان محصول</th>
+                                        <th>رنگ</th>
+                                        <th>گارانتی</th>
+                                        <th>تعداد</th>
+                                        <th>قیمت</th>
+                                        <th>کد</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var detail in Model.OrderDetails)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <img class="img-fluid" width="70" src="https://media.farnaa.com/media/@detail.Variant.Product.ImgName" />
+                                            </td>
+                                            <td>@detail.Variant.Product.FaTitle</td>
+                                            <td>@detail.Variant.productOption.Name </td>
+                                            <td> @detail.Variant.Guarantee.Title</td>
+                                            <td> @detail.Count</td>
+                                            <td>
+                                                @{
+                                                    var SumPriceAfterDiscount = detail.SumPriceAfterDiscount / 10;
+                                                }
+                                                @SumPriceAfterDiscount.ToString("N0") تومان
+                                            </td>
+                                            <td>
+                                                @if(detail.WarehouseProduct != null){
+                                                    <span class="badge  text-white badge-success ">ثبت شده</span>
+
+                                                }else{
+                                                    <span class="badge  text-white badge-danger ">ثبت نشده</span>
+
+                                                }
+                                            </td>
+                                            <td>
+                                                @if(detail.WarehouseProduct != null){
+                                                    <a asp-action="DeleteOrderDetailIMEI" asp-route-id="@detail.Id" asp-route-orderId="@detail.OrderId" class="btn btn-sm btn-danger">
+                                                        <span class="fa fa-trash"></span>
+                                                    </a>
+                                                } 
+                                             
+                                            </td>
+                                        </tr>
+
+                                    }
+
+
+
+                                </tbody>
+                            </table>
+
+
+                               <div class="col-12">
+                                   <hr/>
+                               </div>
+                             <div class="col-12">
+                                 <a asp-action="ConfirmOrder" asp-route-orderId="@Model.Id" class="btn btn-sm btn-success w-100">
+تایید سفارش                                 </a>
+                             </div>
+                            </div>
+
+                        </div>
+					 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts{
+	<script src="~/js/jquery.validate.min.js"></script>
+	<script src="~/js/jquery.validate.unobtrusive.js"></script>
+	 
+}
+
+

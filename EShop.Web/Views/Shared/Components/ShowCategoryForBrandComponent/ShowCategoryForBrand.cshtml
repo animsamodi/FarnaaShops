@@ -1,0 +1,50 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Category.CategoryForBrandViewModel>
+
+@{
+    Layout = null;
+}
+
+@if (Model.Any())
+{
+ 
+    <section class="widget-product-categories">
+        <header class="cat-header">
+            <h2 class="mb-0">
+                <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne" role="button" aria-expanded="false" aria-controls="headingOne">
+                    دسته بندی محصولات
+                    <i class="mdi mdi-chevron-down"></i>
+                </button>
+            </h2>
+        </header>
+        <div class="product-filter">
+            <div class="card">
+                <div class="collapse show" id="headingOne">
+                    <div class="card-main mb-0">
+                        <div class="form-auth-row">
+                            <label for="#" class="ui-checkbox">
+                                <input type="checkbox" value="1" name="login" id="remember">
+                                <span class="ui-checkbox-check"></span>
+                            </label>
+                            <label for="remember" class="remember-me">همه</label>
+                        </div>
+                        @foreach (var item in Model)
+                        {
+                            var id = "chk_" + item.Id;
+                            <div class="form-auth-row">
+                                <label for="#" class="ui-checkbox">
+                                    <input type="checkbox" value="@item.Id" name="login" id="@id">
+                                    <span class="ui-checkbox-check"></span>
+                                </label>
+                                <label for="@id" class="remember-me">                                    @item.FaTitle</label>
+                            </div>
+
+                        }
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+}

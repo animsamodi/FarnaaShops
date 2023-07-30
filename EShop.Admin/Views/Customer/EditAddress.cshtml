@@ -1,0 +1,100 @@
+﻿@using EShop.Core.ViewModels.Credit
+@using EShop.DataLayer.Entities.User
+@model EShop.DataLayer.Entities.Address.UserAddress
+@{
+    ViewData["Title"] = "ویرایش ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+
+@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش آدرس </h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                        <form class="form" asp-action="EditAddress" method="post" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Id" type="hidden" />
+
+ 
+                            <div class="row">
+
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Name" class="control-label"></label>
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Family" class="control-label"></label>
+                                        <input asp-for="Family" class="form-control" />
+                                        <span asp-validation-for="Family" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="FullName" class="control-label"></label>
+                                        <input asp-for="FullName" class="form-control" />
+                                        <span asp-validation-for="FullName" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                            <label asp-for="Phone" class="control-label"></label>
+                                            <input asp-for="Phone" class="form-control" />
+                                            <span asp-validation-for="Phone" class="text-danger"></span>
+                                    </fieldset>
+                                </div> 
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                            <label asp-for="PostalAddress" class="control-label"></label>
+                                            <input asp-for="PostalAddress" class="form-control" />
+                                            <span asp-validation-for="PostalAddress" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                            <label asp-for="PostalCode" class="control-label"></label>
+                                            <input asp-for="PostalCode" class="form-control" />
+                                            <span asp-validation-for="PostalCode" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                              
+                         
+                               
+
+                            
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="IndexCustomerAddressForEdit" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts
+{
+ 
+}

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.Slider>
+
+@{
+    Layout = null;
+    var isFirstSlider = true;
+}
+
+     <div class="slider-main-container d-block">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+
+                @for (int i = 0; i < Model.Count(); i++)
+                {
+                    if (i == 0)
+                    {
+                        <li data-target="#carouselExampleIndicators" data-slide-to="@i" class="active"></li>
+
+                    }
+                    else
+                    {
+                        <li data-target="#carouselExampleIndicators" data-slide-to="@i"></li>
+
+
+                    }
+                }
+
+            </ol>
+            <div class="carousel-inner">
+                @foreach (var item in Model)
+                {
+                    if (isFirstSlider)
+                    {
+                        <div class="carousel-item active">
+                            <a href="@item.Link" target="_blank"><img src="https://media.farnaa.com/media/@item.ImgName" class="d-block w-100 desktop-show" alt="@item.Descrption" title="@item.Descrption"></a>
+                            <a href="@item.Link" target="_blank"><img src="https://media.farnaa.com/media/@item.ImgNameMobile" class="d-block w-100 mobile-show" alt="@item.Descrption" title="@item.Descrption"></a>
+                        </div>
+                        isFirstSlider = false;
+                    }
+                    else
+                    {
+                        <div class="carousel-item">
+                            <a href="@item.Link" target="_blank"><img src="https://media.farnaa.com/media/@item.ImgName" class="d-block w-100 desktop-show" alt="@item.Descrption" title="@item.Descrption"></a>
+                            <a href="@item.Link" target="_blank"><img src="https://media.farnaa.com/media/@item.ImgNameMobile" class="d-block w-100 mobile-show" alt="@item.Descrption" title="@item.Descrption"></a>
+                        </div>
+                    }
+                }
+
+
+
+            </div>
+            <a class="carousel-control-prev bg-transparent" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <i class="fa fa-angle-left text-white" aria-hidden="true"></i>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next bg-transparent" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <i class="fa fa-angle-right text-white" aria-hidden="true"></i>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+ 

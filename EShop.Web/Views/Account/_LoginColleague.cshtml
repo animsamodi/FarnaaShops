@@ -1,0 +1,95 @@
+﻿@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.LoginColleagueViewModel
+@{
+    ViewData["Title"] = "ورود همکار";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<div class="row">
+    <div class="col-lg">
+        <section class="page-account-box">
+            <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+                <div class="ds-userlogin">
+                    <a asp-controller="Home" asp-action="" class="account-box-logo">فرنا</a>
+                    <div class="account-box">
+                      
+                        <div class="Login-to-account mt-4">
+                            <div class="account-box-content">
+                                <h4>ورود به  پنل همکاران فرنا</h4>
+                                <form asp-action="LoginColleague" method="post" class="form-account text-right">
+                                    <div asp-validation-summary="ModelOnly" style="color:red"></div>
+
+                                    <div class="form-account-title">
+                                        <label for="email-phone">  (کد ملی / شناسه ملی شرکت) نام کاربری</label>
+                                        <input type="text" class="number-email-input" asp-for="Username" placeholder=" (کد ملی / شناسه ملی شرکت) نام کاربری">
+                                        <span asp-validation-for="Username" class="text-danger"></span>
+
+                                    </div>
+                                    <div class="form-account-title">
+                                        <label for="email-phone"> کلمه عبور</label>
+                                        <input type="password" class="number-email-input" asp-for="Password" placeholder="  کلمه عبور">
+                                        <span asp-validation-for="Password" class="text-danger"></span>
+
+                                    </div>
+                                
+                                    <div class="form-auth-row">
+                                   
+                                                                            <label for="chkRules" class="remember-me mr-0">زدن دکمهٔ ورود به معنای پذیرش <a asp-action="Page" asp-controller="Home" asp-route-title="rules">شرایط قوانین </a> فروشگاه فرنا می‌باشد  </label>
+
+                                    </div>
+                                @*    <div class="form-auth-row p-4">
+                                        <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                                        <span id="recaptchaerror" class="text-danger"></span>
+                                    </div>*@
+ 
+                                    <div class="form-row-account">
+                                        <button class="btn btn-primary btn-register">ورود به  پنل همکار</button>
+                                    </div>
+                                    <div class="row  d-flex justify-content-around">
+                                        @*      <a asp-action="RegisterColleagueReal" asp-controller="Account"   class=" btn-reg-colleague">ثبت نام<br/> حقیقی</a>
+                                        <a asp-action="RegisterColleagueLegal" asp-controller="Account"  class=" btn-reg-colleague">ثبت نام<br/>  حقوقی</a>
+                                   *@ 
+                                        <a asp-action="RegisterColleague" asp-controller="Account"  asp-route-type="@EnumRealLegal.Real"  class=" btn-reg-colleague">ثبت نام<br/> حقیقی</a>
+                                        <a asp-action="RegisterColleague" asp-controller="Account"  asp-route-type="@EnumRealLegal.Legal"   class=" btn-reg-colleague">ثبت نام<br/>  حقوقی</a>
+
+                                    </div>
+                                 <a class="text-white" href="tel:09921624251 ">   <h6 class="font-weight-bold text-center text-white mt-3 bg-info p-3 rounded">
+                                        پشتیبانی همکار : 09921624251
+                                    </h6> </a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+ 
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+    <script>
+       
+            $("form").submit(function(event) {
+
+       //var recaptcha = $("#g-recaptcha-response").val();
+
+      $.validator.methods.range;
+			$.validator.methods.range = function(value, element, param) {
+				if(element.type === 'checkbox') {
+					return element.checked;
+				} else {
+					return defaultRangeValidator.call(this, value, element, param);
+				}
+			}
+
+     });
+    </script>
+
+}
+

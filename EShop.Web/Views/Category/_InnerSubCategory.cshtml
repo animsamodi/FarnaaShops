@@ -1,0 +1,428 @@
+﻿@model ProductSearchWithFilterViewModel
+@using EShop.Core.ViewModels.Product
+@using EShop.DataLayer.Entities.Brand
+@using EShop.DataLayer.Entities.Category
+@{
+    Layout = null;
+}
+<style>
+    .modal-backdrop.show {
+        display: none !important;
+    }
+</style>
+<div class="page-content page-row" id="searchupdate">
+
+    @*<h1 class="page-title"> دسته بندی @Model.Category.PersianTitle</h1>*@
+
+    <!-- start sidebar--------------------->
+    <div class="col-lg-3 col-md-4 col-xs-12 pr sticky-position desktop-show">
+        <div class="main-row p-1">
+            <div id="breadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb m-0 p-0">
+                        <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">خانه</a></li>
+                        @if (Model.Category != null)
+                        {
+                            if (Model.Category.ParentCategory != null)
+                            {
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    <a href="@Url.Action( "MainCategory", "category",
+                                             new {title=Model.Category.ParentCategory.EnglishTitle.ToUrlFormat()} )">
+                                        @Model.Category.ParentCategory.PersianTitle
+                                    </a>
+                                </li>
+                            }
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <a href="">
+                                    @Model.Category.PersianTitle
+                                </a>
+                            </li>
+                        }
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        @await Html.PartialAsync("ProductViewPartials/_SidebarProductsFilter",Model)
+
+    </div>
+
+
+
+    <div class="col-lg-9 col-md-8 col-xs-12 pl desktop-show">
+        <div class="shop-archive-content mt-3 d-block">
+            @if (Model.Products.Any())
+            {
+                @Html.Partial("ProductViewPartials/_ProductFilterSectionDesktop",Model)
+                @Html.Partial("ProductViewPartials/_ProductsListDesktop",Model.Products)
+                @Html.Partial("ProductViewPartials/_ProductsPagging",Model.PaggingData)
+            }
+            else
+            {
+                <div class="no-result-container">
+                    <h6>
+                        <i class="fa fa-warning"></i>نتیجه‌ای یافت نشد!
+                    </h6>
+                    <p>
+                        هیچ محصولی با این فیلتر موجود نیست
+                    </p>
+                </div>
+            }
+
+        </div>
+    </div>
+    <div class="col-lg-12  mobile-show clear">
+       
+        <div class="shop-archive-content mt-3 d-block">
+            @if (Model.Products.Any())
+            {
+                @Html.Partial("ProductViewPartials/_ProductFilterSectionMobile",Model.Category)
+                @Html.Partial("ProductViewPartials/_ProductsListMobile",Model.Products)
+                @Html.Partial("ProductViewPartials/_ProductsPagging",Model.PaggingData)
+            }
+            else
+            {
+                <div class="no-result-container">
+                    <h6>
+                        <i class="fa fa-warning"></i>نتیجه‌ای یافت نشد!
+                    </h6>
+                    <p>
+                        از عبارت‌های متداول‌تر استفاده کنید و یا املای عبارت وارد‌شده را بررسی کنید.
+                    </p>
+                </div>
+            }
+
+        </div>
+    </div>
+    <!-- FilterModal -->
+    <div class="modal fade right" id="FilterModal" tabindex="-1" role="dialog" aria-labelledby="FilterModalLabel" aria-hidden="true">
+        <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+            <div class="modal-content-full-width modal-content">
+                <div class="modal-header-full-width   modal-header text-center">
+                    <h5 class="modal-title w-100 search-modal-title" id="FilterModalLabel">فیلتر کردن</h5>
+                    <button type="button" class="close bg-transparent text-secondary" data-dismiss="modal" aria-label="Close">
+                        <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" style="background-color: #f3f3f3;">
+                    <div class="shop-archive-sidebar filter-panel mt-0 bg-transparent">
+                        <div class="sidebar-archive mb-3">
+                            <section class="widget-product-categories  js-filter_box d-none">
+                                <header class="cat-header">
+                                    <h2 class="mb-0">
+                                        <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne1" role="button" aria-expanded="false" aria-controls="headingOne1">
+                                            فیلتر ها :
+                                            <i class="mdi mdi-chevron-down"></i>
+                                        </button>
+                                    </h2>
+                                </header>
+                                <div class="product-filter">
+                                    <div class="card">
+                                        <div class="collapse show" id="headingOne1">
+                                            <div class="card-main mb-0 c-box_item">
+                                                <ul class="c-box_cat-list js-filters">
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <div class="widget-product-categories ">
+                                <div class="available-stock-switch">
+                                    <label>نمایش کالا های موجود</label>
+                                    <label class="available-switch">
+                                        <input class="available-stock-only" type="checkbox" />
+                                        <span class="available-switch-slider round"></span>
+                                    </label>
+                                </div>
+                            </div>   <div class="widget-product-categories ">
+                                <div class="available-discounted-switch">
+                                    <label>نمایش کالا های تخفیف دار</label>
+                                    <label class="discounted-switch">
+                                        <input class="available-discounted-only" type="checkbox" />
+                                        <span class="available-switch-slider round"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            @if (Model.SideBarData.Categories.Count > 0)
+                            {
+                                <section class="widget-product-categories">
+                                    <header class="cat-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-block text-right" data-toggle="collapse" href="#headingOne2" role="button" aria-expanded="false" aria-controls="headingOne2">
+                                                دسته بندی محصولات
+                                                <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                        </h2>
+                                    </header>
+                                    <div class="product-filter">
+                                        <div class="card">
+                                            <div class="collapse show" id="headingOne2">
+                                                <div class="card-main mb-0 c-box_item">
+                                                    <ul style="display:block !important;" class="c-box_cat-list">
+                                                        @foreach (var item in Model.SideBarData.Categories)
+                                                        {
+                                                            <li class='c-box_cat-item'>
+                                                                <span class='c-box_cat-span '>
+                                                                    <a asp-controller="Category" asp-action="SubCategory"
+                                                                       asp-route-title="@item.EnglishTitle.ToUrlFormat()" asp-route-categoryName="@Model.Category.ParentCategory.EnglishTitle"
+                                                               class='c-box_cat-link @(item.Id ==  Model.Category.Id ? "is-active" : "")'>
+                                                                        @item.PersianTitle
+                                                                    </a>
+                                                                </span>
+                                                            </li>
+                                                            if (item.SubCategory is not null && item.SubCategory.Count > 0)
+                                                            {
+                                                                <ul class='c-box_cat-list'>
+                                                                    foreach(var subcategory in item.SubCategory)
+                                                                    {
+                                                                    <li class='c-box_cat-item'>
+                                                                        <span class='c-box_cat-span c-box_cat-span-arrow_left'>
+                                                                            <a href='/category/@item.EnglishTitle.ToUrlFormat()'
+                                                                   class='c-box_cat-link @(item.Id ==  Model.Category.Id ? "is-active" : "")'>
+                                                                                @item.PersianTitle
+                                                                            </a>
+                                                                        </span>
+                                                                    </li>
+                                                                    }
+                                                                </ul>
+                                                            }
+                                                        }
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            }
+
+
+                            @if (Model.SideBarData.Brands != null && Model.SideBarData.Brands.Count != 0 && !string.IsNullOrEmpty(Model.SelectedParentCategory))
+                            {
+                                <section class="widget-product-categories">
+                                    <header class="cat-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-block text-right" data-toggle="collapse" href="#headingTwo3" role="button" aria-expanded="false" aria-controls="headingTwo3">
+                                                برند ها
+                                                <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                        </h2>
+                                    </header>
+@*                                    <div class="product-filter">
+                                        <div class="card">
+                                            <div class="collapse  " id="headingTwo3">
+                                                <div class="card-main mb-0">
+
+                                                    @foreach (var item in Model.SideBarData.Brands as List<BrandFilterItem>)
+                                                    {
+
+                                                        <div class="form-auth-row row-option-filter">
+                                                            <label for="#" class="ui-checkbox js-filter_label" data-en='@item.EnglishTitle'
+                                                           data-type="brand" data-id="@item.Id" data-fa="@item.PersianTitle" for="brand @item.Id">
+                                                                <input class="js-filter_checkbox" type="checkbox" data-type="brand" data-id="@item.Id" id="brand @item.Id">
+                                                                <span class="ui-checkbox-check"></span>
+                                                            </label>
+                                                            <label onclick="" for="remember" class="remember-me">
+                                                                @item.PersianTitle - @item.EnglishTitle
+                                                            </label>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+*@                                                          <div class="product-filter">
+    <div class="card">
+        <div class="collapse show" id="headingOne5">
+            <div class="card-main mb-0 c-box_item">
+                <ul style="display:inline-block !important;" class="c-box_cat-list">
+                    @foreach (var item in Model.SideBarData.Brands)
+                    {
+                        <li class='c-box_cat-item'>
+                            <span class='c-box_cat-span'>
+                                <a asp-action="subcategory" asp-controller="category" asp-route-title="@Model.SelectedCategory.ToUrlFormat()"
+                                   asp-route-categoryName="@Model.SelectedParentCategory.ToUrlFormat()"
+                                   asp-route-seriName="@item.EnglishTitle.ToUrlFormat()"
+                                   class='c-box_cat-link @(Model.SelectedBrand!=null ? (item.EnglishTitle.ToUrlFormat() == Model.SelectedBrand ? "is-active" : ""):"")'>
+                                    @item.PersianTitle
+                                </a>
+                            </span>
+                        </li>
+                                      
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+                                </section>
+
+                            }
+                                            @if (Model.SideBarData.Series != null && Model.SideBarData.Series.Count != 0)
+                {
+                    <section class="widget-product-categories">
+                        <header class="cat-header">
+                            <h2 class="mb-0">
+                                <button class="btn btn-block text-right" data-toggle="collapse" href="#headingTwo2" role="button" aria-expanded="false" aria-controls="headingTwo2">
+                                    سری محصولات
+                                    <i class="mdi mdi-chevron-down"></i>
+                                </button>
+                            </h2>
+                        </header>
+                        @*<div class="product-filter">
+                            <div class="card">
+                                <div class="collapse  " id="headingTwo2">
+                                    <div class="card-main mb-0">
+
+                                        @foreach (var item in Model.SideBarData.Series as List<SeriFilterItem>)
+                                        {
+
+                                            <div class="form-auth-row row-option-filter">
+                                                <label for="#" class="ui-checkbox js-filter_label" data-en='@item.EnglishTitle'
+                                               data-type="seri" data-id="@item.Id" data-fa="@item.PersianTitle" for="seri @item.Id">
+                                                    <input class="js-filter_checkbox" type="checkbox" data-fa="@item.PersianTitle" data-type="seri" data-id="@item.Id" id="seri @item.Id">
+                                                    <span class="ui-checkbox-check"></span>
+                                                </label>
+                                                <label for="remember" class="remember-me">
+                                                    @item.PersianTitle  
+                                                </label>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>*@
+                <div class="product-filter">
+                    <div class="card">
+                        <div class="collapse show" id="headingOne5">
+                            <div class="card-main mb-0 c-box_item">
+                                <ul style="display:block !important;" class="c-box_cat-list">
+                                    @foreach (var item in Model.SideBarData.Series)
+                                    {
+                                        <li class='c-box_cat-item'>
+                                            <span class='c-box_cat-span'>
+                                                <a asp-action="subcategory" asp-controller="category" asp-route-title="@Model.SelectedBrand.ToUrlFormat()"
+                                           asp-route-categoryName="@Model.SelectedCategory.ToUrlFormat()"
+                                           asp-route-seriName="@item.PersianTitle.ToUrlFormat()"
+                                           class='c-box_cat-link @(Model.SelectedSeri!=null ? (item.PersianTitle.ToUrlFormat() == Model.SelectedSeri ? "is-active" : ""):"")'>
+                                                    @item.PersianTitle
+                                                </a>
+                                            </span>
+                                        </li>
+                                      
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                    </section>
+                }
+
+
+
+                            @if (Model.SideBarData.MaxPrice > 0)
+                            {
+
+                                <section class="widget-product-categories">
+                                    <header class="cat-header">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-block text-right" data-toggle="collapse" href="#headingThree4" role="button" aria-expanded="false" aria-controls="headingThree4">
+                                                محدوده قیمت
+                                                <i class="mdi mdi-chevron-down"></i>
+                                            </button>
+                                        </h2>
+                                    </header>
+                                    <div class="product-filter">
+                                        <div class="card">
+                                            <div class="collapse  " id="headingThree4">
+                                                <div class="card-main mb-0">
+                                                    <div class="c-box">
+                                                        <div class="c-filter">
+                                                            <div class="c-box_filter-slider">
+                                                                <div class="rangeSlider-mobile"></div>
+                                                            </div>
+
+                                                            <ul class="c-filter_range">
+                                                                <li data-label="از" data-currency="تومان">
+                                                                    <input type="text" class="js-slider_range-from" data-range="@Model.SideBarData.MinPrice"
+                                                                       data-value="@Model.SideBarData.MinPrice" value="@Model.SideBarData.MinPrice" disabled="disabled">
+                                                                </li>
+
+                                                                <li data-label="تا" data-currency="تومان">
+                                                                    <input type="text" class="js-slider_range-to" data-range="@Model.SideBarData.MaxPrice"
+                                                                       data-value="@Model.SideBarData.MaxPrice" value="@Model.SideBarData.MaxPrice" disabled="disabled">
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            }
+
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SortModal -->
+    <div class="modal fade right" id="SortModal" tabindex="-1" role="dialog" aria-labelledby="SortModalLabel" aria-hidden="true">
+        <div class="modal-dialog-full-width modal-dialog momodel modal-fluid" role="document">
+            <div class="modal-content-full-width modal-content ">
+                <div class=" modal-header-full-width   modal-header text-center">
+                    <h5 class="modal-title w-100 search-modal-title" id="SortModalLabel">مرتب‌سازی بر اساس</h5>
+                    <button type="button" class="close bg-transparent text-secondary" data-dismiss="modal" aria-label="Close">
+                        <span style="font-size: 1.3em;" aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="nav-sort-tabs-res">
+                        <ul class="ul-sort-product-mobile-view sort-tabs-options" id="myTab" role="tablist">
+                            <li class="nav-item  nav-item-sort  sort-active " data-id="1" data-type="sort">
+                                گران‌ترین
+                            </li>
+                            <li class="nav-item nav-item-sort   " data-id="2" data-type="sort">
+                                ارزان‌ترین
+                            </li>
+                            <li class="nav-item nav-item-sort   " data-id="3" data-type="sort">
+                                جدیدترین
+                            </li>
+                            <li class="nav-item nav-item-sort   " data-id="4" data-type="sort">
+                                پرفروش‌ترین
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="~/js/vendor/jquery-3.6.0.min.js"></script>
+<script src="~/js/vendor/jquery-3.6.0.min.js"></script>
+<script>
+    var searchmax_price =@(Model.SideBarData.MaxPrice!=null && Model.SideBarData.MaxPrice > 0 ? Model.SideBarData.MaxPrice : 0)
+
+    $(document).ready(function () {
+            $('.js-filter_checkbox').prop('checked', false);
+            tofaprice()
+            init_search_category_page(searchmax_price)
+    })
+ 
+    
+</script>

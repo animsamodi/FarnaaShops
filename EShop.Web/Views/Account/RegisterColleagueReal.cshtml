@@ -1,0 +1,300 @@
+﻿@using EShop.DataLayer.Enum
+@using EShop.DataLayer.Entities.Credit
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Newtonsoft.Json
+@model EShop.Core.ViewModels.CooperationRequestRealViewModel;
+
+@{
+    var type = EnumRealLegal.Real;
+     ViewBag.Title = type == EnumRealLegal.Legal ? "ثبت نام همکاران حقوقی" : "ثبت نام همکاران حقیقی";
+    ViewData["Title"] = type == EnumRealLegal.Legal ? "ثبت نام همکاران حقوقی" : "ثبت نام همکاران حقیقی";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    long id = 0;
+    var phone="";
+
+    if (TempData["UserId"] != null && TempData["Phone"] != null)
+    {
+        id = JsonConvert.DeserializeObject<long>(TempData["UserId"].ToString());
+        phone = JsonConvert.DeserializeObject<string>(TempData["Phone"].ToString()) ;
+
+    }
+    else
+    {
+        Context.Response.Redirect("/");
+
+    }
+}
+
+@section Style{
+    <link href="~/new/css/LoginColleague.css" rel="stylesheet" />
+    <link href="~/css/selectric.css" rel="stylesheet" />
+    <link href="~/css/persian-datepicker.css" rel="stylesheet" />
+    <link href="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css" rel="stylesheet" type="text/css">
+    <style>
+        .field-validation-error {
+            font-size: 9pt !important;
+        }
+
+        .alert-error {
+            background-color: #c4a373 !important;
+            color: white !important;
+            text-align: center !important;
+            border: none !important;
+            font-size: 11pt !important;
+        }
+    </style>
+}
+    <div class="cooperation-container col-lg-8 col-md-10 col-sm-11 m-auto">
+        @if (TempData["success"] != null)
+    {
+        <div class="alert alert-success col-12 mt-5 mb-5">@TempData["success"]</div>
+
+    }
+    else
+    {
+        <!-- ---------- Login ---------- -->
+        <div class="container">
+            <div class="row">
+                <div class="address">
+                    <div class="header">
+                        <span class="title-w">
+                            <i class="fa fa-check" style="color: #d90268;"></i> ثبت نام حقیقی
+                        </span>
+                        <span class="des">
+                            لطفا اطلاعات زیر را به درستی وارد کنید. پس از تایید اطلاعات توسط کارشناسان فرنا، می توانید از خدمات همکاری ما استفاده کنید
+                        </span>
+                    </div>
+                    <div class="info-box">
+
+                        <form class="form-checkout" asp-controller="Account" asp-action="RegisterColleagueReal" method="post" enctype="multipart/form-data">
+                            <div class="form-checkout-row row m-0 py-3">
+                                <div asp-validation-summary="All" style="color: red"></div>
+
+                                <input hidden="hidden" asp-for="Id" value="@id" />
+                                <input hidden="hidden" asp-for="ShomareTamas" value="@phone" />
+                                <input hidden="hidden" asp-for="TypeSystem" value="@EnumTypeSystem.Farnaa" />
+
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="Name"> </label>
+                                    <input type="text" asp-for="Name" class="input-name-checkout form-control">
+                                    <span asp-validation-for="Name" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="Family"> </label>
+                                    <input type="text" asp-for="Family" class="input-name-checkout form-control">
+                                    <span asp-validation-for="Family" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="CodeMeli"> </label>
+                                    <input type="text" asp-for="CodeMeli" class="input-name-checkout form-control">
+                                    <span asp-validation-for="CodeMeli" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="CodeNaghsh"> </label>
+                                    <input type="text" asp-for="CodeNaghsh" class="input-name-checkout form-control mb-0">
+                                    <a href="https://blog.farnaa.com/role-code-and-how-get-it/" target="_blank">
+                                        <small class=" text-info mt-1 mb-1">راهنمای دریافت کد نقش تاجر</small>
+                                    </a>
+                                    <span asp-validation-for="CodeNaghsh" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="ShenaseSenfi"> </label>
+                                    <input type="text" asp-for="ShenaseSenfi" class="input-name-checkout form-control">
+                                    <span asp-validation-for="ShenaseSenfi" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="Email"> </label>
+                                    <input type="text" asp-for="Email" class="input-name-checkout form-control">
+                                    <span asp-validation-for="Email" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="NoeForush"> </label>
+                                    <select asp-for="NoeForush" asp-items="Html.GetEnumSelectList<EnumNoeForush>()" class="  form-control">
+                                        <option value="">- انتخاب کنید -</option>
+                                    </select>
+                                    <span asp-validation-for="NoeForush" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="ProvinceId"> </label>
+                                    <select class="province" asp-for="@Model.ProvinceId" asp-items="@(new SelectList(ViewBag.provincelist, "ProvinceId", "ProvinceName"))" class="form-control">
+                                        <option value="" selected="selected">استان مورد نظر خود را انتخاب کنید </option>
+                                    </select> <span asp-validation-for="ProvinceId" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="CityId"> </label>
+                                    <select id="cityid" class="form-control" asp-for="@Model.CityId">
+                                        <option value="" selected="selected">شهر مورد نظر خود را انتخاب کنید</option>
+
+                                    </select>
+                                    <span asp-validation-for="CityId" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label asp-for="Address"> </label>
+                                    <textarea type="text" asp-for="Address" class="input-name-checkout form-control"></textarea>
+                                    <span asp-validation-for="Address" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="CodePosti"> </label>
+                                    <input type="text" asp-for="CodePosti" class="input-name-checkout form-control">
+                                    <span asp-validation-for="CodePosti" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="ShomareTamas"> </label>
+                                    <input type="text" class="input-name-checkout form-control" value="@phone" disabled="disabled">
+                                    <span asp-validation-for="ShomareTamas" class="text-danger  "></span>
+                                </div>
+
+                                <div class="col-lg-12 col-md-12 col-sm-12">
+                                    <label asp-for="Tozihat"> </label>
+                                    <textarea type="text" asp-for="Tozihat" class="input-name-checkout form-control"></textarea>
+                                    <span asp-validation-for="Tozihat" class="text-danger  "></span>
+                                </div>
+
+
+                                <div class="col-lg-12 user-form-divider">
+                                    <hr />
+
+                                </div>
+
+
+
+                                <h6 class="user-form-title col-12"> بارگذاری مدارک </h6>
+                                <div class="row col-12 p-2 m-0">
+                                    <div class="col-12 alert alert-info d-flex justify-content-between mb-0">
+                                        <p class="mb-0">
+
+                                            فایل مدارک باید با فرمت های jpg. یا png. بارگزاری شود و حجم آن کمتر از 5 مگابایت باشد.
+
+                                        </p>
+
+
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <label asp-for="FileKartMeli"> </label>
+                                    <input type="file" asp-for="FormFileKartMeli" class="input-name-checkout form-control">
+                                    <span asp-validation-for="FileKartMeli" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+
+                                    <label asp-for="FileParvaneKasb"> </label>
+
+                                    <input type="file" asp-for="FormFileParvaneKasb" class="input-name-checkout form-control">
+                                    <span asp-validation-for="FileParvaneKasb" class="text-danger  "></span>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+
+                                    <label asp-for="FileSanad"> </label>
+
+                                    <input type="file" asp-for="FormFileSanad" class="input-name-checkout form-control">
+                                    <span asp-validation-for="FileSanad" class="text-danger  "></span>
+                                </div>
+
+                                @*  <div class="col-lg-12 col-md-12 col-sm-12">
+                            <div class="form-auth-row p-4">
+                            <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                            <span id="recaptchaerror" class="text-danger"></span>
+                            </div>
+                            </div>*@
+                                <div class="col-lg-12 user-form-divider">
+                                    <hr />
+
+                                </div>
+                               @* <div class="d-flex w-100 justify-content-between">
+                                    <button type="submit" class="btn-registrar w-100 p-3"> ثبت درخواست</button>
+
+                                </div>*@
+
+                            </div>
+                            <div class="submit-action">
+
+                                <button type="submit" class="btn btn-submit btnsubmit">ثبت درخواست</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+        </div>
+    }
+
+</div>
+
+
+@section Scripts{
+    <script src="~/js/jquery.selectric.min.js"></script>
+    <script src="~/js/formatPrice.js"></script>
+
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/persian-date.js"></script>
+    <script src="~/js/persian-datepicker.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+    <script>
+        $(document).ready(function() {
+            getCity();
+
+            $(".province").change(function() {
+
+                getCity();
+            });
+
+            function getCity() {
+                var id = $(".province").children("option:selected").val();
+                var cityselect = $("#cityid");
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetCity")',
+                    data: { id: id },
+                    success: function(data) {
+                        cityselect.children('.js-item').remove();
+                        data.forEach(function(item) {
+
+                            cityselect.append($("<option value='" + item.CityId + "' class='js-item'>" + item.CityName + "</option>"));
+
+
+                        });
+                    }
+                });
+            }
+
+            $(".required-file").rules('add',
+                {
+                    required: true,
+                    messages: {
+                        required: "لطفا فایل را وارد کنید",
+                    }
+                });
+            $('.date-piker').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                initialValue: false
+            });
+            $("form").submit(function(event) {
+
+                //var recaptcha = $("#g-recaptcha-response").val();
+                //if (recaptcha === "") {
+                //    event.preventDefault();
+                //    $("#recaptchaerror").text("لطفا احراز هویت را انجام دهید")
+                //}
+
+                $.validator.methods.range;
+                $.validator.methods.range = function(value, element, param) {
+                    if (element.type === 'checkbox') {
+                        return element.checked;
+                    } else {
+                        return defaultRangeValidator.call(this, value, element, param);
+                    }
+                }
+
+            });
+
+
+        });
+
+    </script>
+
+}

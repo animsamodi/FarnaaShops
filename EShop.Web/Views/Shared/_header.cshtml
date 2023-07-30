@@ -1,0 +1,151 @@
+﻿@using EndPoint.Web.Utilities
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+<div class="header shadows">
+    <div class="header-container">
+    @await Component.InvokeAsync("TopHeaderBannerComponent",false)
+
+      
+
+    <div class="middle-menu">
+        <div class="container">
+            <div class="row d-flex align-items-center">
+                <div class="col-lg-3 col-md-4 col-5">
+                    <div class="logo-top">
+                        <a asp-controller="Home" asp-action="Index" asp-area="">
+                                <img class="lazy b-lazy" width="250" height="63" src="https://farnaa.com/images/bg/bg-logo.webp" data-src="https://farnaa.com//new/images/logo-top.png" alt="فرنا">
+                        </a>
+                    </div>
+                </div>
+
+                <div class="col-lg-5 d-none d-lg-block">
+                        <div class="header-right search-header-container">
+                            <div class="box-overlay"></div>
+
+                        <div class="search-header search-box">
+                            <div class="search-top search-box">
+
+                                <form class="search-warp">
+                                    <input type="text" id="header-search-input" class="header-search-input" name="q" placeholder="جستجو محصولات...">
+                                    <button type="button" id="btn-search-header">
+                                        <i class="fal fa-search"></i>
+                                    </button>
+                                </form>
+
+                            </div>
+                            <div class="search-result">
+                                @await Component.InvokeAsync("SearchSuggestionComponent",false)
+
+                                <div class="search-results-list
+                                                js-search-ad-banner">
+                                    @await Component.InvokeAsync("TopHeaderSearchImageComponent",false)
+
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--end-search-->
+                </div>
+
+                <div class="col-lg-4 col-md-8 col-7">
+                    <div class="holder-left">
+                        <ul class="header-left">
+                            @await Component.InvokeAsync("Slider1Component")
+
+                                
+                            <li class="hl-item h-account">
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+
+                                    <a asp-controller="Account" asp-action="Register" class="btn-account trs-3 btn-account-profile ">          
+                                        <div class="box-overlay"></div>
+
+                                        <i class="fal fa-user"></i>
+                                        <span class="ha-title d-none d-lg-block">
+                                                
+                                            <p class="hat-link trs-3" >
+                                                ورود / ثبت نام
+                                            </p>
+                                        </span>
+                                    </a>
+                                }
+                                else
+                                {
+                                    var name = ClaimUtility.GetUserFullName(User);
+                                    if (name == null || name == "کاربر جدید")
+                                    {
+                                        name = "مشاهده پروفایل";
+                                    }else if (name.Length > 14)
+                                    {
+                                        name = name.Substring(0, 14);
+                                    }
+                                    <a href="#" class="btn-account btn-account-profile 
+                                                trs-3">                                    <div class="box-overlay"></div>
+
+                                        <i class="fal fa-user"></i>
+
+                                        <span class="ha-title d-none
+                                                    d-lg-block">
+                                            @* <p class="hat-name">
+                                                    
+                                                </p>*@
+                                            <p class="hat-link trs-3 " >
+                                                @name
+                                            </p>
+                                        </span>
+                                    </a>
+
+                                    <div class="account-box trs-3">
+                                        <ul class="ab-menu">
+                                            <li class="abm-item">
+                                                <a  asp-area="User" asp-controller="Profile" asp-action="Index"  class="item-link trs-3 mb-2">
+                                                    حساب کاربری
+                                                </a>
+                                            </li> 
+                                            <li class="abm-item">
+                                                <a  asp-area="User" asp-controller="Profile" asp-action="Orders"  class="item-link trs-3 mb-2">
+                                                    سفارش های من
+                                                </a>
+                                            </li>
+                                                
+                                            <li class="abm-item">
+                                                <a  asp-area="User" asp-controller="Profile" asp-action="EditProfile"  class="item-link trs-3 mb-2">
+                                                    ویرایش حساب کاربری
+                                                </a>
+                                            </li>
+                                            <li class="abm-item">
+                                                <a  asp-area="" asp-controller="Account" asp-action="Logout"  class="btn-out trs-3 mt-2">
+                                                    خروج
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                       
+                                     
+                                }
+            
+                            </li>
+                            <li class="hl-item h-account">
+                                <a asp-controller="Account" asp-action="LoginColleague" class="btn-account btn-colleauge  trs-3">
+                                    <div class="box-overlay"></div>
+                                    <i class="fal fa-badge"></i>
+
+                                    <span class="ha-title d-none
+                                                    d-lg-block" style="padding: 4px;">
+                                        <p class="hat-link  ">
+                                            پنل همکاری
+                                        </p>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @await Component.InvokeAsync("MenuHeaderComponent")
+
+      
+    </div>
+</div>

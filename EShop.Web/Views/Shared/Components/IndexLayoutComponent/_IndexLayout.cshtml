@@ -1,0 +1,192 @@
+﻿
+@using EShop.DataLayer.Enum
+@model IEnumerable<EShop.Core.ViewModels.IndexLayoutViewModel>
+
+@{
+    Layout = null;
+}
+
+
+
+
+@foreach (var latout in Model)
+{
+    if (latout.Type == EnumTypeLayotIndex.Product)
+    {
+        var url = "";
+        if (latout.CategoryTitle != null)
+        {
+            if(string.IsNullOrEmpty(latout.ParentCategoryEnName))
+                        url = Url.Action("MainCategory" ,"category", new  {title  = latout.CategoryTitle.ToUrlFormat()});
+            else
+                        url = Url.Action("SubCategory" ,"category",new {categoryName=latout.ParentCategoryEnName, title=latout.CategoryTitle.ToUrlFormat()});
+
+        }else if (latout.BrandId != null)
+        {
+            url = Url.Action("Search", "Home", new { brand = latout.BrandId});
+        }else if (latout.Url != null)
+        {
+            url = latout.Url;
+
+        }
+<div class="col-lg-12 col-md-12 col-xs-12 pr p-0 order-1 d-block">
+    <div class="slider-widget-products">
+        <div class="widget widget-product card">
+            <header class="card-header">
+                <h2 class="title-one">@latout.Title</h2>
+                @if (!string.IsNullOrEmpty(url))
+                        {
+                <a href="@url" class="link-show-more">مشاهده همه <i class="fa fa-angle-left ml-2"></i></a>
+
+                        }
+            </header>
+            <div class="swiper mySwiper p-2 pt-4">
+
+                <div class="swiper-wrapper lazy-container">
+                    @foreach (var item in latout.Products)
+                            {
+
+                    <div class="swiper-slide">
+                        <div class="item">
+
+                            <a asp-action="Index" asp-controller="product"  asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="d-block hover-img-link">
+                                            <img width="600" height="600" data-src="https://media.farnaa.com/media/@item.ImgName" src="~/images/bg-product.webp" class="img-fluid lazy" alt="@item.FaTitle">
+                            </a>
+                            <div class="owl-item-content">
+
+                                @if (item.MainPrice > 0)
+                                            {
+                                                if (item.DiscountPrice != item.MainPrice)
+                                                {
+                                                    decimal disPrice = item.MainPrice - item.DiscountPrice;
+                                                    var disPercent = Math.Ceiling((disPrice * 100 / item.MainPrice));
+                                <div class="  item-descount">
+
+
+                                    @disPercent <span>%</span>
+
+                                </div>
+
+                                                }
+
+
+                                            }
+
+                                <div class="post-title mb-2">
+                                    <a asp-action="Index"  asp-route-category="@item.CategoryEnTitle.Replace(" ","-")"  asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")">
+                                        @item.FaTitle
+                                    </a>
+                                </div>
+                                <div class="price">
+                                    @if (item.MainPrice > 0)
+                                                {
+                                                    if (item.DiscountPrice != item.MainPrice)
+                                                    {
+                                                        var disPrice = item.MainPrice - item.DiscountPrice;
+                                    <div class="col-12">
+                                        <del><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></del>
+                                    </div>
+                                    <div class="col-12">
+                                        <ins><span>@item.DiscountPrice.ToString("N0")<span>  تومان  </span></span></ins>
+
+                                    </div>
+
+                                                    }
+                                                    else
+                                                    {
+                                    <div class="col-12">
+                                        <ins><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></ins>
+                                    </div>
+
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                    <div class="  col-12">
+                                        <ins>-- ناموجود --</ins>
+                                    </div>
+                                                }
+                                </div>
+
+                            </div>
+
+                            <div class="btn-view-product-container">
+                                <a asp-action="Index" asp-controller="product"  asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="btn-view-product a-hover-1">
+                                    مشاهده
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                            }
+                    @if (!string.IsNullOrEmpty(url) && latout.Products.Count > 6)
+                            {
+                    <div class="swiper-slide swiper-slide-more">
+                        <div class="swiper-slide-more-content">
+
+                            <a href="@url" c>مشاهده همه <i class="fa fa-angle-left ml-2"></i></a>
+
+                        </div>
+                    </div>
+                                    }
+
+
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+    }
+    else if (latout.Type == EnumTypeLayotIndex.Image1)
+    {
+<div class="adplacement-container-row mt-3">
+
+
+    <div class="col-12 pr">
+        <a href="@latout.ImageUrl1" class="adplacement-item  mb-4">
+            <div class="adplacement-sponsored-box">
+                <img class="img-fluid" src="https://media.farnaa.com/media/@latout.Image1" alt="@latout.Title">
+            </div>
+        </a>
+    </div>
+
+
+
+
+
+
+
+</div>
+    }
+    else if (latout.Type == EnumTypeLayotIndex.Image2)
+    {
+<div class="adplacement-container-row  mt-3">
+
+
+    <div class="col-6  col-lg-6 pr">
+        <a href="@latout.ImageUrl1" class="adplacement-item  mb-4">
+            <div class="adplacement-sponsored-box">
+                <img class="img-fluid" src="https://media.farnaa.com/media/@latout.Image1" alt="@latout.Title">
+            </div>
+        </a>
+    </div>
+    <div class="col-6  col-lg-6 pr">
+        <a href="@latout.ImageUrl2" class="adplacement-item  mb-4">
+            <div class="adplacement-sponsored-box">
+                <img class="img-fluid" src="https://media.farnaa.com/media/@latout.Image2" alt="@latout.Title">
+            </div>
+        </a>
+    </div>
+
+
+
+
+
+
+</div>
+    }
+
+}

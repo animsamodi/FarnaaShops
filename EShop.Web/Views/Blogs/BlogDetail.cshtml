@@ -1,0 +1,113 @@
+﻿@using EShop.DataLayer.Entities
+@model EShop.DataLayer.Entities.Blog
+@{
+    ViewData["Title"] = Model.MetaTitle ?? Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Meta
+{
+    @*<title>@(Model.MetaTitle ?? ViewData["Title"])</title>*@
+
+    @*<meta name="title" content="@(Model.MetaTitle ?? Model.Title)">*@
+
+    @if (Model.MetaDescription != null || Model.KeyWord != null)
+    {
+        <meta name="description" content="@(Model.MetaDescription ?? Model.KeyWord)">
+    }
+    @if (Model.MetaKeywords != null)
+    {
+        <meta name="keywords" content="@Model.MetaKeywords">
+
+    }
+    @if (Model.Canonical != null)
+    {
+        <link rel="canonical" href="@Model.Canonical">
+
+    }
+    @Html.Raw(Model.BaseSchema)
+
+    @Html.Raw(Model.HeaderTag)
+    @Html.Raw(Model.Schema)
+
+}
+<div class="d-block" style="transform: none;">
+    <div class="col-lg-9 col-md-8 col-xs-12 pr mt-3">
+        <section class="blog-home">
+            <article class="post-item">
+                <header class="entry-header mb-3">
+                    <div class="post-meta date">
+                        <i class="mdi mdi-calendar-month"></i>@Model.PrDate
+                    </div>
+
+                    <div class="post-meta Visit">
+                        <i class="mdi mdi-eye"></i> @Model.View بازدید
+                    </div>
+                </header>
+                <div class="post-thumbnail">
+                    <img class="w-100" src="https://media.farnaa.com/media/@Model.Image" alt="@Model.Title">
+                </div>
+                <div class="title">
+                    <a asp-action="BlogDetail" asp-route-id="@Model.Id">
+                        <h1 class="title-tag">@Model.Title</h1>
+                    </a>
+                </div>
+                <div class="content-blog">
+                    @Html.Raw(Model.Text)
+                </div>
+            </article>
+
+        </section>
+    </div>
+    <div class="col-lg-3 col-md-4 col-xs-12 pr mt-3 sticky-sidebar" style="position: relative; overflow: visible; box-sizing: border-box; min-height: 1px;">
+
+        <div class="theiaStickySidebar" style="padding-top: 0px; padding-bottom: 1px; position: static; transform: none; top: 0px; left: 15px;">
+            <div class="shortcode-widget-area-sidebar">
+                <section class="widget-posts">
+                    <div class="header-sidebar mb-3">
+                        <h3>جدیدترین  ها</h3>
+                    </div>
+                    <div class="content-sidebar">
+                        @{
+                            if (ViewBag.NewBlog != null)
+                            {
+                                var newBlog = (List<Blog>)ViewBag.NewBlog;
+                                @foreach (var item in newBlog)
+                                {
+
+
+                                    <div class="item">
+                                        <div class="item-inner">
+                                            <div class="item-thumb">
+                                                <a asp-action="BlogDetail" asp-route-id="@item.Id" class="img-holder d-block">
+                                                    <img src="https://media.farnaa.com/media/@item.Image" alt="@item.Title">
+                                                </a>
+                                            </div>
+                                            <div class="title">
+                                                <a asp-action="BlogDetail" asp-route-id="@item.Id">
+                                                    <h2 class="title-tag">@item.Title</h2>
+                                                </a>
+                                                <span class="post-date">
+                                                    @item.PrDate
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                }
+                            }
+                        }
+
+
+                    </div>
+                </section>
+            </div><div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 351px; height: 610px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+

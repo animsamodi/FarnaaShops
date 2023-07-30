@@ -1,0 +1,82 @@
+﻿@model EShop.Core.ViewModels.RegisterUserViewModel
+@{
+    ViewData["Title"] = "ثبت نام همکار";
+    Layout = "~/Views/Shared/_AccountLayout.cshtml";
+}
+<div class="row">
+    <div class="col-lg">
+        <section class="page-account-box">
+            <div class="col-lg-6 col-md-6 col-xs-12 mx-auto">
+                <div class="ds-userlogin">
+                    <a asp-controller="Home" asp-action="" class="account-box-logo">فرنا</a>
+                    <div class="account-box">
+                      
+                        <div class="Login-to-account mt-4">
+                            <div class="account-box-content">
+                                <h4>ثبت نام همکار</h4>
+                                <form asp-action="RegisterColleague" class="form-account text-right">
+                                    <div asp-validation-summary="ModelOnly" style="color:red"></div>
+                                    <input type="hidden" name="Type" value="@TempData["Type"]"/>
+                                    <div class="form-account-title">
+                                        <label for="email-phone"> شماره موبایل</label>
+                                        <input type="text" class="number-email-input" asp-for="Phone" placeholder="  شماره موبایل خود را وارد نمایید">
+                                        <span asp-validation-for="Phone" class="text-danger"></span>
+
+                                    </div>
+                                
+                                    <div class="form-auth-row">
+                                      @*  <label for="#" class="ui-checkbox mt-1">
+                                            <input type="checkbox" asp-for="Terms" id="remember">
+                                            <span class="ui-checkbox-check"></span>
+                                        </label>
+                                        <label for="remember" class="remember-me mr-0">  <a href="@Url.Action("Page","Home",new{area = "",id=4})">شرایط قوانین </a>استفاده از سرویس های سایت فرنا را مطالعه نموده و با کلیه موارد آن موافقم.</label>
+                                        <span asp-validation-for="Terms" class="text-danger"></span>*@
+                                                                            <label for="chkRules" class="remember-me mr-0">زدن دکمهٔ ورود به معنای پذیرش <a asp-action="Page" asp-controller="Home" asp-route-title="rules">شرایط قوانین </a> فروشگاه فرنا می‌باشد  </label>
+
+                                    </div>
+                            @*        <div class="form-auth-row p-4">
+                                        <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                                        <span id="recaptchaerror" class="text-danger"></span>
+                                    </div>*@
+ 
+                                    <div class="form-row-account">
+                                        <button class="btn btn-primary btn-register">ثبت نام</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+ 
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+    <script>
+       
+            $("form").submit(function(event) {
+
+       //var recaptcha = $("#g-recaptcha-response").val();
+
+      $.validator.methods.range;
+			$.validator.methods.range = function(value, element, param) {
+				if(element.type === 'checkbox') {
+					return element.checked;
+				} else {
+					return defaultRangeValidator.call(this, value, element, param);
+				}
+			}
+
+     });
+    </script>
+
+}
+

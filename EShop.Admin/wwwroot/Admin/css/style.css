@@ -1,0 +1,123 @@
+button:focus {
+    outline: none !important;
+ }
+
+.variant-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 25px;
+}
+.btn-group, .btn-group-vertical {
+    position: relative;
+    display: -webkit-inline-box;
+    display: -webkit-inline-flex;
+    display: -moz-inline-box;
+    display: -ms-inline-flexbox;
+    display: grid !important;
+    vertical-align: middle;
+    width: 100% !important;
+}
+span.multiselect-native-select {
+    width: 100% !important;
+    display: block !important;
+    position: relative;
+}
+.multiselect-container > li > a {
+    padding: 0;
+    display: flex !important;
+    border-bottom: solid 1px #e8e8e8;
+    padding-top: 7px !important;
+}
+.dropdown-menu .active a {
+    background-color: transparent !important;
+}
+.dropdown-menu.show {
+    -webkit-transform: none;
+    -moz-transform: none;
+    -ms-transform: none;
+    -o-transform: none;
+    transform: none;
+    opacity: 1;
+    right: 0px !important;
+}
+.font-size-10 {
+    font-size: 10pt;
+}
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.permissons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-content: center;
+    flex-direction: row;
+    background-color: #eeeeee75;
+    padding: 15px;
+    border-radius: 8px;
+}
+.permissons-item {
+    width: 50%;
+    margin-top: 10px;
+}
+
+.permissons-item label {
+     
+        font-size: 0.80rem;
+     }
+.user-form-title {
+    color: #5e5e5e;
+    margin: 15px 0;
+    border-bottom: solid 2px #ddd;
+    padding-bottom: 9px;
+    padding-right: 0;
+    font-size: 11pt;
+}
+
+.custom-desaible-input{
+
+}
+
+.check-container {
+    width: 50px;
+    height: 50px;
+    color: white;
+    background-color: #4caf50;
+    border-radius: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18pt;
+    position: fixed;
+    left: 10px;
+    bottom: 10px;
+    z-index: 999;
+}
+.check-container-hide {
+    display: none !important;
+}
+.check-container-show {
+    display: flex !important;
+}
+
+.checkout-paymethod {
+    list-style: none;
+    padding: 10px;
+    border: solid 1px #ddd;
+    border-radius: 10px;
+}
+.checkout-payment-method-item {
+
+}
+.checkout-paymethod-item {
+    display: flex;
+}
+checkout-paymethod-title-label {
+    font-size: 10pt !important;
+    padding-right: 5px !important;
+}
+.headline-checkout-shopping {
+    margin: 10px 0;
+    font-weight: bold;
+}

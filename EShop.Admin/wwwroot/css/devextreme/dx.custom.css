@@ -1,0 +1,57 @@
+﻿.dx-datagrid-search-panel {
+    margin: 0 !important;
+}
+.dx-toolbar-after, .dx-toolbar-before, .dx-toolbar-center {
+    top: 0;
+    display: flex !important;
+    height: 100%;
+    width: inherit !important;
+    justify-content: space-between !important;
+    padding: 0 !important;
+}
+.dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell .dx-texteditor, .dx-datagrid-content .dx-datagrid-table .dx-row .dx-editor-cell .dx-texteditor-container {
+    border: 0;
+    margin: 0;
+    direction: ltr !important;
+}
+.dx-datagrid-header-panel .dx-toolbar-menu-container .dx-button {
+    margin-left: 0 !important;
+}
+.dx-pager .dx-pages .dx-next-button::before {
+     content: "" !important;
+}
+.dx-pager .dx-pages .dx-prev-button::before {
+    content: "" !important;
+}
+.dx-pager .dx-light-pages .dx-info-text, .dx-pager .dx-light-pages .dx-pages-count {
+    padding-left: 10px !important;
+    padding-right: 10px !important;
+}
+.dx-dropdowneditor-button-visible .dx-texteditor-input {
+    padding-right: 7px !important;
+    padding-left: 0px !important;
+}
+.dx-toolbar .dx-toolbar-menu-container {
+    padding: 0 !important;
+}
+.dx-texteditor-input-container {
+    
+    flex-direction: row-reverse !important;
+}
+.dx-placeholder {
+    position: absolute;
+    top: 0;
+    right: 0 !important;
+    left: auto !important;
+    max-width: 100%;
+    width: auto;
+    height: 100%;
+    /* text-align: right; */
+    cursor: text;
+    pointer-events: none;
+    color: #999;
+}
+.dx-datagrid-filter-panel .dx-icon-filter {
+    margin: auto auto auto 7px !important;
+    cursor: pointer;
+}

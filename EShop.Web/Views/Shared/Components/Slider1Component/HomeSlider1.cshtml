@@ -1,0 +1,76 @@
+﻿@model List<EShop.Core.ViewModels.Cart.CartPageViewModel>
+
+@{
+    Layout = null;
+}
+
+
+<li class="hl-item h-cart" style="border: 1px #dcdcdc solid; border-radius: 10px;">
+    <div class="box-overlay"></div>
+    <a asp-controller="Cart" asp-action="Index" asp-area="" class="hl-btn trs-3">
+        <i class="fal fa-shopping-bag"></i>
+    </a>
+    <span class="cart-number">
+        @Model.Sum(c => c.CartCount)
+    </span>
+    @if (Model.Count > 0)
+    {
+        <div class="cart-box trs-3">
+            <ul class="holder-cart">
+
+                @foreach (var item in Model)
+                {
+                    <li class="product-item mb-3">
+                        <div class="right">
+                            <img src="https://media.farnaa.com/media/@item.ImgName" alt="@item.ProductName">
+                            <a asp-action="RemoveCartDetail" asp-controller="Cart" asp-route-id="@item.VariantId" class="remove trs-3">
+                                <i class="fal fa-times"></i>
+                            </a>
+                        </div>
+
+                        <div class="left">
+                            <a class="title mb-2 trs-3">
+                                @item.ProductName
+                            </a>
+                            <div class="pn-product f-parent">
+                                <span class="cart-color">
+                                    @item.ProductOption
+                                </span>
+                                <span class="number">
+                                    @item.CartCount عدد </span>
+
+                                <span class="price">
+                                    @item.SpecialPrice.ToString("N0")
+                                    تومان
+                                </span>
+                            </div>
+                        </div>
+                    </li>
+                }
+
+                <li class="pb-total">
+                    <div class="total-price
+                                                            mb-2 f-parent">
+                        <p class="tp-title">
+                            جمع کل
+                        </p>
+                        <p class="tp-price">
+                            @Model.Sum(c => c.SpecialPrice * c.CartCount).ToString("N0")
+                            تومان
+                        </p>
+                    </div>
+
+                    <div class="tp-button
+                                                            f-parent">
+                        <a asp-controller="Cart" asp-action="Index" asp-area="" class="btn-buy">
+                            سبد خرید
+                        </a>
+                        <a asp-controller="Cart" asp-action="Shipping" asp-area="" class="btn-pay">
+                            تایید و پرداخت
+                        </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    }
+</li>

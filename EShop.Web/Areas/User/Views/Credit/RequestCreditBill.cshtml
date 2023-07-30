@@ -1,0 +1,173 @@
+﻿@using EShop.DataLayer.Enum
+@using EShop.DataLayer.Entities.Credit
+@model EShop.Core.ViewModels.Credit.CreditBillViewModel
+
+@{
+    ViewBag.Title = "ثبت فیش واریز";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+@section Style{
+    <link href="~/css/selectric.css" rel="stylesheet" />
+    <link href="~/css/persian-datepicker.css" rel="stylesheet" />
+    <link href="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css" rel="stylesheet" type="text/css">
+    <style>
+        .field-validation-error {
+            font-size: 9pt !important;
+        }
+
+        .alert-error {
+            background-color: #c4a373 !important;
+            color: white !important;
+            text-align: center !important;
+            border: none !important;
+            font-size: 11pt !important;
+        }
+    </style>
+}
+<div class="profile-stats">
+    <div class="profile-address">
+        <div class="middle-container">
+            <div class="row p-2 m-0">
+                <div class="col-12 alert alert-warning d-flex justify-content-between mb-0">
+                    <p class="mb-0">
+                        <strong>کاربر گرامی! </strong> لطفا اطلاعات زیر را به درستی وارد کنید
+                        <br />
+                        پس از تایید اطلاعات توسط کارشناسان فرنا, مبلغ واریزی شما تایید میشود
+                    </p>
+
+
+                </div>
+            </div>
+            @if (ViewBag.Error != null)
+            {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+
+            }
+            <form class="form-checkout" asp-area="User" asp-controller="Credit" asp-action="RequestCreditBill" method="post" enctype="multipart/form-data">
+            <div class="form-checkout-row row m-0 py-3">
+            <div asp-validation-summary="All" style="color:red"></div>
+
+            <h6 class="user-form-title col-12 col-12">اطلاعات واریزی</h6>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Bank"> </label>
+                <input type="text" asp-for="Bank" class="input-name-checkout form-control">
+                <span asp-validation-for="Bank" class="text-danger  "></span>
+            </div> 
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="ShomareKart"> </label>
+                <input type="text" asp-for="ShomareKart" class="input-name-checkout form-control">
+                <span asp-validation-for="ShomareKart" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Price"> </label>
+                <input type="text" asp-for="Price" class="input-name-checkout form-control">
+                <span asp-validation-for="Price" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Code"> </label>
+                <input type="text" asp-for="Code" class="input-name-checkout form-control">
+                <span asp-validation-for="Code" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="PrDatePay"> </label>
+                <input type="text" asp-for="PrDatePay" class="input-name-checkout form-control date-piker">
+                <span asp-validation-for="PrDatePay" class="text-danger  "></span>
+            </div>
+            
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label asp-for="Description"> </label>
+                <textarea rows="2" cols="30" asp-for="Description" class="textarea-name-checkout form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger  "></span>
+            </div>
+          
+             <div class="col-lg-12 user-form-divider">
+                <hr/>
+
+            </div>
+ 
+
+
+
+            <h6 class="user-form-title col-12"> تصویر فیش واریزی  </h6>
+            <div class="row col-12 p-2 m-0">
+                <div class="col-12 alert alert-info d-flex justify-content-between mb-0">
+                    <p class="mb-0">
+
+                        فایل باید با فرمت های jpg. یا png. بارگزاری شود و حجم آن کمتر از 5 مگابایت باشد.
+
+                    </p>
+
+
+                </div>
+            </div>
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <label asp-for="Image"> </label>
+                    <input type="file" asp-for="FormFile" class="input-name-checkout form-control">
+                    <span asp-validation-for="FormFile" class="text-danger  "></span>  </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="form-auth-row p-4">
+                    <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                    <span id="recaptchaerror" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-12 user-form-divider">
+                <hr/>
+
+            </div>
+            <div class="d-flex w-100 justify-content-between">
+                <button type="submit" class="btn-registrar"> ثبت </button>
+                <a asp-action="Index" asp-controller="Profile" asp-area="User" class="cancel-edit-address" data-dismiss="modal" aria-label="Close">بازگشت</a>
+            </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/jquery.selectric.min.js"></script>
+    <script src="~/js/formatPrice.js"></script>
+
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/persian-date.js"></script>
+    <script src="~/js/persian-datepicker.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+    <script>
+        $(document).ready(function () {
+            
+            $('.date-piker').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                initialValue: false
+            });
+            $("form").submit(function (event) {
+
+                var recaptcha = $("#g-recaptcha-response").val();
+                //if (recaptcha === "") {
+                //    event.preventDefault();
+                //    $("#recaptchaerror").text("لطفا احراز هویت را انجام دهید")
+                //}
+
+                $.validator.methods.range;
+                $.validator.methods.range = function (value, element, param) {
+                    if (element.type === 'checkbox') {
+                        return element.checked;
+                    } else {
+                        return defaultRangeValidator.call(this, value, element, param);
+                    }
+                }
+
+            });
+
+         
+
+        });
+
+    </script>
+ 
+}

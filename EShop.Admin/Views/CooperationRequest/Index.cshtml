@@ -1,0 +1,85 @@
+﻿
+@{
+    ViewData["Title"] = "لیست درخواست ها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var status = ViewBag.Status;
+}
+
+@Html.Partial("_alert")
+<section id="extended">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-0">
+                <div class="card-header">
+                  @*  <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>*@
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form class="form" asp-action="List" data-ajax="true"
+                              data-ajax-update="#list"
+                              data-ajax-mode="replace">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">نام (نام شرکت)	</label>
+                                            <input type="text" class="form-control form-control-sm" name="Name">
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">کد ملی (شناسه ملی)		</label>
+                                            <input type="text" class="form-control form-control-sm" name="Code">
+                                        </fieldset>
+                                    </div>
+                                <input type="hidden" name="Status" value="@status" />
+                                   
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-sm btn-primary m-0">جستجو
+                                        <i class="ft-search position-right"></i>
+                                    </button> 
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+               
+                <div class="card-body">
+
+                    <div class="card-block">
+                       
+                        <div id="list"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+     <script src="~/Admin/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $.ajax({
+            type: 'GET',
+            url: '/CooperationRequest/List',
+            data: {  pagenumber: 1 ,name:'',code:'',status : '@status'},
+            success: function (res) {
+                $("#list").html(res);
+            }
+        })
+
+    </script>
+}
+

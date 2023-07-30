@@ -1,0 +1,103 @@
+﻿@using EShop.DataLayer.Enum
+@using Microsoft.AspNetCore.Http.Extensions
+@model EShop.DataLayer.Entities.Site.StaticPage
+@{
+    ViewBag.Title = Model.Title;
+
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section Meta
+{
+    <title>@(Model.MetaTitle ?? ViewData["Title"])</title>
+
+   @* <meta name="title" content="@(Model.MetaTitle ?? Model.Title)">*@
+    @if (Model.MetaDescription != null)
+    {
+        <meta name="description" content="@(Model.MetaDescription)">
+    }
+    @if (Model.MetaKeywords != null)
+    {
+        <meta name="keywords" content="@Model.MetaKeywords">
+
+    }
+    @if (Model.Canonical != null)
+    {
+        <link rel="canonical" href="@Model.Canonical">
+
+    }
+    @if (Model.IsNoIndex)
+    {
+        @await Html.PartialAsync("_noIndex")
+    }
+
+    <meta property="og:title" content="@(Model.MetaTitle ?? Model.Title)">
+    <meta property="og:description" content="@Model.MetaDescription">
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farnaa.com/images/logo.png">
+    <meta property="og:image:alt" content="@(Model.MetaTitle ?? Model.Title)">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+   @Html.Raw(Model.BaseSchema)
+
+    @Html.Raw(Model.HeaderTag)
+    @Html.Raw(Model.Schema)
+}
+
+
+<section class="blog-checkout d-block order-1">
+    <div class="col-lg">
+        <div class="checkout woocommerce-checkout">
+            <div class="content-checkout">
+                <div class="middle-container">
+                    <form action="#" class="form-checkout">
+                        <div class="col2-set" id="customer-details">
+                            <div class="col-12">
+                                        
+                                <div class="billing-fields mt-4">
+
+                                    <h1 class="static-page-title font-weight-bold">
+
+                                        @Model.Title
+                                    </h1>
+                                    @if (!string.IsNullOrEmpty(Model.ShortText))
+                                    {
+                                        <div class="static-page-short-text">
+                                            @Html.Raw(Model.ShortText)
+                                        </div>
+                                    }
+
+
+                                    <hr />
+                                       <div class="main-row pt-0">
+                                        <div id="breadcrumb">
+                <breadcrumb>
+                  
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">خانه</a></li>
+                        <li class="breadcrumb-item actc-box_suppliersive" aria-current="page"><a href="@Context.Request.Path">@Model.Title </a></li>
+                    </ol>
+                </nav>
+                </breadcrumb>  </div>
+                </div>
+                                    <div class="static-page-text col-lg-8 col-md-8 col-sm-12 mx-auto p-4">
+                                        @Html.Raw(Model.Text)
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+

@@ -1,0 +1,44 @@
+﻿@model EShop.Core.ViewModels.IndexMainMetaViewModel
+ 
+<title>@(Model.MetaTitle ?? ViewData["Title"])</title>
+
+@*<meta name="title" content="@Model.MetaTitle">*@
+
+@if (Model.MetaDescription != null)
+{
+    <meta name="description" content="@(Model.MetaDescription)">
+}
+@if (Model.MetaKeywords != null)
+{
+    <meta name="keywords" content="@Model.MetaKeywords">
+
+} 
+@if (Model.Canonical != null)
+{
+    <link rel="canonical" href="@Model.Canonical">
+
+}
+
+
+@*//*@
+
+<meta property="og:title" content="@Model.MetaTitle">
+<meta property="og:description" content="@Model.MetaDescription">
+<meta property="og:url" content="https://farnaa.com/">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://farnaa.com/images/logo.png">
+<meta property="og:image:alt" content="@Model.MetaTitle">
+<meta property="og:image:width" content="800">
+<meta property="og:image:height" content="600">
+<meta property="og:site_name" content="@Model.MetaTitle">
+
+
+
+
+
+@*//*@
+@Html.Raw(Model.BaseSchema)
+
+@Html.Raw(Model.HeaderTag)
+@Html.Raw(Model.Schema)
+

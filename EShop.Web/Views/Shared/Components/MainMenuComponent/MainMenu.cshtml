@@ -1,0 +1,101 @@
+﻿@model Tuple<List<EShop.Core.ViewModels.MainMenuShowViewModel>,List<EShop.DataLayer.Entities.CategotyMain>,
+List< EShop.Core.ViewModels.Category.SearchCategoryViewModel>,Dictionary<long, List<EShop.DataLayer.Entities.Brand.Brand>>>
+
+
+@{
+    Layout = null;
+}
+
+
+@foreach (var item in Model.Item1.Where(c => c.ParentId == null).OrderBy(c => c.Sort))
+{
+    var havSub = Model.Item1.Any(c => c.ParentId == item.MenuId);
+
+    if (!havSub)
+    {
+        <li id="nav-menu-item" class="menu-item @(havSub?"nav-overlay":"") ">
+            @if (item.MenuTitle == "محصولات فرنا")
+            {
+                <div class="dropdown megamenu-dropdown">
+                    <i class="fa fa-bars ml-1"></i>  @item.MenuTitle
+                    <div class="dropdown-content">
+                        <div style="width: 100%;margin-right:0px !important;" class="row">
+                            <div class="column">
+                                @foreach (var category in Model.Item2)
+                                {
+
+                                    <a class="head-line" href="/category/@category.EnTitle.ToUrlFormat()">@category.Title</a>
+
+                                    @if (Model.Item3.Where(c => c.ParentId == category.CategoryId).Any())
+                                    {
+                                        @foreach (var sub in Model.Item3.Where(c => c.ParentId == category.CategoryId).ToList())
+                                        {
+                                            <a href="/category/@category.EnTitle.ToUrlFormat()/@sub.CategoryEnTitle.ToUrlFormat()">@sub.Title</a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        @foreach (var sub in Model.Item4.Where(c => c.Key == category.CategoryId).Select(s => s.Value).ToList())
+                                        {
+                                            foreach (var brand in sub)
+                                            {
+                                                <a href="/category/@category.EnTitle.ToUrlFormat()/@brand.EnTitle.ToUrlFormat()">@brand.FaTitle</a>
+                                            }
+                                        }
+
+
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            else
+            {
+                <a href="@item.Link" class="current-link-menu">
+                    @item.MenuTitle
+                </a>
+                @if (havSub)
+                {
+                    <ul class="sub-menu is-mega-menu mega-menu-level-two">
+
+                        @foreach (var item2 in Model.Item1.Where(c => c.ParentId == item.MenuId).OrderBy(c => c.Sort).ToList())
+                        {
+                            var havSub2 = Model.Item1.Any(c => c.ParentId == item2.MenuId);
+
+                            <li class="menu-mega-item menu-item-type-mega-menu">
+                                <a href="@item2.Link" class="mega-menu-link">
+                                    @item2.MenuTitle
+                                </a>
+                                @if (havSub2)
+                                {
+                                    <ul class="sub-menu mega-menu-level-three">
+                                        @foreach (var item3 in Model.Item1.Where(c => c.ParentId == item2.MenuId).OrderBy(c => c.Sort).ToList())
+                                        {
+                                            <li class="menu-mega-item-three">
+                                                <a href="@item3.Link">
+                                                    @item3.MenuTitle
+                                                </a>
+                                            </li>
+                                        }
+
+
+                                    </ul>
+                                }
+
+                            </li>
+                        }
+
+                    </ul>
+                }
+            }
+
+        </li>
+    }
+
+}
+
+
+

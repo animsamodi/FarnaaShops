@@ -1,0 +1,45 @@
+﻿@model List<EShop.DataLayer.Entities.Brand.Brand>
+
+@{
+    Layout = null;
+}
+
+@if (Model.Any())
+{
+    <div class="brand d-lg-none">
+        <div class="hoder-brand">
+            <div id="head-title">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="title f-parent">
+                              
+                                <h2 style="font-weight: 600;font-size: 1.25rem;">
+                              برندهای ویژه  </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="brand-box">
+                <div class="container">
+                    <div class="row">
+                        <div class="owl-carousel nav-arrow">
+                            @foreach(var item in Model.OrderByDescending(c=>c.Id)){
+                                <li class="namad-item trs-3">
+                                    <a href="/category/mobile/@item.EnTitle.ToUrlFormat()">
+                                        <img class="lazy b-lazy" width="250" height="250" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.ImgName" alt="@item.EnTitle">
+                                    </a>
+                                </li>
+                            }
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+}

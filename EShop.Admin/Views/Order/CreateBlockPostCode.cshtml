@@ -1,0 +1,57 @@
+﻿@model EShop.DataLayer.Entities.Address.BlockPostalCode
+
+@{
+	ViewData["Title"] = "ایجاد کد پستی غیر مجاز";
+	Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+<div class="row">
+	<div class="col-md-12">
+		<div class="card">
+			<div class="card-header">
+				<div class="card-title-wrap bar-success">
+					<h4 class="card-title mb-0">ایجاد کد پستی غیر مجاز</h4>
+				</div>
+			</div>
+			<div class="card-body">
+				<div class="px-3">
+					<form class="form" asp-action="CreateBlockPostCode" enctype="multipart/form-data">
+						<div class="form-body">
+							<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+							<div class="row">
+
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="Code" class="control-label"></label>
+										<input asp-for="Code" class="form-control" />
+										<span asp-validation-for="Code" class="text-danger"></span>
+									</fieldset>
+								</div>
+								</div>
+								 
+						</div>
+						<div class="form-actions">
+							<div class="text-right">
+								<button type="submit" class="btn btn-primary mr-1">
+									ثبت
+									<i class="ft-thumbs-up position-right"></i>
+								</button>
+								<a asp-action="BlockPostCode" class="btn btn-warning">بازگشت به لیست</a>
+
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts{
+	<script src="~/js/jquery.validate.min.js"></script>
+	<script src="~/js/jquery.validate.unobtrusive.js"></script>
+	 
+}
+
+

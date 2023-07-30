@@ -1,0 +1,160 @@
+﻿@using EShop.Core.ViewModels.Category
+@model EShop.Core.ViewModels.Category.EditCategoryViewModel
+
+@{
+    ViewData["Title"] = "ویرایش دسته بندی";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    List<long> parentlist = ViewBag.ParentList;
+    List<GetCategoryForAddViewModel> parents = new List<GetCategoryForAddViewModel>();
+  }
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش دسته بندی</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                @Html.Partial("_alert")
+                <div class="px-3">
+                    <form class="form" asp-action="EditCategory" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Id" type="hidden" />
+                            <input asp-for="CurrentImage" type="hidden" />
+                            <div class="row">
+
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="FaTitle" class="control-label"></label>
+                                        <input asp-for="FaTitle" class="form-control" />
+                                        <span asp-validation-for="FaTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="EnTitle" class="control-label"></label>
+                                        <input asp-for="EnTitle" dir="ltr" class="form-control" />
+                                        <span asp-validation-for="EnTitle" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Image" class="control-label"></label>
+                                        @Html.Raw((String.IsNullOrEmpty(Model.CurrentImage) ? "" : "<img src='https://media.farnaa.com/media/" + Model.CurrentImage + "' class='img-fluid p-3' width='400' />"))
+
+                                        <input asp-for="Image" type="file" class="form-control" />
+                                        <span asp-validation-for="Image" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group ">
+                                        <label for="categorylist" class="control-label">دسته بندی های اصلی</label>
+                                        <div class="row m-0 p-0">
+                                            <select id="categorylist" class="form-control col-md-9">
+                                                @foreach (var item in ViewBag.CategoryList)
+                                                {
+                                                    if (parentlist.Contains(item.Id))
+                                                    {
+                                                        parents.Add(new GetCategoryForAddViewModel
+                                                        {
+                                                            Id = item.Id,
+                                                            Title = item.Title
+                                                        });
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item.Id">@item.Title</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <div class="col-md-3"><a class="btn btn-success btn-add">افزودن</a></div>
+                                            <div class="parentlist col-md-12">
+                                                @foreach (var item in parents)
+                                                {
+                                                    <div class='btn-block btn-info' style='padding: 7px'>
+                                                        <button style='margin-left: 0' type='button' class='close pull-left btn-remove'>×</button>
+                                                        <input type='hidden' value='@item.Id' name='ParentList' />
+                                                        <span style='margin-left: 10px' class='parenttext'>@item.Title</span>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+
+
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Descrption" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="Descrption" rows="3"></textarea>
+                                        <span asp-validation-for="Descrption" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="KeyWord" class="control-label"></label>
+                                        <textarea class="form-control" asp-for="KeyWord" rows="3"></textarea>
+                                        <span asp-validation-for="KeyWord" class="text-danger"></span>
+                                    </fieldset>
+                                </div>
+                                        <div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+                                                                    <fieldset class="form-group">
+                                                                        <label asp-for="FAQSchema" class="control-label"></label>
+                                                                        <textarea class="form-control" asp-for="FAQSchema" rows="3"></textarea>
+                                                                        <span asp-validation-for="FAQSchema" class="text-danger"></span>
+                                                                    </fieldset>
+                                                                </div>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="CategoryList" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+  
+ 
+
+@section Scripts{
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script>
+    $(".btn-add").click(function () {
+        if ($("#categorylist").val()) {
+            var value = $("#categorylist").children("option:selected").val();
+            var text = $("#categorylist").children("option:selected").text();
+            $(".parentlist").append("<div class=' btn-block btn-info' style='padding:7px'><button style='margin-left:0' type='button' class='close pull-left btn-remove'>×</button>" +
+                "<input type='hidden' value='" + value + "' name='ParentList' /><span style='margin-left:10px' class='parenttext'>" + text + "</span> </div>");
+            $("#categorylist").children("option:selected").remove();
+        }
+    });
+
+    $('.parentlist').delegate(".btn-remove", 'click', function () {
+        var text = $(this).nextAll($(".parenttext")).text();
+        var value = $(this).nextAll($("input [type=hidden]")).val();
+        $("#categorylist").append($('<option>', {
+            value:value,
+            text:text
+        }));
+        $(this).parent().remove();
+    });
+    </script>
+}
+
+

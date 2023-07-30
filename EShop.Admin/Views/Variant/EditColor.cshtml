@@ -1,0 +1,91 @@
+﻿@model EShop.DataLayer.Entities.Variety.ProductOption
+
+@{
+    ViewData["Title"] = "ویرایش رنگ";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+}
+@section Styles
+{
+<link href="~/farbtastic/farbtastic.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">ویرایش رنگ </h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="EditColor" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Id" type="hidden" />
+                            <input asp-for="CreateDate" type="hidden" />
+                            <div class="row">
+
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <fieldset class="form-group">
+                                        <label asp-for="Name" class="control-label"></label>
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="ktext-danger"></span>
+                                    </fieldset>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="Value" class="control-label"></label>
+                                            <div class="form-item">
+                                                <input type="text" id="color" class="form-control" asp-for="Value" />
+                                            </div>
+                                            <div id="picker"></div>
+
+                                            <span asp-validation-for="Value" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-xl-6 col-lg-6 col-md-12 mb-1">
+                                        <fieldset class="form-group">
+                                            <label asp-for="SecondValue" class="control-label"></label>
+                                            <div class="form-item">
+                                                <input type="text" id="color2" value=@(string.IsNullOrEmpty(Model.SecondValue) ? "#123456" : Model.SecondValue) class="form-control" asp-for="SecondValue" />
+                                            </div>
+                                            <div id="picker2"></div>
+
+                                            <span asp-validation-for="SecondValue" class="text-danger"></span>
+                                        </fieldset>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                                <a asp-action="ColorList" class="btn btn-warning">بازگشت به لیست</a>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+
+<script src="~/farbtastic/farbtastic.js"></script>
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        $('#demo').hide();
+        $('#picker').farbtastic('#color');
+        $('#picker2').farbtastic('#color2');
+    });
+</script>
+}

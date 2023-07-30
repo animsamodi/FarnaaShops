@@ -1,0 +1,53 @@
+﻿@using System.Globalization
+
+@{
+    ViewBag.Title = "ثبت سفارش";
+    Layout = "../Shared/_Layout.cshtml";
+
+}
+@section Meta
+{
+    @await Html.PartialAsync("_noIndex")
+
+}
+<div id="main-nav" class="p-2">
+
+    <div class="alert alert-success mt-2 mb-2">در حال انتقال به صفحه ی پرداخت بانک</div>
+    <div class="card-body">
+
+        <div class="d-flex flex-row flex-wrap">
+
+
+            <div class="form-group col-lg-12 mt-2">
+
+                <form method="post" name="formBank" id="formBank" action='@TempData["PaymentUrl"]'>
+
+                    <div class="p-3 mt-3" style="line-height: 35px;padding-top:25px">
+
+
+                        <input type="hidden" value='@TempData["Token"]' id="tokenIdentity" name="tokenIdentity">
+
+                    </div>
+
+
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+
+
+
+</div>
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#formBank").submit();
+
+        });
+    </script>
+}

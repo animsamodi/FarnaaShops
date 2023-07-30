@@ -1,0 +1,655 @@
+﻿@using EShop.DataLayer.Enum
+@using EShop.DataLayer.Entities.Credit
+@model EShop.Core.ViewModels.Credit.CreditHoghughiViewModel
+
+@{
+    ViewBag.Title = "ثبت درخواست اعتباری مشتریان حقوقی";
+    Layout = "~/Areas/User/Views/Shared/_UserLayout.cshtml";
+}
+
+@section Style{
+    <link href="~/css/selectric.css" rel="stylesheet" />
+    <link href="~/css/persian-datepicker.css" rel="stylesheet" />
+    <link href="https://static.neshan.org/sdk/leaflet/1.4.0/leaflet.css" rel="stylesheet" type="text/css">
+    <style>
+        .field-validation-error {
+            font-size: 9pt !important;
+        }
+
+        .alert-error {
+            background-color: #c4a373 !important;
+            color: white !important;
+            text-align: center !important;
+            border: none !important;
+            font-size: 11pt !important;
+        }
+    </style>
+}
+<div class="profile-stats">
+    <div class="profile-address">
+        <div class="middle-container">
+            <div class="row p-2 m-0">
+                <div class="col-12 alert alert-warning d-flex justify-content-between mb-0">
+                    <p class="mb-0">
+                        <strong>کاربر گرامی! </strong> لطفا اطلاعات زیر را به درستی وارد کنید
+                        <br />
+                        پس از تایید اطلاعات توسط کارشناسان فرنا, میتوانید از خدمات اعتباری ما استفاده کنید
+                    </p>
+
+
+                </div>
+            </div>
+            @if (ViewBag.Error != null)
+            {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+
+            }
+            <form class="form-checkout" asp-area="User" asp-controller="Credit" asp-action="RequestLegal" method="post" enctype="multipart/form-data">
+            <div class="form-checkout-row row m-0 py-3">
+            <div asp-validation-summary="All" style="color:red"></div>
+
+            <h6 class="user-form-title col-12 col-12">مشخصات فردی (مدیرعامل)</h6>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Name"> </label>
+                <input type="text" asp-for="Name" class="input-name-checkout form-control">
+                <span asp-validation-for="Name" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Family"> </label>
+                <input type="text" asp-for="Family" class="input-name-checkout form-control">
+                <span asp-validation-for="Family" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="NationalNumber"> </label>
+                <input type="text" asp-for="NationalNumber" class="input-name-checkout form-control">
+                <span asp-validation-for="NationalNumber" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="ShomareShenasname"> </label>
+                <input type="text" asp-for="ShomareShenasname" class="input-name-checkout form-control">
+                <span asp-validation-for="ShomareShenasname" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Email"> </label>
+                <input type="text" asp-for="Email" class="input-name-checkout form-control">
+                <span asp-validation-for="Email" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="BDate"> </label>
+                <input type="text" asp-for="BDate" class="input-name-checkout form-control date-piker">
+                <span asp-validation-for="BDate" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Father"> </label>
+                <input type="text" asp-for="Father" class="input-name-checkout form-control">
+                <span asp-validation-for="Father" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="PlaceIssue"> </label>
+                <input type="text" asp-for="PlaceIssue" class="input-name-checkout form-control">
+                <span asp-validation-for="PlaceIssue" class="text-danger  "></span>
+            </div>
+            <h6 class="user-form-title col-12">مشخصات شرکت </h6>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="CompanyName"> </label>
+                <input type="text" asp-for="CompanyName" class="input-name-checkout form-control">
+                <span asp-validation-for="CompanyName" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="CodeEghtesadi"> </label>
+                <input type="text" asp-for="CodeEghtesadi" class="input-name-checkout form-control">
+                <span asp-validation-for="CodeEghtesadi" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="ShomareSabt"> </label>
+                <input type="text" asp-for="ShomareSabt" class="input-name-checkout form-control">
+                <span asp-validation-for="ShomareSabt" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="CodeNaghshTajer"> </label>
+                <input type="text" asp-for="CodeNaghshTajer" class="input-name-checkout form-control">
+                <span asp-validation-for="CodeNaghshTajer" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="TarikhTasis"> </label>
+                <input type="text" asp-for="TarikhTasis" class="input-name-checkout form-control date-piker">
+                <span asp-validation-for="TarikhTasis" class="text-danger  "></span>
+            </div>
+
+            <div class="col-lg-12 user-form-divider">
+                <hr/>
+
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="ShenaseMeli"> </label>
+                <input type="text" asp-for="ShenaseMeli" class="input-name-checkout form-control ">
+                <span asp-validation-for="ShenaseMeli" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="NoeSherkat"> </label>
+                <select asp-for="NoeSherkat" asp-items="Html.GetEnumSelectList<EnumNoeSherkat>()" class="input-name-checkout form-control">
+                    <option value="">- انتخاب کنید -</option>
+                </select>
+                <span asp-validation-for="NoeSherkat" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="NoeMalekiyat"> </label>
+                <select asp-for="NoeMalekiyat" asp-items="Html.GetEnumSelectList<EnumNoeMalekiyat>()" class="input-name-checkout form-control">
+                    <option value="">- انتخاب کنید -</option>
+                </select>
+                <span asp-validation-for="NoeMalekiyat" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="NoeTamalok"> </label>
+                <select asp-for="NoeTamalok" asp-items="Html.GetEnumSelectList<EnumNoeTamalok>()" class="input-name-checkout form-control">
+                    <option value="">- انتخاب کنید -</option>
+                </select>
+                <span asp-validation-for="NoeTamalok" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <label asp-for="TozihatSherkat"> </label>
+                <textarea rows="2" cols="30" asp-for="TozihatSherkat" class="textarea-name-checkout form-control"></textarea>
+                <span asp-validation-for="TozihatSherkat" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <label asp-for="NeshaniMahaleKar"> </label>
+                <textarea rows="1" cols="30" asp-for="NeshaniMahaleKar" class="textarea-name-checkout form-control"></textarea>
+                <span asp-validation-for="NeshaniMahaleKar" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <label asp-for="CodePostiNeshaniMahaleKar"> </label>
+                <input type="text" asp-for="CodePostiNeshaniMahaleKar" class="input-name-checkout form-control">
+                <span asp-validation-for="CodePostiNeshaniMahaleKar" class="text-danger  "></span>
+            </div>
+
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="TelephoneSabet"> </label>
+                <input type="text" asp-for="TelephoneSabet" class="input-name-checkout form-control">
+                <span asp-validation-for="TelephoneSabet" class="text-danger  "></span>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="Mobile"> </label>
+                <input type="text" asp-for="Mobile" class="input-name-checkout form-control">
+                <span asp-validation-for="Mobile" class="text-danger  "></span>
+            </div>
+
+
+            <h6 class="user-form-title col-12">
+                مشخصات سهام‌داران شرکت
+                <span class="text-danger   field-validation-valid" data-valmsg-for="TotalPercent" data-valmsg-replace="true"></span>
+            </h6>
+            @if (TempData["ParentError"] != null)
+            {
+                <div class="col-lg-12 row p-2 m-0">
+                    <div class="col-12 alert alert-danger d-flex justify-content-between mb-0">
+                        <p class="mb-0">
+                            @TempData["ParentError"]
+                        </p>
+
+
+                    </div>
+                </div>
+            }
+            <div class="row p-0 m-0 " id="PartnerContainer">
+                @for (int i = 0; i < Model?.Partners?.Count; i++)
+                {
+                    <div class="row p-0 m-0 partner-item">
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label> نام و نام خانوادگی</label>
+                            <input type="text" asp-for="Partners[i].FullName" class=" input-name-checkout form-control">
+                            <span asp-validation-for="Partners[i].FullName" data-valmsg-replace="true" class="text-danger  "></span>
+                        </div>
+
+                        <div class="col-lg-5 col-md-5 col-sm-12">
+                            <label>درصد مالکیت( سهم ) </label>
+                            <input type="text" asp-for="Partners[i].Darsad" class=" input-name-checkout form-control">
+                            <span asp-validation-for="Partners[i].Darsad" data-valmsg-replace="true" class="text-danger  "></span>
+                        </div>
+                        <div class="col-lg-2 col-md-5 col-sm-12 d-flex justify-content-center align-items-end  ">
+                            <div class="btn-remove-from-list"><i class="fa fa-trash-o btn  btn-danger"></i></div>
+                        </div>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-12">
+                <button class="btn btn-link btn-sm mb-20 btn-add-form-row" type="button" id="addPartner"><i class="mdi mdi-plus"></i>افزودن سهامدار / شریک</button>
+
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="SahamdarHagheEmza"> </label>
+                <input type="text" asp-for="SahamdarHagheEmza" class="input-name-checkout form-control">
+                <span asp-validation-for="SahamdarHagheEmza" class="text-danger  "></span>
+            </div>
+            <div class="col-lg-12 user-form-divider">
+                <hr/>
+
+            </div>
+            <h6 class="user-form-title col-12">
+                مشخصات حساب‌های بانکی جاری فعال شرکت / صاحب جواز کسب
+
+            </h6>
+            <div class="row p-0 m-0 " id="AccountContainer">
+                @if (Model?.Accounts?.Count > 0)
+                {
+                    for (int i = 0; i < Model.Accounts?.Count; i++)
+                    {
+                        <div class="row p-0 m-0 account-item">
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label asp-for="Accounts[i].Bank"> </label>
+                                <input type="text" asp-for="Accounts[i].Bank" class=" input-name-checkout form-control">
+                                <span asp-validation-for="Accounts[i].Bank" class="text-danger  "></span>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label asp-for="Accounts[i].Shobe"> </label>
+                                <input type="text" asp-for="Accounts[i].Shobe" class=" input-name-checkout form-control">
+                                <span asp-validation-for="Accounts[i].Shobe" class="text-danger  "></span>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label asp-for="Accounts[i].Jari"> </label>
+                                <input type="text" asp-for="Accounts[i].Jari" class=" input-name-checkout form-control">
+                                <span asp-validation-for="Accounts[i].Jari" class="text-danger  "></span>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12">
+                                <label asp-for="Accounts[i].ShomareKart"> </label>
+                                <input type="text" asp-for="Accounts[i].ShomareKart" class=" input-name-checkout form-control">
+                                <span asp-validation-for="Accounts[i].ShomareKart" class="text-danger  "></span>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12">
+                                <label asp-for="Accounts[i].Shahrestan"> </label>
+                                <input type="text" asp-for="Accounts[i].Shahrestan" class=" input-name-checkout form-control">
+                                <span asp-validation-for="Accounts[i].Shahrestan" class="text-danger  "></span>
+                            </div>
+                            <div class="col-lg-1 col-md-2 col-sm-12 d-flex justify-content-center align-items-end  ">
+                                <div class="btn-remove-from-list"><i class="fa fa-trash-o btn  btn-danger"></i></div>
+                            </div>
+                        </div>
+
+                    }
+                }
+                else
+                {
+                    <div class="row p-0 m-0 account-item">
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label asp-for="Accounts[0].Bank"> </label>
+                            <input type="text" asp-for="Accounts[0].Bank" class="input-name-checkout form-control">
+                            <span asp-validation-for="Accounts[0].Bank" class="text-danger  "></span>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label asp-for="Accounts[0].Shobe"> </label>
+                            <input type="text" asp-for="Accounts[0].Shobe" class="input-name-checkout form-control">
+                            <span asp-validation-for="Accounts[0].Shobe" class="text-danger  "></span>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label asp-for="Accounts[0].Jari"> </label>
+                            <input type="text" asp-for="Accounts[0].Jari" class="input-name-checkout form-control">
+                            <span asp-validation-for="Accounts[0].Jari" class="text-danger  "></span>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-sm-12">
+                            <label asp-for="Accounts[0].ShomareKart"> </label>
+                            <input type="text" asp-for="Accounts[0].ShomareKart" class="input-name-checkout form-control">
+                            <span asp-validation-for="Accounts[0].ShomareKart" class="text-danger  "></span>
+                        </div>
+                        <div class="col-lg-2 col-md-3 col-sm-12">
+                            <label asp-for="Accounts[0].Shahrestan"> </label>
+                            <input type="text" asp-for="Accounts[0].Shahrestan" class="input-name-checkout form-control">
+                            <span asp-validation-for="Accounts[0].Shahrestan" class="text-danger  "></span>
+                        </div>
+                        <div class="col-lg-1 col-md-2 col-sm-12 d-flex justify-content-center align-items-end  ">
+                            <div class='btn-remove-from-list'><i class='fa fa-trash-o btn  btn-danger'></i></div>
+                        </div>
+                    </div>
+                }
+
+
+
+            </div>
+            <button class="btn btn-link btn-sm btn-add-form-row mb-20" type="button" id="addAccount"><i class="mdi mdi-plus"></i>افزودن حساب‌ بانکی</button>
+            <div class="col-lg-12 user-form-divider">
+                <hr/>
+
+            </div>
+            <h6 class="user-form-title col-12"> اطلاعات جهت ایجاد اعتبار </h6>
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <label asp-for="NoeKharid"> </label>
+                <select asp-for="NoeKharid" asp-items="Html.GetEnumSelectList<EnumNoeKharid>()" class="input-name-checkout form-control">
+                    <option value="">- انتخاب کنید -</option>
+                </select>
+                <span asp-validation-for="NoeKharid" class="text-danger  "></span>
+            </div>
+            <div class="row m-0 p-0 col-12" id="CreditContainer">
+                <h6 class="user-form-title col-12">
+                    برای ایجاد اعتبار چه تضمینی در اختیار شرکت قرار می‌دهید؟
+                </h6>
+
+
+
+
+                @if (TempData["TazminError"] != null)
+                {
+                    <div class="col-lg-12 row p-2 m-0">
+                        <div class="col-12 alert alert-danger d-flex justify-content-between mb-0">
+                            <p class="mb-0">
+                                @TempData["TazminError"] </p>
+
+
+                        </div>
+                    </div>
+                }
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="ZemanatBankiMablagh"> </label>
+                    <input type="text" asp-for="ZemanatBankiMablagh" class="input-name-checkout form-control format-number-ziro">
+                </div>
+
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <label asp-for="VasigheMelkiMablagh"> </label>
+                    <input type="text" asp-for="VasigheMelkiMablagh" class="input-name-checkout form-control format-number-ziro">
+                </div>
+
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <span asp-validation-for="ZemanatBankiMablagh" class="text-danger  "></span>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-12 user-form-divider">
+                <hr/>
+
+            </div>
+
+
+
+            <h6 class="user-form-title col-12"> بارگذاری مدارک </h6>
+            <div class="row col-12 p-2 m-0">
+                <div class="col-12 alert alert-info d-flex justify-content-between mb-0">
+                    <p class="mb-0">
+
+                        فایل مدارک باید با فرمت های jpg. یا png. بارگزاری شود و حجم آن کمتر از 5 مگابایت باشد.
+
+                    </p>
+
+
+                </div>
+            </div>
+            @if (ViewBag.FileType != null)
+            {
+                var counterDoc = 0;
+
+                var types = (List<CreditDocumentType>) ViewBag.FileType;
+                foreach (var type in types)
+                {
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <label>@type.Name </label>
+                        <input type="hidden" name="Documents[@counterDoc].Title" value="@type.Name">
+                        <input type="hidden" name="Documents[@counterDoc].CreditDocumentTypeId" value="@type.Id">
+                        <input type="file" name="Documents[@counterDoc].FormFile" class="input-name-checkout form-control @(type.IsRequired ? "required-file" : "")">
+                        <small>@type.Text</small>
+                        <span data-valmsg-for="Documents[@counterDoc].FormFile" class="text-danger  " data-valmsg-replace="true"></span>
+                    </div>
+                    counterDoc++;
+                }
+            }
+            <div class="col-lg-12 col-md-12 col-sm-12">
+                <div class="form-auth-row p-4">
+                    <div class="g-recaptcha d-flex justify-content-center" data-sitekey="6LcjEtAeAAAAALXzQnvI6iRs3JhVGBgtyN0mOsgp"></div>
+                    <span id="recaptchaerror" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-lg-12 user-form-divider">
+                <hr/>
+
+            </div>
+            <div class="d-flex w-100 justify-content-between">
+                <button type="submit" class="btn-registrar"> ثبت درخواست</button>
+                <a asp-action="Index" asp-controller="Profile" asp-area="User" class="cancel-edit-address" data-dismiss="modal" aria-label="Close">بازگشت</a>
+            </div>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/js/jquery.selectric.min.js"></script>
+    <script src="~/js/formatPrice.js"></script>
+
+    <script src="~/js/jquery.validate.min.js"></script>
+    <script src="~/js/jquery.validate.unobtrusive.js"></script>
+    <script src="~/js/persian-date.js"></script>
+    <script src="~/js/persian-datepicker.js"></script>
+    <script src="https://www.google.com/recaptcha/api.js?hl=fa" async defer></script>
+
+    <script>
+        $(document).ready(function () {
+            $(".required-file").rules('add', {
+                required: true,
+                messages: {
+                    required: "لطفا فایل را وارد کنید",
+                }
+            });
+            $('.date-piker').persianDatepicker({
+                format: 'YYYY/MM/DD',
+                autoClose: true,
+                initialValue: false
+            });
+            $("form").submit(function (event) {
+
+                var recaptcha = $("#g-recaptcha-response").val();
+                //if (recaptcha === "") {
+                //    event.preventDefault();
+                //    $("#recaptchaerror").text("لطفا احراز هویت را انجام دهید")
+                //}
+
+                $.validator.methods.range;
+                $.validator.methods.range = function (value, element, param) {
+                    if (element.type === 'checkbox') {
+                        return element.checked;
+                    } else {
+                        return defaultRangeValidator.call(this, value, element, param);
+                    }
+                }
+
+            });
+
+            $("#NoeKharid").change(function() {
+                if ($(this).val() != "1") {
+                    $("#CreditContainer").slideDown();
+                } else {
+                    $("#CreditContainer").slideUp();
+                    $("#VasigheMelkiMablagh").val("0");
+                    $("#ZemanatBankiMablagh").val("0");
+                }
+            });
+
+        });
+
+    </script>
+    <script>
+
+        var counter = 0;
+        $("#addPartner").click(function () {
+            var startContainer = '<div class="row p-0 m-0 partner-item">';
+            var endContainer = "</div>";
+            var name = ' <div class="col-lg-5 col-md-5 col-sm-12">' +
+                ' <label > نام و نام خانوادگی</label>' +
+                '<input type="text" name="Partners[' +
+                counter +
+                '].FullName" class="input-name-checkout form-control">' +
+                '<span data-valmsg-for="Partners[' +
+                counter +
+                '].FullName" data-valmsg-replace="true" class="text-danger  "></span>' +
+                '</div>';
+
+            var darsad = ' <div class="col-lg-5 col-md-5 col-sm-12">' +
+                ' <label  >درصد مالکیت( سهم ) </label>' +
+                ' <input type="number"   name="Partners[' +
+                counter +
+                '].Darsad" class="input-name-checkout form-control parent-darsad">' +
+                ' <span data-valmsg-for="Partners[' +
+                counter +
+                '].Darsad" data-valmsg-replace="true" class="text-danger  "></span>' +
+                ' </div>';
+
+            var remove = '   <div class="col-lg-2 col-md-5 col-sm-12 d-flex justify-content-center align-items-end  ">' +
+                ' <div class="btn-remove-from-list"><i class="fa fa-trash-o btn  btn-danger"></i></div>' +
+                ' </div>';
+
+
+            $('#PartnerContainer').append(startContainer + name + darsad + remove + endContainer);
+
+            $("input[name='Partners[" + counter + "].FullName']").rules('add',
+                {
+                    required: true, regex: '^[آ-ی ]*$',
+
+                    messages: {
+                        required: "لطفا نام را وارد کنید",
+                        regex: "لطفا نام را با حروف فارسی وارد کنید"
+                    }
+                });
+
+            $("input[name='Partners[" + counter + "].Darsad']").rules('add',
+                {
+                    required: true,
+                    range: [0, 100],
+                    messages: {
+                        required: "درصد را وارد کنید",
+                        range: " درصد مالکیت( سهم ) باید بین 0 تا 100 باشد"
+                    }
+                });
+            counter++;
+        });
+
+        $('#PartnerContainer').delegate('.btn-remove-from-list', 'click', function () {
+            $(this).parents('.partner-item').remove();
+        });        var counterAccount = 0;
+        $("#addAccount").click(function () {
+
+
+            counterAccount++;
+            var startContainer = '<div class="row p-0 m-0 account-item">';
+            var endContainer = "</div>";
+            var Bank = ' <div class="col-lg-2 col-md-3 col-sm-12">' +
+                ' <label > بانک</label>' +
+                '<input type="text" name="Accounts[' +
+                counterAccount +
+                '].Bank" class="input-name-checkout form-control">' +
+                '<span data-valmsg-for="Accounts[' +
+                counterAccount +
+                '].Bank" data-valmsg-replace="true" class="text-danger  "></span>' +
+                '</div>';
+
+            var Shobe = ' <div class="col-lg-2 col-md-3 col-sm-12">' +
+                ' <label  >شعبه </label>' +
+                ' <input type="text" name="Accounts[' +
+                counterAccount +
+                '].Shobe" class="input-name-checkout form-control">' +
+                ' <span data-valmsg-for="Accounts[' +
+                counterAccount +
+                '].Shobe" data-valmsg-replace="true" class="text-danger  "></span>' +
+                ' </div>';
+
+            var Jari = ' <div class="col-lg-2 col-md-3 col-sm-12">' +
+                ' <label  >جاری</label>' +
+                ' <input type="text" name="Accounts[' +
+                counterAccount +
+                '].Jari" class="input-name-checkout form-control">' +
+                ' <span data-valmsg-for="Accounts[' +
+                counterAccount +
+                '].Jari" data-valmsg-replace="true" class="text-danger  "></span>' +
+                ' </div>';
+            var ShomareKart = ' <div class="col-lg-3 col-md-4 col-sm-12">' +
+                ' <label  >شماره کارت</label>' +
+                ' <input type="text" name="Accounts[' +
+                counterAccount +
+                '].ShomareKart" class="input-name-checkout form-control">' +
+                ' <span data-valmsg-for="Accounts[' +
+                counterAccount +
+                '].ShomareKart" data-valmsg-replace="true" class="text-danger  "></span>' +
+                ' </div>';
+
+            var Shahrestan = ' <div class="col-lg-2 col-md-3 col-sm-12">' +
+                ' <label  >شهرستان</label>' +
+                ' <input type="text" name="Accounts[' +
+                counterAccount +
+                '].Shahrestan" class="input-name-checkout form-control">' +
+                ' <span data-valmsg-for="Accounts[' +
+                counterAccount +
+                '].Shahrestan" data-valmsg-replace="true" class="text-danger  "></span>' +
+                ' </div>';
+
+            var remove = '   <div class="col-lg-1 col-md-2 col-sm-12 d-flex justify-content-center align-items-end  ">' +
+                ' <div class="btn-remove-from-list"><i class="fa fa-trash-o btn  btn-danger"></i></div>' +
+                ' </div>';
+
+
+            $('#AccountContainer').append(startContainer + Bank + Shobe + Jari + ShomareKart + Shahrestan + remove + endContainer);
+
+            $("input[name='Accounts[" + counterAccount + "].Bank']").rules('add',
+                {
+                    required: true,
+                    regex: '^[آ-ی ]*$',
+                    messages: {
+                        required: "لطفا بانک را وارد کنید",
+                        regex: "لطفا بانک را با حروف فارسی وارد کنید"
+                    }
+                });
+            $("input[name='Accounts[" + counterAccount + "].Shobe']").rules('add',
+                {
+                    required: true, regex: '^[آ-ی ]*$',
+
+                    messages: {
+                        required: "لطفا شعبه را وارد کنید", regex: "لطفا شعبه را با حروف فارسی وارد کنید"
+
+                    }
+                });
+            $("input[name='Accounts[" + counterAccount + "].Jari']").rules('add',
+                {
+                    required: true,
+                    regex: "^[\u06F0-\u06F90-9]+$",
+                    messages: {
+                        required: "لطفا شماره حساب را وارد کنید",
+                        regex: "لطفا شماره حساب را با عدد وارد کنید"
+
+                    }
+                });
+            $("input[name='Accounts[" + counterAccount + "].ShomareKart']").rules('add',
+                {
+                    maxlength: 16,
+                    minlength: 16, regex: "^[\u06F0-\u06F90-9]+$",
+
+                    required: true,
+                    messages: {
+                        required: "لطفا شماره کارت را وارد کنید",
+                        maxlength: "شماره کارت نباید بیشتر از 16 عدد باشد",
+                        minlength: "شماره کارت نباید کمتر از 16 عدد باشد",
+                        regex: "لطفا شماره کارت را با عدد وارد کنید"
+
+                    }
+                });
+            $("input[name='Accounts[" + counterAccount + "].Shahrestan']").rules('add',
+                {
+                    required: true, regex: '^[آ-ی ]*$',
+
+                    messages: {
+                        required: "لطفا شهرستان را وارد کنید", regex: "لطفا شهرستان را با حروف فارسی وارد کنید"
+
+                    }
+                });
+
+
+        });
+
+        $('#AccountContainer').delegate('.btn-remove-from-list', 'click', function () {
+            $(this).parents('.account-item').remove();
+        });
+    </script>
+}

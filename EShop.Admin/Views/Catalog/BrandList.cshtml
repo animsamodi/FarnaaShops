@@ -1,0 +1,92 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.BranListdAdminViewModel>
+
+@{
+    ViewData["Title"] = "لیست برندها";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+ 
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست برندها</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    @if (TempData["res"] != null)
+                    {
+                        if (TempData["res"].ToString() == "success")
+                        {
+                            <div class="alert alert-success alert-dismissible">
+                                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">×</button>
+
+                                عملیات با موفقیت انجام شد
+                            </div>
+                        }
+                        @if (TempData["res"].ToString() == "faild")
+                        {
+                            <div class="alert alert-danger alert-dismissible">
+                                <button type="button" class="close pull-left" data-dismiss="alert" aria-hidden="true">×</button>
+
+                                خطا در انجام عملیات
+                            </div>
+                        }
+                    }
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="CreateBrand" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                ایجاد برند
+                            </a>
+                        </div>
+                        <table class="table table-striped table-bordered table-responsive-sm table-configuration">
+                            <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.BrandId)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FaTitle)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IsShowInFirstPage)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Order)
+                                </th>
+                                <th></th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @foreach (var item in Model)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BrandId)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FaTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IsShowInFirstPage)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Order)
+                                    </td>
+                                    <td>
+                                        <a asp-action="DeleteBrand" class="btn btn-danger"  asp-route-id="@item.BrandId">حذف</a>
+                                        <a asp-action="EditBrand" asp-route-id="@item.BrandId" class="btn btn-info">ویرایش</a>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+ 

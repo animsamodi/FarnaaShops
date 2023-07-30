@@ -1,0 +1,76 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.UserAdminViewModel>
+
+@{
+    ViewData["Title"] = "UserList";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست مدیران</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="CreateUser" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                ایجاد مدیر جدید
+                            </a>
+                        </div>
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.FullName)
+                            </th>
+                           
+                            <th>
+                                @Html.DisplayNameFor(model => model.Phone)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.IsActive)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.RoleTitle)
+                            </th>
+                             
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.FullName)
+                                        </td>
+                                      
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Phone)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.IsActive)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.RoleTitle)
+                                        </td>
+                                        
+                                        <td>
+ 
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+ 

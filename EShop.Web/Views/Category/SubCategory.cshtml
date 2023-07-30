@@ -1,0 +1,96 @@
+﻿@using EShop.Core.ViewModels.Category
+@using EShop.Core.ViewModels.Product
+@using EShop.DataLayer.Entities.Category
+@using EShop.DataLayer.Entities.Brand
+@using EShop.Core.ExtensionMethods
+@using EShop.Core.ViewModels.Seo
+@using Microsoft.AspNetCore.Http.Extensions
+@model ProductSearchWithFilterViewModel
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageStructure = ViewData["pageStructure"] as PageStructureViewModel;
+    if (pageStructure == null)
+        pageStructure = new PageStructureViewModel(); ViewData["Title"] = pageStructure.MetaTitle;
+    ViewData["Title"] = pageStructure.MetaTitle;
+    Model.pageStructure = pageStructure;
+
+}
+
+@section Meta{
+     @*<meta name="og:title" content="@pageStructure.OgTitle"/>*@
+
+    <meta property="og:title" content="@pageStructure.MetaTitle">
+    <meta property="og:description" content="@pageStructure.MetaDescription">
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farnaa.com/images/logo.png">
+    <meta property="og:image:alt" content="@pageStructure.MetaTitle">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+    @Html.Raw(pageStructure.FAQSchema)
+    @Html.Raw(pageStructure.Schema)
+    <meta name="description" content="@pageStructure.MetaDescription" />
+
+}
+@section Style{
+
+<link rel="stylesheet" href="/css/vendor/noUISlider.min.css">
+
+}
+    @await Html.PartialAsync("InnerSubCategory", Model)
+
+
+<!--content-->
+@if (!String.IsNullOrEmpty(pageStructure.Text))
+{
+    <div class="container">
+        <div class="row">
+            <div class="content text-container"><div class="box-overlay"></div>
+
+                @Html.Raw((ViewData["pageStructure"] as PageStructureViewModel).Text)
+
+            </div>
+
+
+        </div>
+    </div>
+    }
+    <!--content-->
+
+    <!-- ---------- Banner Ads ---------- -->
+@await Component.InvokeAsync("OtherPageBannerComponent")
+
+
+<!-- ---------- Popular Products ---------- -->
+@await Component.InvokeAsync("OtherPageProductDiscountComponent")
+
+     
+
+@section Scripts{
+
+
+
+<script src="/js/vendor/ResizeSensor.min.js"></script>
+<script src="/js/vendor/theia-sticky-sidebar.min.js"></script>
+<script src="/js/vendor/wNumb.js"></script>
+<script src="/js/vendor/nouislider.min.js"></script>
+
+<script src="/js/user-main.js"></script>
+<script src="~/js/filter-on-products.js"></script>
+
+
+<script>
+    $('html,body').animate({ scrollTop: 0 }, 500);
+
+    search_page();
+    searchajaxload()
+
+
+
+</script>
+
+
+}

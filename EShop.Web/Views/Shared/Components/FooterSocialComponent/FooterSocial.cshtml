@@ -1,0 +1,61 @@
+﻿@using EShop.DataLayer.Entities.Site
+@model IEnumerable<SiteFotterLink>
+
+@if (Model.Any())
+{
+    <div class="social ">
+        <h3 class="title mb-3 ">
+            ما را در شبکه های اجتماعی دنبال کنید
+        </h3>
+
+        <ul class="social-box ">
+            @foreach (var item in Model)
+            {
+                <li class="social-item ">
+                    <a class="trs-3 " href="@item.Url" target="_blank">
+                       @if (string.IsNullOrEmpty(item.Image))
+                       {
+                        <i class="fab @item.FontIcon trs-3 "></i>
+
+                       }
+                       else
+                       {
+                           <img width="25" height="25" class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.Image" alt="@item.Title">
+                       }
+                    </a>
+                </li>
+            }
+        @*    <li class="social-item ">
+                <a class="trs-3 " href="# ">
+                    <i class="fab fa-instagram trs-3 "></i>
+                </a>
+            </li>
+
+            <li class="social-item ">
+                <a class="trs-3 " href="# ">
+                    <i class="fab fa-telegram trs-3 "></i>
+                </a>
+            </li>
+
+            <li class="social-item ">
+                <a class="trs-3 " href="# ">
+                    <i class="fab fa-linkedin trs-3 "></i>
+                </a>
+            </li>
+
+            <li class="social-item ">
+                <a class="trs-3 " href="# ">
+                    <i class="fab fa-twitter trs-3 "></i>
+                </a>
+            </li>
+
+            <li class="social-item ">
+                <a class="trs-3 " href="# ">
+                    <i class="fab fa-whatsapp trs-3 "></i>
+                </a>
+            </li>*@
+        </ul>
+    </div>
+    
+
+}

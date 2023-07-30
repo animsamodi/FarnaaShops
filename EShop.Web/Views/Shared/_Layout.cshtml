@@ -1,0 +1,403 @@
+﻿@using EndPoint.Web.Utilities
+@using EShop.Web.Helper
+@using Microsoft.AspNetCore.Http.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+
+<head lang="fa">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 ,
+            maximum-scale=1">
+    @RenderSection("Meta", false)
+    <script type="application/ld+json">
+        {
+          "@@context": "https://schema.org",
+          "@@type": "Organization",
+          "url": "http://www.farnaa.com",
+          "logo": "https://farnaa.com/images/logo.png"
+        }
+    </script>
+    <meta name="robots" content="noindex, nofollow">
+    @*    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+   *@
+    @if (ViewData["Title"] != null )
+    {
+ <title>@ViewData["Title"]</title>
+    }
+    else if(ViewData["schema"] == null)
+    {
+         <title>فروشگاه آنلاین فرنا | Farnaa</title>
+
+    }
+    <link rel="shortcut icon" href="~/new/images/favicon.png">
+
+    <!-- Bootstrap -->
+    @*<link rel="stylesheet" href="~/new/css/bootstrap.min.css" />*@
+    <link href="~/new/css/layout.min.css" rel="stylesheet" async asp-append-version="true" />
+    <link href="~/new/css/bootstrap.pure.min.css" rel="stylesheet" async/>
+    <link rel="stylesheet" href="~/new/css/custom.min.css" async asp-append-version="true" />
+
+
+    <link rel="stylesheet" href="~/new/css/style.min.css" async asp-append-version="true" />
+
+    @{
+        if (UiHelper.UseTagManager())
+        {
+
+           <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-MHR5SZ5');</script>
+        }
+    }
+
+</head>
+
+<body>
+@{
+    if (UiHelper.UseTagManager())
+    {
+  
+       <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-MHR5SZ5"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+ 
+    }
+}
+
+<time datetime="@DateTime.Now" data-calender-georgian="@DateTime.Now.ConvertMiladiToShamsi()" class="fadate"></time>
+
+<!------------ Loding ---------- -->
+@*    <div id="loading-wrapper">
+        <div class="content-loaging">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>*@
+
+<!-- ---------- Header ---------- -->
+@if (ClaimUtility.IsColleauge(User))
+{
+    @*<partial name="_headerColleauge" />*@
+    <partial name="_header"/>
+
+}
+else
+{
+    <partial name="_header"/>
+
+}
+
+@RenderBody()
+
+
+<!-- ---------- Footer ---------- -->
+@if (ClaimUtility.IsColleauge(User))
+{
+    <partial name="_footer"/>
+
+}
+else
+{
+    <partial name="_footer"/>
+
+}
+
+
+<!-- ---------- Back to top ---------- -->
+<a id="tops-button" class="top-scroll trs-3" href="#">
+    <i class="fal fa-chevron-up "></i>
+</a>
+<!-- Css -->
+<!-- ---------- Link To FAQ ---------- -->
+<a class="btn-link-faq" asp-controller="Home" asp-action="Faq">
+    <i class="fal fa-question "></i>
+</a>
+<!-- Css -->
+
+
+
+<link rel="stylesheet" href="/css/font.min.css" defer>
+
+
+<!-- Plugins -->
+<link rel="stylesheet" href="~/new/css/owl.carousel.min.css" defer>
+
+<!-- Main CSS File -->
+@*<link rel="stylesheet" href="~/new/css/style.min.css" />*@
+<link rel="stylesheet preload prefetch" as="style" href="~/new/css/filter.min.css"/>
+<link rel="stylesheet preload prefetch" as="style" href="~/new/css/col.min.css"/>
+@*<link rel="stylesheet" href="/css/switch.min.css" />*@
+<link rel="stylesheet preload prefetch" as="style" href="~/css/switch.pure.min.css"/>
+@*<link rel="stylesheet" href="~/new/css/colors/color-1.min.css" id="colorswitch" />*@
+<link rel="stylesheet preload prefetch" as="style" href="~/new/css/colors/color-1.pure.min.css" rel="stylesheet"/>
+@*<link rel="stylesheet" href="~/new/css/custom.min.css" />
+*@@*<partial name="_noIndex" />*@
+
+<!-- Font Icon -->
+@*<link rel="stylesheet" href="~/new/css/font-awesome.min.css" defer>*@
+<link defer href="~/new/css/font-awesome.pure.min.css" rel="stylesheet"/>
+
+<!--Old Style-->
+
+@*<link rel="preload" as="font" href="/css/vendor/font-awesome.min.css" defer>*@
+@*<link rel="preload" as="font" href="/css/vendor/materialdesignicons.min.css">*@
+@*<link rel="preload" as="font" href="/css/font.min.css">*@
+
+@*<link rel="stylesheet" href="/css/vendor/bootstrap.min.css">*@
+@*<link rel="stylesheet" href="/css/vendor/owl.carousel.min.css">*@
+<link rel="stylesheet preload prefetch" as="style" href="/css/vendor/nice-select.min.css">
+@*<link rel="stylesheet" href="/css/swiper-bundle.min.css">*@
+@*    <link rel="preload" as="style" href="~/css/swiper-bundle.pure.min.css"  />
+
+    <link rel="stylesheet preload prefetch" as="style" href="/css/main.min.css">*@
+@*<link rel="stylesheet" href="/css/style.min.css">*@
+@*<link href="~/css/style.pure.min.css" rel="stylesheet" />
+*@@*<link rel="stylesheet" href="/css/responsive.css">*@
+@*<link rel="stylesheet" href="/css/vendor/font-awesome.min.css">*@
+@*<link rel="stylesheet" href="/css/vendor/materialdesignicons.min.css">*@
+@*    <link rel="preload" as="style" href="/css/sweetalert.min.css">
+*@
+<!--End Old Style-->
+
+@RenderSection("Style", false)
+<!-- End Css -->
+
+
+
+<!-- JS Files -->
+
+<script src="~/new/js/jquery-3.6.1.min.js"></script>
+@*<script src="~/new/js/blazy.min.js" ></script>*@
+
+@*<script src="~/new/js/bootstrap.js" defer></script>*@
+
+<!-- Plugins -->
+<script defer src="~/new/js/owl.carousel.min.js"></script>
+<!-- Main JS File -->
+<script defer src="~/new/js/pre-main.min.js"></script>
+<script defer src="~/new/js/main.min.js"></script>
+@*<script src="~/new/js/custom.js" defer></script>*@
+
+<script defer src="~/new/js/jquery.countdown.js"></script>
+<script defer src="~/new/js/theia-sticky-sidebar.min.js"></script>
+
+
+
+<!-- Old Script-->
+@* <script src="~/js/vendor/jquery-3.2.1.min.js"></script>*@
+<script defer src="/js/vendor/bootstrap.min.js"></script>
+
+@*<script src="/js/vendor/owl.carousel.min.js"></script>*@
+@*<script defer src="/js/swiper-bundle.min.js"></script>*@
+
+@*<script src="/js/vendor/jquery.countdown.min.js"></script>*@
+@*<script src="/js/vendor/jquery.nice-select.min.js"></script>*@
+
+@*<script src="/js/main.js"></script>*@
+
+<script defer src="/js/jquery.lazy.min.js"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+<script type="text/javascript">
+
+
+    $(document).ready(function() {
+
+//             var bLazy = new Blazy({
+// //
+//});
+        //////////////////////////////////////////////// Slider ////////////////////////////////////////////////
+        if ($(window).width() < 992) {
+            $(".d-lg-block").remove()
+        } else {
+            $(".d-lg-none").remove()
+        }
+
+
+        $(".first-slider-item").remove()
+        $(".c-desktop-slider").addClass("d-lg-block")
+        $(".c-mobile-slider").removeClass("d-none")
+        setTimeout(() => {
+                $(".slider .owl-carousel").owlCarousel({
+                    rtl: true,
+                    loop: true,
+                    autoplay: false,
+                    autoplayTimeout: 6000,
+                    autoplayHoverPause: true,
+                    items: 1,
+                    dots: true,
+
+                });
+
+            },
+            6000);
+        setTimeout(() => {
+                $(".c-defer-load").removeClass("d-lg-none")
+                $(".box-overlay").remove()
+
+            },
+            3000);
+        $(".text-container .img-fluid").removeAttr("style")
+        //$('.lazy').lazy({
+        //    effect: "fadeIn",
+        //    effectTime: 2000,
+        //    threshold: 0,
+        //    delay: 1000
+
+
+        //});
+        $('.lazy-auto').lazy({
+            effect: "fadeIn",
+            effectTime: 2000,
+            threshold: 0,
+            delay: 6000
+
+
+        });
+        $('.lazy').lazy({
+            effect: "fadeIn",
+            effectTime: 500,
+            threshold: 0 //,
+            // delay: 1000
+
+
+        });
+        $('.lazy').lazy({
+            effect: "fadeIn",
+            effectTime: 500,
+            threshold: 0,
+            delay: 4000
+
+
+        });
+        //var swiper = new Swiper(".mySwiper", {
+        //    slidesPerView: 1.4,
+        //    spaceBetween: 10,
+        //    freeMode: true,
+
+        //    breakpoints: {
+        //        610: {
+        //            slidesPerView: 2
+        //        },
+        //        768: {
+        //            slidesPerView: 4
+        //        },
+        //        1024: {
+        //            slidesPerView: 5
+        //        },
+        //    },
+        //});
+        //var swiper2 = new Swiper(".mySwiper2", {
+        //    slidesPerView: 1.4,
+        //    spaceBetween: 10,
+        //    freeMode: true,
+
+        //    breakpoints: {
+        //        610: {
+        //            slidesPerView: 2
+        //        },
+        //        768: {
+        //            slidesPerView: 4
+        //        },
+        //        1024: {
+        //            slidesPerView: 4
+        //        },
+        //    },
+        //});
+        //var swiperRange = new Swiper(".rangeSwiper", {
+        //    slidesPerView: 3.4,
+        //    spaceBetween: 5,
+        //    autoplay: {
+        //        delay: 5000,
+        //    },
+        //    breakpoints: {
+        //        610: {
+        //            slidesPerView: 4
+        //        },
+        //        768: {
+        //            slidesPerView: 5
+        //        },
+        //        1024: {
+        //            slidesPerView: 7
+        //        },
+        //    },
+        //});
+        //$("#header-search-input").autocomplete({
+        //    source: '@Url.Action("HeaderSearch2", "Home")',
+
+        //    select: function (event, ui) {
+        //        setTimeout(() => {
+        //            searchHeader();
+        //        }, 100);
+        //    }
+        //});
+
+        $('#header-search-input').keyup(function(e) {
+            if (e.keyCode == 13) {
+                searchHeader();
+            }
+        });
+
+        $("#btn-search-header").click(function() {
+
+
+            searchHeader();
+        });
+
+
+        function searchHeader() {
+
+            var url = "@Url.Action("Search", "Home", new { area = "" })";
+            location.href = url + "?q=" + $("#header-search-input").val();
+
+        }
+        //$("#header-search-input-mobile").autocomplete({
+        //    source: '@Url.Action("HeaderSearch2", "Home")',
+
+        //    select: function (event, ui) {
+        //        setTimeout(() => {
+        //            searchHeaderMobile();
+        //        }, 100);
+        //    }
+        //});
+        $('#header-search-input-mobile').keyup(function(e) {
+            if (e.keyCode == 13) {
+                searchHeaderMobile();
+            }
+        });
+
+        $("#btn-search-header-mobile").click(function() {
+
+
+            searchHeaderMobile();
+        });
+
+
+        function searchHeaderMobile() {
+
+            var url = "@Url.Action("Search", "Home", new { area = "" })";
+            location.href = url + "?q=" + $("#header-search-input-mobile").val();
+
+        }
+    });
+
+</script>
+<!-- End Old Script-->
+
+
+
+
+
+
+
+</body>
+
+</html>

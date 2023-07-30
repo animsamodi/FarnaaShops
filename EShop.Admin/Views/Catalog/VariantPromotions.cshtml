@@ -1,0 +1,105 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.VariantPromotionsViewModel>
+
+@{
+    ViewData["Title"] = "لیست تخفیفات";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var variantId = ViewBag.VariantId;
+}
+
+@Html.Partial("_alert")
+
+<section id="extended">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title">لیست تخفیفات </h4>
+                    </div>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="card-block">
+                        <div class="box-header with-border">
+                            <a asp-action="CreateVariantPromotion" asp-route-id="@variantId" class="btn btn-primary mb-2">
+                                <i class="ft-plus"></i>
+                                ایجاد تخفیف جدید
+                            </a>
+                        </div>
+                        <table class="table table-responsive-md text-center">
+                            <thead>
+                            <th>
+                                @Html.DisplayNameFor(model => model.VariantPromotionId)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Price)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Percent)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Count)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.MaxOrderCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.ReminaingCount)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.StartDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EndDate)
+                            </th>
+                             
+                            <th></th>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.VariantPromotionId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Price)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Percent)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Count)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.MaxOrderCount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.ReminaingCount)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StartDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.EndDate)
+                                        </td>
+                                  
+
+                                        <td>
+                            <a class="btn btn-danger" asp-action="DeleteVariantPromotion" asp-route-id="@item.VariantPromotionId" asp-route-variantId="@variantId">حذف</a>
+
+                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+ 

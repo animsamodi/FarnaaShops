@@ -1,0 +1,150 @@
+﻿
+@using EShop.DataLayer.Enum
+@model EShop.Core.ViewModels.ColleaugeSettingViewModel
+
+@{
+    ViewData["Title"] = "ویرایش";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+@section Styles
+{
+    <link href="~/css/bootstrap-multiselect.css" rel="stylesheet" />
+}
+<div class="row">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title-wrap bar-success">
+                    <h4 class="card-title mb-0">تنظیمات همکار</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="px-3">
+                    <form class="form" asp-action="Edit" enctype="multipart/form-data">
+                        <div class="form-body">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input asp-for="Id" type="hidden" />
+                            <input asp-for="TopImageBannerWeb" type="hidden" />
+                            <input asp-for="TopImageBannerMobile" type="hidden" />
+							<div class="row">
+
+
+								<div class="  col-md-12 ">
+									<h6>بنر بالای سایت وب</h6>
+
+								</div>
+
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="TopImageBannerWebTitle" class="control-label"></label>
+										<input asp-for="TopImageBannerWebTitle" class="form-control" />
+										<span asp-validation-for="TopImageBannerWebTitle" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="TopImageBannerWebUrl" class="control-label"></label>
+										<input asp-for="TopImageBannerWebUrl" class="form-control" />
+										<span asp-validation-for="TopImageBannerWebUrl" class="text-danger"></span>
+									</fieldset>
+								</div>
+
+
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<img class="img-fluid" src="https://media.farnaa.com/media/@Model.TopImageBannerWeb" />
+										<label asp-for="TopImageBannerWeb" class="control-label"></label>
+										<input asp-for="ImageFormFileWeb" type="file" class="form-control" />
+										<span asp-validation-for="ImageFormFileWeb" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label>
+											<input asp-for="ShowTopImageBannerWeb" /> @Html.DisplayNameFor(model => model.ShowTopImageBannerWeb)
+										</label>
+									</fieldset>
+								</div>
+								<hr />
+								<div class="  col-md-12 ">
+									<h6>بنر بالای سایت موبایل</h6>
+
+								</div>
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="TopImageBannerMobileTitle" class="control-label"></label>
+										<input asp-for="TopImageBannerMobileTitle" class="form-control" />
+										<span asp-validation-for="TopImageBannerMobileTitle" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="TopImageBannerMobileUrl" class="control-label"></label>
+										<input asp-for="TopImageBannerMobileUrl" class="form-control" />
+										<span asp-validation-for="TopImageBannerMobileUrl" class="text-danger"></span>
+									</fieldset>
+								</div>
+
+
+								<div class="col-xl-4 col-lg-6 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<img class="img-fluid" src="https://media.farnaa.com/media/@Model.TopImageBannerMobile" />
+
+										<label asp-for="TopImageBannerMobile" class="control-label"></label>
+										<input asp-for="ImageFormFileMobile" type="file" class="form-control" />
+										<span asp-validation-for="ImageFormFileMobile" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label>
+											<input asp-for="ShowTopImageBannerMobile" /> @Html.DisplayNameFor(model => model.ShowTopImageBannerWeb)
+										</label>
+									</fieldset>
+								</div>
+								<hr />
+							 		<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="StartTime" class="control-label"></label>
+										<input asp-for="StartTime" class="form-control" />
+										<span asp-validation-for="StartTime" class="text-danger"></span>
+									</fieldset>
+								</div>
+										<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label asp-for="EndTime" class="control-label"></label>
+										<input asp-for="EndTime" class="form-control" />
+										<span asp-validation-for="EndTime" class="text-danger"></span>
+									</fieldset>
+								</div>
+								<div class="col-xl-12 col-lg-12 col-md-12 mb-1">
+									<fieldset class="form-group">
+										<label>
+											<input asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
+										</label>
+									</fieldset>
+								</div>
+							</div>
+                        </div>
+                        <div class="form-actions">
+                            <div class="text-right">
+                                <button type="submit" class="btn btn-primary mr-1">
+                                    ثبت
+                                    <i class="ft-thumbs-up position-right"></i>
+                                </button>
+                            
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts
+{
+
+}
+

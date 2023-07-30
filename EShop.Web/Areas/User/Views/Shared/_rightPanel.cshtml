@@ -1,0 +1,104 @@
+﻿@using EndPoint.Web.Utilities
+
+@{
+    Layout = null;
+}
+@{
+    string action = ViewContext.RouteData.Values["Action"]?.ToString() ?? "";
+}
+<div class="sidebar-profile sidebar-navigation">
+    <section class="profile-box">
+      @*  <header class="profile-box-header-inline">
+            <div class="profile-avatar user-avatar profile-img">
+                <img src="/images/man.png">
+            </div>
+        </header>*@
+        <footer class="profile-box-content-footer">
+            <span class="profile-box-nameuser">@User.FindFirst("name").Value</span>
+            <span class="profile-box-registery-date">عضویت در سایت : @User.FindFirst("date").Value</span>
+                         <span class="profile-box-phone">شماره همراه : @User.FindFirst("phone").Value</span>
+@*  @if (ClaimUtility.IsColleauge(User))
+            {
+                
+                                                @await Component.InvokeAsync("ColleaugeCreditComponent")
+
+            }*@
+            <div class="profile-box-tabs">
+                <a asp-controller="Account" asp-action="Logout" class="profile-box-tab-sign-out text-danger"><i class="mdi mdi-logout-variant"></i>خروج از حساب</a>
+            </div>
+        </footer>
+    </section>
+    <section class="profile-box">
+        <ul class="profile-account-navs">
+            <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Profile" asp-action="Index" class="@(action.Contains("Index") ? "active" : "")">
+                    <i class="mdi mdi-account-outline"></i>
+                    پروفایل
+                </a>
+            </li>
+            <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Profile" asp-action="Orders" class="@(action.Contains("Orders") ? "active" : "")">
+                    <i class="mdi mdi-cart"></i>سفارش ها
+                </a>
+            </li>
+            <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Profile" asp-action="FavoriteList" class="@(action.Contains("FavoriteList") ? "active" : "")">
+                    <i class="mdi mdi-bookmark"></i>
+                    لیست علاقه مندی
+                </a>
+            </li>
+            <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Profile" asp-action="Addresses" class="@(action.Contains("Addresses") ? "active" : "")">
+                    <i class="mdi mdi-map-outline"></i>
+                    آدرس ها
+                </a>
+            </li>
+@*
+            <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Profile" asp-action="Comments" class="@(action.Contains("Comments") ? "active" : "")">
+                    <i class="mdi mdi-email-open-outline"></i>
+                    نظرات
+                </a>
+            </li>*@
+            <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Profile" asp-action="EditProfile" class="@(action.Contains("EditProfile") ? "active" : "")">
+                    <i class="mdi mdi-tooltip-text-outline"></i>
+                    ویرایش پروفایل
+                </a>
+            </li>
+      @*         <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Credit" asp-action="Index" >
+                    <i class="mdi mdi-tooltip-text-outline"></i>
+                    لیست درخواست ها
+                </a>
+            </li>
+         <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Credit" asp-action="RequestReal" class="@(action.Contains("RequestReal") ? "active" : "")">
+                    <i class="mdi mdi-tooltip-text-outline"></i>
+                    درخواست اعتباری حقیقی
+                </a>
+            </li>
+            <li class="profile-account-nav-item navigation-link-dashboard">
+                <a asp-area="User" asp-controller="Credit" asp-action="RequestLegal" class="@(action.Contains("RequestLegal") ? "active" : "")">
+                    <i class="mdi mdi-tooltip-text-outline"></i>
+                    درخواست اعتباری حقوقی
+                </a>
+            </li>*@
+    @*           @if (ClaimUtility.IsColleauge(User))
+            {
+                <li class="profile-account-nav-item navigation-link-dashboard">
+                    <a asp-area="User" asp-controller="Credit" asp-action="ListCreditBill" class="@(action.Contains("ListCreditBill") ? "active" : "")">
+                        <i class="mdi mdi-tooltip-text-outline"></i>
+                        لیست فیش های واریزی
+                    </a>
+                </li>
+                <li class="profile-account-nav-item navigation-link-dashboard">
+                    <a asp-area="User" asp-controller="Credit" asp-action="RequestCreditBill" class="@(action.Contains("RequestCreditBill") ? "active" : "")">
+                        <i class="mdi mdi-tooltip-text-outline"></i>
+                        ثبت فیش واریزی
+                    </a>
+                </li>
+            }*@
+        </ul>
+    </section>
+</div>

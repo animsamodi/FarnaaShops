@@ -1,0 +1,178 @@
+﻿@using EShop.DataLayer.Enum
+@using Microsoft.AspNetCore.Http.Extensions
+@model List<EShop.DataLayer.Entities.Site.Faq>
+@{
+    ViewData["Title"] = "سوالات متداول";
+
+    Layout = "../Shared/_Layout.cshtml";
+}
+@section Meta
+    {
+
+    @* <meta name="title" content="سوالات متداول">
+    @if (Model.MetaDescription != null)
+    {
+        <meta name="description" content="@(Model.MetaDescription)">
+    }
+    @if (Model.MetaKeywords != null)
+    {
+        <meta name="keywords" content="@Model.MetaKeywords">
+
+    }
+    @if (Model.Canonical != null)
+    {
+        <link rel="canonical" href="@Model.Canonical">
+
+    }*@
+
+
+    <meta property="og:title" content="سوالات متداول">
+        @*<meta property="og:description" content="@Model.MetaDescription">*@
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://farnaa.com/images/logo.png">
+    <meta property="og:image:alt" content="سوالات متداول">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+                                        @*   @Html.Raw(Model.BaseSchema)
+
+    @Html.Raw(Model.HeaderTag)
+    @Html.Raw(Model.Schema)*@
+}
+
+@section Style
+    {
+
+    <style>
+        .btn-link-faq {
+            display: none !important;
+        }
+    </style>
+}
+<!-- ---------- Faq Page ---------- -->
+<div class="faq">
+    <div class="container">
+        <div class="address-bar"><div class="box-overlay"></div>
+            <ul class="box-address">
+                <li class="item">
+                    <a class="trs-3" asp-controller="Home" asp-action="Index">
+                        خانه
+                        <i class="fal fa-chevron-left"></i>
+                    </a>
+                </li>
+
+                <li class="item active">
+                    <h1 class="trs-3">
+                        سوالات متداول
+                    </h1>
+                </li>
+            </ul>
+        </div>
+        <!-- ---------- Banner Ads 3 ---------- -->
+        @*        <div class="banner-ads ">
+        <div class="holder-ads ">
+        <div class="container ">
+        <div class="row ">
+
+        <div class="col-12 d-none d-lg-block ">
+        <div class="ads ">
+        <a href="# " class="ads-pic ">
+        <img src="img/brandcomp/samsung.jpg " alt=" ">
+        </a>
+        </div>
+        </div>
+
+        <div class="col-12 d-lg-none ">
+        <div class="ads ">
+        <a href="# " class="ads-pic ">
+        <img src="img/brandcomp/s1.png " alt=" ">
+        </a>
+        </div>
+        </div>
+
+        </div>
+        </div>
+        </div>
+        </div>*@
+
+        <div class="faq-content">
+            <div class="row">
+                <div class="col-12">
+                    @{
+                        var grouped = Model.GroupBy(c => c.Type).ToList();
+                        foreach (var item in grouped)
+                        {
+                            <h5 class="title">
+                                @item.Key.ToDisplay()
+                            </h5>
+                            <div class="faqs-grid">
+                                @foreach (var faq in item.OrderBy(c => c.Order))
+                                {
+                                    <div class="faqs-item ">
+                                        <a class="faqs-title trs-3" href="#custom">
+                                            @faq.Question
+                                            <i class="fal fa-chevron-down"></i>
+                                        </a>
+                                        <div class="faqs-content">
+                                            <div class="faqs-content-inside">
+                                                <p>
+                                                    @faq.Answer
+
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
+
+
+                            </div>
+
+
+                        }
+                    }
+
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<!-- ---------- Banner Ads ---------- -->
+@await Component.InvokeAsync("OtherPageBannerComponent")
+
+
+<!-- ---------- Popular Products ---------- -->
+@await Component.InvokeAsync("OtherPageProductDiscountComponent")
+
+
+@section Scripts
+    {
+    <!--BEGIN RAYCHAT CODE-->
+    @*<script type="text/javascript" defer>
+    !function () {
+        function t()
+        { var t = document.createElement("script"); t.type = "text/javascript", t.async = !0, localStorage.getItem("rayToken") ? t.src = "https://app.raychat.io/scripts/js/" + o + "?rid=" + localStorage.getItem("rayToken") + "&href=" + window.location.href : t.src = "https://app.raychat.io/scripts/js/" + o + "?href=" + window.location.href; var e = document.getElementsByTagName("script")[0]; e.parentNode.insertBefore(t, e) } var e = document, a = window, o = "5ab48fef-92be-4b0b-8694-8df82e43aaf5"; "complete" == e.readyState ? t() : a.attachEvent ? a.attachEvent("onload", t) : a.addEventListener("load", t, !1) }();
+    </script>*@
+    <script type="text/javascript">
+      window.RAYCHAT_TOKEN = "5ab48fef-92be-4b0b-8694-8df82e43aaf5";
+        (function () {
+          d = document;
+          s = d.createElement("script");
+          s.src = "https://widget-react.raychat.io/install/widget.js";
+          s.async = 1;
+          d.getElementsByTagName("head")[0].appendChild(s);
+        })();
+    </script>
+
+    <!--END RAYCHAT CODE-->
+}
+

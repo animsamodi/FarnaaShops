@@ -1,0 +1,87 @@
+﻿@model List<EShop.Core.ViewModels.Cart.CartPageViewModel>
+
+@{
+    Layout = null;
+    int specialprice = 0;
+    int mainprice = 0;
+}
+
+
+<div class="header-cart-basket">
+    <a href="#" class="cart-basket-box">
+        <span class="icon-cart">
+            <i class="mdi mdi-cart"></i>
+        </span>
+        <span class="title-cart">سبد خرید</span>
+        <span class="price-cart">
+            @specialprice
+            <span>  تومان  </span>
+        </span>
+        <span class="count-cart">@Model.Count</span>
+    </a>
+    <div class="widget-shopping-cart">
+        <div class="widget-shopping-cart-content">
+            @if (Model.Count > 0)
+            {
+
+                <ul class="product-list-widget">
+                    @foreach (var item in Model)
+                    {
+                        <li class="mini-cart-item">
+                            <div class="mini-cart-item-content">
+                                <a asp-action="RemoveCartDetail" asp-route-id="@item.VariantId" class="mini-cart-item-close">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                                <a asp-action="Index" asp-controller="Product"   asp-route-id="@item.ProductId" asp-route-category="@item.CategoryName.ToUrlFormat()" asp-route-name="@item.EnTitle.Replace(" ","-")"  class="mini-cart-item-image d-block">
+                                    <img width="600" height="600" src="https://media.farnaa.com/media/@item.ImgName">
+                                </a>
+                                <span class="product-name-card"> @item.ProductName</span>
+                                <div class="variation">
+                                    <span class="variation-n">فروشنده : </span>
+                                    <p class="mb-0">@item.SellerName </p>
+                                </div>
+                                <div class="quantity">
+                                    <span class="quantity-Price-amount">
+                                        @item.SpecialPrice
+                                        <span>  تومان  </span>
+                                    </span>
+                                </div>
+                            </div>
+                        </li>
+
+                        specialprice += item.SpecialPrice * item.CartCount;
+                        mainprice += item.MainPrice * item.CartCount;
+
+                    }
+
+                </ul>
+                <div class="mini-card-total">
+                    <strong>قیمت کل : </strong>
+                    <span class="price-total">
+                        @specialprice
+                        <span>  تومان  </span>
+                    </span>
+                </div>
+                <div class="mini-card-button">
+                    <a asp-controller="Cart" asp-action="Index" class="card-checkout">مشاهده سبد خرید</a>
+                </div>
+
+
+            }
+            else
+            {
+                <div class="mini-card-total bg-danger text-white">
+                    <strong>سبد خرید شما خالی می باشد</strong>
+
+                </div>
+            }
+
+
+        </div>
+    </div>
+</div>
+
+
+
+
+

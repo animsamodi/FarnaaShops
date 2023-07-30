@@ -1,0 +1,234 @@
+﻿@using EShop.Core.ViewModels.Product
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@model BasePageWithFilterViewModel
+@{
+    Layout = null;
+}
+
+
+<div class="filter">
+
+<div class="brand js-filter_box  d-none">
+    <div class="title">
+        <span>
+            فیلتر ها
+        </span>
+    </div>
+    <div class="brand-box">
+        <ul class="c-box_cat-list js-filters">
+        </ul>
+    </div>
+</div>
+<div class="available">
+    <div class="available-stock-switch">
+        <label class="available-switch">
+            <input class="available-stock-only" type="checkbox" />
+            <span class="available-switch-slider round"></span>
+        </label>
+        <label class="available-stock-switch-text" >فقط کالاهای موجود</label>
+     
+    </div>
+</div>
+<div class="available">
+    <div class="available-discounted-switch">
+        <label class="discounted-switch">
+            <input class="available-discounted-only" type="checkbox" />
+            <span class="available-switch-slider round"></span>
+        </label>   
+        <label class="available-stock-switch-text">کالاهای تخفیف دار</label>
+
+    </div>
+</div>
+@if (Model.SideBarData.Categories.Count > 0)
+{
+    <div class="brand">
+        <div class="title">
+            <span>
+                دسته بندی محصولات
+            </span>
+        </div>
+        <div class="brand-box">
+            <ul style="display:inline-block !important;" class="c-box_cat-list">
+                @foreach (var item in Model.SideBarData.Categories)
+                {
+                    <li class='c-box_cat-item'>
+                        <span class='c-box_cat-span'>
+                            <a asp-action="subcategory" asp-controller="category" asp-route-title="@item.EnglishTitle.ToUrlFormat()"
+                               asp-route-categoryName="@Model.Category.EnglishTitle.ToUrlFormat()"   
+                                                       
+                               class='c-box_cat-link @(Model.Category!=null ? (item.Id == Model.Category.Id ? "is-active" : ""):"")'>
+                                @item.PersianTitle
+                            </a>
+                        </span>
+                    </li>
+                    @if(item.SubCategory is not null && item.SubCategory.Count > 0)
+                    {
+                        <ul class='c-box_cat-list'>
+                            @foreach(var subcategory in item.SubCategory)
+                            {
+                                <li class='c-box_cat-item'>
+                                    <span class='c-box_cat-span c-box_cat-span-arrow_left'>
+                                        <a href='/category/@subcategory.EnglishTitle.ToUrlFormat()'
+                                           class='c-box_cat-link @(Model.Category!=null ?(item.Id ==  Model.Category.Id ? "is-active" : ""):"")'>
+                                            @subcategory.PersianTitle
+                                        </a>
+                                    </span>
+                                </li>
+                            }
+                        </ul>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+
+}
+@if (Model.SideBarData.Brands != null && Model.SideBarData.Brands.Count != 0 && !string.IsNullOrEmpty(Model.SelectedParentCategory))
+{
+    <div class="brand">
+        <div class="title">
+            <span>
+                براساس برند
+            </span>
+        </div>
+        <div class="brand-box">
+            <ul style="display:inline-block !important;" class="c-box_cat-list">
+                @foreach (var item in Model.SideBarData.Brands)
+                {
+                    <li class='c-box_cat-item'>
+                        <span class='c-box_cat-span'>
+                            <a asp-action="subcategory" asp-controller="category" asp-route-title="@Model.SelectedCategory.ToUrlFormat()"
+                               asp-route-categoryName="@Model.SelectedParentCategory.ToUrlFormat()"
+                               asp-route-seriName="@item.EnglishTitle.ToUrlFormat()"
+                               class='c-box_cat-link @(Model.SelectedBrand!=null ? (item.EnglishTitle.ToUrlFormat() == Model.SelectedBrand ? "is-active" : ""):"")'>
+                                @item.PersianTitle
+                            </a>
+                        </span>
+                    </li>
+                                      
+                }
+            </ul>
+        </div>
+    </div>
+
+}
+@if (Model.SideBarData.Series != null && Model.SideBarData.Series.Count != 0)
+{
+    <div class="brand">
+        <div class="title">
+            <span>
+                سری محصولات
+                </span>
+        </div>
+        <div class="brand-box">
+            <ul style="display:inline-block !important;" class="c-box_cat-list">
+                @foreach (var item in Model.SideBarData.Series)
+                {
+                    <li class='c-box_cat-item'>
+                        <span class='c-box_cat-span'>
+                            <a asp-action="subcategory" asp-controller="category" asp-route-title="@Model.SelectedBrand.ToUrlFormat()"
+                               asp-route-categoryName="@Model.SelectedCategory.ToUrlFormat()"
+                               asp-route-seriName="@item.EnglishTitle.ToUrlFormat()"
+                               class='c-box_cat-link @(Model.SelectedSeri!=null ? (item.EnglishTitle.ToUrlFormat() == Model.SelectedSeri ? "is-active" : ""):"")'>
+                                @item.PersianTitle
+                            </a>
+                        </span>
+                    </li>
+                                      
+                }
+            </ul>
+        </div>
+    </div>
+
+}
+
+
+@if (@Model.SideBarData.MaxPrice > 0)
+{
+    <div class="pric">
+        <div class="title">
+            <span>
+                براساس قیمت
+            </span>
+        </div>
+        <div class="pric-box">
+            <div class="c-filter">
+                <div class="c-box_filter-slider">
+                    <div class="rangeSlider-desktop"></div>
+                </div>
+
+                <ul class="c-filter_range">
+                    <li data-label="از" data-currency="تومان">
+                        <input type="text" id="min_price_value" class="js-slider_range-from" data-range="@Model.SideBarData.MinPrice.Value"
+                               data-value="@Model.SideBarData.MinPrice.Value" value="@Model.SideBarData.MinPrice.Value" disabled="disabled">
+                    </li>
+
+                    <li data-label="تا" data-currency="تومان">
+                        <input type="text" id="max_price_value" class="js-slider_range-to" data-range="@Model.SideBarData.MaxPrice.Value"
+                               data-value="@Model.SideBarData.MaxPrice.Value" value="@Model.SideBarData.MaxPrice.Value" disabled="disabled">
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+}
+@*<div class="color">
+    <div class="title">
+        <h6>
+            براساس رنگ
+        </h6>
+    </div>
+
+    <div class="color-box f-parent">
+        <span id="color" class="color-item
+                                            color-1">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-2">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-3">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-4">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-5">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-6">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-7">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-8">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-9">
+            <i class="fal fa-check"></i>
+        </span>
+        <span id="color" class="color-item
+                                            color-10">
+            <i class="fal fa-check"></i>
+        </span>
+    </div>
+</div>*@
+
+
+@*<div class="button-filter">
+    <a class="trs-3" href="#">
+        فیلتر
+    </a>
+</div>*@
+</div>
+
+ 

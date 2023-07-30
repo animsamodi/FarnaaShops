@@ -1,0 +1,138 @@
+using System;
+using System.IO;
+using EShop.Core.Helpers;
+using EShop.Core.Sender;
+using EShop.Core.Services.Implementations;
+using EShop.Core.Services.Implementations.Order;
+using EShop.Core.Services.Implementations.Product;
+using EShop.Core.Services.Implementations.Seller;
+using EShop.Core.Services.Implementations.User;
+using EShop.Core.Services.Implementations.Variant;
+using EShop.Core.Services.Interfaces;
+using EShop.DataLayer.Context;
+using EShop.DataLayer.Entities;
+using EShop.DataLayer.Repository;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+
+namespace EShop.Web
+{
+    public class Startup
+    {
+        public const string CookieScheme = "EshopCookie";
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+        public void ConfigureServices(IServiceCollection services)
+        {
+
+
+
+            services.AddControllersWithViews();
+
+
+            #region Add DbContext
+
+            services.AddEntityFrameworkSqlServer().AddDbContext<ApplicationDbContext>(option =>
+                option.UseSqlServer(Configuration.GetConnectionString("ApplicationDbContext")));
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+            #endregion
+
+            #region Application Services
+
+ 
+            services.AddScoped<IAddressService, AddressService>();
+            services.AddScoped<IAttributeRatingService, AttributeRatingService>();
+            services.AddScoped<IBannerService, BannerService>();
+            services.AddScoped<IBrandService, BrandService>();
+            services.AddScoped<ICartService, CartService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICommentService, CommentService>();
+            services.AddScoped<IDiscountCodeService, DiscountCodeService>();
+            services.AddScoped<IFavoriteService, FavoriteService>();
+            services.AddScoped<IGalleryService, GalleryService>();
+            services.AddScoped<IGiftCartService, GiftCartService>();
+            services.AddScoped<IMainMenuService, MainMenuService>();
+            services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IPaymentDetialService, PaymentDetialService>();
+            services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IPropertyService, PropertyService>();
+            services.AddScoped<IReviewService, ReviewService>();
+            services.AddScoped<ISaleTransactionService, SaleTransactionService>();
+            services.AddScoped<ISellerService, SellerService>();
+            services.AddScoped<IShipmentService, ShipmentService>();
+            services.AddScoped<ISliderService, SliderService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IVariantService, VariantService>();
+            services.AddScoped<ICrmService, CrmService>();
+            services.AddScoped<IStaticPageService, StaticPageService>();
+            services.AddTransient<IEmailSender, MessageSender>();
+            services.AddTransient<ISmsSender, MessageSender>();
+            services.AddTransient<IRenderViewToString, RenderViewToString>();
+            #endregion
+            services.AddAuthentication(CookieScheme)
+                .AddCookie(CookieScheme, options =>
+                {
+                    options.AccessDeniedPath = "/users/Register";
+                    options.LoginPath = "/users/Register";
+
+                    options.ExpireTimeSpan = TimeSpan.FromDays(31);
+                    options.SlidingExpiration = false;
+
+                });
+
+        }
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        {
+
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+
+            }
+            else
+            {
+                app.UseExceptionHandler("/Home/Error");
+                app.UseHsts();
+            }
+            app.UseStatusCodePagesWithReExecute("/Error/PageNotFound");
+        
+
+            app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
+            app.UseRouting();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            { endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "user",
+                    pattern: "{controller}/{action}/",
+                    defaults: new { area = "User", controller = "Profile", action = "index" });
+
+            });
+            
+        }
+    }
+}

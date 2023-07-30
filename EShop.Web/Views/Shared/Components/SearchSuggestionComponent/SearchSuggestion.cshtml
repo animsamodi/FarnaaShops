@@ -1,0 +1,18 @@
+﻿@model IEnumerable<EShop.DataLayer.Entities.Site.SearchSuggestion>
+
+@{
+    Layout = null;
+ }
+@if (Model.Any()){
+    <ul class="search-result-most-view">
+        @foreach(var item in Model.OrderBy(c=>c.Order)){
+            <li>
+                <a href="@item.Url">@item.Title <i class="fa fa-angle-left"></i>
+                </a>
+            </li>
+        }
+    
+     
+    </ul>
+}
+

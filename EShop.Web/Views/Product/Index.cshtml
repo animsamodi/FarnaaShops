@@ -1,0 +1,1051 @@
+﻿@model EShop.Core.ViewModels.Page.ProductDetailPageDto
+@using EndPoint.Web.Utilities
+@using Microsoft.AspNetCore.Http.Extensions
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+
+@{
+    ViewData["Title"] = Model.Details.MetaTitle ?? Model.Details.FaTitle;
+    ViewData["EnTitle"] = Model.Details.EnTitle;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var varinats = Model.Variants.OrderBy(s => s.SellerPrice).ToList();
+
+}
+@section Style
+    {
+    <link rel="stylesheet" href="~/new/css/product.css" />
+
+
+}
+    @section Meta
+    {
+    <meta name="og:title" content="@Model.Details.FaTitle">
+
+        @Html.Raw(Model.Schema)
+        @Html.Raw(Model.Details.FAQSchema)
+
+    @*<meta name="title" content="@(Model.Details.MetaTitle ?? Model.Details.FaTitle)">*@
+
+    <meta name="description" content="@(Model.Details.MetaDescription ?? Model.Details.KeyWord)">
+
+                @if (Model.Details.MetaKeywords != null)
+                {
+        <meta name="keywords" content="@Model.Details.MetaKeywords">
+
+                }
+                @*  @if (Model.Details.Canonical != null)
+    {
+        <link rel="canonical" href="@Model.Details.Canonical">
+
+    }*@
+                @Html.Raw(Model.Details.BaseSchema)
+
+                @Html.Raw(Model.Details.HeaderTag)
+                @Html.Raw(Model.Details.Schema)
+
+    <meta property="og:title" content="@(Model.Details.MetaTitle ?? Model.Details.FaTitle)">
+    <meta property="og:description" content="@(Model.Details.MetaDescription ?? Model.Details.KeyWord)">
+    <meta property="og:url" content="@Context.Request.GetDisplayUrl()">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://media.farnaa.com/media/@Model.Details.ImgName">
+    <meta property="og:image:alt" content="@@(Model.Details.MetaTitle ?? Model.Details.FaTitle)">
+    <meta property="og:image:width" content="800">
+    <meta property="og:image:height" content="600">
+    <meta property="og:site_name" content="فروشگاه آنلاین فرنا">
+    <link rel="canonical" href="@Context.Request.GetDisplayUrl()">
+
+}
+    @if (!ClaimUtility.IsColleauge(User))
+{
+    @Html.HiddenFor(model => model.Details.IsShowPopUp, new { id = "IsShowPopUp" })
+
+    if (Model.Details.IsShowPopUp && !string.IsNullOrWhiteSpace(Model.Details.PopUpContent))
+    {
+        <div class="modal fade" id="ProductModal" tabindex="-1" role="dialog" aria-labelledby="ProductModal" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body">
+                        @Html.Raw(Model.Details.PopUpContent)
+                    </div>
+                    <div class="modal-footer text-center">
+                        <button type="button" class="btn btn-secondary btn-close-modal-product" id="btnCloseModal">تایید</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+    if (Model.Details.Have3dFile)
+    {
+
+        <div class="modal fade" id="Product3dModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-custom" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-body" id="Product3dContainer">
+                        @*<div id="partial3dFile"></div>*@
+                        <iframe width="100%"
+                        title="@Model.Details.EnTitle - 3d"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen,></iframe>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-modal-product" id="btnCloseModal3d">بستن</button>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+}
+
+
+<input type="hidden" Id="ProductId" value="@Model.Details.ProductId">
+<meta name="product_id" content="@Model.Details.ProductId">
+<meta name="product_name" content="@Model.Details.FaTitle">
+
+@if (Model.Variants.Any())
+{
+    <meta name="guarantee" content="@Model.Variants.OrderBy(c=>c.SellerPrice).FirstOrDefault().Guarantee">
+
+    <meta name="product_price" content="@Model.Variants.OrderBy(c=>c.SellerPrice).FirstOrDefault().SellerPrice">
+    <meta name="product_old_price" content="@Model.Variants.OrderBy(c=>c.SellerPrice).FirstOrDefault().MainPrice">
+    <meta name="availability" content="instock">
+}
+else
+{
+    <meta name="availability" content="outofstock">
+
+}
+<input type="hidden" Id="ExtendedProductId" />
+
+
+<!-- ---------- Single Product ---------- -->
+<div class="single-product">
+    <div class="container">
+        <div class="address-bar"><div class="box-overlay"></div>
+            <ul class="box-address">
+                <li class="item">
+                    <a class="trs-3" asp-controller="Home" asp-action="Index">
+                        خانه
+                        <i class="fal fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="trs-3" asp-controller="Category" asp-action="MainCategory" asp-route-title="@Model.Details.CategoryEnName.ToUrlFormat()">
+                        @Model.Details.CategoryName
+                        <i class="fal fa-chevron-left"></i>
+                    </a>
+                </li>
+                <li class="item">
+                    <a class="trs-3" asp-controller="Category" asp-action="SubCategory" asp-route-title="@Model.Details.BrandEnTitle.ToUrlFormat()" asp-route-categoryName="@Model.Details.CategoryEnName.ToUrlFormat()">
+                        
+                        @Model.Details.BrandName
+                        @*<i class="fal fa-chevron-left"></i>*@
+                    </a>
+                </li>
+              @*  <li class="item active">
+                    <span class="trs-3">
+                        @Model.Details.FaTitle
+                    </span>
+                </li>*@
+            </ul>
+        </div>
+        @if (TempData["SeccessAddProductToiCart"] != null)
+        {
+            <div class="row alert sucess-add-product-container">
+                <span>محصول با موفقیت به سبد خرید اضافه شد</span>
+                <a asp-controller="Cart" asp-action="Index" type="button">مشاهده سبد خرید</a>
+            </div>
+        }
+    <!-- ---------- Popular Products ---------- -->
+   @* @if (!ClaimUtility.IsColleauge(User) && !Model.Variants.Any())
+    {
+     <partial name="Components/SimilarProductsComponent/SimilarProducts" model="Model.SimilarProducts" />
+
+    }*@
+        <div class="product"  >
+            <div class="row">
+            @*            <div class="col-lg-4 col-md-6 c-order-sm-2">
+*@            <div class="col-lg-4 col-md-6 gallery-product-container ">
+            <div class="box-overlay z-index-2"  ></div>
+                @*                <img data-src="https://media.farnaa.com/media/@Model.Details.ImgName" src="https://farnaa.com/images/bg-product.webp" class="lazy b-lazy temp-gallery-product" alt="@Model.Details.EnTitle" fetchpriority="high">
+*@
+                <img src="https://media.farnaa.com/media/@Model.Details.ImgName"  width="600" height="600"   class=" temp-gallery-product" alt="https://media.farnaa.com/media/@Model.Details.ImgName" fetchpriority="high">
+
+                @*<div class="threeDModal" data-bs-toggle="modal" data-bs-target="#threeD">
+                    <a href="#">
+                    <img src="~/new/images/users/360.webp" alt="" width="50px" height="50px">
+                    </a>
+                    </div>*@
+                @*<div>*@
+
+                <!-- Modal -->
+                @*<div class="modal fade" id="threeD" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg modal-dialog-centered">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">تصویر سه بعدی</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                        <img src="~/new/images/3d.png" alt="" width="100%" height="100%">
+                        </div>
+                        <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">بستن</button>
+                        </div>
+                        </div>
+                        </div>
+                        </div>*@
+                <!-- Modal -->
+                @*</div>*@
+                <div class="gallery-product gallery-product-mobile ">
+                    <div id="big-pic" class="owl-carousel owl-theme">
+                        <div class="item">
+                            <img data-src="https://media.farnaa.com/media/@Model.Details.ImgName" width="600" height="600" src="https://media.farnaa.com/media/@Model.Details.ImgName" class="lazy b-lazy" alt="@Model.Details.EnTitle" fetchpriority="high">
+                        </div>
+                        @foreach (var item in Model.Details.Gallery)
+                        {
+                            <div class="item" data="@item.ProductOptionId">
+                                <img data-src="https://media.farnaa.com/media/@item.ImgUrl" width="600" height="600" src="https://farnaa.com/images/bg-product.webp" class="lazy b-lazy" alt="@Model.Details.EnTitle">
+                            </div>
+                        }
+
+
+                    </div>
+
+                    <div id="thumbs" class="owl-carousel owl-theme">
+                        <div class="item">
+                            <img data-src="https://media.farnaa.com/media/@Model.Details.ImgName" width="75" height="75" src="https://farnaa.com/images/bg-product.webp" class="lazy b-lazy" alt="@Model.Details.EnTitle" width="60">
+                        </div>
+                        @foreach (var item in Model.Details.Gallery)
+                        {
+                            <div class="item elevatezoom-gallery" data="@item.ProductOptionId">
+                                <img data-src="https://media.farnaa.com/media/@item.ImgUrl" width="75" height="75" src="https://farnaa.com/images/bg-product.webp" class="lazy b-lazy" alt="@item.ProductOptionId" width="60">
+                            </div>
+                        }
+                    </div>
+                    @if (Model.Details.Have3dFile)
+                    {
+                        <button type="button" class="btn btn-danger btn-show-3d"><i>3D</i></button>
+                    }
+                </div>
+            </div>
+
+@*                <div class="col-lg-5 col-md-6 c-order-sm-1">
+*@                <div class="col-lg-5 col-md-6  ">
+                    <div class="info-product"  >                                <div class="box-overlay z-index-1"></div>
+
+                        <div class="info-title">
+                            @*  <span class="availability">
+                            <p class="mb-2">
+                            موجود در انبار
+                            </p>
+                            </span>*@
+
+                            <span class="title">
+                                <h1 class="mb-3">
+                                    @Model.Details.FaTitle
+
+                                </h1>
+                            </span>
+
+                            <span class="category">
+                                <p>
+                                    @Model.Details.EnTitle
+                                </p>
+                            </span>
+                        </div>
+                        <div class="info-middle">
+                            <ul class="box-middle">
+                                @*  <li class="rating">
+                                <strong>
+                                4.5
+                                </strong>
+                                <i class="fal fa-stars"></i>
+                                </li>
+
+                                <li class="comment">
+                                <a class="trs-3" href="#">
+                                دیدگاه ها
+                                <strong>
+                                (25)
+                                </strong>
+                                </a>
+                                </li>
+
+                                <li class="question">
+                                <a class="trs-3" href="#">
+                                پرسش ها
+                                <strong>
+                                (25)
+                                </strong>
+                                </a>
+                                </li>*@
+                                <li class="comment">
+                                    برند:
+
+                                    <a class="trs-3" asp-controller="Category" asp-action="SubCategory" asp-route-title="@Model.Details.BrandEnTitle.ToUrlFormat()" asp-route-categoryName="@Model.Details.CategoryEnName.ToUrlFormat()">
+                                        @Model.Details.BrandName
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="info-section">
+                            <ul id="show-more" class="info-box">
+                                <span class="info-title mb-3">
+                                    ویژگی های محصول
+                                </span>
+                                @foreach (var item in Model.Details.ProductProperty.Where(c => c.UseSummary).Take(10))
+                                {
+
+                                    <li class="info-item mb-1">
+                                        <span class="if-label">
+                                            @item.PropertyName:
+                                        </span>
+                                        <span class="if-title">
+                                            @Html.Raw(item.PropertValue)
+                                        </span>
+                                    </li>
+                                }
+
+
+                               @* <span id="next" class="show-more">
+                                    <a class="trs-3">
+                                        مشاهده بیشتر
+                                        <i class="fal fa-chevron-left"></i>
+                                    </a>
+                                </span>*@
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+@*                <div class="col-lg-3 col-md-12 col-md-12 c-order-sm-3">
+*@                <div class="col-lg-3 col-md-12 col-md-12  ">
+                    <div class="sales-info">  <div class="box-overlay"></div>
+                     <div class="sales-info-content">
+                        <div class="color-product">
+                            <p class="title">
+                                رنگ محصول:
+                            </p>
+                            <div class="color-box f-parent product-variants">
+
+                                <ul class="js-product-variants">
+                                    @foreach (var item in varinats.GroupBy(v => v.ProductOption))
+                                    {
+                                        <li class="ui-variant">
+                                            @*<div class="product-title-en text-center">@item.Key</div>*@
+
+                                            <label data=@item.FirstOrDefault().ProductOptionId for="#" class="ui-variant-color">
+
+                                                <span class="ui-variant-shape" style="@(!string.IsNullOrEmpty(@item.FirstOrDefault().ProductOptionCodeTwo) ?
+                                                                                          String.Format($"background-image:linear-gradient(to bottom right,{item.FirstOrDefault().ProductOptionCode}, {item.FirstOrDefault().ProductOptionCodeTwo});") :
+                                                                                          String.Format($"background-color: {item.FirstOrDefault().ProductOptionCode}"))"></span>
+                                                <input type="radio" class="js-variant_selector" data-id="@item.Key" name="color" checked="">
+                                                <i class="ui-variant-check fal fa-check"></i>
+                                            </label>
+                                        </li>
+                                    }
+
+                                </ul>
+                            </div>
+                        </div>
+                        <!------>
+                        @if (Model.Variants.Any())
+                        {
+                            <div class="sales-original">
+                                <span class="original-box">
+                                    <p>
+                                        <i class="fal fa-check-circle"></i>
+                                        فروشنده:
+                                        <span class="c-product_seller-name"></span>
+                                    </p>
+                                </span>
+
+                                <span class="original-box">
+                                    <p>
+                                        <i class="fal fa-shield-check"></i>
+                                        گارانتی:
+                                        <span class="c-product_seller-row-guarantee">
+
+                                        </span>
+                                    </p>
+                                </span>
+                            </div>
+                            <div class="varable d-none d-lg-block">
+                                @* <div class="quantity-product f-parent">
+                            <p class="title">
+                            تعداد محصول:
+                            </p>
+                            <form id="quantity-product" method="POST" class="quantity" action="#">
+                            <input type="button" value="-" class="button qtyminus minus trs-3" field="quantity" />
+                            <input type="text" name="quantity" value="1" class="qty" />
+                            <input type="button" value="+" class="button qtyplus plus trs-3" field="quantity" />
+                            </form>
+                            </div>*@
+
+
+
+                                <div class="price-product">
+                                    <p class="title">
+                                        قیمت :
+                                    </p>
+                                    <div class="price">
+                                        <div class="c-product_price-value">
+                                            <del></del>
+                                            @*<span class="c-product_price-discount_value    "> </span>*@
+
+
+                                        </div>
+                                        <ins>
+                                            <div class="c-product_price-real price ">
+                                                <span></span>
+                                                تومان
+                                            </div>
+                                        </ins>
+                                    </div>
+
+
+                                </div>
+                                <div class="sale-button">
+                                    <a class="trs-3  js-add-to-cart js-btn-add-to-cart">
+                                        افزودن به سبد خرید
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="d-lg-none">
+                                <div class="add-to-cart-holder">
+                                    <div class="box-overlay"></div>
+                                    @*<div class="quantity-product-m">
+                                <form id="quantity-product" method="POST" class="quantity" action="#">
+                                <input type="button" value="-" class="button qtyminus minus trs-3" field="quantity">
+                                <input type="text" name="quantity" value="1" class="qty">
+                                <input type="button" value="+" class="button qtyplus plus trs-3" field="quantity">
+                                </form>
+                                </div>*@
+                                    <div class="mobile-sale-button">
+                                        <a class="trs-3 js-add-to-cart js-btn-add-to-cart">
+                                            افزودن به سبد خرید
+                                        </a>
+                                    </div>
+                                    <div class="price" style="text-align: left;">
+                                        <div class="c-product_price-value">
+                                            <del></del>
+                                            @*<span class="c-product_price-discount_value    "> </span>*@
+
+
+                                        </div>
+                                        <ins>
+                                            <div class="c-product_price-real price ">
+                                                <span></span>
+                                                تومان
+                                            </div>
+                                        </ins>
+
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="product-seller-info">
+                                <div class="seller-info-changable">
+                                    <div class="product-seller-row vendor">
+                                        <span class="title"> فروشنده:</span>
+                                        <span class="product-name">--</span>
+                                    </div>
+                                    <div class="product-seller-row guarantee">
+                                        <span class="title"> گارانتی:</span>
+                                        <span class="product-name">--</span>
+                                    </div>
+                                    <div class="product-seller-row price  ">
+                                        <span class="title"> قیمت:</span>
+                                        <span class="product-name">
+                                            <span class="unavailable">ناموجود</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-seller-row add-to-cart">
+                                        <span class="btn-add-to-cart Let-me-know btn btn-primary ">
+                                            <span class="btn-add-to-cart-txt">متاسفانه این کالا ناموجود است</span>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <!----->
+
+                        <div class="wishlist-compare">
+                            <span class="fav-product">
+
+                                <i class="fav-product-icon fa fa-heart"></i>
+                                <a> افزودن به لیست علاقه مندی</a>
+                            </span>
+                            @*<span>
+                            <i class="fa fa-file"></i>
+                            <a href="#">مقایسه این کالا</a>
+
+                            </span>*@
+                        </div>
+</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @if (varinats.Select(c => c.Guarantee).Distinct().ToList().Count > 1)
+        {
+            <div class="varanty-product-select">
+                <div class="box-overlay"></div>
+                @foreach (var item in varinats)
+                {
+                    @*<a href="#" class="c-link_underline">فروشنده : @Model.Sellers.Find(s => s.SellerId == item.SellerId).Name </a>*@
+
+                    <div class="varanty-product-item">
+                        <i class="fa fa-bags-shopping"></i>
+                        <span class="varanty-name">گارانتی : @item.Guarantee</span>
+                        <span class="varanty-name"> | </span>
+                        <span class="varanty-name">رنگ : @item.ProductOption 
+                            <span class="ui-variant-shape" style="background-color: @item.ProductOptionCode"></span>
+                        </span>
+                        <a asp-action="AddToCart" asp-controller="Cart" asp-route-id="@item.VariantId" class="add-to-cart">
+                            <span>افزودن به سبد خرید</span>
+                        </a>
+
+                        <div class="price">
+                            @{
+                                var discount = item.MainPrice - item.SellerPrice;
+                            }
+
+                            @if (discount > 0)
+                            {
+                                <del>@item.MainPrice.ToString("N0") تومان</del>
+                            }
+                            <ins>
+                                @item.SellerPrice.ToString("N0") تومان
+
+                            </ins>
+                        </div>
+                    </div>
+                }
+
+            </div>
+
+        }
+        @if (!ClaimUtility.IsColleauge(User))
+        {
+            <!-- ---------- Popular Products ---------- -->
+            @*@await Component.InvokeAsync("RelatedProductsComponent", Model.Details.ProductId)*@
+            <partial name="Components/RelatedProductsComponent/RelatedProducts" model="Model.RelatedProducts" />
+
+        }
+
+    <div class="tabs-product">
+        <div class="tabs">
+            <div class="box-overlay"></div>
+
+            <ul class="tabs-nav">
+
+                <li class="nav-item">
+                    <a class="trs-3" href="#tab-1">
+                        مشخصات
+                    </a>
+                </li>
+                @if (!ClaimUtility.IsColleauge(User))
+                {
+                    <li class="nav-item">
+                        <a class="trs-3" id="Review-Tab" href="#tab-2">
+                            نقد و بررسی
+
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="trs-3" href="#tab-3">
+                            نظرات کاربران
+                        </a>
+                    </li>
+                }
+            </ul>
+            @if (!ClaimUtility.IsColleauge(User))
+            {
+                <div class="tabs-stage">
+                    <div id="tab-1" class="item-tab">
+                        <partial name="Components/ProductPropertyComponent/ProductProperty" model="Model.Properties"/>
+                    </div>
+
+                    <div id="tab-2" class="item-tab text-container Review-Container" >
+                        <div class="box-overlay"></div>
+                        <div class="loader-container">  
+                            <div class="loader"></div>
+                            </div>
+
+                        @*<partial name="Components/ReviewProductComponent/ReviewProduct" model="Model.Review"/>*@
+
+
+                    </div>
+
+
+
+                    <div id="tab-3" class="item-tab">
+                        <partial name="Components/ProductCommentComponent/ProductComment" model="Tuple.Create(Model.Details.ProductId, Model.Comments)"/>
+
+
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="tabs-stage">
+                    <div id="tab-1" class="item-tab">
+                        @await Component.InvokeAsync("ProductPropertyComponent", Model.Details.ProductId)
+
+                    </div>
+
+                    @*<div id="tab-2" class="item-tab text-container"><div class="box-overlay"></div>
+                        @await Component.InvokeAsync("ReviewProductComponent", Model.Details.ProductId)
+
+
+                    </div>
+
+
+
+                    <div id="tab-3" class="item-tab">
+                        @await Component.InvokeAsync("ProductCommentComponent", Model.Details.ProductId)
+
+
+                    </div>*@
+                </div>
+            }
+
+        </div>
+    </div>
+    </div>
+</div>
+
+<!-- ---------- Popular Products ---------- -->
+@if (!ClaimUtility.IsColleauge(User) @*&& Model.Variants.Any()*@)
+{
+@*    @await Component.InvokeAsync("SimilarProductsComponent", Model.Details.ProductId)
+*@    <partial name="Components/SimilarProductsComponent/SimilarProducts" model="Model.SimilarProducts" />
+
+}
+
+
+
+
+
+
+
+@section Scripts{
+
+
+    @*<script src="/js/vendor/jquery.ez-plus.js"></script>*@
+    <script defer src="~/js/persianumber.js"></script>
+    @*    <script type="text/javascript" defer>
+
+    
+
+    </script>*@
+
+
+
+    @*<script src="/js/jquery.lazy.min.js" ></script>*@
+    <script defer type="text/javascript">
+
+//        $(window).bind("load", function() {
+//                setTimeout(function(){
+//  var bLazy = new Blazy({
+//                //
+//            });
+//}, 3000);
+//});
+
+
+
+        $('.ui-variant-color').click(function() {
+            var productOptionId = $(this).attr('data');
+            console.log(productOptionId);
+            var el = $('.elevatezoom-gallery[data="' + productOptionId + '"]');
+            console.log(el)
+            if (el.length !== 0)
+                $('.elevatezoom-gallery[data="' + productOptionId + '"]').click();
+        });
+
+        //Review Container
+        $("#Review-Tab").click(function () {
+           // debugger;
+            $('.Review-Container').load("@Url.Action("ReviewTab", "Product")", { productId: $("#ProductId").val() },function(){
+                $(".Review-Container").removeClass("Review-Container");
+            $('.lazy').lazy({
+            effect: "fadeIn",
+            effectTime: 500,
+            threshold: 0,
+            delay: 100
+
+
+        });
+            });
+              //$.ajax({
+              //      url: '@Url.Action("ReviewTab", "Product")',
+              //                          data: { productid: @Model.Details.ProductId },
+              //      success: function(res) {
+              //         $('#Review-Container').innerHtml(res);
+              //      }
+              //  })
+        });
+        //End Review Container
+ 
+        $(function() {
+                     setTimeout(() => {
+ 
+   // $(".temp-gallery-product").remove()
+                $(".gallery-product").removeClass("gallery-product-mobile")
+
+    $(".temp-gallery-product").addClass("d-none")
+    
+
+                }, 4000);
+            $("#btnCloseModal").click(function() {
+
+                $('#ProductModal').modal('hide')
+            });
+            $("#btnCloseModal3d").click(function() {
+
+                $('#Product3dModal').modal('hide')
+            });
+            $('.btn-show-3d').click(function() {
+                var id = $("#ProductId").val();
+                //var route = '@Url.Action("ShowProduct3d", "Product")';
+                //$('#partial3dFile').load(route,{
+                //id :id
+                //});
+                //$('#partial3dFile').load("/Product3d/"+id);
+                var url = "/Product3d/" + id;
+                $("#Product3dContainer").find('iframe').attr('src', url)
+
+                $('#Product3dModal').modal('show')
+
+            });
+
+            const alertTimeout = setTimeout(hideAlertSuccess, 5000);
+
+            function hideAlertSuccess() {
+                $(".sucess-add-product-container").slideUp();
+                clearTimeout(alertTimeout);
+
+            }
+            
+           
+
+
+            $(".btn-add-product").click(function() {
+
+                var id = $(this).attr("data-id");
+                if (id != "0") {
+                    var extVal = $("#ExtendedProductId").val();
+                    extVal = extVal + "," + id;
+                    $("#ExtendedProductId").val(extVal);
+                    $(".js-btn-add-to-cart").attr('href',
+                        function(i, h) {
+                            return (h.indexOf('?') != -1 ? h.split('?')[0] + "?extProdId=" + $("#ExtendedProductId").val() : h + "?extProdId=" + $("#ExtendedProductId").val());
+                        });
+
+                    $(this).hide();
+                    $("#btn-delete-product_" + id).show();
+                    $("#btn-delete-product_" + id).css('display', 'flex');
+                }
+
+            });
+            $(".btn-delete-product").click(function() {
+
+                var id = $(this).attr("data-id");
+                if (id != "0") {
+                    var extVal = $("#ExtendedProductId").val();
+                    extVal = extVal.replace(id, "");
+                    $("#ExtendedProductId").val(extVal);
+                    $(".js-btn-add-to-cart").attr('href',
+                        function(i, h) {
+                            return (h.indexOf('?') != -1 ? h.split('?')[0] + "?extProdId=" + $("#ExtendedProductId").val() : h + "?extProdId=" + $("#ExtendedProductId").val());
+                        });
+
+                    $(this).hide();
+                    $("#btn-add-product_" + id).show();
+                    $("#btn-add-product_" + id).css('display', 'flex');
+                }
+
+            });
+
+
+            if ($("#IsShowPopUp").val() == "True") {
+                $('#ProductModal').modal('show');
+
+            }
+
+            $(".btn-collapse-property2").hide();
+            $("#User-comments-tab").click(function() {
+                $('#User-comments').load("@Url.Action("CommentTab", "Product")",
+                    {
+                        productId: @Model.Details.ProductId,
+                        faTitle: '@Model.Details.FaTitle'
+                    });
+            });
+
+            $('.btn-collapse-property').click(function() {
+                $(".btn-collapse-property").slideUp();
+                $(".btn-collapse-property2").slideDown();
+                $("#collapseProperty").slideDown();
+            });
+            $('.btn-collapse-property2').click(function() {
+                $(".btn-collapse-property").slideDown();
+                $(".btn-collapse-property2").slideUp();
+                $("#collapseProperty").slideUp();
+
+            });
+            $('.fav-product').click(function() {
+
+                $.ajax({
+                    //url: '/users/CheckUserAuthenticated',
+                    url: '@Url.Action("CheckUserAuthenticated", "Account")',
+                    success: function(data) {
+                        if (data) {
+                            ChangeFavoriteState();
+                        } else {
+                            location.href = '@Url.Action("Register", "Account")';
+
+                        }
+                    }
+                })
+
+            });
+
+
+            function ChangeFavoriteState() {
+                $.ajax({
+                    type: 'POST',
+                    // url: '/Profile/ChangeFavoriteState',
+                    url: '@Url.Action("ChangeFavoriteState", "Profile", new { area = "User" })',
+                    data: { productid: @Model.Details.ProductId },
+                    success: function(data) {
+                        debugger;
+                        console.log(data)
+                        if (data == 1) {
+                            $('.fav-product').removeClass('active');
+                            $('.fav-product-icon').removeClass('fa-heart');
+                            $('.fav-product-icon').addClass('fa-heart');
+                            //$('.fav-product-icon').addClass('fa-heart-o');
+                        } else if (data == 2) {
+                            $('.fav-product').addClass('active');
+                            $('.fav-product-icon').addClass('fa-heart');
+                            $('.fav-product-icon').removeClass('fa-heart');
+                            //$('.fav-product-icon').removeClass('fa-heart-o');
+                        }
+                    },
+                    error: function() {
+
+                    }
+
+                })
+            }
+
+
+            var producttimer;
+
+            function ProductDiscountTimer(item, now_date, discount_date) {
+                now_date = new Date(now_date);
+                discount_date = new Date(discount_date);
+                producttimer = setInterval(function() {
+                    ToFadigit
+
+                    if (discount_date > now_date) {
+                        now_date.setSeconds(now_date.getSeconds() + 1);
+                        delta = (discount_date - now_date) / 1000;
+                        day = Math.floor(delta / 86400);
+                        delta -= day * 86400;
+
+                        hour = Math.floor(delta / 3600);
+                        delta -= hour * 3600;
+
+                        minutes = Math.floor(delta / 60);
+                        delta -= minutes * 60;
+                        seconds = Math.floor(delta);
+                        item.html(('0' + hour).slice(-2) + ':' + ('0' + minutes).slice(-2) + ':' + ('0' + seconds).slice(-2));
+                        item.persiaNumber();
+
+                    }
+
+                },
+                    1000);
+            }
+
+
+            $(function() {
+                var variants = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(varinats));
+                var sellers = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Sellers));
+                $('.js-supplires_box-price').each(function() {
+                    $(this).text(currency($(this).text()))
+                });
+                $('.js-variant_selector').click(function() {
+                    var val = $(this).data('id');
+                    var matchvarints = GetMatchVarinats(val);
+                    var seller = sellers.find(x => x.SellerId === matchvarints[0].SellerId);
+                    UpdateProductBuyContent(matchvarints[0], seller, matchvarints.length);
+                });
+
+                function GetMatchVarinats(title) {
+                    var temp = [];
+                    $.each(variants,
+                        function(index, item) {
+                            if (item.ProductOption == title)
+                                temp.push(item);
+                        });
+                    return temp;
+                };
+
+
+                function UpdateProductBuyContent(variant, seller, sellercount) {
+                    clearInterval(producttimer);
+                    $('.c-product_gallery-discount-timer').text('');
+
+                    $('.c-product_seller-name').text(seller.Name);
+                    $('.c-product_seller-row-guarantee').html(ToFadigit(variant.Guarantee));
+                    $('.js-seller-register-date').text(ToFadigit(seller.RegisterDate));
+
+                    if (variant.PurchaseConsentPercent != null || seller.Vote != null) {
+                        $('.js-product_seller-second_line').show();
+                        if (variant.PurchaseConsentPercent != null) {
+                            $('.js-variant-PurchaseConsentPercent').show();
+                            $('.js-variant-PurchaseConsentPercent-rate').text(ToFadigit(variant.PurchaseConsentPercent))
+                        } else {
+                            $('.js-variant-PurchaseConsentPercent').hide();
+                        }
+
+                        if (seller.Vote != null) {
+                            $('.js-seller-vote').show();
+                            $('.c-product_seller-score').text(ToFadigit(seller.Vote));
+                        } else {
+                            $('.js-seller-vote').hide();
+                        }
+                    } else {
+                        $('.js-product_seller-second_line').hide()
+                    }
+                    if (seller.TimleySupply > 0) {
+                        $('.c-product_seller-feedbacks').show();
+
+                        $('.js-seller_TimleySupply').addClass(GetSellerFeedBackClass(seller.TimleySupply)).html(seller.TimleySupply + "٪").persiaNumber();
+                        $('.js-seller_PostingWarranty').addClass(GetSellerFeedBackClass(seller.PostingWarranty)).html(seller.PostingWarranty + "٪").persiaNumber();
+                        $('.js-seller_NoReturend').addClass(GetSellerFeedBackClass(seller.NoReturend)).html(seller.NoReturend + "٪").persiaNumber();
+
+                    } else {
+                        $('.c-product_seller-feedbacks').hide();
+                    }
+
+                    if (variant.VoteCount > 0) {
+                        $('.js-variant-vote').show();
+                        $('.c-product_seller-box_rate').text(ToFadigit(variant.PurchaseConsentPercent));
+                        $('.js-variant-vote-count').text(ToFadigit(variant.VoteCount));
+                        $('.c-product_seller-box_feedback-rate_bar-bold_green').css('width', variant.TotallySatisfied + '%')
+                        $('.c-product_seller-box_feedback-rate_bar-green').css('width', variant.Satisfied + '%')
+                        $('.c-product_seller-box_feedback-rate_bar-yellow').css('width', variant.Neutral + '%')
+                        $('.c-product_seller-box_feedback-rate_bar-orange').css('width', variant.DisSatisfied + '%')
+                        $('.c-product_seller-box_feedback-rate_bar-red').css('width', variant.TotallyDisSatisfied + '%')
+
+                        $('.js-variant-feedback-TotallySatisfied').text(ToFadigit(variant.TotallySatisfied) + '٪')
+                        $('.js-variant-feedback-Satisfied').text(ToFadigit(variant.Satisfied) + '٪')
+                        $('.js-variant-feedback-Neutral').text(ToFadigit(variant.Neutral) + '٪')
+                        $('.js-variant-feedback-DisSatisfied').text(ToFadigit(variant.DisSatisfied) + '٪')
+                        $('.js-variant-feedback-TotallyDisSatisfied').text(ToFadigit(variant.TotallyDisSatisfied) + '٪')
+                    } else {
+                        $('.js-variant-vote').hide();
+                    }
+                    if (variant.DigikalaCount > 0) {
+                        $('.js-dely').hide();
+                        $('.js-not-dely').show();
+                        $('.js-show_shipment-info').removeClass('is-dely');
+                    } else {
+                        $('.js-dely').show();
+                        $('.js-not-dely').hide();
+                        $('.js-show_shipment-info').addClass('is-dely');
+                        $('.js-dely-time').text(ToFadigit(seller.DeliveryTime))
+                    }
+                    if (variant.MainPrice > variant.SellerPrice) {
+                        $('.c-product_price-value').show();
+                        $('.js-product_gallery-specail_badge').hide();
+                        $('.js-product_gallery-discount').hide();
+
+                        $('.c-product_price-value > del').text(ToFadigit(currency(variant.MainPrice)) + " تومان");
+                        $('.c-product_price-real > span').text(ToFadigit(currency(variant.SellerPrice)));
+
+                        $('.c-product_price-discount_value').text(ToFadigit(Math.ceil(100 -
+                            (variant.SellerPrice /
+                                variant.MainPrice *
+                                100))) +
+                            "%");
+                        if (variant.DiscountType == 1) {
+                            $('.js-product_gallery-specail_badge').show();
+                        } else if (variant.DiscountType == 2) {
+                            $('.js-product_gallery-discount').show();
+                            console.log(variant.DiscountEndDate)
+                            ProductDiscountTimer($('.c-product_gallery-discount-timer'), '2019-08-09T09:59:50', variant.DiscountEndDate)
+                        }
+                    } else {
+                        $('.c-product_price-value').hide();
+                        $('.c-product_price-real > span').text(ToFadigit(currency(variant.MainPrice)));
+                        $('.js-product_gallery-specail_badge').hide();
+                        $('.js-product_gallery-discount').hide();
+                    }
+                    if (sellercount > 1) {
+                        $('.main-varient').hide();
+
+                        $('.c-product_seller-row_other-sellers').show();
+                        $('.c-box_suppliers').show();
+                        $('.js-table_suppliers-row').hide();
+                        $(".js-table_suppliers-row[data-id='" + variant.ProductOption + "']").show();
+                        $('.c-product_seller-more_supplires-count-value').text(ToFadigit(sellercount - 1));
+
+                    } else {
+                        $('.c-product_seller-row_other-sellers').hide();
+                        $('.c-box_suppliers').hide();
+                        $('.main-varient').show();
+
+                    }
+
+                    $('.js-add-to-cart').attr('href', "/Cart/AddToCart/" + variant.VariantId);
+
+                }
+
+                $('.js-variant_selector').first().click();
+            });
+
+            function currency(val) {
+
+
+                var str = val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                return str;
+
+            };
+
+            function ToFadigit(val) {
+                if (val < 1 && val > 0) {
+                    val = 1;
+                }
+                var en_number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+                var fa_number = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+                for (i = 0; i <= 9; i++) {
+                    var regex = new RegExp(en_number[i], 'g');
+                    val = val.toString().replace(regex, fa_number[i]);
+                }
+                return val;
+            }
+       //$('.lazy').lazy({
+       //         effect: "fadeIn",
+       //         effectTime: 2000,
+       //         threshold: 0,
+       //         //delay: 1000
+
+
+       //     });
+        })
+    </script>
+
+}

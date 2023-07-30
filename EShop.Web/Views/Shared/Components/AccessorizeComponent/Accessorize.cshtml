@@ -1,0 +1,107 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductViewModel>
+
+@{
+    Layout = null;
+}
+@if (Model.Any())
+{
+
+
+    <div class="col-lg-12 col-md-12 col-xs-12 pr order-1 d-block p-0">
+        <div class="slider-widget-products">
+            <div class="widget widget-product card">
+                <header class="card-header">
+                    <h2 class="title-one">لوازم جانبی</h2>
+                    <h3 class="card-title"></h3>
+                </header>
+                <div class="swiper mySwiper p-2 pt-4">
+
+                    <div class="swiper-wrapper">  @foreach (var item in Model)
+                            {
+                                var addId = "btn-add-product_" + item.VariantId;
+                                var deleteId = "btn-delete-product_" + item.VariantId;
+                                <div class="swiper-slide">
+                                    <div class="item">
+
+                                        <a asp-action="Index" asp-controller="product" asp-route-id="@item.ProductId" asp-route-category="@item.CategoryEnTitle.ToUrlFormat()" asp-route-name="@item.EnTitle.Replace(" ","-")" class="d-block hover-img-link">
+                                        <img src="https://media.farnaa.com/media/@item.ImgName" width="600" height="600" class="img-fluid" alt="@item.FaTitle">
+                                        </a>
+                                        <div class="owl-item-content">
+
+                                            @if (item.MainPrice > 0)
+                                            {
+                                                if (item.DiscountPrice != item.MainPrice)
+                                                {
+                                                    decimal disPrice = item.MainPrice - item.DiscountPrice;
+                                                    var disPercent = Math.Ceiling(disPrice * 100 / item.MainPrice);
+                                                    <div class="  item-descount">
+
+
+                                                        @disPercent <span>%</span>
+
+                                                    </div>
+
+                                                }
+
+
+                                            }
+
+                                                    <div class="post-title mb-2">                                                <a asp-action="Index" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" asp-route-category="@item.CategoryEnTitle.ToUrlFormat()">
+                                                    @item.FaTitle
+                                                </a>
+                                            </div>
+                                            <div class="price">
+                                                @if (item.MainPrice > 0)
+                                                {
+                                                    if (item.DiscountPrice != item.MainPrice)
+                                                    {
+                                                        var disPrice = item.MainPrice - item.DiscountPrice;
+                                                        <div class="col-12">
+                                                            <del><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></del>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <ins><span>@item.DiscountPrice.ToString("N0")<span>  تومان  </span></span></ins>
+
+                                                        </div>
+
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="col-12">
+                                                            <ins><span>@item.MainPrice.ToString("N0")<span>  تومان  </span></span></ins>
+                                                        </div>
+
+                                                    }
+
+                                                }
+                                                else
+                                                {
+                                                    <div class="  col-12">
+                                                        <ins>-- ناموجود --</ins>
+                                                    </div>
+                                                }
+                                            </div>
+                                          
+                                        </div>
+
+                                        <div class="btn-view-product-container">
+                                            @*<a asp-action="Index" asp-controller="product" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="btn-view-product  a-hover-1">
+            افزودن
+        </a>*@
+                                            <a class="btn-view-product  a-hover-1 btn-add-product" id="@addId" data-id="@item.VariantId" href="javascript:;">افزودن</a>
+                                            <a class="btn-view-product  a-hover-1 btn-delete-product" id="@deleteId" data-id="@item.VariantId" href="javascript:;">حذف</a>
+                                
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                     
+                    </div>
+                
+                </div>
+            </div>
+        </div>
+    </div>
+}
+

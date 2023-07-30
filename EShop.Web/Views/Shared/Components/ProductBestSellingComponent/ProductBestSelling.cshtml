@@ -1,0 +1,346 @@
+﻿@model IEnumerable<EShop.Core.ViewModels.Product.ProductViewModel>
+
+@{
+    Layout = null;
+    var counter = 0;
+    string startHtml = "<div class='col-12 s-test'>";
+    string endHtml = "</div>";
+}
+
+@if (Model.Any())
+{
+    <div class="new-products d-none d-lg-block" style="margin-top: 20px;">
+        <div class="holder-products ">
+            <div id="head-title ">
+                <div class="container ">
+                    <div class="title f-parent ">
+                        <h2 style="border-bottom:2px #d90268 solid; padding-bottom: 8px; width: fit-content;    font-size: 1.25rem;">
+                            پرفروشترین های فرنا
+                        </h2>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="products best-seller " style="margin-top: -20px;">
+                <div class="container ">
+                    <div class="row ">
+                        <div class="owl-carousel nav-arrow ">
+
+                            @foreach (var item in Model)
+                            {
+                                if (counter == 0)
+                                {
+                                    @Html.Raw(startHtml)
+                                }
+                                counter++;
+                                if (counter == 3)
+                                {
+                                    counter = 1;
+                                    @Html.Raw(endHtml)
+                                    @Html.Raw(startHtml)
+
+                                }
+                                <div class="holder-item trs-3 ">
+                                    <div class="product-pic ">
+                                        <span class="holder-pic ">
+                                           
+                                            @if (item.VariantColor != null)
+                                            {
+                                                <!--color-->
+                                                <div class="weaz-colors">
+                                                    @foreach (var color in item.VariantColor)
+                                                    {
+                                                        <div class=".wz_product_colors">
+                                                            <span class="wz-matrix-tooltip" style="background-color: @color.Color;">
+                                                                <span class="wz-matrix-tooltip-text">@color.Text</span>
+                                                            </span>
+                                                        </div>
+                                                    }
+                                                
+                                            
+
+                                                </div>
+                                                <!--color-->
+                                            }
+                                           
+                                            <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ", "-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ", "-")">
+                                                <img width="600" height="600" class="lazy b-lazy" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.ImgName" alt="@item.FaTitle" />
+                                            </a>
+                                        </span>
+                                    </div>
+                                    <div class="product-info ">
+                                        <span class="title mb-1 ">
+                                            <a asp-action="Index"  asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3 ">
+                                                @item.FaTitle
+                                            </a>
+                                        </span>
+
+                                        <span class="category " style="height: 72px;">
+                                            <!---->
+                                            <!---->
+                                        </span>
+
+                                        <div class="product-bottom f-parent ">
+                                            @*  <span class="rate ">
+                                    <i class="fal fa-star "></i>
+                                    <i class="fal fa-star "></i>
+                                    <i class="fal fa-star "></i>
+                                    <i class="fal fa-star "></i>
+                                    <i class="fal fa-star "></i>
+                                    </span>*@
+                                            @if (item.MainPrice > 0)
+                                            {
+                                                if (item.DiscountPrice != item.MainPrice)
+                                                {
+                                                    var disPrice = item.MainPrice - item.DiscountPrice;
+
+                                                    <span class="pric ">
+                                                        <del>
+                                                            @item.MainPrice.ToString("N0") تومان
+                                                        </del>
+                                                        <ins>
+                                                            @item.DiscountPrice.ToString("N0") تومان
+                                                        </ins>
+                                                    </span>
+
+                                                }
+                                                else
+                                                {
+
+                                                    <span class="pric ">
+
+                                                        <ins>
+                                                            @item.MainPrice.ToString("N0") تومان
+                                                        </ins>
+                                                    </span>
+                                                }
+
+                                            }
+                                            else
+                                            {
+
+                                                <span class="pric ">
+
+                                                    <ins>
+                                                        -- ناموجود --
+                                                    </ins>
+                                                </span>
+                                            }
+
+                                        </div>
+
+                                        <div class="product-actions trs-3 ">
+                                            <div class="action-holder f-parent ">
+                                                <span class="action-item ">
+                                                    <a  asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3 ">
+                                                        <i class="fal fa-shopping-bag "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        جزئیات محصول
+                                                    </p>
+                                                </span>
+
+                                              @*  <span class="action-item ">
+                                                    <a href="dashboard-favorites.html " class="trs-3 ">
+                                                        <i class="fal fa-heart "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        افزودن به علاقمندی
+                                                    </p>
+                                                </span>
+
+                                                <span class="action-item ">
+                                                    <a  asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="trs-3 ">
+                                                        <i class="fal fa-random "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        مقایسه محصول
+                                                    </p>
+                                                </span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+                        @if (item.MainPrice > 0)
+                        {
+                            if (item.DiscountPrice != item.MainPrice)
+                            {
+                                var disPrice = item.MainPrice - item.DiscountPrice;
+                                if (disPrice > 0)
+                                {
+                                    <span class="onsale ">
+                                        تخفیف
+                                    </span>
+                                }
+
+                            }
+
+                        }
+                                </div>
+                            }
+                            @if (counter == 2 )
+                            {
+                                counter = 0;
+                                @Html.Raw(endHtml)
+                            }
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="popular-products clear d-lg-none" style="background: #fff;">
+        <div class="holder-popular "><div class="box-overlay"></div>
+            <div class="products ">
+                <div class="container ">
+                    <div class="row">
+                        <div id="head-title">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="title f-parent">
+                                             <h2 style="font-weight: 600;font-size: 1.25rem;">
+                                            پرفروشترین های فرنا
+                                            </h2>
+                                            <a href="#" style="float: left;">نمایش همه</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-lg-10 col-md-12 ">
+                        <div class="owl-carousel nav-arrow ">
+
+                            @foreach (var item in Model)
+                            {
+                                <div class="item-product">
+                                    <span class="pic-box ">
+                                        @if (item.VariantColor != null)
+                                        {
+                                            <!--color-->
+                                            <div class="weaz-colors">
+                                                @foreach (var color in item.VariantColor)
+                                                {
+                                                    <div class=".wz_product_colors">
+                                                        <span class="wz-matrix-tooltip" style="background-color: @color.Color;">
+                                                            <span class="wz-matrix-tooltip-text">@color.Text</span>
+                                                        </span>
+                                                    </div>
+                                                }
+                                                
+                                            
+
+                                            </div>
+                                            <!--color-->
+                                        }
+                                        <img class="lazy b-lazy" width="600" height="600" src="https://farnaa.com/images/bg/bg-square.webp" data-src="https://media.farnaa.com/media/@item.ImgName" alt="@item.FaTitle" />
+                                    </span>
+                                    <div class="product-info ">
+                                        <span class="title-box mb-1 ">
+                                            <a asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")"
+                                       class="trs-3 ">
+                                                @item.FaTitle
+                                            </a>
+                                        </span>
+                                        <span class="mb-3 ">
+                                            <!---->
+                                            <div class="ProductComp_product_icon__OLqA5">
+                                            </div>
+                                            <!---->
+                                        </span>
+                                        <div class="product-bottom f-parent">
+                                            @* <div class="rating ">
+                                    <strong>4.5</strong>
+                                    <i class="fal fa-stars star"></i>
+                                    </div>*@
+
+                                            @if (item.MainPrice > 0)
+                                            {
+                                                if (item.DiscountPrice != item.MainPrice)
+                                                {
+                                                    var disPrice = item.MainPrice - item.DiscountPrice;
+
+                                                    <span class="pric ">
+                                                        <del>
+                                                            @item.MainPrice.ToString("N0") تومان
+                                                        </del>
+                                                        <ins>
+                                                            @item.DiscountPrice.ToString("N0") تومان
+                                                        </ins>
+                                                    </span>
+
+                                                }
+                                                else
+                                                {
+
+                                                    <span class="pric ">
+
+                                                        <ins>
+                                                            @item.MainPrice.ToString("N0") تومان
+                                                        </ins>
+                                                    </span>
+                                                }
+
+                                            }
+                                            else
+                                            {
+
+                                                <span class="pric ">
+
+                                                    <ins>
+                                                        -- ناموجود --
+                                                    </ins>
+                                                </span>
+                                            }
+                                        </div>
+                                        <div class="actions trs-3 ">
+                                            <div class="action-holder ">
+                                                <span class="action-item ">
+                                                    <a  asp-action="Index" asp-controller="product" asp-route-category="@item.CategoryEnTitle.Replace(" ","-")" asp-route-id="@item.ProductId" asp-route-name="@item.EnTitle.Replace(" ","-")" class="trs-3 ">
+                                                        <i class="fal fa-shopping-bag "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        جزئیات محصول
+                                                    </p>
+                                                </span>
+                                            @*    <span class="action-item ">
+                                                    <a href="dashboard-favorites.html" class="trs-3 ">
+                                                        <i class="fal
+                                                                fa-heart "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        افزودن به علاقمندی
+                                                    </p>
+                                                </span>
+                                                <span class="action-item ">
+                                                    <a  asp-action="Compare" asp-controller="Home" asp-route-id="@item.ProductId" class="trs-3 ">
+                                                        <i class="fal fa-random "></i>
+                                                    </a>
+                                                    <p class="tooltip-box trs-3 ">
+                                                        مقایسه محصول
+                                                    </p>
+                                                </span>*@
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+
+}

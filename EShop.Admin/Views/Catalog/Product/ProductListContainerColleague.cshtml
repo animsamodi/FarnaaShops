@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewData["Title"] = "لیست محصولات همکار";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+@Html.Partial("_alert")
+<section id="extended">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card mb-0">
+                <div class="card-header">
+                    <div class="card-title-wrap bar-success">
+                        <h4 class="card-title mb-0">جستجو</h4>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="px-3">
+                        <form class="form" asp-action="ProductListColleague" data-ajax="true"
+                              data-ajax-update="#list"
+                              data-ajax-mode="replace">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-xl-12  ">
+                                        <fieldset class="form-group mb-0">
+                                            <label for="basicInput">عنوان محصول</label>
+                                            <input type="text" class="form-control form-control-sm" name="searchtext">
+                                        </fieldset>
+                                    </div>
+                                
+                                    <div class="col-md-4 col-12">
+                                        <fieldset class="form-group mb-0 position-relative">
+                                            <label for="basicInput">برند</label>
+                                            <select name="brnad"
+                                                    asp-items="@(new SelectList(ViewBag.BrandList, "Id", "Title"))"
+                                                    class="form-control form-control-sm ">
+                                                <option selected="">برند را انتخاب کنید</option>
+
+                                            </select>
+
+                                            
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <fieldset class="form-group  mb-0 position-relative">
+                                            <label for="basicInput">دسته بندی</label>
+                                            <select name="category"
+                                                    asp-items="@(new SelectList(ViewBag.CategoryList, "Id", "Title"))"
+                                                    class="form-control form-control-sm ">
+                                                <option selected="">دسته بندی را انتخاب کنید</option>
+
+                                            </select>
+
+                                            
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <fieldset class="form-group  mb-0 position-relative">
+                                            <label for="basicInput">وضعیت</label>
+
+                                            <select class="form-control form-control-sm" name="state">
+                                                <option selected="">وضعیت را انتخاب کنید</option>
+                                                <option value="1">موجود</option>
+                                                <option value="2">نا موجود</option> 
+                                            </select>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-actions">
+                                <div class="text-right">
+                                    <button type="submit" class="btn btn-sm btn-primary m-0">جستجو
+                                        <i class="ft-search position-right"></i>
+                                    </button> 
+                                </div>
+                            </div>
+                            </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+               
+                <div class="card-body">
+
+                    <div class="card-block">
+                       
+                        <div id="list"></div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section scripts{
+     <script src="~/Admin/js/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        $.ajax({
+            type: 'GET',
+            url: '/catalog/ProductListColleague',
+            data: { searchtext: '', brnad:0, category:0, state:0, pagenumber: 1 },
+            success: function (res) {
+                $("#list").html(res);
+            }
+        })
+
+    </script>
+}
+
