@@ -12,7 +12,7 @@ namespace EShop.Admin.Controllers
         private IColleaguePriceRangeService _ColleaguePriceRangeService;
         private ICategoryService _categoryService;
         private IBrandService _brandService;
-        IProductSeriService _productSeriService;
+        IProductSeriService _productSeriService; 
         readonly IVariantService _variantService;
         private readonly IRecurringJobManager _recurringJobManager;
 
